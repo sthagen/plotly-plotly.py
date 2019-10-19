@@ -257,7 +257,9 @@ class Line(_BaseTraceHierarchyType):
     @property
     def width(self):
         """
-        Sets the line width (in px).
+        Sets the contour line width in (in px) Defaults to 0.5 when
+        `contours.type` is "levels". Defaults to 2 when `contour.type`
+        is "constraint".
     
         The 'width' property is a number and may be specified as:
           - An int or float in the interval [0, inf]
@@ -295,7 +297,9 @@ class Line(_BaseTraceHierarchyType):
             Sets the amount of smoothing for the contour lines,
             where 0 corresponds to no smoothing.
         width
-            Sets the line width (in px).
+            Sets the contour line width in (in px) Defaults to 0.5
+            when `contours.type` is "levels". Defaults to 2 when
+            `contour.type` is "constraint".
         """
 
     def __init__(
@@ -321,7 +325,9 @@ class Line(_BaseTraceHierarchyType):
             Sets the amount of smoothing for the contour lines,
             where 0 corresponds to no smoothing.
         width
-            Sets the line width (in px).
+            Sets the contour line width in (in px) Defaults to 0.5
+            when `contours.type` is "levels". Defaults to 2 when
+            `contour.type` is "constraint".
 
         Returns
         -------
@@ -3224,6 +3230,17 @@ an instance of plotly.graph_objs.contour.ColorBar"""
         # ------------------
         self._skip_invalid = False
 
+
+__all__ = [
+    "ColorBar",
+    "Contours",
+    "Hoverlabel",
+    "Line",
+    "Stream",
+    "colorbar",
+    "contours",
+    "hoverlabel",
+]
 
 from plotly.graph_objs.contour import hoverlabel
 from plotly.graph_objs.contour import contours

@@ -4,6 +4,7 @@ import json
 import webbrowser
 import inspect
 import os
+from os.path import isdir
 
 import six
 from plotly.io import to_json, to_image, write_image, write_html
@@ -564,7 +565,11 @@ class IFrameRenderer(MimetypeRenderer):
         filename = self.build_filename()
 
         # Make directory for
-        os.makedirs(self.html_directory, exist_ok=True)
+        try:
+            os.makedirs(self.html_directory)
+        except OSError as error:
+            if not isdir(self.html_directory):
+                raise
 
         write_html(
             fig_dict,
@@ -598,8 +603,8 @@ class IFrameRenderer(MimetypeRenderer):
         return {"text/html": iframe_html}
 
     def build_filename(self):
-        ip = IPython.get_ipython()
-        cell_number = list(ip.history_manager.get_tail(1))[0][1] + 1
+        ip = IPython.get_ipython() if IPython else None
+        cell_number = list(ip.history_manager.get_tail(1))[0][1] + 1 if ip else 0
         filename = "{dirname}/figure_{cell_number}.html".format(
             dirname=self.html_directory, cell_number=cell_number
         )

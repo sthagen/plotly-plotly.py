@@ -438,7 +438,7 @@ class BaseFigure(object):
         else:
             print (repr(self))
 
-    def update(self, dict1=None, **kwargs):
+    def update(self, dict1=None, overwrite=False, **kwargs):
         """
         Update the properties of the figure with a dict and/or with
         keyword arguments.
@@ -450,6 +450,10 @@ class BaseFigure(object):
         ----------
         dict1 : dict
             Dictionary of properties to be updated
+        overwrite: bool
+            If True, overwrite existing properties. If False, apply updates
+            to existing properties recursively, preserving existing
+            properties that are not specified in the update operation.
         kwargs :
             Keyword/value pair of properties to be updated
 
@@ -484,15 +488,19 @@ class BaseFigure(object):
                 if d:
                     for k, v in d.items():
                         update_target = self[k]
-                        if update_target == ():
-                            # existing data or frames property is empty
-                            # In this case we accept the v as is.
+                        if update_target == () or overwrite:
                             if k == "data":
+                                # Overwrite all traces as special due to
+                                # restrictions on trace assignment
+                                self.data = ()
                                 self.add_traces(v)
                             else:
                                 # Accept v
                                 self[k] = v
-                        elif isinstance(update_target, BasePlotlyType) or (
+                        elif (
+                            isinstance(update_target, BasePlotlyType)
+                            and isinstance(v, (dict, BasePlotlyType))
+                        ) or (
                             isinstance(update_target, tuple)
                             and isinstance(update_target[0], BasePlotlyType)
                         ):
@@ -843,7 +851,14 @@ class BaseFigure(object):
         return self
 
     def update_traces(
-        self, patch=None, selector=None, row=None, col=None, secondary_y=None, **kwargs
+        self,
+        patch=None,
+        selector=None,
+        row=None,
+        col=None,
+        secondary_y=None,
+        overwrite=False,
+        **kwargs
     ):
         """
         Perform a property update operation on all traces that satisfy the
@@ -877,6 +892,10 @@ class BaseFigure(object):
             created using plotly.subplots.make_subplots. See the docstring
             for the specs argument to make_subplots for more info on
             creating subplots with secondary y-axes.
+        overwrite: bool
+            If True, overwrite existing properties. If False, apply updates
+            to existing properties recursively, preserving existing
+            properties that are not specified in the update operation.
         **kwargs
             Additional property updates to apply to each selected trace. If
             a property is specified in both patch and in **kwargs then the
@@ -890,10 +909,10 @@ class BaseFigure(object):
         for trace in self.select_traces(
             selector=selector, row=row, col=col, secondary_y=secondary_y
         ):
-            trace.update(patch, **kwargs)
+            trace.update(patch, overwrite=overwrite, **kwargs)
         return self
 
-    def update_layout(self, dict1=None, **kwargs):
+    def update_layout(self, dict1=None, overwrite=False, **kwargs):
         """
         Update the properties of the figure's layout with a dict and/or with
         keyword arguments.
@@ -905,6 +924,10 @@ class BaseFigure(object):
         ----------
         dict1 : dict
             Dictionary of properties to be updated
+        overwrite: bool
+            If True, overwrite existing properties. If False, apply updates
+            to existing properties recursively, preserving existing
+            properties that are not specified in the update operation.
         kwargs :
             Keyword/value pair of properties to be updated
 
@@ -913,7 +936,7 @@ class BaseFigure(object):
         BaseFigure
             The Figure object that the update_layout method was called on
         """
-        self.layout.update(dict1, **kwargs)
+        self.layout.update(dict1, overwrite=overwrite, **kwargs)
         return self
 
     def _select_layout_subplots_by_prefix(
@@ -977,6 +1000,119 @@ class BaseFigure(object):
                     continue
 
                 yield self.layout[k]
+
+    def _select_annotations_like(
+        self, prop, selector=None, row=None, col=None, secondary_y=None
+    ):
+        """
+        Helper to select annotation-like elements from a layout object array.
+        Compatible with layout.annotations, layout.shapes, and layout.images
+        """
+        xref_to_col = {}
+        yref_to_row = {}
+        yref_to_secondary_y = {}
+        if isinstance(row, int) or isinstance(col, int) or secondary_y is not None:
+            grid_ref = self._validate_get_grid_ref()
+            for r, subplot_row in enumerate(grid_ref):
+                for c, subplot_refs in enumerate(subplot_row):
+                    if not subplot_refs:
+                        continue
+
+                    for i, subplot_ref in enumerate(subplot_refs):
+                        if subplot_ref.subplot_type == "xy":
+                            is_secondary_y = i == 1
+                            xaxis, yaxis = subplot_ref.layout_keys
+                            xref = xaxis.replace("axis", "")
+                            yref = yaxis.replace("axis", "")
+                            xref_to_col[xref] = c + 1
+                            yref_to_row[yref] = r + 1
+                            yref_to_secondary_y[yref] = is_secondary_y
+
+        for obj in self.layout[prop]:
+            # Filter by row
+            if col is not None:
+                if col == "paper" and obj.xref != "paper":
+                    continue
+                elif col != "paper" and xref_to_col.get(obj.xref, None) != col:
+                    continue
+
+            # Filter by col
+            if row is not None:
+                if row == "paper" and obj.yref != "paper":
+                    continue
+                elif row != "paper" and yref_to_row.get(obj.yref, None) != row:
+                    continue
+
+            # Filter by secondary y
+            if (
+                secondary_y is not None
+                and yref_to_secondary_y.get(obj.yref, None) != secondary_y
+            ):
+                continue
+
+            # Filter by selector
+            if not self._selector_matches(obj, selector):
+                continue
+
+            yield obj
+
+    def _add_annotation_like(
+        self, prop_singular, prop_plural, new_obj, row=None, col=None, secondary_y=None
+    ):
+        # Make sure we have both row and col or neither
+        if row is not None and col is None:
+            raise ValueError(
+                "Received row parameter but not col.\n"
+                "row and col must be specified together"
+            )
+        elif col is not None and row is None:
+            raise ValueError(
+                "Received col parameter but not row.\n"
+                "row and col must be specified together"
+            )
+
+        # Get grid_ref if specific row or column requested
+        if row is not None:
+            grid_ref = self._validate_get_grid_ref()
+            refs = grid_ref[row - 1][col - 1]
+
+            if not refs:
+                raise ValueError(
+                    "No subplot found at position ({r}, {c})".format(r=row, c=col)
+                )
+
+            if refs[0].subplot_type != "xy":
+                raise ValueError(
+                    """
+Cannot add {prop_singular} to subplot at position ({r}, {c}) because subplot 
+is of type {subplot_type}.""".format(
+                        prop_singular=prop_singular,
+                        r=row,
+                        c=col,
+                        subplot_type=refs[0].subplot_type,
+                    )
+                )
+            if len(refs) == 1 and secondary_y:
+                raise ValueError(
+                    """
+Cannot add {prop_singular} to secondary y-axis of subplot at position ({r}, {c})
+because subplot does not have a secondary y-axis"""
+                )
+            if secondary_y:
+                xaxis, yaxis = refs[1].layout_keys
+            else:
+                xaxis, yaxis = refs[0].layout_keys
+            xref, yref = xaxis.replace("axis", ""), yaxis.replace("axis", "")
+            new_obj.update(xref=xref, yref=yref)
+
+        if new_obj.xref is None:
+            new_obj.xref = "paper"
+        if new_obj.yref is None:
+            new_obj.yref = "paper"
+
+        self.layout[prop_plural] += (new_obj,)
+
+        return self
 
     # Restyle
     # -------
@@ -1471,13 +1607,6 @@ Invalid property path '{key_path_str}' for trace class {trace_class}
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]), row=1, col=1)
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]), row=2, col=1)
         """
-        # Validate row/col
-        if row is not None and not isinstance(row, int):
-            pass
-
-        if col is not None and not isinstance(col, int):
-            pass
-
         # Make sure we have both row and col or neither
         if row is not None and col is None:
             raise ValueError(
@@ -2697,7 +2826,7 @@ Invalid property path '{key_path_str}' for layout
         return isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict)
 
     @staticmethod
-    def _perform_update(plotly_obj, update_obj):
+    def _perform_update(plotly_obj, update_obj, overwrite=False):
         """
         Helper to support the update() methods on :class:`BaseFigure` and
         :class:`BasePlotlyType`
@@ -2747,6 +2876,12 @@ Invalid property path '{key_path_str}' for layout
             # ------------------------
             for key in update_obj:
                 val = update_obj[key]
+
+                if overwrite:
+                    # Don't recurse and assign property as-is
+                    plotly_obj[key] = val
+                    continue
+
                 validator = plotly_obj._get_prop_validator(key)
 
                 if isinstance(validator, CompoundValidator) and isinstance(val, dict):
@@ -3530,7 +3665,7 @@ class BasePlotlyType(object):
                 )
             )
 
-    def update(self, dict1=None, **kwargs):
+    def update(self, dict1=None, overwrite=False, **kwargs):
         """
         Update the properties of an object with a dict and/or with
         keyword arguments.
@@ -3542,6 +3677,10 @@ class BasePlotlyType(object):
         ----------
         dict1 : dict
             Dictionary of properties to be updated
+        overwrite: bool
+            If True, overwrite existing properties. If False, apply updates
+            to existing properties recursively, preserving existing
+            properties that are not specified in the update operation.
         kwargs :
             Keyword/value pair of properties to be updated
 
@@ -3552,11 +3691,11 @@ class BasePlotlyType(object):
         """
         if self.figure:
             with self.figure.batch_update():
-                BaseFigure._perform_update(self, dict1)
-                BaseFigure._perform_update(self, kwargs)
+                BaseFigure._perform_update(self, dict1, overwrite=overwrite)
+                BaseFigure._perform_update(self, kwargs, overwrite=overwrite)
         else:
-            BaseFigure._perform_update(self, dict1)
-            BaseFigure._perform_update(self, kwargs)
+            BaseFigure._perform_update(self, dict1, overwrite=overwrite)
+            BaseFigure._perform_update(self, kwargs, overwrite=overwrite)
 
         return self
 

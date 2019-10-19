@@ -6,6 +6,7 @@ from importlib import import_module
 from io import StringIO
 from typing import List
 import re
+import errno
 
 
 # Source code utilities
@@ -30,6 +31,8 @@ def write_source_py(py_source, filepath, leading_newlines=0):
         # Make dir if needed
         # ------------------
         filedir = opath.dirname(filepath)
+        # The exist_ok kwarg is only supported with Python 3, but that's ok since
+        # codegen is only supported with Python 3 anyway
         os.makedirs(filedir, exist_ok=True)
 
         # Write file
@@ -892,6 +895,12 @@ class PlotlyNode:
         list of PlotlyNode
         """
         return [n for n in self.children if n.is_literal]
+
+    def has_child(self, name) -> bool:
+        """
+        Check whether node has child of the specified name
+        """
+        return bool([n for n in self.children if n.plotly_name == name])
 
     def get_constructor_params_docstring(self, indent=12):
         """

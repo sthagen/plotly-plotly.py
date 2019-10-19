@@ -4,7 +4,7 @@ import plotly.graph_objs as go
 
 
 def scatter(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -12,6 +12,7 @@ def scatter(
     size=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     facet_row=None,
     facet_col=None,
@@ -56,7 +57,7 @@ scatter.__doc__ = make_docstring(scatter)
 
 
 def density_contour(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     z=None,
@@ -112,7 +113,7 @@ density_contour.__doc__ = make_docstring(density_contour)
 
 
 def density_heatmap(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     z=None,
@@ -166,7 +167,7 @@ density_heatmap.__doc__ = make_docstring(density_heatmap)
 
 
 def line(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     line_group=None,
@@ -174,6 +175,7 @@ def line(
     line_dash=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     facet_row=None,
     facet_col=None,
@@ -210,13 +212,14 @@ line.__doc__ = make_docstring(line)
 
 
 def area(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     line_group=None,
     color=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     facet_row=None,
     facet_col=None,
@@ -254,7 +257,7 @@ area.__doc__ = make_docstring(area)
 
 
 def bar(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -262,6 +265,7 @@ def bar(
     facet_col=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     error_x=None,
     error_x_minus=None,
@@ -303,7 +307,7 @@ bar.__doc__ = make_docstring(bar)
 
 
 def histogram(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -360,7 +364,7 @@ histogram.__doc__ = make_docstring(histogram)
 
 
 def violin(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -368,6 +372,7 @@ def violin(
     facet_col=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     animation_frame=None,
     animation_group=None,
     category_orders={},
@@ -410,7 +415,7 @@ violin.__doc__ = make_docstring(violin)
 
 
 def box(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -418,6 +423,7 @@ def box(
     facet_col=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     animation_frame=None,
     animation_group=None,
     category_orders={},
@@ -455,7 +461,7 @@ box.__doc__ = make_docstring(box)
 
 
 def strip(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     color=None,
@@ -463,6 +469,7 @@ def strip(
     facet_col=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     animation_frame=None,
     animation_group=None,
     category_orders={},
@@ -504,7 +511,7 @@ strip.__doc__ = make_docstring(strip)
 
 
 def scatter_3d(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     z=None,
@@ -514,6 +521,7 @@ def scatter_3d(
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     error_x=None,
     error_x_minus=None,
     error_y=None,
@@ -554,7 +562,7 @@ scatter_3d.__doc__ = make_docstring(scatter_3d)
 
 
 def line_3d(
-    data_frame,
+    data_frame=None,
     x=None,
     y=None,
     z=None,
@@ -564,6 +572,7 @@ def line_3d(
     line_group=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     error_x=None,
     error_x_minus=None,
     error_y=None,
@@ -599,7 +608,7 @@ line_3d.__doc__ = make_docstring(line_3d)
 
 
 def scatter_ternary(
-    data_frame,
+    data_frame=None,
     a=None,
     b=None,
     c=None,
@@ -609,6 +618,7 @@ def scatter_ternary(
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     animation_frame=None,
     animation_group=None,
     category_orders={},
@@ -637,7 +647,7 @@ scatter_ternary.__doc__ = make_docstring(scatter_ternary)
 
 
 def line_ternary(
-    data_frame,
+    data_frame=None,
     a=None,
     b=None,
     c=None,
@@ -646,6 +656,7 @@ def line_ternary(
     line_group=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     animation_frame=None,
     animation_group=None,
@@ -671,7 +682,7 @@ line_ternary.__doc__ = make_docstring(line_ternary)
 
 
 def scatter_polar(
-    data_frame,
+    data_frame=None,
     r=None,
     theta=None,
     color=None,
@@ -679,6 +690,7 @@ def scatter_polar(
     size=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     text=None,
     animation_frame=None,
     animation_group=None,
@@ -714,13 +726,14 @@ scatter_polar.__doc__ = make_docstring(scatter_polar)
 
 
 def line_polar(
-    data_frame,
+    data_frame=None,
     r=None,
     theta=None,
     color=None,
     line_dash=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     line_group=None,
     text=None,
     animation_frame=None,
@@ -753,19 +766,20 @@ line_polar.__doc__ = make_docstring(line_polar)
 
 
 def bar_polar(
-    data_frame,
+    data_frame=None,
     r=None,
     theta=None,
     color=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     animation_frame=None,
     animation_group=None,
     category_orders={},
     labels={},
     color_discrete_sequence=None,
     color_discrete_map={},
-    barnorm="",
+    barnorm=None,
     barmode="relative",
     direction="clockwise",
     start_angle=90,
@@ -790,7 +804,7 @@ bar_polar.__doc__ = make_docstring(bar_polar)
 
 
 def choropleth(
-    data_frame,
+    data_frame=None,
     lat=None,
     lon=None,
     locations=None,
@@ -798,6 +812,7 @@ def choropleth(
     color=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     size=None,
     animation_frame=None,
     animation_group=None,
@@ -829,7 +844,7 @@ choropleth.__doc__ = make_docstring(choropleth)
 
 
 def scatter_geo(
-    data_frame,
+    data_frame=None,
     lat=None,
     lon=None,
     locations=None,
@@ -838,6 +853,7 @@ def scatter_geo(
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     size=None,
     animation_frame=None,
     animation_group=None,
@@ -872,7 +888,7 @@ scatter_geo.__doc__ = make_docstring(scatter_geo)
 
 
 def line_geo(
-    data_frame,
+    data_frame=None,
     lat=None,
     lon=None,
     locations=None,
@@ -882,6 +898,7 @@ def line_geo(
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     line_group=None,
     animation_frame=None,
     animation_group=None,
@@ -913,13 +930,14 @@ line_geo.__doc__ = make_docstring(line_geo)
 
 
 def scatter_mapbox(
-    data_frame,
+    data_frame=None,
     lat=None,
     lon=None,
     color=None,
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     size=None,
     animation_frame=None,
     animation_group=None,
@@ -948,13 +966,14 @@ scatter_mapbox.__doc__ = make_docstring(scatter_mapbox)
 
 
 def line_mapbox(
-    data_frame,
+    data_frame=None,
     lat=None,
     lon=None,
     color=None,
     text=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     line_group=None,
     animation_frame=None,
     animation_group=None,
@@ -978,13 +997,14 @@ line_mapbox.__doc__ = make_docstring(line_mapbox)
 
 
 def scatter_matrix(
-    data_frame,
+    data_frame=None,
     dimensions=None,
     color=None,
     symbol=None,
     size=None,
     hover_name=None,
     hover_data=None,
+    custom_data=None,
     category_orders={},
     labels={},
     color_discrete_sequence=None,
@@ -1015,7 +1035,7 @@ scatter_matrix.__doc__ = make_docstring(scatter_matrix)
 
 
 def parallel_coordinates(
-    data_frame,
+    data_frame=None,
     dimensions=None,
     color=None,
     labels={},
@@ -1039,7 +1059,7 @@ parallel_coordinates.__doc__ = make_docstring(parallel_coordinates)
 
 
 def parallel_categories(
-    data_frame,
+    data_frame=None,
     dimensions=None,
     color=None,
     labels={},

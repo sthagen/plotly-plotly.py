@@ -66,7 +66,7 @@ Built on top of [plotly.js](https://github.com/plotly/plotly.js), `plotly.py` is
 
 - [Online Documentation](https://plot.ly/python)
 - [Contributing](contributing.md)
-- [Changelog](packages/python/plotly-geo/CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Version 3 Migration Guide](migration-guide.md)
 - [New! Announcing Dash](https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503)
@@ -78,12 +78,12 @@ Built on top of [plotly.js](https://github.com/plotly/plotly.js), `plotly.py` is
 
 plotly.py may be installed using pip...
 ```
-pip install plotly==4.1.0
+pip install plotly==4.2.1
 ```
 
 or conda.
 ```
-conda install -c plotly plotly==4.1.0
+conda install -c plotly plotly=4.2.1
 ```
 
 ### Jupyter Notebook Support
@@ -126,10 +126,10 @@ set NODE_OPTIONS=--max-old-space-size=4096
 jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-build
 
 # FigureWidget support
-jupyter labextension install plotlywidget@1.1.0 --no-build
+jupyter labextension install plotlywidget@1.2.0 --no-build
 
 # and jupyterlab renderer support
-jupyter labextension install jupyterlab-plotly@1.1.0 --no-build
+jupyter labextension install jupyterlab-plotly@1.2.0 --no-build
 
 # JupyterLab chart editor support (optional)
 jupyter labextension install jupyterlab-chart-editor@1.2 --no-build
@@ -161,6 +161,12 @@ pip install psutil
 ```
 
 and orca can be installed according to the instructions in the [orca README](https://github.com/plotly/orca).
+
+#### Troubleshooting
+##### Wrong Executable found
+If you get an error message stating that the `orca` executable that was found is not valid, this may be because another executable with the same name was found on your system. Please specify the complete path to the Plotly-Orca binary that you downloaded (for instance in the Miniconda folder) with the following command:
+
+`plotly.io.orca.config.executable = '/home/your_name/miniconda3/bin/orca'`
 
 ### Extended Geo Support
 Some plotly.py features rely on fairly large geographic shape files. The county

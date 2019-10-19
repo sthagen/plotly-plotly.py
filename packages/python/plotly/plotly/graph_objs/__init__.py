@@ -1,5485 +1,3 @@
-from plotly.basedatatypes import BaseLayoutType as _BaseLayoutType
-import copy as _copy
-
-
-class Layout(_BaseLayoutType):
-
-    _subplotid_prop_names = [
-        "coloraxis",
-        "geo",
-        "mapbox",
-        "polar",
-        "scene",
-        "ternary",
-        "xaxis",
-        "yaxis",
-    ]
-
-    import re
-
-    _subplotid_prop_re = re.compile("^(" + "|".join(_subplotid_prop_names) + ")(\d+)$")
-
-    @property
-    def _subplotid_validators(self):
-        """
-        dict of validator classes for each subplot type
-
-        Returns
-        -------
-        dict
-        """
-        from plotly.validators.layout import (
-            ColoraxisValidator,
-            GeoValidator,
-            MapboxValidator,
-            PolarValidator,
-            SceneValidator,
-            TernaryValidator,
-            XAxisValidator,
-            YAxisValidator,
-        )
-
-        return {
-            "coloraxis": ColoraxisValidator,
-            "geo": GeoValidator,
-            "mapbox": MapboxValidator,
-            "polar": PolarValidator,
-            "scene": SceneValidator,
-            "ternary": TernaryValidator,
-            "xaxis": XAxisValidator,
-            "yaxis": YAxisValidator,
-        }
-
-    def _subplot_re_match(self, prop):
-        return self._subplotid_prop_re.match(prop)
-
-    # angularaxis
-    # -----------
-    @property
-    def angularaxis(self):
-        """
-        The 'angularaxis' property is an instance of AngularAxis
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.AngularAxis
-          - A dict of string/value properties that will be passed
-            to the AngularAxis constructor
-    
-            Supported dict properties:
-                
-                domain
-                    Polar chart subplots are not supported yet.
-                    This key has currently no effect.
-                endpadding
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots.
-                range
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Defines the start
-                    and end point of this angular axis.
-                showline
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not the line bounding this angular axis will
-                    be shown on the figure.
-                showticklabels
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not the angular axis ticks will feature tick
-                    labels.
-                tickcolor
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the color of
-                    the tick lines on this angular axis.
-                ticklen
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the length of
-                    the tick lines on this angular axis.
-                tickorientation
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the
-                    orientation (from the paper perspective) of the
-                    angular axis tick labels.
-                ticksuffix
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the length of
-                    the tick lines on this angular axis.
-                visible
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not this axis will be visible.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.AngularAxis
-        """
-        return self["angularaxis"]
-
-    @angularaxis.setter
-    def angularaxis(self, val):
-        self["angularaxis"] = val
-
-    # annotations
-    # -----------
-    @property
-    def annotations(self):
-        """
-        The 'annotations' property is a tuple of instances of
-        Annotation that may be specified as:
-          - A list or tuple of instances of plotly.graph_objs.layout.Annotation
-          - A list or tuple of dicts of string/value properties that
-            will be passed to the Annotation constructor
-    
-            Supported dict properties:
-                
-                align
-                    Sets the horizontal alignment of the `text`
-                    within the box. Has an effect only if `text`
-                    spans more two or more lines (i.e. `text`
-                    contains one or more <br> HTML tags) or if an
-                    explicit width is set to override the text
-                    width.
-                arrowcolor
-                    Sets the color of the annotation arrow.
-                arrowhead
-                    Sets the end annotation arrow head style.
-                arrowside
-                    Sets the annotation arrow head position.
-                arrowsize
-                    Sets the size of the end annotation arrow head,
-                    relative to `arrowwidth`. A value of 1
-                    (default) gives a head about 3x as wide as the
-                    line.
-                arrowwidth
-                    Sets the width (in px) of annotation arrow
-                    line.
-                ax
-                    Sets the x component of the arrow tail about
-                    the arrow head. If `axref` is `pixel`, a
-                    positive (negative)  component corresponds to
-                    an arrow pointing from right to left (left to
-                    right). If `axref` is an axis, this is an
-                    absolute value on that axis, like `x`, NOT a
-                    relative value.
-                axref
-                    Indicates in what terms the tail of the
-                    annotation (ax,ay)  is specified. If `pixel`,
-                    `ax` is a relative offset in pixels  from `x`.
-                    If set to an x axis id (e.g. "x" or "x2"), `ax`
-                    is  specified in the same terms as that axis.
-                    This is useful  for trendline annotations which
-                    should continue to indicate  the correct trend
-                    when zoomed.
-                ay
-                    Sets the y component of the arrow tail about
-                    the arrow head. If `ayref` is `pixel`, a
-                    positive (negative)  component corresponds to
-                    an arrow pointing from bottom to top (top to
-                    bottom). If `ayref` is an axis, this is an
-                    absolute value on that axis, like `y`, NOT a
-                    relative value.
-                ayref
-                    Indicates in what terms the tail of the
-                    annotation (ax,ay)  is specified. If `pixel`,
-                    `ay` is a relative offset in pixels  from `y`.
-                    If set to a y axis id (e.g. "y" or "y2"), `ay`
-                    is  specified in the same terms as that axis.
-                    This is useful  for trendline annotations which
-                    should continue to indicate  the correct trend
-                    when zoomed.
-                bgcolor
-                    Sets the background color of the annotation.
-                bordercolor
-                    Sets the color of the border enclosing the
-                    annotation `text`.
-                borderpad
-                    Sets the padding (in px) between the `text` and
-                    the enclosing border.
-                borderwidth
-                    Sets the width (in px) of the border enclosing
-                    the annotation `text`.
-                captureevents
-                    Determines whether the annotation text box
-                    captures mouse move and click events, or allows
-                    those events to pass through to data points in
-                    the plot that may be behind the annotation. By
-                    default `captureevents` is False unless
-                    `hovertext` is provided. If you use the event
-                    `plotly_clickannotation` without `hovertext`
-                    you must explicitly enable `captureevents`.
-                clicktoshow
-                    Makes this annotation respond to clicks on the
-                    plot. If you click a data point that exactly
-                    matches the `x` and `y` values of this
-                    annotation, and it is hidden (visible: false),
-                    it will appear. In "onoff" mode, you must click
-                    the same point again to make it disappear, so
-                    if you click multiple points, you can show
-                    multiple annotations. In "onout" mode, a click
-                    anywhere else in the plot (on another data
-                    point or not) will hide this annotation. If you
-                    need to show/hide this annotation in response
-                    to different `x` or `y` values, you can set
-                    `xclick` and/or `yclick`. This is useful for
-                    example to label the side of a bar. To label
-                    markers though, `standoff` is preferred over
-                    `xclick` and `yclick`.
-                font
-                    Sets the annotation text font.
-                height
-                    Sets an explicit height for the text box. null
-                    (default) lets the text set the box height.
-                    Taller text will be clipped.
-                hoverlabel
-                    plotly.graph_objects.layout.annotation.Hoverlab
-                    el instance or dict with compatible properties
-                hovertext
-                    Sets text to appear when hovering over this
-                    annotation. If omitted or blank, no hover label
-                    will appear.
-                name
-                    When used in a template, named items are
-                    created in the output figure in addition to any
-                    items the figure already has in this array. You
-                    can modify these items in the output figure by
-                    making your own item with `templateitemname`
-                    matching this `name` alongside your
-                    modifications (including `visible: false` or
-                    `enabled: false` to hide it). Has no effect
-                    outside of a template.
-                opacity
-                    Sets the opacity of the annotation (text +
-                    arrow).
-                showarrow
-                    Determines whether or not the annotation is
-                    drawn with an arrow. If True, `text` is placed
-                    near the arrow's tail. If False, `text` lines
-                    up with the `x` and `y` provided.
-                standoff
-                    Sets a distance, in pixels, to move the end
-                    arrowhead away from the position it is pointing
-                    at, for example to point at the edge of a
-                    marker independent of zoom. Note that this
-                    shortens the arrow from the `ax` / `ay` vector,
-                    in contrast to `xshift` / `yshift` which moves
-                    everything by this amount.
-                startarrowhead
-                    Sets the start annotation arrow head style.
-                startarrowsize
-                    Sets the size of the start annotation arrow
-                    head, relative to `arrowwidth`. A value of 1
-                    (default) gives a head about 3x as wide as the
-                    line.
-                startstandoff
-                    Sets a distance, in pixels, to move the start
-                    arrowhead away from the position it is pointing
-                    at, for example to point at the edge of a
-                    marker independent of zoom. Note that this
-                    shortens the arrow from the `ax` / `ay` vector,
-                    in contrast to `xshift` / `yshift` which moves
-                    everything by this amount.
-                templateitemname
-                    Used to refer to a named item in this array in
-                    the template. Named items from the template
-                    will be created even without a matching item in
-                    the input figure, but you can modify one by
-                    making an item with `templateitemname` matching
-                    its `name`, alongside your modifications
-                    (including `visible: false` or `enabled: false`
-                    to hide it). If there is no template or no
-                    matching item, this item will be hidden unless
-                    you explicitly show it with `visible: true`.
-                text
-                    Sets the text associated with this annotation.
-                    Plotly uses a subset of HTML tags to do things
-                    like newline (<br>), bold (<b></b>), italics
-                    (<i></i>), hyperlinks (<a href='...'></a>).
-                    Tags <em>, <sup>, <sub> <span> are also
-                    supported.
-                textangle
-                    Sets the angle at which the `text` is drawn
-                    with respect to the horizontal.
-                valign
-                    Sets the vertical alignment of the `text`
-                    within the box. Has an effect only if an
-                    explicit height is set to override the text
-                    height.
-                visible
-                    Determines whether or not this annotation is
-                    visible.
-                width
-                    Sets an explicit width for the text box. null
-                    (default) lets the text set the box width.
-                    Wider text will be clipped. There is no
-                    automatic wrapping; use <br> to start a new
-                    line.
-                x
-                    Sets the annotation's x position. If the axis
-                    `type` is "log", then you must take the log of
-                    your desired range. If the axis `type` is
-                    "date", it should be date strings, like date
-                    data, though Date objects and unix milliseconds
-                    will be accepted and converted to strings. If
-                    the axis `type` is "category", it should be
-                    numbers, using the scale where each category is
-                    assigned a serial number from zero in the order
-                    it appears.
-                xanchor
-                    Sets the text box's horizontal position anchor
-                    This anchor binds the `x` position to the
-                    "left", "center" or "right" of the annotation.
-                    For example, if `x` is set to 1, `xref` to
-                    "paper" and `xanchor` to "right" then the
-                    right-most portion of the annotation lines up
-                    with the right-most edge of the plotting area.
-                    If "auto", the anchor is equivalent to "center"
-                    for data-referenced annotations or if there is
-                    an arrow, whereas for paper-referenced with no
-                    arrow, the anchor picked corresponds to the
-                    closest side.
-                xclick
-                    Toggle this annotation when clicking a data
-                    point whose `x` value is `xclick` rather than
-                    the annotation's `x` value.
-                xref
-                    Sets the annotation's x coordinate axis. If set
-                    to an x axis id (e.g. "x" or "x2"), the `x`
-                    position refers to an x coordinate If set to
-                    "paper", the `x` position refers to the
-                    distance from the left side of the plotting
-                    area in normalized coordinates where 0 (1)
-                    corresponds to the left (right) side.
-                xshift
-                    Shifts the position of the whole annotation and
-                    arrow to the right (positive) or left
-                    (negative) by this many pixels.
-                y
-                    Sets the annotation's y position. If the axis
-                    `type` is "log", then you must take the log of
-                    your desired range. If the axis `type` is
-                    "date", it should be date strings, like date
-                    data, though Date objects and unix milliseconds
-                    will be accepted and converted to strings. If
-                    the axis `type` is "category", it should be
-                    numbers, using the scale where each category is
-                    assigned a serial number from zero in the order
-                    it appears.
-                yanchor
-                    Sets the text box's vertical position anchor
-                    This anchor binds the `y` position to the
-                    "top", "middle" or "bottom" of the annotation.
-                    For example, if `y` is set to 1, `yref` to
-                    "paper" and `yanchor` to "top" then the top-
-                    most portion of the annotation lines up with
-                    the top-most edge of the plotting area. If
-                    "auto", the anchor is equivalent to "middle"
-                    for data-referenced annotations or if there is
-                    an arrow, whereas for paper-referenced with no
-                    arrow, the anchor picked corresponds to the
-                    closest side.
-                yclick
-                    Toggle this annotation when clicking a data
-                    point whose `y` value is `yclick` rather than
-                    the annotation's `y` value.
-                yref
-                    Sets the annotation's y coordinate axis. If set
-                    to an y axis id (e.g. "y" or "y2"), the `y`
-                    position refers to an y coordinate If set to
-                    "paper", the `y` position refers to the
-                    distance from the bottom of the plotting area
-                    in normalized coordinates where 0 (1)
-                    corresponds to the bottom (top).
-                yshift
-                    Shifts the position of the whole annotation and
-                    arrow up (positive) or down (negative) by this
-                    many pixels.
-
-        Returns
-        -------
-        tuple[plotly.graph_objs.layout.Annotation]
-        """
-        return self["annotations"]
-
-    @annotations.setter
-    def annotations(self, val):
-        self["annotations"] = val
-
-    # annotationdefaults
-    # ------------------
-    @property
-    def annotationdefaults(self):
-        """
-        When used in a template (as
-        layout.template.layout.annotationdefaults), sets the default
-        property values to use for elements of layout.annotations
-    
-        The 'annotationdefaults' property is an instance of Annotation
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Annotation
-          - A dict of string/value properties that will be passed
-            to the Annotation constructor
-    
-            Supported dict properties:
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Annotation
-        """
-        return self["annotationdefaults"]
-
-    @annotationdefaults.setter
-    def annotationdefaults(self, val):
-        self["annotationdefaults"] = val
-
-    # autosize
-    # --------
-    @property
-    def autosize(self):
-        """
-        Determines whether or not a layout width or height that has
-        been left undefined by the user is initialized on each
-        relayout. Note that, regardless of this attribute, an undefined
-        layout width or height is always initialized on the first call
-        to plot.
-    
-        The 'autosize' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["autosize"]
-
-    @autosize.setter
-    def autosize(self, val):
-        self["autosize"] = val
-
-    # bargap
-    # ------
-    @property
-    def bargap(self):
-        """
-        Sets the gap (in plot fraction) between bars of adjacent
-        location coordinates.
-    
-        The 'bargap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["bargap"]
-
-    @bargap.setter
-    def bargap(self, val):
-        self["bargap"] = val
-
-    # bargroupgap
-    # -----------
-    @property
-    def bargroupgap(self):
-        """
-        Sets the gap (in plot fraction) between bars of the same
-        location coordinate.
-    
-        The 'bargroupgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["bargroupgap"]
-
-    @bargroupgap.setter
-    def bargroupgap(self, val):
-        self["bargroupgap"] = val
-
-    # barmode
-    # -------
-    @property
-    def barmode(self):
-        """
-        Determines how bars at the same location coordinate are
-        displayed on the graph. With "stack", the bars are stacked on
-        top of one another With "relative", the bars are stacked on top
-        of one another, with negative values below the axis, positive
-        values above With "group", the bars are plotted next to one
-        another centered around the shared location. With "overlay",
-        the bars are plotted over one another, you might need to an
-        "opacity" to see multiple bars.
-    
-        The 'barmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['stack', 'group', 'overlay', 'relative']
-
-        Returns
-        -------
-        Any
-        """
-        return self["barmode"]
-
-    @barmode.setter
-    def barmode(self, val):
-        self["barmode"] = val
-
-    # barnorm
-    # -------
-    @property
-    def barnorm(self):
-        """
-        Sets the normalization for bar traces on the graph. With
-        "fraction", the value of each bar is divided by the sum of all
-        values at that location coordinate. "percent" is the same but
-        multiplied by 100 to show percentages.
-    
-        The 'barnorm' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['', 'fraction', 'percent']
-
-        Returns
-        -------
-        Any
-        """
-        return self["barnorm"]
-
-    @barnorm.setter
-    def barnorm(self, val):
-        self["barnorm"] = val
-
-    # boxgap
-    # ------
-    @property
-    def boxgap(self):
-        """
-        Sets the gap (in plot fraction) between boxes of adjacent
-        location coordinates. Has no effect on traces that have "width"
-        set.
-    
-        The 'boxgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["boxgap"]
-
-    @boxgap.setter
-    def boxgap(self, val):
-        self["boxgap"] = val
-
-    # boxgroupgap
-    # -----------
-    @property
-    def boxgroupgap(self):
-        """
-        Sets the gap (in plot fraction) between boxes of the same
-        location coordinate. Has no effect on traces that have "width"
-        set.
-    
-        The 'boxgroupgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["boxgroupgap"]
-
-    @boxgroupgap.setter
-    def boxgroupgap(self, val):
-        self["boxgroupgap"] = val
-
-    # boxmode
-    # -------
-    @property
-    def boxmode(self):
-        """
-        Determines how boxes at the same location coordinate are
-        displayed on the graph. If "group", the boxes are plotted next
-        to one another centered around the shared location. If
-        "overlay", the boxes are plotted over one another, you might
-        need to set "opacity" to see them multiple boxes. Has no effect
-        on traces that have "width" set.
-    
-        The 'boxmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['group', 'overlay']
-
-        Returns
-        -------
-        Any
-        """
-        return self["boxmode"]
-
-    @boxmode.setter
-    def boxmode(self, val):
-        self["boxmode"] = val
-
-    # calendar
-    # --------
-    @property
-    def calendar(self):
-        """
-        Sets the default calendar system to use for interpreting and
-        displaying dates throughout the plot.
-    
-        The 'calendar' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['gregorian', 'chinese', 'coptic', 'discworld',
-                'ethiopian', 'hebrew', 'islamic', 'julian', 'mayan',
-                'nanakshahi', 'nepali', 'persian', 'jalali', 'taiwan',
-                'thai', 'ummalqura']
-
-        Returns
-        -------
-        Any
-        """
-        return self["calendar"]
-
-    @calendar.setter
-    def calendar(self, val):
-        self["calendar"] = val
-
-    # clickmode
-    # ---------
-    @property
-    def clickmode(self):
-        """
-        Determines the mode of single click interactions. "event" is
-        the default value and emits the `plotly_click` event. In
-        addition this mode emits the `plotly_selected` event in drag
-        modes "lasso" and "select", but with no event data attached
-        (kept for compatibility reasons). The "select" flag enables
-        selecting single data points via click. This mode also supports
-        persistent selections, meaning that pressing Shift while
-        clicking, adds to / subtracts from an existing selection.
-        "select" with `hovermode`: "x" can be confusing, consider
-        explicitly setting `hovermode`: "closest" when using this
-        feature. Selection events are sent accordingly as long as
-        "event" flag is set as well. When the "event" flag is missing,
-        `plotly_click` and `plotly_selected` events are not fired.
-    
-        The 'clickmode' property is a flaglist and may be specified
-        as a string containing:
-          - Any combination of ['event', 'select'] joined with '+' characters
-            (e.g. 'event+select')
-            OR exactly one of ['none'] (e.g. 'none')
-
-        Returns
-        -------
-        Any
-        """
-        return self["clickmode"]
-
-    @clickmode.setter
-    def clickmode(self, val):
-        self["clickmode"] = val
-
-    # coloraxis
-    # ---------
-    @property
-    def coloraxis(self):
-        """
-        The 'coloraxis' property is an instance of Coloraxis
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Coloraxis
-          - A dict of string/value properties that will be passed
-            to the Coloraxis constructor
-    
-            Supported dict properties:
-                
-                autocolorscale
-                    Determines whether the colorscale is a default
-                    palette (`autocolorscale: true`) or the palette
-                    determined by `colorscale`. In case
-                    `colorscale` is unspecified or `autocolorscale`
-                    is true, the default  palette will be chosen
-                    according to whether numbers in the `color`
-                    array are all positive, all negative or mixed.
-                cauto
-                    Determines whether or not the color domain is
-                    computed with respect to the input data (here
-                    corresponding trace color array(s)) or the
-                    bounds set in `cmin` and `cmax`  Defaults to
-                    `false` when `cmin` and `cmax` are set by the
-                    user.
-                cmax
-                    Sets the upper bound of the color domain. Value
-                    should have the same units as corresponding
-                    trace color array(s) and if set, `cmin` must be
-                    set as well.
-                cmid
-                    Sets the mid-point of the color domain by
-                    scaling `cmin` and/or `cmax` to be equidistant
-                    to this point. Value should have the same units
-                    as corresponding trace color array(s). Has no
-                    effect when `cauto` is `false`.
-                cmin
-                    Sets the lower bound of the color domain. Value
-                    should have the same units as corresponding
-                    trace color array(s) and if set, `cmax` must be
-                    set as well.
-                colorbar
-                    plotly.graph_objects.layout.coloraxis.ColorBar
-                    instance or dict with compatible properties
-                colorscale
-                    Sets the colorscale. The colorscale must be an
-                    array containing arrays mapping a normalized
-                    value to an rgb, rgba, hex, hsl, hsv, or named
-                    color string. At minimum, a mapping for the
-                    lowest (0) and highest (1) values are required.
-                    For example, `[[0, 'rgb(0,0,255)'], [1,
-                    'rgb(255,0,0)']]`. To control the bounds of the
-                    colorscale in color space, use`cmin` and
-                    `cmax`. Alternatively, `colorscale` may be a
-                    palette name string of the following list: Grey
-                    s,YlGnBu,Greens,YlOrRd,Bluered,RdBu,Reds,Blues,
-                    Picnic,Rainbow,Portland,Jet,Hot,Blackbody,Earth
-                    ,Electric,Viridis,Cividis.
-                reversescale
-                    Reverses the color mapping if true. If true,
-                    `cmin` will correspond to the last color in the
-                    array and `cmax` will correspond to the first
-                    color.
-                showscale
-                    Determines whether or not a colorbar is
-                    displayed for this trace.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Coloraxis
-        """
-        return self["coloraxis"]
-
-    @coloraxis.setter
-    def coloraxis(self, val):
-        self["coloraxis"] = val
-
-    # colorscale
-    # ----------
-    @property
-    def colorscale(self):
-        """
-        The 'colorscale' property is an instance of Colorscale
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Colorscale
-          - A dict of string/value properties that will be passed
-            to the Colorscale constructor
-    
-            Supported dict properties:
-                
-                diverging
-                    Sets the default diverging colorscale. Note
-                    that `autocolorscale` must be true for this
-                    attribute to work.
-                sequential
-                    Sets the default sequential colorscale for
-                    positive values. Note that `autocolorscale`
-                    must be true for this attribute to work.
-                sequentialminus
-                    Sets the default sequential colorscale for
-                    negative values. Note that `autocolorscale`
-                    must be true for this attribute to work.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Colorscale
-        """
-        return self["colorscale"]
-
-    @colorscale.setter
-    def colorscale(self, val):
-        self["colorscale"] = val
-
-    # colorway
-    # --------
-    @property
-    def colorway(self):
-        """
-        Sets the default trace colors.
-    
-        The 'colorway' property is a colorlist that may be specified
-        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
-        color strings
-
-        Returns
-        -------
-        list
-        """
-        return self["colorway"]
-
-    @colorway.setter
-    def colorway(self, val):
-        self["colorway"] = val
-
-    # datarevision
-    # ------------
-    @property
-    def datarevision(self):
-        """
-        If provided, a changed value tells `Plotly.react` that one or
-        more data arrays has changed. This way you can modify arrays
-        in-place rather than making a complete new copy for an
-        incremental change. If NOT provided, `Plotly.react` assumes
-        that data arrays are being treated as immutable, thus any data
-        array with a different identity from its predecessor contains
-        new data.
-    
-        The 'datarevision' property accepts values of any type
-
-        Returns
-        -------
-        Any
-        """
-        return self["datarevision"]
-
-    @datarevision.setter
-    def datarevision(self, val):
-        self["datarevision"] = val
-
-    # direction
-    # ---------
-    @property
-    def direction(self):
-        """
-        Legacy polar charts are deprecated! Please switch to "polar"
-        subplots. Sets the direction corresponding to positive angles
-        in legacy polar charts.
-    
-        The 'direction' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['clockwise', 'counterclockwise']
-
-        Returns
-        -------
-        Any
-        """
-        return self["direction"]
-
-    @direction.setter
-    def direction(self, val):
-        self["direction"] = val
-
-    # dragmode
-    # --------
-    @property
-    def dragmode(self):
-        """
-        Determines the mode of drag interactions. "select" and "lasso"
-        apply only to scatter traces with markers or text. "orbit" and
-        "turntable" apply only to 3D scenes.
-    
-        The 'dragmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['zoom', 'pan', 'select', 'lasso', 'orbit', 'turntable',
-                False]
-
-        Returns
-        -------
-        Any
-        """
-        return self["dragmode"]
-
-    @dragmode.setter
-    def dragmode(self, val):
-        self["dragmode"] = val
-
-    # editrevision
-    # ------------
-    @property
-    def editrevision(self):
-        """
-        Controls persistence of user-driven changes in `editable: true`
-        configuration, other than trace names and axis titles. Defaults
-        to `layout.uirevision`.
-    
-        The 'editrevision' property accepts values of any type
-
-        Returns
-        -------
-        Any
-        """
-        return self["editrevision"]
-
-    @editrevision.setter
-    def editrevision(self, val):
-        self["editrevision"] = val
-
-    # extendfunnelareacolors
-    # ----------------------
-    @property
-    def extendfunnelareacolors(self):
-        """
-        If `true`, the funnelarea slice colors (whether given by
-        `funnelareacolorway` or inherited from `colorway`) will be
-        extended to three times its original length by first repeating
-        every color 20% lighter then each color 20% darker. This is
-        intended to reduce the likelihood of reusing the same color
-        when you have many slices, but you can set `false` to disable.
-        Colors provided in the trace, using `marker.colors`, are never
-        extended.
-    
-        The 'extendfunnelareacolors' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["extendfunnelareacolors"]
-
-    @extendfunnelareacolors.setter
-    def extendfunnelareacolors(self, val):
-        self["extendfunnelareacolors"] = val
-
-    # extendpiecolors
-    # ---------------
-    @property
-    def extendpiecolors(self):
-        """
-        If `true`, the pie slice colors (whether given by `piecolorway`
-        or inherited from `colorway`) will be extended to three times
-        its original length by first repeating every color 20% lighter
-        then each color 20% darker. This is intended to reduce the
-        likelihood of reusing the same color when you have many slices,
-        but you can set `false` to disable. Colors provided in the
-        trace, using `marker.colors`, are never extended.
-    
-        The 'extendpiecolors' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["extendpiecolors"]
-
-    @extendpiecolors.setter
-    def extendpiecolors(self, val):
-        self["extendpiecolors"] = val
-
-    # extendsunburstcolors
-    # --------------------
-    @property
-    def extendsunburstcolors(self):
-        """
-        If `true`, the sunburst slice colors (whether given by
-        `sunburstcolorway` or inherited from `colorway`) will be
-        extended to three times its original length by first repeating
-        every color 20% lighter then each color 20% darker. This is
-        intended to reduce the likelihood of reusing the same color
-        when you have many slices, but you can set `false` to disable.
-        Colors provided in the trace, using `marker.colors`, are never
-        extended.
-    
-        The 'extendsunburstcolors' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["extendsunburstcolors"]
-
-    @extendsunburstcolors.setter
-    def extendsunburstcolors(self, val):
-        self["extendsunburstcolors"] = val
-
-    # font
-    # ----
-    @property
-    def font(self):
-        """
-        Sets the global font. Note that fonts used in traces and other
-        layout components inherit from the global font.
-    
-        The 'font' property is an instance of Font
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Font
-          - A dict of string/value properties that will be passed
-            to the Font constructor
-    
-            Supported dict properties:
-                
-                color
-    
-                family
-                    HTML font family - the typeface that will be
-                    applied by the web browser. The web browser
-                    will only be able to apply a font if it is
-                    available on the system which it operates.
-                    Provide multiple font families, separated by
-                    commas, to indicate the preference in which to
-                    apply fonts if they aren't available on the
-                    system. The plotly service (at https://plot.ly
-                    or on-premise) generates images on a server,
-                    where only a select number of fonts are
-                    installed and supported. These include "Arial",
-                    "Balto", "Courier New", "Droid Sans",, "Droid
-                    Serif", "Droid Sans Mono", "Gravitas One", "Old
-                    Standard TT", "Open Sans", "Overpass", "PT Sans
-                    Narrow", "Raleway", "Times New Roman".
-                size
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Font
-        """
-        return self["font"]
-
-    @font.setter
-    def font(self, val):
-        self["font"] = val
-
-    # funnelareacolorway
-    # ------------------
-    @property
-    def funnelareacolorway(self):
-        """
-        Sets the default funnelarea slice colors. Defaults to the main
-        `colorway` used for trace colors. If you specify a new list
-        here it can still be extended with lighter and darker colors,
-        see `extendfunnelareacolors`.
-    
-        The 'funnelareacolorway' property is a colorlist that may be specified
-        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
-        color strings
-
-        Returns
-        -------
-        list
-        """
-        return self["funnelareacolorway"]
-
-    @funnelareacolorway.setter
-    def funnelareacolorway(self, val):
-        self["funnelareacolorway"] = val
-
-    # funnelgap
-    # ---------
-    @property
-    def funnelgap(self):
-        """
-        Sets the gap (in plot fraction) between bars of adjacent
-        location coordinates.
-    
-        The 'funnelgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["funnelgap"]
-
-    @funnelgap.setter
-    def funnelgap(self, val):
-        self["funnelgap"] = val
-
-    # funnelgroupgap
-    # --------------
-    @property
-    def funnelgroupgap(self):
-        """
-        Sets the gap (in plot fraction) between bars of the same
-        location coordinate.
-    
-        The 'funnelgroupgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["funnelgroupgap"]
-
-    @funnelgroupgap.setter
-    def funnelgroupgap(self, val):
-        self["funnelgroupgap"] = val
-
-    # funnelmode
-    # ----------
-    @property
-    def funnelmode(self):
-        """
-        Determines how bars at the same location coordinate are
-        displayed on the graph. With "stack", the bars are stacked on
-        top of one another With "group", the bars are plotted next to
-        one another centered around the shared location. With
-        "overlay", the bars are plotted over one another, you might
-        need to an "opacity" to see multiple bars.
-    
-        The 'funnelmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['stack', 'group', 'overlay']
-
-        Returns
-        -------
-        Any
-        """
-        return self["funnelmode"]
-
-    @funnelmode.setter
-    def funnelmode(self, val):
-        self["funnelmode"] = val
-
-    # geo
-    # ---
-    @property
-    def geo(self):
-        """
-        The 'geo' property is an instance of Geo
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Geo
-          - A dict of string/value properties that will be passed
-            to the Geo constructor
-    
-            Supported dict properties:
-                
-                bgcolor
-                    Set the background color of the map
-                center
-                    plotly.graph_objects.layout.geo.Center instance
-                    or dict with compatible properties
-                coastlinecolor
-                    Sets the coastline color.
-                coastlinewidth
-                    Sets the coastline stroke width (in px).
-                countrycolor
-                    Sets line color of the country boundaries.
-                countrywidth
-                    Sets line width (in px) of the country
-                    boundaries.
-                domain
-                    plotly.graph_objects.layout.geo.Domain instance
-                    or dict with compatible properties
-                framecolor
-                    Sets the color the frame.
-                framewidth
-                    Sets the stroke width (in px) of the frame.
-                lakecolor
-                    Sets the color of the lakes.
-                landcolor
-                    Sets the land mass color.
-                lataxis
-                    plotly.graph_objects.layout.geo.Lataxis
-                    instance or dict with compatible properties
-                lonaxis
-                    plotly.graph_objects.layout.geo.Lonaxis
-                    instance or dict with compatible properties
-                oceancolor
-                    Sets the ocean color
-                projection
-                    plotly.graph_objects.layout.geo.Projection
-                    instance or dict with compatible properties
-                resolution
-                    Sets the resolution of the base layers. The
-                    values have units of km/mm e.g. 110 corresponds
-                    to a scale ratio of 1:110,000,000.
-                rivercolor
-                    Sets color of the rivers.
-                riverwidth
-                    Sets the stroke width (in px) of the rivers.
-                scope
-                    Set the scope of the map.
-                showcoastlines
-                    Sets whether or not the coastlines are drawn.
-                showcountries
-                    Sets whether or not country boundaries are
-                    drawn.
-                showframe
-                    Sets whether or not a frame is drawn around the
-                    map.
-                showlakes
-                    Sets whether or not lakes are drawn.
-                showland
-                    Sets whether or not land masses are filled in
-                    color.
-                showocean
-                    Sets whether or not oceans are filled in color.
-                showrivers
-                    Sets whether or not rivers are drawn.
-                showsubunits
-                    Sets whether or not boundaries of subunits
-                    within countries (e.g. states, provinces) are
-                    drawn.
-                subunitcolor
-                    Sets the color of the subunits boundaries.
-                subunitwidth
-                    Sets the stroke width (in px) of the subunits
-                    boundaries.
-                uirevision
-                    Controls persistence of user-driven changes in
-                    the view (projection and center). Defaults to
-                    `layout.uirevision`.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Geo
-        """
-        return self["geo"]
-
-    @geo.setter
-    def geo(self, val):
-        self["geo"] = val
-
-    # grid
-    # ----
-    @property
-    def grid(self):
-        """
-        The 'grid' property is an instance of Grid
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Grid
-          - A dict of string/value properties that will be passed
-            to the Grid constructor
-    
-            Supported dict properties:
-                
-                columns
-                    The number of columns in the grid. If you
-                    provide a 2D `subplots` array, the length of
-                    its longest row is used as the default. If you
-                    give an `xaxes` array, its length is used as
-                    the default. But it's also possible to have a
-                    different length, if you want to leave a row at
-                    the end for non-cartesian subplots.
-                domain
-                    plotly.graph_objects.layout.grid.Domain
-                    instance or dict with compatible properties
-                pattern
-                    If no `subplots`, `xaxes`, or `yaxes` are given
-                    but we do have `rows` and `columns`, we can
-                    generate defaults using consecutive axis IDs,
-                    in two ways: "coupled" gives one x axis per
-                    column and one y axis per row. "independent"
-                    uses a new xy pair for each cell, left-to-right
-                    across each row then iterating rows according
-                    to `roworder`.
-                roworder
-                    Is the first row the top or the bottom? Note
-                    that columns are always enumerated from left to
-                    right.
-                rows
-                    The number of rows in the grid. If you provide
-                    a 2D `subplots` array or a `yaxes` array, its
-                    length is used as the default. But it's also
-                    possible to have a different length, if you
-                    want to leave a row at the end for non-
-                    cartesian subplots.
-                subplots
-                    Used for freeform grids, where some axes may be
-                    shared across subplots but others are not. Each
-                    entry should be a cartesian subplot id, like
-                    "xy" or "x3y2", or "" to leave that cell empty.
-                    You may reuse x axes within the same column,
-                    and y axes within the same row. Non-cartesian
-                    subplots and traces that support `domain` can
-                    place themselves in this grid separately using
-                    the `gridcell` attribute.
-                xaxes
-                    Used with `yaxes` when the x and y axes are
-                    shared across columns and rows. Each entry
-                    should be an x axis id like "x", "x2", etc., or
-                    "" to not put an x axis in that column. Entries
-                    other than "" must be unique. Ignored if
-                    `subplots` is present. If missing but `yaxes`
-                    is present, will generate consecutive IDs.
-                xgap
-                    Horizontal space between grid cells, expressed
-                    as a fraction of the total width available to
-                    one cell. Defaults to 0.1 for coupled-axes
-                    grids and 0.2 for independent grids.
-                xside
-                    Sets where the x axis labels and titles go.
-                    "bottom" means the very bottom of the grid.
-                    "bottom plot" is the lowest plot that each x
-                    axis is used in. "top" and "top plot" are
-                    similar.
-                yaxes
-                    Used with `yaxes` when the x and y axes are
-                    shared across columns and rows. Each entry
-                    should be an y axis id like "y", "y2", etc., or
-                    "" to not put a y axis in that row. Entries
-                    other than "" must be unique. Ignored if
-                    `subplots` is present. If missing but `xaxes`
-                    is present, will generate consecutive IDs.
-                ygap
-                    Vertical space between grid cells, expressed as
-                    a fraction of the total height available to one
-                    cell. Defaults to 0.1 for coupled-axes grids
-                    and 0.3 for independent grids.
-                yside
-                    Sets where the y axis labels and titles go.
-                    "left" means the very left edge of the grid.
-                    *left plot* is the leftmost plot that each y
-                    axis is used in. "right" and *right plot* are
-                    similar.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Grid
-        """
-        return self["grid"]
-
-    @grid.setter
-    def grid(self, val):
-        self["grid"] = val
-
-    # height
-    # ------
-    @property
-    def height(self):
-        """
-        Sets the plot's height (in px).
-    
-        The 'height' property is a number and may be specified as:
-          - An int or float in the interval [10, inf]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["height"]
-
-    @height.setter
-    def height(self, val):
-        self["height"] = val
-
-    # hiddenlabels
-    # ------------
-    @property
-    def hiddenlabels(self):
-        """
-        hiddenlabels is the funnelarea & pie chart analog of
-        visible:'legendonly' but it can contain many labels, and can
-        simultaneously hide slices from several pies/funnelarea charts
-    
-        The 'hiddenlabels' property is an array that may be specified as a tuple,
-        list, numpy array, or pandas Series
-
-        Returns
-        -------
-        numpy.ndarray
-        """
-        return self["hiddenlabels"]
-
-    @hiddenlabels.setter
-    def hiddenlabels(self, val):
-        self["hiddenlabels"] = val
-
-    # hiddenlabelssrc
-    # ---------------
-    @property
-    def hiddenlabelssrc(self):
-        """
-        Sets the source reference on plot.ly for  hiddenlabels .
-    
-        The 'hiddenlabelssrc' property must be specified as a string or
-        as a plotly.grid_objs.Column object
-
-        Returns
-        -------
-        str
-        """
-        return self["hiddenlabelssrc"]
-
-    @hiddenlabelssrc.setter
-    def hiddenlabelssrc(self, val):
-        self["hiddenlabelssrc"] = val
-
-    # hidesources
-    # -----------
-    @property
-    def hidesources(self):
-        """
-        Determines whether or not a text link citing the data source is
-        placed at the bottom-right cored of the figure. Has only an
-        effect only on graphs that have been generated via forked
-        graphs from the plotly service (at https://plot.ly or on-
-        premise).
-    
-        The 'hidesources' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["hidesources"]
-
-    @hidesources.setter
-    def hidesources(self, val):
-        self["hidesources"] = val
-
-    # hoverdistance
-    # -------------
-    @property
-    def hoverdistance(self):
-        """
-        Sets the default distance (in pixels) to look for data to add
-        hover labels (-1 means no cutoff, 0 means no looking for data).
-        This is only a real distance for hovering on point-like
-        objects, like scatter points. For area-like objects (bars,
-        scatter fills, etc) hovering is on inside the area and off
-        outside, but these objects will not supersede hover on point-
-        like objects in case of conflict.
-    
-        The 'hoverdistance' property is a integer and may be specified as:
-          - An int (or float that will be cast to an int)
-            in the interval [-1, 9223372036854775807]
-
-        Returns
-        -------
-        int
-        """
-        return self["hoverdistance"]
-
-    @hoverdistance.setter
-    def hoverdistance(self, val):
-        self["hoverdistance"] = val
-
-    # hoverlabel
-    # ----------
-    @property
-    def hoverlabel(self):
-        """
-        The 'hoverlabel' property is an instance of Hoverlabel
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Hoverlabel
-          - A dict of string/value properties that will be passed
-            to the Hoverlabel constructor
-    
-            Supported dict properties:
-                
-                align
-                    Sets the horizontal alignment of the text
-                    content within hover label box. Has an effect
-                    only if the hover label text spans more two or
-                    more lines
-                bgcolor
-                    Sets the background color of all hover labels
-                    on graph
-                bordercolor
-                    Sets the border color of all hover labels on
-                    graph.
-                font
-                    Sets the default hover label font used by all
-                    traces on the graph.
-                namelength
-                    Sets the default length (in number of
-                    characters) of the trace name in the hover
-                    labels for all traces. -1 shows the whole name
-                    regardless of length. 0-3 shows the first 0-3
-                    characters, and an integer >3 will show the
-                    whole name if it is less than that many
-                    characters, but if it is longer, will truncate
-                    to `namelength - 3` characters and add an
-                    ellipsis.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Hoverlabel
-        """
-        return self["hoverlabel"]
-
-    @hoverlabel.setter
-    def hoverlabel(self, val):
-        self["hoverlabel"] = val
-
-    # hovermode
-    # ---------
-    @property
-    def hovermode(self):
-        """
-        Determines the mode of hover interactions. If `clickmode`
-        includes the "select" flag, `hovermode` defaults to "closest".
-        If `clickmode` lacks the "select" flag, it defaults to "x" or
-        "y" (depending on the trace's `orientation` value) for plots
-        based on cartesian coordinates. For anything else the default
-        value is "closest".
-    
-        The 'hovermode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['x', 'y', 'closest', False]
-
-        Returns
-        -------
-        Any
-        """
-        return self["hovermode"]
-
-    @hovermode.setter
-    def hovermode(self, val):
-        self["hovermode"] = val
-
-    # images
-    # ------
-    @property
-    def images(self):
-        """
-        The 'images' property is a tuple of instances of
-        Image that may be specified as:
-          - A list or tuple of instances of plotly.graph_objs.layout.Image
-          - A list or tuple of dicts of string/value properties that
-            will be passed to the Image constructor
-    
-            Supported dict properties:
-                
-                layer
-                    Specifies whether images are drawn below or
-                    above traces. When `xref` and `yref` are both
-                    set to `paper`, image is drawn below the entire
-                    plot area.
-                name
-                    When used in a template, named items are
-                    created in the output figure in addition to any
-                    items the figure already has in this array. You
-                    can modify these items in the output figure by
-                    making your own item with `templateitemname`
-                    matching this `name` alongside your
-                    modifications (including `visible: false` or
-                    `enabled: false` to hide it). Has no effect
-                    outside of a template.
-                opacity
-                    Sets the opacity of the image.
-                sizex
-                    Sets the image container size horizontally. The
-                    image will be sized based on the `position`
-                    value. When `xref` is set to `paper`, units are
-                    sized relative to the plot width.
-                sizey
-                    Sets the image container size vertically. The
-                    image will be sized based on the `position`
-                    value. When `yref` is set to `paper`, units are
-                    sized relative to the plot height.
-                sizing
-                    Specifies which dimension of the image to
-                    constrain.
-                source
-                    Specifies the URL of the image to be used. The
-                    URL must be accessible from the domain where
-                    the plot code is run, and can be either
-                    relative or absolute.
-                templateitemname
-                    Used to refer to a named item in this array in
-                    the template. Named items from the template
-                    will be created even without a matching item in
-                    the input figure, but you can modify one by
-                    making an item with `templateitemname` matching
-                    its `name`, alongside your modifications
-                    (including `visible: false` or `enabled: false`
-                    to hide it). If there is no template or no
-                    matching item, this item will be hidden unless
-                    you explicitly show it with `visible: true`.
-                visible
-                    Determines whether or not this image is
-                    visible.
-                x
-                    Sets the image's x position. When `xref` is set
-                    to `paper`, units are sized relative to the
-                    plot height. See `xref` for more info
-                xanchor
-                    Sets the anchor for the x position
-                xref
-                    Sets the images's x coordinate axis. If set to
-                    a x axis id (e.g. "x" or "x2"), the `x`
-                    position refers to an x data coordinate If set
-                    to "paper", the `x` position refers to the
-                    distance from the left of plot in normalized
-                    coordinates where 0 (1) corresponds to the left
-                    (right).
-                y
-                    Sets the image's y position. When `yref` is set
-                    to `paper`, units are sized relative to the
-                    plot height. See `yref` for more info
-                yanchor
-                    Sets the anchor for the y position.
-                yref
-                    Sets the images's y coordinate axis. If set to
-                    a y axis id (e.g. "y" or "y2"), the `y`
-                    position refers to a y data coordinate. If set
-                    to "paper", the `y` position refers to the
-                    distance from the bottom of the plot in
-                    normalized coordinates where 0 (1) corresponds
-                    to the bottom (top).
-
-        Returns
-        -------
-        tuple[plotly.graph_objs.layout.Image]
-        """
-        return self["images"]
-
-    @images.setter
-    def images(self, val):
-        self["images"] = val
-
-    # imagedefaults
-    # -------------
-    @property
-    def imagedefaults(self):
-        """
-        When used in a template (as
-        layout.template.layout.imagedefaults), sets the default
-        property values to use for elements of layout.images
-    
-        The 'imagedefaults' property is an instance of Image
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Image
-          - A dict of string/value properties that will be passed
-            to the Image constructor
-    
-            Supported dict properties:
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Image
-        """
-        return self["imagedefaults"]
-
-    @imagedefaults.setter
-    def imagedefaults(self, val):
-        self["imagedefaults"] = val
-
-    # legend
-    # ------
-    @property
-    def legend(self):
-        """
-        The 'legend' property is an instance of Legend
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Legend
-          - A dict of string/value properties that will be passed
-            to the Legend constructor
-    
-            Supported dict properties:
-                
-                bgcolor
-                    Sets the legend background color.
-                bordercolor
-                    Sets the color of the border enclosing the
-                    legend.
-                borderwidth
-                    Sets the width (in px) of the border enclosing
-                    the legend.
-                font
-                    Sets the font used to text the legend items.
-                itemclick
-                    Determines the behavior on legend item click.
-                    "toggle" toggles the visibility of the item
-                    clicked on the graph. "toggleothers" makes the
-                    clicked item the sole visible item on the
-                    graph. False disable legend item click
-                    interactions.
-                itemdoubleclick
-                    Determines the behavior on legend item double-
-                    click. "toggle" toggles the visibility of the
-                    item clicked on the graph. "toggleothers" makes
-                    the clicked item the sole visible item on the
-                    graph. False disable legend item double-click
-                    interactions.
-                itemsizing
-                    Determines if the legend items symbols scale
-                    with their corresponding "trace" attributes or
-                    remain "constant" independent of the symbol
-                    size on the graph.
-                orientation
-                    Sets the orientation of the legend.
-                tracegroupgap
-                    Sets the amount of vertical space (in px)
-                    between legend groups.
-                traceorder
-                    Determines the order at which the legend items
-                    are displayed. If "normal", the items are
-                    displayed top-to-bottom in the same order as
-                    the input data. If "reversed", the items are
-                    displayed in the opposite order as "normal". If
-                    "grouped", the items are displayed in groups
-                    (when a trace `legendgroup` is provided). if
-                    "grouped+reversed", the items are displayed in
-                    the opposite order as "grouped".
-                uirevision
-                    Controls persistence of legend-driven changes
-                    in trace and pie label visibility. Defaults to
-                    `layout.uirevision`.
-                valign
-                    Sets the vertical alignment of the symbols with
-                    respect to their associated text.
-                x
-                    Sets the x position (in normalized coordinates)
-                    of the legend.
-                xanchor
-                    Sets the legend's horizontal position anchor.
-                    This anchor binds the `x` position to the
-                    "left", "center" or "right" of the legend.
-                y
-                    Sets the y position (in normalized coordinates)
-                    of the legend.
-                yanchor
-                    Sets the legend's vertical position anchor This
-                    anchor binds the `y` position to the "top",
-                    "middle" or "bottom" of the legend.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Legend
-        """
-        return self["legend"]
-
-    @legend.setter
-    def legend(self, val):
-        self["legend"] = val
-
-    # mapbox
-    # ------
-    @property
-    def mapbox(self):
-        """
-        The 'mapbox' property is an instance of Mapbox
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Mapbox
-          - A dict of string/value properties that will be passed
-            to the Mapbox constructor
-    
-            Supported dict properties:
-                
-                accesstoken
-                    Sets the mapbox access token to be used for
-                    this mapbox map. Alternatively, the mapbox
-                    access token can be set in the configuration
-                    options under `mapboxAccessToken`. Note that
-                    accessToken are only required when `style` (e.g
-                    with values : basic, streets, outdoors, light,
-                    dark, satellite, satellite-streets ) and/or a
-                    layout layer references the Mapbox server.
-                bearing
-                    Sets the bearing angle of the map in degrees
-                    counter-clockwise from North (mapbox.bearing).
-                center
-                    plotly.graph_objects.layout.mapbox.Center
-                    instance or dict with compatible properties
-                domain
-                    plotly.graph_objects.layout.mapbox.Domain
-                    instance or dict with compatible properties
-                layers
-                    A tuple of
-                    plotly.graph_objects.layout.mapbox.Layer
-                    instances or dicts with compatible properties
-                layerdefaults
-                    When used in a template (as
-                    layout.template.layout.mapbox.layerdefaults),
-                    sets the default property values to use for
-                    elements of layout.mapbox.layers
-                pitch
-                    Sets the pitch angle of the map (in degrees,
-                    where 0 means perpendicular to the surface of
-                    the map) (mapbox.pitch).
-                style
-                    Defines the map layers that are rendered by
-                    default below the trace layers defined in
-                    `data`, which are themselves by default
-                    rendered below the layers defined in
-                    `layout.mapbox.layers`.  These layers can be
-                    defined either explicitly as a Mapbox Style
-                    object which can contain multiple layer
-                    definitions that load data from any public or
-                    private Tile Map Service (TMS or XYZ) or Web
-                    Map Service (WMS) or implicitly by using one of
-                    the built-in style objects which use WMSes
-                    which do not require any access tokens, or by
-                    using a default Mapbox style or custom Mapbox
-                    style URL, both of which require a Mapbox
-                    access token  Note that Mapbox access token can
-                    be set in the `accesstoken` attribute or in the
-                    `mapboxAccessToken` config option.  Mapbox
-                    Style objects are of the form described in the
-                    Mapbox GL JS documentation available at
-                    https://docs.mapbox.com/mapbox-gl-js/style-spec
-                    The built-in plotly.js styles objects are:
-                    open-street-map, white-bg, carto-positron,
-                    carto-darkmatter, stamen-terrain, stamen-toner,
-                    stamen-watercolor  The built-in Mapbox styles
-                    are: basic, streets, outdoors, light, dark,
-                    satellite, satellite-streets  Mapbox style URLs
-                    are of the form:
-                    mapbox://mapbox.mapbox-<name>-<version>
-                uirevision
-                    Controls persistence of user-driven changes in
-                    the view: `center`, `zoom`, `bearing`, `pitch`.
-                    Defaults to `layout.uirevision`.
-                zoom
-                    Sets the zoom level of the map (mapbox.zoom).
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Mapbox
-        """
-        return self["mapbox"]
-
-    @mapbox.setter
-    def mapbox(self, val):
-        self["mapbox"] = val
-
-    # margin
-    # ------
-    @property
-    def margin(self):
-        """
-        The 'margin' property is an instance of Margin
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Margin
-          - A dict of string/value properties that will be passed
-            to the Margin constructor
-    
-            Supported dict properties:
-                
-                autoexpand
-    
-                b
-                    Sets the bottom margin (in px).
-                l
-                    Sets the left margin (in px).
-                pad
-                    Sets the amount of padding (in px) between the
-                    plotting area and the axis lines
-                r
-                    Sets the right margin (in px).
-                t
-                    Sets the top margin (in px).
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Margin
-        """
-        return self["margin"]
-
-    @margin.setter
-    def margin(self, val):
-        self["margin"] = val
-
-    # meta
-    # ----
-    @property
-    def meta(self):
-        """
-        Assigns extra meta information that can be used in various
-        `text` attributes. Attributes such as the graph, axis and
-        colorbar `title.text`, annotation `text` `trace.name` in legend
-        items, `rangeselector`, `updatemenues` and `sliders` `label`
-        text all support `meta`. One can access `meta` fields using
-        template strings: `%{meta[i]}` where `i` is the index of the
-        `meta` item in question. `meta` can also be an object for
-        example `{key: value}` which can be accessed %{meta[key]}.
-    
-        The 'meta' property accepts values of any type
-
-        Returns
-        -------
-        Any|numpy.ndarray
-        """
-        return self["meta"]
-
-    @meta.setter
-    def meta(self, val):
-        self["meta"] = val
-
-    # metasrc
-    # -------
-    @property
-    def metasrc(self):
-        """
-        Sets the source reference on plot.ly for  meta .
-    
-        The 'metasrc' property must be specified as a string or
-        as a plotly.grid_objs.Column object
-
-        Returns
-        -------
-        str
-        """
-        return self["metasrc"]
-
-    @metasrc.setter
-    def metasrc(self, val):
-        self["metasrc"] = val
-
-    # modebar
-    # -------
-    @property
-    def modebar(self):
-        """
-        The 'modebar' property is an instance of Modebar
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Modebar
-          - A dict of string/value properties that will be passed
-            to the Modebar constructor
-    
-            Supported dict properties:
-                
-                activecolor
-                    Sets the color of the active or hovered on
-                    icons in the modebar.
-                bgcolor
-                    Sets the background color of the modebar.
-                color
-                    Sets the color of the icons in the modebar.
-                orientation
-                    Sets the orientation of the modebar.
-                uirevision
-                    Controls persistence of user-driven changes
-                    related to the modebar, including `hovermode`,
-                    `dragmode`, and `showspikes` at both the root
-                    level and inside subplots. Defaults to
-                    `layout.uirevision`.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Modebar
-        """
-        return self["modebar"]
-
-    @modebar.setter
-    def modebar(self, val):
-        self["modebar"] = val
-
-    # orientation
-    # -----------
-    @property
-    def orientation(self):
-        """
-        Legacy polar charts are deprecated! Please switch to "polar"
-        subplots. Rotates the entire polar by the given angle in legacy
-        polar charts.
-    
-        The 'orientation' property is a angle (in degrees) that may be
-        specified as a number between -180 and 180. Numeric values outside this
-        range are converted to the equivalent value
-        (e.g. 270 is converted to -90).
-
-        Returns
-        -------
-        int|float
-        """
-        return self["orientation"]
-
-    @orientation.setter
-    def orientation(self, val):
-        self["orientation"] = val
-
-    # paper_bgcolor
-    # -------------
-    @property
-    def paper_bgcolor(self):
-        """
-        Sets the color of paper where the graph is drawn.
-    
-        The 'paper_bgcolor' property is a color and may be specified as:
-          - A hex string (e.g. '#ff0000')
-          - An rgb/rgba string (e.g. 'rgb(255,0,0)')
-          - An hsl/hsla string (e.g. 'hsl(0,100%,50%)')
-          - An hsv/hsva string (e.g. 'hsv(0,100%,100%)')
-          - A named CSS color:
-                aliceblue, antiquewhite, aqua, aquamarine, azure,
-                beige, bisque, black, blanchedalmond, blue,
-                blueviolet, brown, burlywood, cadetblue,
-                chartreuse, chocolate, coral, cornflowerblue,
-                cornsilk, crimson, cyan, darkblue, darkcyan,
-                darkgoldenrod, darkgray, darkgrey, darkgreen,
-                darkkhaki, darkmagenta, darkolivegreen, darkorange,
-                darkorchid, darkred, darksalmon, darkseagreen,
-                darkslateblue, darkslategray, darkslategrey,
-                darkturquoise, darkviolet, deeppink, deepskyblue,
-                dimgray, dimgrey, dodgerblue, firebrick,
-                floralwhite, forestgreen, fuchsia, gainsboro,
-                ghostwhite, gold, goldenrod, gray, grey, green,
-                greenyellow, honeydew, hotpink, indianred, indigo,
-                ivory, khaki, lavender, lavenderblush, lawngreen,
-                lemonchiffon, lightblue, lightcoral, lightcyan,
-                lightgoldenrodyellow, lightgray, lightgrey,
-                lightgreen, lightpink, lightsalmon, lightseagreen,
-                lightskyblue, lightslategray, lightslategrey,
-                lightsteelblue, lightyellow, lime, limegreen,
-                linen, magenta, maroon, mediumaquamarine,
-                mediumblue, mediumorchid, mediumpurple,
-                mediumseagreen, mediumslateblue, mediumspringgreen,
-                mediumturquoise, mediumvioletred, midnightblue,
-                mintcream, mistyrose, moccasin, navajowhite, navy,
-                oldlace, olive, olivedrab, orange, orangered,
-                orchid, palegoldenrod, palegreen, paleturquoise,
-                palevioletred, papayawhip, peachpuff, peru, pink,
-                plum, powderblue, purple, red, rosybrown,
-                royalblue, rebeccapurple, saddlebrown, salmon,
-                sandybrown, seagreen, seashell, sienna, silver,
-                skyblue, slateblue, slategray, slategrey, snow,
-                springgreen, steelblue, tan, teal, thistle, tomato,
-                turquoise, violet, wheat, white, whitesmoke,
-                yellow, yellowgreen
-
-        Returns
-        -------
-        str
-        """
-        return self["paper_bgcolor"]
-
-    @paper_bgcolor.setter
-    def paper_bgcolor(self, val):
-        self["paper_bgcolor"] = val
-
-    # piecolorway
-    # -----------
-    @property
-    def piecolorway(self):
-        """
-        Sets the default pie slice colors. Defaults to the main
-        `colorway` used for trace colors. If you specify a new list
-        here it can still be extended with lighter and darker colors,
-        see `extendpiecolors`.
-    
-        The 'piecolorway' property is a colorlist that may be specified
-        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
-        color strings
-
-        Returns
-        -------
-        list
-        """
-        return self["piecolorway"]
-
-    @piecolorway.setter
-    def piecolorway(self, val):
-        self["piecolorway"] = val
-
-    # plot_bgcolor
-    # ------------
-    @property
-    def plot_bgcolor(self):
-        """
-        Sets the color of plotting area in-between x and y axes.
-    
-        The 'plot_bgcolor' property is a color and may be specified as:
-          - A hex string (e.g. '#ff0000')
-          - An rgb/rgba string (e.g. 'rgb(255,0,0)')
-          - An hsl/hsla string (e.g. 'hsl(0,100%,50%)')
-          - An hsv/hsva string (e.g. 'hsv(0,100%,100%)')
-          - A named CSS color:
-                aliceblue, antiquewhite, aqua, aquamarine, azure,
-                beige, bisque, black, blanchedalmond, blue,
-                blueviolet, brown, burlywood, cadetblue,
-                chartreuse, chocolate, coral, cornflowerblue,
-                cornsilk, crimson, cyan, darkblue, darkcyan,
-                darkgoldenrod, darkgray, darkgrey, darkgreen,
-                darkkhaki, darkmagenta, darkolivegreen, darkorange,
-                darkorchid, darkred, darksalmon, darkseagreen,
-                darkslateblue, darkslategray, darkslategrey,
-                darkturquoise, darkviolet, deeppink, deepskyblue,
-                dimgray, dimgrey, dodgerblue, firebrick,
-                floralwhite, forestgreen, fuchsia, gainsboro,
-                ghostwhite, gold, goldenrod, gray, grey, green,
-                greenyellow, honeydew, hotpink, indianred, indigo,
-                ivory, khaki, lavender, lavenderblush, lawngreen,
-                lemonchiffon, lightblue, lightcoral, lightcyan,
-                lightgoldenrodyellow, lightgray, lightgrey,
-                lightgreen, lightpink, lightsalmon, lightseagreen,
-                lightskyblue, lightslategray, lightslategrey,
-                lightsteelblue, lightyellow, lime, limegreen,
-                linen, magenta, maroon, mediumaquamarine,
-                mediumblue, mediumorchid, mediumpurple,
-                mediumseagreen, mediumslateblue, mediumspringgreen,
-                mediumturquoise, mediumvioletred, midnightblue,
-                mintcream, mistyrose, moccasin, navajowhite, navy,
-                oldlace, olive, olivedrab, orange, orangered,
-                orchid, palegoldenrod, palegreen, paleturquoise,
-                palevioletred, papayawhip, peachpuff, peru, pink,
-                plum, powderblue, purple, red, rosybrown,
-                royalblue, rebeccapurple, saddlebrown, salmon,
-                sandybrown, seagreen, seashell, sienna, silver,
-                skyblue, slateblue, slategray, slategrey, snow,
-                springgreen, steelblue, tan, teal, thistle, tomato,
-                turquoise, violet, wheat, white, whitesmoke,
-                yellow, yellowgreen
-
-        Returns
-        -------
-        str
-        """
-        return self["plot_bgcolor"]
-
-    @plot_bgcolor.setter
-    def plot_bgcolor(self, val):
-        self["plot_bgcolor"] = val
-
-    # polar
-    # -----
-    @property
-    def polar(self):
-        """
-        The 'polar' property is an instance of Polar
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Polar
-          - A dict of string/value properties that will be passed
-            to the Polar constructor
-    
-            Supported dict properties:
-                
-                angularaxis
-                    plotly.graph_objects.layout.polar.AngularAxis
-                    instance or dict with compatible properties
-                bargap
-                    Sets the gap between bars of adjacent location
-                    coordinates. Values are unitless, they
-                    represent fractions of the minimum difference
-                    in bar positions in the data.
-                barmode
-                    Determines how bars at the same location
-                    coordinate are displayed on the graph. With
-                    "stack", the bars are stacked on top of one
-                    another With "overlay", the bars are plotted
-                    over one another, you might need to an
-                    "opacity" to see multiple bars.
-                bgcolor
-                    Set the background color of the subplot
-                domain
-                    plotly.graph_objects.layout.polar.Domain
-                    instance or dict with compatible properties
-                gridshape
-                    Determines if the radial axis grid lines and
-                    angular axis line are drawn as "circular"
-                    sectors or as "linear" (polygon) sectors. Has
-                    an effect only when the angular axis has `type`
-                    "category". Note that `radialaxis.angle` is
-                    snapped to the angle of the closest vertex when
-                    `gridshape` is "circular" (so that radial axis
-                    scale is the same as the data scale).
-                hole
-                    Sets the fraction of the radius to cut out of
-                    the polar subplot.
-                radialaxis
-                    plotly.graph_objects.layout.polar.RadialAxis
-                    instance or dict with compatible properties
-                sector
-                    Sets angular span of this polar subplot with
-                    two angles (in degrees). Sector are assumed to
-                    be spanned in the counterclockwise direction
-                    with 0 corresponding to rightmost limit of the
-                    polar subplot.
-                uirevision
-                    Controls persistence of user-driven changes in
-                    axis attributes, if not overridden in the
-                    individual axes. Defaults to
-                    `layout.uirevision`.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Polar
-        """
-        return self["polar"]
-
-    @polar.setter
-    def polar(self, val):
-        self["polar"] = val
-
-    # radialaxis
-    # ----------
-    @property
-    def radialaxis(self):
-        """
-        The 'radialaxis' property is an instance of RadialAxis
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.RadialAxis
-          - A dict of string/value properties that will be passed
-            to the RadialAxis constructor
-    
-            Supported dict properties:
-                
-                domain
-                    Polar chart subplots are not supported yet.
-                    This key has currently no effect.
-                endpadding
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots.
-                orientation
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the
-                    orientation (an angle with respect to the
-                    origin) of the radial axis.
-                range
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Defines the start
-                    and end point of this radial axis.
-                showline
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not the line bounding this radial axis will
-                    be shown on the figure.
-                showticklabels
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not the radial axis ticks will feature tick
-                    labels.
-                tickcolor
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the color of
-                    the tick lines on this radial axis.
-                ticklen
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the length of
-                    the tick lines on this radial axis.
-                tickorientation
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the
-                    orientation (from the paper perspective) of the
-                    radial axis tick labels.
-                ticksuffix
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Sets the length of
-                    the tick lines on this radial axis.
-                visible
-                    Legacy polar charts are deprecated! Please
-                    switch to "polar" subplots. Determines whether
-                    or not this axis will be visible.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.RadialAxis
-        """
-        return self["radialaxis"]
-
-    @radialaxis.setter
-    def radialaxis(self, val):
-        self["radialaxis"] = val
-
-    # scene
-    # -----
-    @property
-    def scene(self):
-        """
-        The 'scene' property is an instance of Scene
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Scene
-          - A dict of string/value properties that will be passed
-            to the Scene constructor
-    
-            Supported dict properties:
-                
-                annotations
-                    A tuple of
-                    plotly.graph_objects.layout.scene.Annotation
-                    instances or dicts with compatible properties
-                annotationdefaults
-                    When used in a template (as layout.template.lay
-                    out.scene.annotationdefaults), sets the default
-                    property values to use for elements of
-                    layout.scene.annotations
-                aspectmode
-                    If "cube", this scene's axes are drawn as a
-                    cube, regardless of the axes' ranges. If
-                    "data", this scene's axes are drawn in
-                    proportion with the axes' ranges. If "manual",
-                    this scene's axes are drawn in proportion with
-                    the input of "aspectratio" (the default
-                    behavior if "aspectratio" is provided). If
-                    "auto", this scene's axes are drawn using the
-                    results of "data" except when one axis is more
-                    than four times the size of the two others,
-                    where in that case the results of "cube" are
-                    used.
-                aspectratio
-                    Sets this scene's axis aspectratio.
-                bgcolor
-    
-                camera
-                    plotly.graph_objects.layout.scene.Camera
-                    instance or dict with compatible properties
-                domain
-                    plotly.graph_objects.layout.scene.Domain
-                    instance or dict with compatible properties
-                dragmode
-                    Determines the mode of drag interactions for
-                    this scene.
-                hovermode
-                    Determines the mode of hover interactions for
-                    this scene.
-                uirevision
-                    Controls persistence of user-driven changes in
-                    camera attributes. Defaults to
-                    `layout.uirevision`.
-                xaxis
-                    plotly.graph_objects.layout.scene.XAxis
-                    instance or dict with compatible properties
-                yaxis
-                    plotly.graph_objects.layout.scene.YAxis
-                    instance or dict with compatible properties
-                zaxis
-                    plotly.graph_objects.layout.scene.ZAxis
-                    instance or dict with compatible properties
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Scene
-        """
-        return self["scene"]
-
-    @scene.setter
-    def scene(self, val):
-        self["scene"] = val
-
-    # selectdirection
-    # ---------------
-    @property
-    def selectdirection(self):
-        """
-        When "dragmode" is set to "select", this limits the selection
-        of the drag to horizontal, vertical or diagonal. "h" only
-        allows horizontal selection, "v" only vertical, "d" only
-        diagonal and "any" sets no limit.
-    
-        The 'selectdirection' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['h', 'v', 'd', 'any']
-
-        Returns
-        -------
-        Any
-        """
-        return self["selectdirection"]
-
-    @selectdirection.setter
-    def selectdirection(self, val):
-        self["selectdirection"] = val
-
-    # selectionrevision
-    # -----------------
-    @property
-    def selectionrevision(self):
-        """
-        Controls persistence of user-driven changes in selected points
-        from all traces.
-    
-        The 'selectionrevision' property accepts values of any type
-
-        Returns
-        -------
-        Any
-        """
-        return self["selectionrevision"]
-
-    @selectionrevision.setter
-    def selectionrevision(self, val):
-        self["selectionrevision"] = val
-
-    # separators
-    # ----------
-    @property
-    def separators(self):
-        """
-        Sets the decimal and thousand separators. For example, *. *
-        puts a '.' before decimals and a space between thousands. In
-        English locales, dflt is ".," but other locales may alter this
-        default.
-    
-        The 'separators' property is a string and must be specified as:
-          - A string
-          - A number that will be converted to a string
-
-        Returns
-        -------
-        str
-        """
-        return self["separators"]
-
-    @separators.setter
-    def separators(self, val):
-        self["separators"] = val
-
-    # shapes
-    # ------
-    @property
-    def shapes(self):
-        """
-        The 'shapes' property is a tuple of instances of
-        Shape that may be specified as:
-          - A list or tuple of instances of plotly.graph_objs.layout.Shape
-          - A list or tuple of dicts of string/value properties that
-            will be passed to the Shape constructor
-    
-            Supported dict properties:
-                
-                fillcolor
-                    Sets the color filling the shape's interior.
-                layer
-                    Specifies whether shapes are drawn below or
-                    above traces.
-                line
-                    plotly.graph_objects.layout.shape.Line instance
-                    or dict with compatible properties
-                name
-                    When used in a template, named items are
-                    created in the output figure in addition to any
-                    items the figure already has in this array. You
-                    can modify these items in the output figure by
-                    making your own item with `templateitemname`
-                    matching this `name` alongside your
-                    modifications (including `visible: false` or
-                    `enabled: false` to hide it). Has no effect
-                    outside of a template.
-                opacity
-                    Sets the opacity of the shape.
-                path
-                    For `type` "path" - a valid SVG path with the
-                    pixel values replaced by data values in
-                    `xsizemode`/`ysizemode` being "scaled" and
-                    taken unmodified as pixels relative to
-                    `xanchor` and `yanchor` in case of "pixel" size
-                    mode. There are a few restrictions / quirks
-                    only absolute instructions, not relative. So
-                    the allowed segments are: M, L, H, V, Q, C, T,
-                    S, and Z arcs (A) are not allowed because
-                    radius rx and ry are relative. In the future we
-                    could consider supporting relative commands,
-                    but we would have to decide on how to handle
-                    date and log axes. Note that even as is, Q and
-                    C Bezier paths that are smooth on linear axes
-                    may not be smooth on log, and vice versa. no
-                    chained "polybezier" commands - specify the
-                    segment type for each one. On category axes,
-                    values are numbers scaled to the serial numbers
-                    of categories because using the categories
-                    themselves there would be no way to describe
-                    fractional positions On data axes: because
-                    space and T are both normal components of path
-                    strings, we can't use either to separate date
-                    from time parts. Therefore we'll use underscore
-                    for this purpose: 2015-02-21_13:45:56.789
-                templateitemname
-                    Used to refer to a named item in this array in
-                    the template. Named items from the template
-                    will be created even without a matching item in
-                    the input figure, but you can modify one by
-                    making an item with `templateitemname` matching
-                    its `name`, alongside your modifications
-                    (including `visible: false` or `enabled: false`
-                    to hide it). If there is no template or no
-                    matching item, this item will be hidden unless
-                    you explicitly show it with `visible: true`.
-                type
-                    Specifies the shape type to be drawn. If
-                    "line", a line is drawn from (`x0`,`y0`) to
-                    (`x1`,`y1`) with respect to the axes' sizing
-                    mode. If "circle", a circle is drawn from
-                    ((`x0`+`x1`)/2, (`y0`+`y1`)/2)) with radius
-                    (|(`x0`+`x1`)/2 - `x0`|, |(`y0`+`y1`)/2
-                    -`y0`)|) with respect to the axes' sizing mode.
-                    If "rect", a rectangle is drawn linking
-                    (`x0`,`y0`), (`x1`,`y0`), (`x1`,`y1`),
-                    (`x0`,`y1`), (`x0`,`y0`) with respect to the
-                    axes' sizing mode. If "path", draw a custom SVG
-                    path using `path`. with respect to the axes'
-                    sizing mode.
-                visible
-                    Determines whether or not this shape is
-                    visible.
-                x0
-                    Sets the shape's starting x position. See
-                    `type` and `xsizemode` for more info.
-                x1
-                    Sets the shape's end x position. See `type` and
-                    `xsizemode` for more info.
-                xanchor
-                    Only relevant in conjunction with `xsizemode`
-                    set to "pixel". Specifies the anchor point on
-                    the x axis to which `x0`, `x1` and x
-                    coordinates within `path` are relative to. E.g.
-                    useful to attach a pixel sized shape to a
-                    certain data value. No effect when `xsizemode`
-                    not set to "pixel".
-                xref
-                    Sets the shape's x coordinate axis. If set to
-                    an x axis id (e.g. "x" or "x2"), the `x`
-                    position refers to an x coordinate. If set to
-                    "paper", the `x` position refers to the
-                    distance from the left side of the plotting
-                    area in normalized coordinates where 0 (1)
-                    corresponds to the left (right) side. If the
-                    axis `type` is "log", then you must take the
-                    log of your desired range. If the axis `type`
-                    is "date", then you must convert the date to
-                    unix time in milliseconds.
-                xsizemode
-                    Sets the shapes's sizing mode along the x axis.
-                    If set to "scaled", `x0`, `x1` and x
-                    coordinates within `path` refer to data values
-                    on the x axis or a fraction of the plot area's
-                    width (`xref` set to "paper"). If set to
-                    "pixel", `xanchor` specifies the x position in
-                    terms of data or plot fraction but `x0`, `x1`
-                    and x coordinates within `path` are pixels
-                    relative to `xanchor`. This way, the shape can
-                    have a fixed width while maintaining a position
-                    relative to data or plot fraction.
-                y0
-                    Sets the shape's starting y position. See
-                    `type` and `ysizemode` for more info.
-                y1
-                    Sets the shape's end y position. See `type` and
-                    `ysizemode` for more info.
-                yanchor
-                    Only relevant in conjunction with `ysizemode`
-                    set to "pixel". Specifies the anchor point on
-                    the y axis to which `y0`, `y1` and y
-                    coordinates within `path` are relative to. E.g.
-                    useful to attach a pixel sized shape to a
-                    certain data value. No effect when `ysizemode`
-                    not set to "pixel".
-                yref
-                    Sets the annotation's y coordinate axis. If set
-                    to an y axis id (e.g. "y" or "y2"), the `y`
-                    position refers to an y coordinate If set to
-                    "paper", the `y` position refers to the
-                    distance from the bottom of the plotting area
-                    in normalized coordinates where 0 (1)
-                    corresponds to the bottom (top).
-                ysizemode
-                    Sets the shapes's sizing mode along the y axis.
-                    If set to "scaled", `y0`, `y1` and y
-                    coordinates within `path` refer to data values
-                    on the y axis or a fraction of the plot area's
-                    height (`yref` set to "paper"). If set to
-                    "pixel", `yanchor` specifies the y position in
-                    terms of data or plot fraction but `y0`, `y1`
-                    and y coordinates within `path` are pixels
-                    relative to `yanchor`. This way, the shape can
-                    have a fixed height while maintaining a
-                    position relative to data or plot fraction.
-
-        Returns
-        -------
-        tuple[plotly.graph_objs.layout.Shape]
-        """
-        return self["shapes"]
-
-    @shapes.setter
-    def shapes(self, val):
-        self["shapes"] = val
-
-    # shapedefaults
-    # -------------
-    @property
-    def shapedefaults(self):
-        """
-        When used in a template (as
-        layout.template.layout.shapedefaults), sets the default
-        property values to use for elements of layout.shapes
-    
-        The 'shapedefaults' property is an instance of Shape
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Shape
-          - A dict of string/value properties that will be passed
-            to the Shape constructor
-    
-            Supported dict properties:
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Shape
-        """
-        return self["shapedefaults"]
-
-    @shapedefaults.setter
-    def shapedefaults(self, val):
-        self["shapedefaults"] = val
-
-    # showlegend
-    # ----------
-    @property
-    def showlegend(self):
-        """
-        Determines whether or not a legend is drawn. Default is `true`
-        if there is a trace to show and any of these: a) Two or more
-        traces would by default be shown in the legend. b) One pie
-        trace is shown in the legend. c) One trace is explicitly given
-        with `showlegend: true`.
-    
-        The 'showlegend' property must be specified as a bool
-        (either True, or False)
-
-        Returns
-        -------
-        bool
-        """
-        return self["showlegend"]
-
-    @showlegend.setter
-    def showlegend(self, val):
-        self["showlegend"] = val
-
-    # sliders
-    # -------
-    @property
-    def sliders(self):
-        """
-        The 'sliders' property is a tuple of instances of
-        Slider that may be specified as:
-          - A list or tuple of instances of plotly.graph_objs.layout.Slider
-          - A list or tuple of dicts of string/value properties that
-            will be passed to the Slider constructor
-    
-            Supported dict properties:
-                
-                active
-                    Determines which button (by index starting from
-                    0) is considered active.
-                activebgcolor
-                    Sets the background color of the slider grip
-                    while dragging.
-                bgcolor
-                    Sets the background color of the slider.
-                bordercolor
-                    Sets the color of the border enclosing the
-                    slider.
-                borderwidth
-                    Sets the width (in px) of the border enclosing
-                    the slider.
-                currentvalue
-                    plotly.graph_objects.layout.slider.Currentvalue
-                    instance or dict with compatible properties
-                font
-                    Sets the font of the slider step labels.
-                len
-                    Sets the length of the slider This measure
-                    excludes the padding of both ends. That is, the
-                    slider's length is this length minus the
-                    padding on both ends.
-                lenmode
-                    Determines whether this slider length is set in
-                    units of plot "fraction" or in *pixels. Use
-                    `len` to set the value.
-                minorticklen
-                    Sets the length in pixels of minor step tick
-                    marks
-                name
-                    When used in a template, named items are
-                    created in the output figure in addition to any
-                    items the figure already has in this array. You
-                    can modify these items in the output figure by
-                    making your own item with `templateitemname`
-                    matching this `name` alongside your
-                    modifications (including `visible: false` or
-                    `enabled: false` to hide it). Has no effect
-                    outside of a template.
-                pad
-                    Set the padding of the slider component along
-                    each side.
-                steps
-                    A tuple of
-                    plotly.graph_objects.layout.slider.Step
-                    instances or dicts with compatible properties
-                stepdefaults
-                    When used in a template (as
-                    layout.template.layout.slider.stepdefaults),
-                    sets the default property values to use for
-                    elements of layout.slider.steps
-                templateitemname
-                    Used to refer to a named item in this array in
-                    the template. Named items from the template
-                    will be created even without a matching item in
-                    the input figure, but you can modify one by
-                    making an item with `templateitemname` matching
-                    its `name`, alongside your modifications
-                    (including `visible: false` or `enabled: false`
-                    to hide it). If there is no template or no
-                    matching item, this item will be hidden unless
-                    you explicitly show it with `visible: true`.
-                tickcolor
-                    Sets the color of the border enclosing the
-                    slider.
-                ticklen
-                    Sets the length in pixels of step tick marks
-                tickwidth
-                    Sets the tick width (in px).
-                transition
-                    plotly.graph_objects.layout.slider.Transition
-                    instance or dict with compatible properties
-                visible
-                    Determines whether or not the slider is
-                    visible.
-                x
-                    Sets the x position (in normalized coordinates)
-                    of the slider.
-                xanchor
-                    Sets the slider's horizontal position anchor.
-                    This anchor binds the `x` position to the
-                    "left", "center" or "right" of the range
-                    selector.
-                y
-                    Sets the y position (in normalized coordinates)
-                    of the slider.
-                yanchor
-                    Sets the slider's vertical position anchor This
-                    anchor binds the `y` position to the "top",
-                    "middle" or "bottom" of the range selector.
-
-        Returns
-        -------
-        tuple[plotly.graph_objs.layout.Slider]
-        """
-        return self["sliders"]
-
-    @sliders.setter
-    def sliders(self, val):
-        self["sliders"] = val
-
-    # sliderdefaults
-    # --------------
-    @property
-    def sliderdefaults(self):
-        """
-        When used in a template (as
-        layout.template.layout.sliderdefaults), sets the default
-        property values to use for elements of layout.sliders
-    
-        The 'sliderdefaults' property is an instance of Slider
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Slider
-          - A dict of string/value properties that will be passed
-            to the Slider constructor
-    
-            Supported dict properties:
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Slider
-        """
-        return self["sliderdefaults"]
-
-    @sliderdefaults.setter
-    def sliderdefaults(self, val):
-        self["sliderdefaults"] = val
-
-    # spikedistance
-    # -------------
-    @property
-    def spikedistance(self):
-        """
-        Sets the default distance (in pixels) to look for data to draw
-        spikelines to (-1 means no cutoff, 0 means no looking for
-        data). As with hoverdistance, distance does not apply to area-
-        like objects. In addition, some objects can be hovered on but
-        will not generate spikelines, such as scatter fills.
-    
-        The 'spikedistance' property is a integer and may be specified as:
-          - An int (or float that will be cast to an int)
-            in the interval [-1, 9223372036854775807]
-
-        Returns
-        -------
-        int
-        """
-        return self["spikedistance"]
-
-    @spikedistance.setter
-    def spikedistance(self, val):
-        self["spikedistance"] = val
-
-    # sunburstcolorway
-    # ----------------
-    @property
-    def sunburstcolorway(self):
-        """
-        Sets the default sunburst slice colors. Defaults to the main
-        `colorway` used for trace colors. If you specify a new list
-        here it can still be extended with lighter and darker colors,
-        see `extendsunburstcolors`.
-    
-        The 'sunburstcolorway' property is a colorlist that may be specified
-        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
-        color strings
-
-        Returns
-        -------
-        list
-        """
-        return self["sunburstcolorway"]
-
-    @sunburstcolorway.setter
-    def sunburstcolorway(self, val):
-        self["sunburstcolorway"] = val
-
-    # template
-    # --------
-    @property
-    def template(self):
-        """
-        Default attributes to be applied to the plot. This should be a
-        dict with format: `{'layout': layoutTemplate, 'data':
-        {trace_type: [traceTemplate, ...], ...}}` where
-        `layoutTemplate` is a dict matching the structure of
-        `figure.layout` and `traceTemplate` is a dict matching the
-        structure of the trace with type `trace_type` (e.g. 'scatter').
-        Alternatively, this may be specified as an instance of
-        plotly.graph_objs.layout.Template.  Trace templates are applied
-        cyclically to traces of each type. Container arrays (eg
-        `annotations`) have special handling: An object ending in
-        `defaults` (eg `annotationdefaults`) is applied to each array
-        item. But if an item has a `templateitemname` key we look in
-        the template array for an item with matching `name` and apply
-        that instead. If no matching `name` is found we mark the item
-        invisible. Any named template item not referenced is appended
-        to the end of the array, so this can be used to add a watermark
-        annotation or a logo image, for example. To omit one of these
-        items on the plot, make an item with matching
-        `templateitemname` and `visible: false`.
-    
-        The 'template' property is an instance of Template
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Template
-          - A dict of string/value properties that will be passed
-            to the Template constructor
-    
-            Supported dict properties:
-                
-                data
-                    plotly.graph_objects.layout.template.Data
-                    instance or dict with compatible properties
-                layout
-                    plotly.graph_objects.Layout instance or dict
-                    with compatible properties
-    
-          - The name of a registered template where current registered templates
-            are stored in the plotly.io.templates configuration object. The names
-            of all registered templates can be retrieved with:
-                >>> import plotly.io as pio
-                >>> list(pio.templates)
-          - A string containing multiple registered template names, joined on '+'
-            characters (e.g. 'template1+template2'). In this case the resulting
-            template is computed by merging together the collection of registered 
-            templates
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Template
-        """
-        return self["template"]
-
-    @template.setter
-    def template(self, val):
-        self["template"] = val
-
-    # ternary
-    # -------
-    @property
-    def ternary(self):
-        """
-        The 'ternary' property is an instance of Ternary
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Ternary
-          - A dict of string/value properties that will be passed
-            to the Ternary constructor
-    
-            Supported dict properties:
-                
-                aaxis
-                    plotly.graph_objects.layout.ternary.Aaxis
-                    instance or dict with compatible properties
-                baxis
-                    plotly.graph_objects.layout.ternary.Baxis
-                    instance or dict with compatible properties
-                bgcolor
-                    Set the background color of the subplot
-                caxis
-                    plotly.graph_objects.layout.ternary.Caxis
-                    instance or dict with compatible properties
-                domain
-                    plotly.graph_objects.layout.ternary.Domain
-                    instance or dict with compatible properties
-                sum
-                    The number each triplet should sum to, and the
-                    maximum range of each axis
-                uirevision
-                    Controls persistence of user-driven changes in
-                    axis `min` and `title`, if not overridden in
-                    the individual axes. Defaults to
-                    `layout.uirevision`.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Ternary
-        """
-        return self["ternary"]
-
-    @ternary.setter
-    def ternary(self, val):
-        self["ternary"] = val
-
-    # title
-    # -----
-    @property
-    def title(self):
-        """
-        The 'title' property is an instance of Title
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Title
-          - A dict of string/value properties that will be passed
-            to the Title constructor
-    
-            Supported dict properties:
-                
-                font
-                    Sets the title font. Note that the title's font
-                    used to be customized by the now deprecated
-                    `titlefont` attribute.
-                pad
-                    Sets the padding of the title. Each padding
-                    value only applies when the corresponding
-                    `xanchor`/`yanchor` value is set accordingly.
-                    E.g. for left padding to take effect, `xanchor`
-                    must be set to "left". The same rule applies if
-                    `xanchor`/`yanchor` is determined
-                    automatically. Padding is muted if the
-                    respective anchor value is "middle*/*center".
-                text
-                    Sets the plot's title. Note that before the
-                    existence of `title.text`, the title's contents
-                    used to be defined as the `title` attribute
-                    itself. This behavior has been deprecated.
-                x
-                    Sets the x position with respect to `xref` in
-                    normalized coordinates from 0 (left) to 1
-                    (right).
-                xanchor
-                    Sets the title's horizontal alignment with
-                    respect to its x position. "left" means that
-                    the title starts at x, "right" means that the
-                    title ends at x and "center" means that the
-                    title's center is at x. "auto" divides `xref`
-                    by three and calculates the `xanchor` value
-                    automatically based on the value of `x`.
-                xref
-                    Sets the container `x` refers to. "container"
-                    spans the entire `width` of the plot. "paper"
-                    refers to the width of the plotting area only.
-                y
-                    Sets the y position with respect to `yref` in
-                    normalized coordinates from 0 (bottom) to 1
-                    (top). "auto" places the baseline of the title
-                    onto the vertical center of the top margin.
-                yanchor
-                    Sets the title's vertical alignment with
-                    respect to its y position. "top" means that the
-                    title's cap line is at y, "bottom" means that
-                    the title's baseline is at y and "middle" means
-                    that the title's midline is at y. "auto"
-                    divides `yref` by three and calculates the
-                    `yanchor` value automatically based on the
-                    value of `y`.
-                yref
-                    Sets the container `y` refers to. "container"
-                    spans the entire `height` of the plot. "paper"
-                    refers to the height of the plotting area only.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Title
-        """
-        return self["title"]
-
-    @title.setter
-    def title(self, val):
-        self["title"] = val
-
-    # titlefont
-    # ---------
-    @property
-    def titlefont(self):
-        """
-        Deprecated: Please use layout.title.font instead. Sets the
-        title font. Note that the title's font used to be customized by
-        the now deprecated `titlefont` attribute.
-    
-        The 'font' property is an instance of Font
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.title.Font
-          - A dict of string/value properties that will be passed
-            to the Font constructor
-    
-            Supported dict properties:
-                
-                color
-    
-                family
-                    HTML font family - the typeface that will be
-                    applied by the web browser. The web browser
-                    will only be able to apply a font if it is
-                    available on the system which it operates.
-                    Provide multiple font families, separated by
-                    commas, to indicate the preference in which to
-                    apply fonts if they aren't available on the
-                    system. The plotly service (at https://plot.ly
-                    or on-premise) generates images on a server,
-                    where only a select number of fonts are
-                    installed and supported. These include "Arial",
-                    "Balto", "Courier New", "Droid Sans",, "Droid
-                    Serif", "Droid Sans Mono", "Gravitas One", "Old
-                    Standard TT", "Open Sans", "Overpass", "PT Sans
-                    Narrow", "Raleway", "Times New Roman".
-                size
-
-        Returns
-        -------
-        
-        """
-        return self["titlefont"]
-
-    @titlefont.setter
-    def titlefont(self, val):
-        self["titlefont"] = val
-
-    # transition
-    # ----------
-    @property
-    def transition(self):
-        """
-        Sets transition options used during Plotly.react updates.
-    
-        The 'transition' property is an instance of Transition
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Transition
-          - A dict of string/value properties that will be passed
-            to the Transition constructor
-    
-            Supported dict properties:
-                
-                duration
-                    The duration of the transition, in
-                    milliseconds. If equal to zero, updates are
-                    synchronous.
-                easing
-                    The easing function used for the transition
-                ordering
-                    Determines whether the figure's layout or
-                    traces smoothly transitions during updates that
-                    make both traces and layout change.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Transition
-        """
-        return self["transition"]
-
-    @transition.setter
-    def transition(self, val):
-        self["transition"] = val
-
-    # uirevision
-    # ----------
-    @property
-    def uirevision(self):
-        """
-        Used to allow user interactions with the plot to persist after
-        `Plotly.react` calls that are unaware of these interactions. If
-        `uirevision` is omitted, or if it is given and it changed from
-        the previous `Plotly.react` call, the exact new figure is used.
-        If `uirevision` is truthy and did NOT change, any attribute
-        that has been affected by user interactions and did not receive
-        a different value in the new figure will keep the interaction
-        value. `layout.uirevision` attribute serves as the default for
-        `uirevision` attributes in various sub-containers. For finer
-        control you can set these sub-attributes directly. For example,
-        if your app separately controls the data on the x and y axes
-        you might set `xaxis.uirevision=*time*` and
-        `yaxis.uirevision=*cost*`. Then if only the y data is changed,
-        you can update `yaxis.uirevision=*quantity*` and the y axis
-        range will reset but the x axis range will retain any user-
-        driven zoom.
-    
-        The 'uirevision' property accepts values of any type
-
-        Returns
-        -------
-        Any
-        """
-        return self["uirevision"]
-
-    @uirevision.setter
-    def uirevision(self, val):
-        self["uirevision"] = val
-
-    # updatemenus
-    # -----------
-    @property
-    def updatemenus(self):
-        """
-        The 'updatemenus' property is a tuple of instances of
-        Updatemenu that may be specified as:
-          - A list or tuple of instances of plotly.graph_objs.layout.Updatemenu
-          - A list or tuple of dicts of string/value properties that
-            will be passed to the Updatemenu constructor
-    
-            Supported dict properties:
-                
-                active
-                    Determines which button (by index starting from
-                    0) is considered active.
-                bgcolor
-                    Sets the background color of the update menu
-                    buttons.
-                bordercolor
-                    Sets the color of the border enclosing the
-                    update menu.
-                borderwidth
-                    Sets the width (in px) of the border enclosing
-                    the update menu.
-                buttons
-                    A tuple of
-                    plotly.graph_objects.layout.updatemenu.Button
-                    instances or dicts with compatible properties
-                buttondefaults
-                    When used in a template (as layout.template.lay
-                    out.updatemenu.buttondefaults), sets the
-                    default property values to use for elements of
-                    layout.updatemenu.buttons
-                direction
-                    Determines the direction in which the buttons
-                    are laid out, whether in a dropdown menu or a
-                    row/column of buttons. For `left` and `up`, the
-                    buttons will still appear in left-to-right or
-                    top-to-bottom order respectively.
-                font
-                    Sets the font of the update menu button text.
-                name
-                    When used in a template, named items are
-                    created in the output figure in addition to any
-                    items the figure already has in this array. You
-                    can modify these items in the output figure by
-                    making your own item with `templateitemname`
-                    matching this `name` alongside your
-                    modifications (including `visible: false` or
-                    `enabled: false` to hide it). Has no effect
-                    outside of a template.
-                pad
-                    Sets the padding around the buttons or dropdown
-                    menu.
-                showactive
-                    Highlights active dropdown item or active
-                    button if true.
-                templateitemname
-                    Used to refer to a named item in this array in
-                    the template. Named items from the template
-                    will be created even without a matching item in
-                    the input figure, but you can modify one by
-                    making an item with `templateitemname` matching
-                    its `name`, alongside your modifications
-                    (including `visible: false` or `enabled: false`
-                    to hide it). If there is no template or no
-                    matching item, this item will be hidden unless
-                    you explicitly show it with `visible: true`.
-                type
-                    Determines whether the buttons are accessible
-                    via a dropdown menu or whether the buttons are
-                    stacked horizontally or vertically
-                visible
-                    Determines whether or not the update menu is
-                    visible.
-                x
-                    Sets the x position (in normalized coordinates)
-                    of the update menu.
-                xanchor
-                    Sets the update menu's horizontal position
-                    anchor. This anchor binds the `x` position to
-                    the "left", "center" or "right" of the range
-                    selector.
-                y
-                    Sets the y position (in normalized coordinates)
-                    of the update menu.
-                yanchor
-                    Sets the update menu's vertical position anchor
-                    This anchor binds the `y` position to the
-                    "top", "middle" or "bottom" of the range
-                    selector.
-
-        Returns
-        -------
-        tuple[plotly.graph_objs.layout.Updatemenu]
-        """
-        return self["updatemenus"]
-
-    @updatemenus.setter
-    def updatemenus(self, val):
-        self["updatemenus"] = val
-
-    # updatemenudefaults
-    # ------------------
-    @property
-    def updatemenudefaults(self):
-        """
-        When used in a template (as
-        layout.template.layout.updatemenudefaults), sets the default
-        property values to use for elements of layout.updatemenus
-    
-        The 'updatemenudefaults' property is an instance of Updatemenu
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.Updatemenu
-          - A dict of string/value properties that will be passed
-            to the Updatemenu constructor
-    
-            Supported dict properties:
-
-        Returns
-        -------
-        plotly.graph_objs.layout.Updatemenu
-        """
-        return self["updatemenudefaults"]
-
-    @updatemenudefaults.setter
-    def updatemenudefaults(self, val):
-        self["updatemenudefaults"] = val
-
-    # violingap
-    # ---------
-    @property
-    def violingap(self):
-        """
-        Sets the gap (in plot fraction) between violins of adjacent
-        location coordinates. Has no effect on traces that have "width"
-        set.
-    
-        The 'violingap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["violingap"]
-
-    @violingap.setter
-    def violingap(self, val):
-        self["violingap"] = val
-
-    # violingroupgap
-    # --------------
-    @property
-    def violingroupgap(self):
-        """
-        Sets the gap (in plot fraction) between violins of the same
-        location coordinate. Has no effect on traces that have "width"
-        set.
-    
-        The 'violingroupgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["violingroupgap"]
-
-    @violingroupgap.setter
-    def violingroupgap(self, val):
-        self["violingroupgap"] = val
-
-    # violinmode
-    # ----------
-    @property
-    def violinmode(self):
-        """
-        Determines how violins at the same location coordinate are
-        displayed on the graph. If "group", the violins are plotted
-        next to one another centered around the shared location. If
-        "overlay", the violins are plotted over one another, you might
-        need to set "opacity" to see them multiple violins. Has no
-        effect on traces that have "width" set.
-    
-        The 'violinmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['group', 'overlay']
-
-        Returns
-        -------
-        Any
-        """
-        return self["violinmode"]
-
-    @violinmode.setter
-    def violinmode(self, val):
-        self["violinmode"] = val
-
-    # waterfallgap
-    # ------------
-    @property
-    def waterfallgap(self):
-        """
-        Sets the gap (in plot fraction) between bars of adjacent
-        location coordinates.
-    
-        The 'waterfallgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["waterfallgap"]
-
-    @waterfallgap.setter
-    def waterfallgap(self, val):
-        self["waterfallgap"] = val
-
-    # waterfallgroupgap
-    # -----------------
-    @property
-    def waterfallgroupgap(self):
-        """
-        Sets the gap (in plot fraction) between bars of the same
-        location coordinate.
-    
-        The 'waterfallgroupgap' property is a number and may be specified as:
-          - An int or float in the interval [0, 1]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["waterfallgroupgap"]
-
-    @waterfallgroupgap.setter
-    def waterfallgroupgap(self, val):
-        self["waterfallgroupgap"] = val
-
-    # waterfallmode
-    # -------------
-    @property
-    def waterfallmode(self):
-        """
-        Determines how bars at the same location coordinate are
-        displayed on the graph. With "group", the bars are plotted next
-        to one another centered around the shared location. With
-        "overlay", the bars are plotted over one another, you might
-        need to an "opacity" to see multiple bars.
-    
-        The 'waterfallmode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['group', 'overlay']
-
-        Returns
-        -------
-        Any
-        """
-        return self["waterfallmode"]
-
-    @waterfallmode.setter
-    def waterfallmode(self, val):
-        self["waterfallmode"] = val
-
-    # width
-    # -----
-    @property
-    def width(self):
-        """
-        Sets the plot's width (in px).
-    
-        The 'width' property is a number and may be specified as:
-          - An int or float in the interval [10, inf]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["width"]
-
-    @width.setter
-    def width(self, val):
-        self["width"] = val
-
-    # xaxis
-    # -----
-    @property
-    def xaxis(self):
-        """
-        The 'xaxis' property is an instance of XAxis
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.XAxis
-          - A dict of string/value properties that will be passed
-            to the XAxis constructor
-    
-            Supported dict properties:
-                
-                anchor
-                    If set to an opposite-letter axis id (e.g.
-                    `x2`, `y`), this axis is bound to the
-                    corresponding opposite-letter axis. If set to
-                    "free", this axis' position is determined by
-                    `position`.
-                automargin
-                    Determines whether long tick labels
-                    automatically grow the figure margins.
-                autorange
-                    Determines whether or not the range of this
-                    axis is computed in relation to the input data.
-                    See `rangemode` for more info. If `range` is
-                    provided, then `autorange` is set to False.
-                calendar
-                    Sets the calendar system to use for `range` and
-                    `tick0` if this is a date axis. This does not
-                    set the calendar for interpreting data on this
-                    axis, that's specified in the trace or via the
-                    global `layout.calendar`
-                categoryarray
-                    Sets the order in which categories on this axis
-                    appear. Only has an effect if `categoryorder`
-                    is set to "array". Used with `categoryorder`.
-                categoryarraysrc
-                    Sets the source reference on plot.ly for
-                    categoryarray .
-                categoryorder
-                    Specifies the ordering logic for the case of
-                    categorical variables. By default, plotly uses
-                    "trace", which specifies the order that is
-                    present in the data supplied. Set
-                    `categoryorder` to *category ascending* or
-                    *category descending* if order should be
-                    determined by the alphanumerical order of the
-                    category names. Set `categoryorder` to "array"
-                    to derive the ordering from the attribute
-                    `categoryarray`. If a category is not found in
-                    the `categoryarray` array, the sorting behavior
-                    for that attribute will be identical to the
-                    "trace" mode. The unspecified categories will
-                    follow the categories in `categoryarray`. Set
-                    `categoryorder` to *total ascending* or *total
-                    descending* if order should be determined by
-                    the numerical order of the values. Similarly,
-                    the order can be determined by the min, max,
-                    sum, mean or median of all the values.
-                color
-                    Sets default for all colors associated with
-                    this axis all at once: line, font, tick, and
-                    grid colors. Grid color is lightened by
-                    blending this with the plot background
-                    Individual pieces can override this.
-                constrain
-                    If this axis needs to be compressed (either due
-                    to its own `scaleanchor` and `scaleratio` or
-                    those of the other axis), determines how that
-                    happens: by increasing the "range" (default),
-                    or by decreasing the "domain".
-                constraintoward
-                    If this axis needs to be compressed (either due
-                    to its own `scaleanchor` and `scaleratio` or
-                    those of the other axis), determines which
-                    direction we push the originally specified plot
-                    area. Options are "left", "center" (default),
-                    and "right" for x axes, and "top", "middle"
-                    (default), and "bottom" for y axes.
-                dividercolor
-                    Sets the color of the dividers Only has an
-                    effect on "multicategory" axes.
-                dividerwidth
-                    Sets the width (in px) of the dividers Only has
-                    an effect on "multicategory" axes.
-                domain
-                    Sets the domain of this axis (in plot
-                    fraction).
-                dtick
-                    Sets the step in-between ticks on this axis.
-                    Use with `tick0`. Must be a positive number, or
-                    special strings available to "log" and "date"
-                    axes. If the axis `type` is "log", then ticks
-                    are set every 10^(n*dtick) where n is the tick
-                    number. For example, to set a tick mark at 1,
-                    10, 100, 1000, ... set dtick to 1. To set tick
-                    marks at 1, 100, 10000, ... set dtick to 2. To
-                    set tick marks at 1, 5, 25, 125, 625, 3125, ...
-                    set dtick to log_10(5), or 0.69897000433. "log"
-                    has several special values; "L<f>", where `f`
-                    is a positive number, gives ticks linearly
-                    spaced in value (but not position). For example
-                    `tick0` = 0.1, `dtick` = "L0.5" will put ticks
-                    at 0.1, 0.6, 1.1, 1.6 etc. To show powers of 10
-                    plus small digits between, use "D1" (all
-                    digits) or "D2" (only 2 and 5). `tick0` is
-                    ignored for "D1" and "D2". If the axis `type`
-                    is "date", then you must convert the time to
-                    milliseconds. For example, to set the interval
-                    between ticks to one day, set `dtick` to
-                    86400000.0. "date" also has special values
-                    "M<n>" gives ticks spaced by a number of
-                    months. `n` must be a positive integer. To set
-                    ticks on the 15th of every third month, set
-                    `tick0` to "2000-01-15" and `dtick` to "M3". To
-                    set ticks every 4 years, set `dtick` to "M48"
-                exponentformat
-                    Determines a formatting rule for the tick
-                    exponents. For example, consider the number
-                    1,000,000,000. If "none", it appears as
-                    1,000,000,000. If "e", 1e+9. If "E", 1E+9. If
-                    "power", 1x10^9 (with 9 in a super script). If
-                    "SI", 1G. If "B", 1B.
-                fixedrange
-                    Determines whether or not this axis is zoom-
-                    able. If true, then zoom is disabled.
-                gridcolor
-                    Sets the color of the grid lines.
-                gridwidth
-                    Sets the width (in px) of the grid lines.
-                hoverformat
-                    Sets the hover text formatting rule using d3
-                    formatting mini-languages which are very
-                    similar to those in Python. For numbers, see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Time-Formatting.md#format
-                    We add one item to d3's date formatter: "%{n}f"
-                    for fractional seconds with n digits. For
-                    example, *2016-10-13 09:15:23.456* with
-                    tickformat "%H~%M~%S.%2f" would display
-                    "09~15~23.46"
-                layer
-                    Sets the layer on which this axis is displayed.
-                    If *above traces*, this axis is displayed above
-                    all the subplot's traces If *below traces*,
-                    this axis is displayed below all the subplot's
-                    traces, but above the grid lines. Useful when
-                    used together with scatter-like traces with
-                    `cliponaxis` set to False to show markers
-                    and/or text nodes above this axis.
-                linecolor
-                    Sets the axis line color.
-                linewidth
-                    Sets the width (in px) of the axis line.
-                matches
-                    If set to another axis id (e.g. `x2`, `y`), the
-                    range of this axis will match the range of the
-                    corresponding axis in data-coordinates space.
-                    Moreover, matching axes share auto-range
-                    values, category lists and histogram auto-bins.
-                    Note that setting axes simultaneously in both a
-                    `scaleanchor` and a `matches` constraint is
-                    currently forbidden. Moreover, note that
-                    matching axes must have the same `type`.
-                mirror
-                    Determines if the axis lines or/and ticks are
-                    mirrored to the opposite side of the plotting
-                    area. If True, the axis lines are mirrored. If
-                    "ticks", the axis lines and ticks are mirrored.
-                    If False, mirroring is disable. If "all", axis
-                    lines are mirrored on all shared-axes subplots.
-                    If "allticks", axis lines and ticks are
-                    mirrored on all shared-axes subplots.
-                nticks
-                    Specifies the maximum number of ticks for the
-                    particular axis. The actual number of ticks
-                    will be chosen automatically to be less than or
-                    equal to `nticks`. Has an effect only if
-                    `tickmode` is set to "auto".
-                overlaying
-                    If set a same-letter axis id, this axis is
-                    overlaid on top of the corresponding same-
-                    letter axis, with traces and axes visible for
-                    both axes. If False, this axis does not overlay
-                    any same-letter axes. In this case, for axes
-                    with overlapping domains only the highest-
-                    numbered axis will be visible.
-                position
-                    Sets the position of this axis in the plotting
-                    space (in normalized coordinates). Only has an
-                    effect if `anchor` is set to "free".
-                range
-                    Sets the range of this axis. If the axis `type`
-                    is "log", then you must take the log of your
-                    desired range (e.g. to set the range from 1 to
-                    100, set the range from 0 to 2). If the axis
-                    `type` is "date", it should be date strings,
-                    like date data, though Date objects and unix
-                    milliseconds will be accepted and converted to
-                    strings. If the axis `type` is "category", it
-                    should be numbers, using the scale where each
-                    category is assigned a serial number from zero
-                    in the order it appears.
-                rangemode
-                    If "normal", the range is computed in relation
-                    to the extrema of the input data. If *tozero*`,
-                    the range extends to 0, regardless of the input
-                    data If "nonnegative", the range is non-
-                    negative, regardless of the input data. Applies
-                    only to linear axes.
-                rangeselector
-                    plotly.graph_objects.layout.xaxis.Rangeselector
-                    instance or dict with compatible properties
-                rangeslider
-                    plotly.graph_objects.layout.xaxis.Rangeslider
-                    instance or dict with compatible properties
-                scaleanchor
-                    If set to another axis id (e.g. `x2`, `y`), the
-                    range of this axis changes together with the
-                    range of the corresponding axis such that the
-                    scale of pixels per unit is in a constant
-                    ratio. Both axes are still zoomable, but when
-                    you zoom one, the other will zoom the same
-                    amount, keeping a fixed midpoint. `constrain`
-                    and `constraintoward` determine how we enforce
-                    the constraint. You can chain these, ie `yaxis:
-                    {scaleanchor: *x*}, xaxis2: {scaleanchor: *y*}`
-                    but you can only link axes of the same `type`.
-                    The linked axis can have the opposite letter
-                    (to constrain the aspect ratio) or the same
-                    letter (to match scales across subplots). Loops
-                    (`yaxis: {scaleanchor: *x*}, xaxis:
-                    {scaleanchor: *y*}` or longer) are redundant
-                    and the last constraint encountered will be
-                    ignored to avoid possible inconsistent
-                    constraints via `scaleratio`. Note that setting
-                    axes simultaneously in both a `scaleanchor` and
-                    a `matches` constraint is currently forbidden.
-                scaleratio
-                    If this axis is linked to another by
-                    `scaleanchor`, this determines the pixel to
-                    unit scale ratio. For example, if this value is
-                    10, then every unit on this axis spans 10 times
-                    the number of pixels as a unit on the linked
-                    axis. Use this for example to create an
-                    elevation profile where the vertical scale is
-                    exaggerated a fixed amount with respect to the
-                    horizontal.
-                separatethousands
-                    If "true", even 4-digit integers are separated
-                showdividers
-                    Determines whether or not a dividers are drawn
-                    between the category levels of this axis. Only
-                    has an effect on "multicategory" axes.
-                showexponent
-                    If "all", all exponents are shown besides their
-                    significands. If "first", only the exponent of
-                    the first tick is shown. If "last", only the
-                    exponent of the last tick is shown. If "none",
-                    no exponents appear.
-                showgrid
-                    Determines whether or not grid lines are drawn.
-                    If True, the grid lines are drawn at every tick
-                    mark.
-                showline
-                    Determines whether or not a line bounding this
-                    axis is drawn.
-                showspikes
-                    Determines whether or not spikes (aka
-                    droplines) are drawn for this axis. Note: This
-                    only takes affect when hovermode = closest
-                showticklabels
-                    Determines whether or not the tick labels are
-                    drawn.
-                showtickprefix
-                    If "all", all tick labels are displayed with a
-                    prefix. If "first", only the first tick is
-                    displayed with a prefix. If "last", only the
-                    last tick is displayed with a suffix. If
-                    "none", tick prefixes are hidden.
-                showticksuffix
-                    Same as `showtickprefix` but for tick suffixes.
-                side
-                    Determines whether a x (y) axis is positioned
-                    at the "bottom" ("left") or "top" ("right") of
-                    the plotting area.
-                spikecolor
-                    Sets the spike color. If undefined, will use
-                    the series color
-                spikedash
-                    Sets the dash style of lines. Set to a dash
-                    type string ("solid", "dot", "dash",
-                    "longdash", "dashdot", or "longdashdot") or a
-                    dash length list in px (eg "5px,10px,2px,2px").
-                spikemode
-                    Determines the drawing mode for the spike line
-                    If "toaxis", the line is drawn from the data
-                    point to the axis the  series is plotted on. If
-                    "across", the line is drawn across the entire
-                    plot area, and supercedes "toaxis". If
-                    "marker", then a marker dot is drawn on the
-                    axis the series is plotted on
-                spikesnap
-                    Determines whether spikelines are stuck to the
-                    cursor or to the closest datapoints.
-                spikethickness
-                    Sets the width (in px) of the zero line.
-                tick0
-                    Sets the placement of the first tick on this
-                    axis. Use with `dtick`. If the axis `type` is
-                    "log", then you must take the log of your
-                    starting tick (e.g. to set the starting tick to
-                    100, set the `tick0` to 2) except when
-                    `dtick`=*L<f>* (see `dtick` for more info). If
-                    the axis `type` is "date", it should be a date
-                    string, like date data. If the axis `type` is
-                    "category", it should be a number, using the
-                    scale where each category is assigned a serial
-                    number from zero in the order it appears.
-                tickangle
-                    Sets the angle of the tick labels with respect
-                    to the horizontal. For example, a `tickangle`
-                    of -90 draws the tick labels vertically.
-                tickcolor
-                    Sets the tick color.
-                tickfont
-                    Sets the tick font.
-                tickformat
-                    Sets the tick label formatting rule using d3
-                    formatting mini-languages which are very
-                    similar to those in Python. For numbers, see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Time-Formatting.md#format
-                    We add one item to d3's date formatter: "%{n}f"
-                    for fractional seconds with n digits. For
-                    example, *2016-10-13 09:15:23.456* with
-                    tickformat "%H~%M~%S.%2f" would display
-                    "09~15~23.46"
-                tickformatstops
-                    A tuple of plotly.graph_objects.layout.xaxis.Ti
-                    ckformatstop instances or dicts with compatible
-                    properties
-                tickformatstopdefaults
-                    When used in a template (as layout.template.lay
-                    out.xaxis.tickformatstopdefaults), sets the
-                    default property values to use for elements of
-                    layout.xaxis.tickformatstops
-                ticklen
-                    Sets the tick length (in px).
-                tickmode
-                    Sets the tick mode for this axis. If "auto",
-                    the number of ticks is set via `nticks`. If
-                    "linear", the placement of the ticks is
-                    determined by a starting position `tick0` and a
-                    tick step `dtick` ("linear" is the default
-                    value if `tick0` and `dtick` are provided). If
-                    "array", the placement of the ticks is set via
-                    `tickvals` and the tick text is `ticktext`.
-                    ("array" is the default value if `tickvals` is
-                    provided).
-                tickprefix
-                    Sets a tick label prefix.
-                ticks
-                    Determines whether ticks are drawn or not. If
-                    "", this axis' ticks are not drawn. If
-                    "outside" ("inside"), this axis' are drawn
-                    outside (inside) the axis lines.
-                tickson
-                    Determines where ticks and grid lines are drawn
-                    with respect to their corresponding tick
-                    labels. Only has an effect for axes of `type`
-                    "category" or "multicategory". When set to
-                    "boundaries", ticks and grid lines are drawn
-                    half a category to the left/bottom of labels.
-                ticksuffix
-                    Sets a tick label suffix.
-                ticktext
-                    Sets the text displayed at the ticks position
-                    via `tickvals`. Only has an effect if
-                    `tickmode` is set to "array". Used with
-                    `tickvals`.
-                ticktextsrc
-                    Sets the source reference on plot.ly for
-                    ticktext .
-                tickvals
-                    Sets the values at which ticks on this axis
-                    appear. Only has an effect if `tickmode` is set
-                    to "array". Used with `ticktext`.
-                tickvalssrc
-                    Sets the source reference on plot.ly for
-                    tickvals .
-                tickwidth
-                    Sets the tick width (in px).
-                title
-                    plotly.graph_objects.layout.xaxis.Title
-                    instance or dict with compatible properties
-                titlefont
-                    Deprecated: Please use layout.xaxis.title.font
-                    instead. Sets this axis' title font. Note that
-                    the title's font used to be customized by the
-                    now deprecated `titlefont` attribute.
-                type
-                    Sets the axis type. By default, plotly attempts
-                    to determined the axis type by looking into the
-                    data of the traces that referenced the axis in
-                    question.
-                uirevision
-                    Controls persistence of user-driven changes in
-                    axis `range`, `autorange`, and `title` if in
-                    `editable: true` configuration. Defaults to
-                    `layout.uirevision`.
-                visible
-                    A single toggle to hide the axis while
-                    preserving interaction like dragging. Default
-                    is true when a cheater plot is present on the
-                    axis, otherwise false
-                zeroline
-                    Determines whether or not a line is drawn at
-                    along the 0 value of this axis. If True, the
-                    zero line is drawn on top of the grid lines.
-                zerolinecolor
-                    Sets the line color of the zero line.
-                zerolinewidth
-                    Sets the width (in px) of the zero line.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.XAxis
-        """
-        return self["xaxis"]
-
-    @xaxis.setter
-    def xaxis(self, val):
-        self["xaxis"] = val
-
-    # yaxis
-    # -----
-    @property
-    def yaxis(self):
-        """
-        The 'yaxis' property is an instance of YAxis
-        that may be specified as:
-          - An instance of plotly.graph_objs.layout.YAxis
-          - A dict of string/value properties that will be passed
-            to the YAxis constructor
-    
-            Supported dict properties:
-                
-                anchor
-                    If set to an opposite-letter axis id (e.g.
-                    `x2`, `y`), this axis is bound to the
-                    corresponding opposite-letter axis. If set to
-                    "free", this axis' position is determined by
-                    `position`.
-                automargin
-                    Determines whether long tick labels
-                    automatically grow the figure margins.
-                autorange
-                    Determines whether or not the range of this
-                    axis is computed in relation to the input data.
-                    See `rangemode` for more info. If `range` is
-                    provided, then `autorange` is set to False.
-                calendar
-                    Sets the calendar system to use for `range` and
-                    `tick0` if this is a date axis. This does not
-                    set the calendar for interpreting data on this
-                    axis, that's specified in the trace or via the
-                    global `layout.calendar`
-                categoryarray
-                    Sets the order in which categories on this axis
-                    appear. Only has an effect if `categoryorder`
-                    is set to "array". Used with `categoryorder`.
-                categoryarraysrc
-                    Sets the source reference on plot.ly for
-                    categoryarray .
-                categoryorder
-                    Specifies the ordering logic for the case of
-                    categorical variables. By default, plotly uses
-                    "trace", which specifies the order that is
-                    present in the data supplied. Set
-                    `categoryorder` to *category ascending* or
-                    *category descending* if order should be
-                    determined by the alphanumerical order of the
-                    category names. Set `categoryorder` to "array"
-                    to derive the ordering from the attribute
-                    `categoryarray`. If a category is not found in
-                    the `categoryarray` array, the sorting behavior
-                    for that attribute will be identical to the
-                    "trace" mode. The unspecified categories will
-                    follow the categories in `categoryarray`. Set
-                    `categoryorder` to *total ascending* or *total
-                    descending* if order should be determined by
-                    the numerical order of the values. Similarly,
-                    the order can be determined by the min, max,
-                    sum, mean or median of all the values.
-                color
-                    Sets default for all colors associated with
-                    this axis all at once: line, font, tick, and
-                    grid colors. Grid color is lightened by
-                    blending this with the plot background
-                    Individual pieces can override this.
-                constrain
-                    If this axis needs to be compressed (either due
-                    to its own `scaleanchor` and `scaleratio` or
-                    those of the other axis), determines how that
-                    happens: by increasing the "range" (default),
-                    or by decreasing the "domain".
-                constraintoward
-                    If this axis needs to be compressed (either due
-                    to its own `scaleanchor` and `scaleratio` or
-                    those of the other axis), determines which
-                    direction we push the originally specified plot
-                    area. Options are "left", "center" (default),
-                    and "right" for x axes, and "top", "middle"
-                    (default), and "bottom" for y axes.
-                dividercolor
-                    Sets the color of the dividers Only has an
-                    effect on "multicategory" axes.
-                dividerwidth
-                    Sets the width (in px) of the dividers Only has
-                    an effect on "multicategory" axes.
-                domain
-                    Sets the domain of this axis (in plot
-                    fraction).
-                dtick
-                    Sets the step in-between ticks on this axis.
-                    Use with `tick0`. Must be a positive number, or
-                    special strings available to "log" and "date"
-                    axes. If the axis `type` is "log", then ticks
-                    are set every 10^(n*dtick) where n is the tick
-                    number. For example, to set a tick mark at 1,
-                    10, 100, 1000, ... set dtick to 1. To set tick
-                    marks at 1, 100, 10000, ... set dtick to 2. To
-                    set tick marks at 1, 5, 25, 125, 625, 3125, ...
-                    set dtick to log_10(5), or 0.69897000433. "log"
-                    has several special values; "L<f>", where `f`
-                    is a positive number, gives ticks linearly
-                    spaced in value (but not position). For example
-                    `tick0` = 0.1, `dtick` = "L0.5" will put ticks
-                    at 0.1, 0.6, 1.1, 1.6 etc. To show powers of 10
-                    plus small digits between, use "D1" (all
-                    digits) or "D2" (only 2 and 5). `tick0` is
-                    ignored for "D1" and "D2". If the axis `type`
-                    is "date", then you must convert the time to
-                    milliseconds. For example, to set the interval
-                    between ticks to one day, set `dtick` to
-                    86400000.0. "date" also has special values
-                    "M<n>" gives ticks spaced by a number of
-                    months. `n` must be a positive integer. To set
-                    ticks on the 15th of every third month, set
-                    `tick0` to "2000-01-15" and `dtick` to "M3". To
-                    set ticks every 4 years, set `dtick` to "M48"
-                exponentformat
-                    Determines a formatting rule for the tick
-                    exponents. For example, consider the number
-                    1,000,000,000. If "none", it appears as
-                    1,000,000,000. If "e", 1e+9. If "E", 1E+9. If
-                    "power", 1x10^9 (with 9 in a super script). If
-                    "SI", 1G. If "B", 1B.
-                fixedrange
-                    Determines whether or not this axis is zoom-
-                    able. If true, then zoom is disabled.
-                gridcolor
-                    Sets the color of the grid lines.
-                gridwidth
-                    Sets the width (in px) of the grid lines.
-                hoverformat
-                    Sets the hover text formatting rule using d3
-                    formatting mini-languages which are very
-                    similar to those in Python. For numbers, see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Time-Formatting.md#format
-                    We add one item to d3's date formatter: "%{n}f"
-                    for fractional seconds with n digits. For
-                    example, *2016-10-13 09:15:23.456* with
-                    tickformat "%H~%M~%S.%2f" would display
-                    "09~15~23.46"
-                layer
-                    Sets the layer on which this axis is displayed.
-                    If *above traces*, this axis is displayed above
-                    all the subplot's traces If *below traces*,
-                    this axis is displayed below all the subplot's
-                    traces, but above the grid lines. Useful when
-                    used together with scatter-like traces with
-                    `cliponaxis` set to False to show markers
-                    and/or text nodes above this axis.
-                linecolor
-                    Sets the axis line color.
-                linewidth
-                    Sets the width (in px) of the axis line.
-                matches
-                    If set to another axis id (e.g. `x2`, `y`), the
-                    range of this axis will match the range of the
-                    corresponding axis in data-coordinates space.
-                    Moreover, matching axes share auto-range
-                    values, category lists and histogram auto-bins.
-                    Note that setting axes simultaneously in both a
-                    `scaleanchor` and a `matches` constraint is
-                    currently forbidden. Moreover, note that
-                    matching axes must have the same `type`.
-                mirror
-                    Determines if the axis lines or/and ticks are
-                    mirrored to the opposite side of the plotting
-                    area. If True, the axis lines are mirrored. If
-                    "ticks", the axis lines and ticks are mirrored.
-                    If False, mirroring is disable. If "all", axis
-                    lines are mirrored on all shared-axes subplots.
-                    If "allticks", axis lines and ticks are
-                    mirrored on all shared-axes subplots.
-                nticks
-                    Specifies the maximum number of ticks for the
-                    particular axis. The actual number of ticks
-                    will be chosen automatically to be less than or
-                    equal to `nticks`. Has an effect only if
-                    `tickmode` is set to "auto".
-                overlaying
-                    If set a same-letter axis id, this axis is
-                    overlaid on top of the corresponding same-
-                    letter axis, with traces and axes visible for
-                    both axes. If False, this axis does not overlay
-                    any same-letter axes. In this case, for axes
-                    with overlapping domains only the highest-
-                    numbered axis will be visible.
-                position
-                    Sets the position of this axis in the plotting
-                    space (in normalized coordinates). Only has an
-                    effect if `anchor` is set to "free".
-                range
-                    Sets the range of this axis. If the axis `type`
-                    is "log", then you must take the log of your
-                    desired range (e.g. to set the range from 1 to
-                    100, set the range from 0 to 2). If the axis
-                    `type` is "date", it should be date strings,
-                    like date data, though Date objects and unix
-                    milliseconds will be accepted and converted to
-                    strings. If the axis `type` is "category", it
-                    should be numbers, using the scale where each
-                    category is assigned a serial number from zero
-                    in the order it appears.
-                rangemode
-                    If "normal", the range is computed in relation
-                    to the extrema of the input data. If *tozero*`,
-                    the range extends to 0, regardless of the input
-                    data If "nonnegative", the range is non-
-                    negative, regardless of the input data. Applies
-                    only to linear axes.
-                scaleanchor
-                    If set to another axis id (e.g. `x2`, `y`), the
-                    range of this axis changes together with the
-                    range of the corresponding axis such that the
-                    scale of pixels per unit is in a constant
-                    ratio. Both axes are still zoomable, but when
-                    you zoom one, the other will zoom the same
-                    amount, keeping a fixed midpoint. `constrain`
-                    and `constraintoward` determine how we enforce
-                    the constraint. You can chain these, ie `yaxis:
-                    {scaleanchor: *x*}, xaxis2: {scaleanchor: *y*}`
-                    but you can only link axes of the same `type`.
-                    The linked axis can have the opposite letter
-                    (to constrain the aspect ratio) or the same
-                    letter (to match scales across subplots). Loops
-                    (`yaxis: {scaleanchor: *x*}, xaxis:
-                    {scaleanchor: *y*}` or longer) are redundant
-                    and the last constraint encountered will be
-                    ignored to avoid possible inconsistent
-                    constraints via `scaleratio`. Note that setting
-                    axes simultaneously in both a `scaleanchor` and
-                    a `matches` constraint is currently forbidden.
-                scaleratio
-                    If this axis is linked to another by
-                    `scaleanchor`, this determines the pixel to
-                    unit scale ratio. For example, if this value is
-                    10, then every unit on this axis spans 10 times
-                    the number of pixels as a unit on the linked
-                    axis. Use this for example to create an
-                    elevation profile where the vertical scale is
-                    exaggerated a fixed amount with respect to the
-                    horizontal.
-                separatethousands
-                    If "true", even 4-digit integers are separated
-                showdividers
-                    Determines whether or not a dividers are drawn
-                    between the category levels of this axis. Only
-                    has an effect on "multicategory" axes.
-                showexponent
-                    If "all", all exponents are shown besides their
-                    significands. If "first", only the exponent of
-                    the first tick is shown. If "last", only the
-                    exponent of the last tick is shown. If "none",
-                    no exponents appear.
-                showgrid
-                    Determines whether or not grid lines are drawn.
-                    If True, the grid lines are drawn at every tick
-                    mark.
-                showline
-                    Determines whether or not a line bounding this
-                    axis is drawn.
-                showspikes
-                    Determines whether or not spikes (aka
-                    droplines) are drawn for this axis. Note: This
-                    only takes affect when hovermode = closest
-                showticklabels
-                    Determines whether or not the tick labels are
-                    drawn.
-                showtickprefix
-                    If "all", all tick labels are displayed with a
-                    prefix. If "first", only the first tick is
-                    displayed with a prefix. If "last", only the
-                    last tick is displayed with a suffix. If
-                    "none", tick prefixes are hidden.
-                showticksuffix
-                    Same as `showtickprefix` but for tick suffixes.
-                side
-                    Determines whether a x (y) axis is positioned
-                    at the "bottom" ("left") or "top" ("right") of
-                    the plotting area.
-                spikecolor
-                    Sets the spike color. If undefined, will use
-                    the series color
-                spikedash
-                    Sets the dash style of lines. Set to a dash
-                    type string ("solid", "dot", "dash",
-                    "longdash", "dashdot", or "longdashdot") or a
-                    dash length list in px (eg "5px,10px,2px,2px").
-                spikemode
-                    Determines the drawing mode for the spike line
-                    If "toaxis", the line is drawn from the data
-                    point to the axis the  series is plotted on. If
-                    "across", the line is drawn across the entire
-                    plot area, and supercedes "toaxis". If
-                    "marker", then a marker dot is drawn on the
-                    axis the series is plotted on
-                spikesnap
-                    Determines whether spikelines are stuck to the
-                    cursor or to the closest datapoints.
-                spikethickness
-                    Sets the width (in px) of the zero line.
-                tick0
-                    Sets the placement of the first tick on this
-                    axis. Use with `dtick`. If the axis `type` is
-                    "log", then you must take the log of your
-                    starting tick (e.g. to set the starting tick to
-                    100, set the `tick0` to 2) except when
-                    `dtick`=*L<f>* (see `dtick` for more info). If
-                    the axis `type` is "date", it should be a date
-                    string, like date data. If the axis `type` is
-                    "category", it should be a number, using the
-                    scale where each category is assigned a serial
-                    number from zero in the order it appears.
-                tickangle
-                    Sets the angle of the tick labels with respect
-                    to the horizontal. For example, a `tickangle`
-                    of -90 draws the tick labels vertically.
-                tickcolor
-                    Sets the tick color.
-                tickfont
-                    Sets the tick font.
-                tickformat
-                    Sets the tick label formatting rule using d3
-                    formatting mini-languages which are very
-                    similar to those in Python. For numbers, see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:
-                    https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Time-Formatting.md#format
-                    We add one item to d3's date formatter: "%{n}f"
-                    for fractional seconds with n digits. For
-                    example, *2016-10-13 09:15:23.456* with
-                    tickformat "%H~%M~%S.%2f" would display
-                    "09~15~23.46"
-                tickformatstops
-                    A tuple of plotly.graph_objects.layout.yaxis.Ti
-                    ckformatstop instances or dicts with compatible
-                    properties
-                tickformatstopdefaults
-                    When used in a template (as layout.template.lay
-                    out.yaxis.tickformatstopdefaults), sets the
-                    default property values to use for elements of
-                    layout.yaxis.tickformatstops
-                ticklen
-                    Sets the tick length (in px).
-                tickmode
-                    Sets the tick mode for this axis. If "auto",
-                    the number of ticks is set via `nticks`. If
-                    "linear", the placement of the ticks is
-                    determined by a starting position `tick0` and a
-                    tick step `dtick` ("linear" is the default
-                    value if `tick0` and `dtick` are provided). If
-                    "array", the placement of the ticks is set via
-                    `tickvals` and the tick text is `ticktext`.
-                    ("array" is the default value if `tickvals` is
-                    provided).
-                tickprefix
-                    Sets a tick label prefix.
-                ticks
-                    Determines whether ticks are drawn or not. If
-                    "", this axis' ticks are not drawn. If
-                    "outside" ("inside"), this axis' are drawn
-                    outside (inside) the axis lines.
-                tickson
-                    Determines where ticks and grid lines are drawn
-                    with respect to their corresponding tick
-                    labels. Only has an effect for axes of `type`
-                    "category" or "multicategory". When set to
-                    "boundaries", ticks and grid lines are drawn
-                    half a category to the left/bottom of labels.
-                ticksuffix
-                    Sets a tick label suffix.
-                ticktext
-                    Sets the text displayed at the ticks position
-                    via `tickvals`. Only has an effect if
-                    `tickmode` is set to "array". Used with
-                    `tickvals`.
-                ticktextsrc
-                    Sets the source reference on plot.ly for
-                    ticktext .
-                tickvals
-                    Sets the values at which ticks on this axis
-                    appear. Only has an effect if `tickmode` is set
-                    to "array". Used with `ticktext`.
-                tickvalssrc
-                    Sets the source reference on plot.ly for
-                    tickvals .
-                tickwidth
-                    Sets the tick width (in px).
-                title
-                    plotly.graph_objects.layout.yaxis.Title
-                    instance or dict with compatible properties
-                titlefont
-                    Deprecated: Please use layout.yaxis.title.font
-                    instead. Sets this axis' title font. Note that
-                    the title's font used to be customized by the
-                    now deprecated `titlefont` attribute.
-                type
-                    Sets the axis type. By default, plotly attempts
-                    to determined the axis type by looking into the
-                    data of the traces that referenced the axis in
-                    question.
-                uirevision
-                    Controls persistence of user-driven changes in
-                    axis `range`, `autorange`, and `title` if in
-                    `editable: true` configuration. Defaults to
-                    `layout.uirevision`.
-                visible
-                    A single toggle to hide the axis while
-                    preserving interaction like dragging. Default
-                    is true when a cheater plot is present on the
-                    axis, otherwise false
-                zeroline
-                    Determines whether or not a line is drawn at
-                    along the 0 value of this axis. If True, the
-                    zero line is drawn on top of the grid lines.
-                zerolinecolor
-                    Sets the line color of the zero line.
-                zerolinewidth
-                    Sets the width (in px) of the zero line.
-
-        Returns
-        -------
-        plotly.graph_objs.layout.YAxis
-        """
-        return self["yaxis"]
-
-    @yaxis.setter
-    def yaxis(self, val):
-        self["yaxis"] = val
-
-    # property parent name
-    # --------------------
-    @property
-    def _parent_path_str(self):
-        return ""
-
-    # Self properties description
-    # ---------------------------
-    @property
-    def _prop_descriptions(self):
-        return """\
-        angularaxis
-            plotly.graph_objects.layout.AngularAxis instance or
-            dict with compatible properties
-        annotations
-            A tuple of plotly.graph_objects.layout.Annotation
-            instances or dicts with compatible properties
-        annotationdefaults
-            When used in a template (as
-            layout.template.layout.annotationdefaults), sets the
-            default property values to use for elements of
-            layout.annotations
-        autosize
-            Determines whether or not a layout width or height that
-            has been left undefined by the user is initialized on
-            each relayout. Note that, regardless of this attribute,
-            an undefined layout width or height is always
-            initialized on the first call to plot.
-        bargap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        bargroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        barmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "stack", the bars are
-            stacked on top of one another With "relative", the bars
-            are stacked on top of one another, with negative values
-            below the axis, positive values above With "group", the
-            bars are plotted next to one another centered around
-            the shared location. With "overlay", the bars are
-            plotted over one another, you might need to an
-            "opacity" to see multiple bars.
-        barnorm
-            Sets the normalization for bar traces on the graph.
-            With "fraction", the value of each bar is divided by
-            the sum of all values at that location coordinate.
-            "percent" is the same but multiplied by 100 to show
-            percentages.
-        boxgap
-            Sets the gap (in plot fraction) between boxes of
-            adjacent location coordinates. Has no effect on traces
-            that have "width" set.
-        boxgroupgap
-            Sets the gap (in plot fraction) between boxes of the
-            same location coordinate. Has no effect on traces that
-            have "width" set.
-        boxmode
-            Determines how boxes at the same location coordinate
-            are displayed on the graph. If "group", the boxes are
-            plotted next to one another centered around the shared
-            location. If "overlay", the boxes are plotted over one
-            another, you might need to set "opacity" to see them
-            multiple boxes. Has no effect on traces that have
-            "width" set.
-        calendar
-            Sets the default calendar system to use for
-            interpreting and displaying dates throughout the plot.
-        clickmode
-            Determines the mode of single click interactions.
-            "event" is the default value and emits the
-            `plotly_click` event. In addition this mode emits the
-            `plotly_selected` event in drag modes "lasso" and
-            "select", but with no event data attached (kept for
-            compatibility reasons). The "select" flag enables
-            selecting single data points via click. This mode also
-            supports persistent selections, meaning that pressing
-            Shift while clicking, adds to / subtracts from an
-            existing selection. "select" with `hovermode`: "x" can
-            be confusing, consider explicitly setting `hovermode`:
-            "closest" when using this feature. Selection events are
-            sent accordingly as long as "event" flag is set as
-            well. When the "event" flag is missing, `plotly_click`
-            and `plotly_selected` events are not fired.
-        coloraxis
-            plotly.graph_objects.layout.Coloraxis instance or dict
-            with compatible properties
-        colorscale
-            plotly.graph_objects.layout.Colorscale instance or dict
-            with compatible properties
-        colorway
-            Sets the default trace colors.
-        datarevision
-            If provided, a changed value tells `Plotly.react` that
-            one or more data arrays has changed. This way you can
-            modify arrays in-place rather than making a complete
-            new copy for an incremental change. If NOT provided,
-            `Plotly.react` assumes that data arrays are being
-            treated as immutable, thus any data array with a
-            different identity from its predecessor contains new
-            data.
-        direction
-            Legacy polar charts are deprecated! Please switch to
-            "polar" subplots. Sets the direction corresponding to
-            positive angles in legacy polar charts.
-        dragmode
-            Determines the mode of drag interactions. "select" and
-            "lasso" apply only to scatter traces with markers or
-            text. "orbit" and "turntable" apply only to 3D scenes.
-        editrevision
-            Controls persistence of user-driven changes in
-            `editable: true` configuration, other than trace names
-            and axis titles. Defaults to `layout.uirevision`.
-        extendfunnelareacolors
-            If `true`, the funnelarea slice colors (whether given
-            by `funnelareacolorway` or inherited from `colorway`)
-            will be extended to three times its original length by
-            first repeating every color 20% lighter then each color
-            20% darker. This is intended to reduce the likelihood
-            of reusing the same color when you have many slices,
-            but you can set `false` to disable. Colors provided in
-            the trace, using `marker.colors`, are never extended.
-        extendpiecolors
-            If `true`, the pie slice colors (whether given by
-            `piecolorway` or inherited from `colorway`) will be
-            extended to three times its original length by first
-            repeating every color 20% lighter then each color 20%
-            darker. This is intended to reduce the likelihood of
-            reusing the same color when you have many slices, but
-            you can set `false` to disable. Colors provided in the
-            trace, using `marker.colors`, are never extended.
-        extendsunburstcolors
-            If `true`, the sunburst slice colors (whether given by
-            `sunburstcolorway` or inherited from `colorway`) will
-            be extended to three times its original length by first
-            repeating every color 20% lighter then each color 20%
-            darker. This is intended to reduce the likelihood of
-            reusing the same color when you have many slices, but
-            you can set `false` to disable. Colors provided in the
-            trace, using `marker.colors`, are never extended.
-        font
-            Sets the global font. Note that fonts used in traces
-            and other layout components inherit from the global
-            font.
-        funnelareacolorway
-            Sets the default funnelarea slice colors. Defaults to
-            the main `colorway` used for trace colors. If you
-            specify a new list here it can still be extended with
-            lighter and darker colors, see
-            `extendfunnelareacolors`.
-        funnelgap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        funnelgroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        funnelmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "stack", the bars are
-            stacked on top of one another With "group", the bars
-            are plotted next to one another centered around the
-            shared location. With "overlay", the bars are plotted
-            over one another, you might need to an "opacity" to see
-            multiple bars.
-        geo
-            plotly.graph_objects.layout.Geo instance or dict with
-            compatible properties
-        grid
-            plotly.graph_objects.layout.Grid instance or dict with
-            compatible properties
-        height
-            Sets the plot's height (in px).
-        hiddenlabels
-            hiddenlabels is the funnelarea & pie chart analog of
-            visible:'legendonly' but it can contain many labels,
-            and can simultaneously hide slices from several
-            pies/funnelarea charts
-        hiddenlabelssrc
-            Sets the source reference on plot.ly for  hiddenlabels
-            .
-        hidesources
-            Determines whether or not a text link citing the data
-            source is placed at the bottom-right cored of the
-            figure. Has only an effect only on graphs that have
-            been generated via forked graphs from the plotly
-            service (at https://plot.ly or on-premise).
-        hoverdistance
-            Sets the default distance (in pixels) to look for data
-            to add hover labels (-1 means no cutoff, 0 means no
-            looking for data). This is only a real distance for
-            hovering on point-like objects, like scatter points.
-            For area-like objects (bars, scatter fills, etc)
-            hovering is on inside the area and off outside, but
-            these objects will not supersede hover on point-like
-            objects in case of conflict.
-        hoverlabel
-            plotly.graph_objects.layout.Hoverlabel instance or dict
-            with compatible properties
-        hovermode
-            Determines the mode of hover interactions. If
-            `clickmode` includes the "select" flag, `hovermode`
-            defaults to "closest". If `clickmode` lacks the
-            "select" flag, it defaults to "x" or "y" (depending on
-            the trace's `orientation` value) for plots based on
-            cartesian coordinates. For anything else the default
-            value is "closest".
-        images
-            A tuple of plotly.graph_objects.layout.Image instances
-            or dicts with compatible properties
-        imagedefaults
-            When used in a template (as
-            layout.template.layout.imagedefaults), sets the default
-            property values to use for elements of layout.images
-        legend
-            plotly.graph_objects.layout.Legend instance or dict
-            with compatible properties
-        mapbox
-            plotly.graph_objects.layout.Mapbox instance or dict
-            with compatible properties
-        margin
-            plotly.graph_objects.layout.Margin instance or dict
-            with compatible properties
-        meta
-            Assigns extra meta information that can be used in
-            various `text` attributes. Attributes such as the
-            graph, axis and colorbar `title.text`, annotation
-            `text` `trace.name` in legend items, `rangeselector`,
-            `updatemenues` and `sliders` `label` text all support
-            `meta`. One can access `meta` fields using template
-            strings: `%{meta[i]}` where `i` is the index of the
-            `meta` item in question. `meta` can also be an object
-            for example `{key: value}` which can be accessed
-            %{meta[key]}.
-        metasrc
-            Sets the source reference on plot.ly for  meta .
-        modebar
-            plotly.graph_objects.layout.Modebar instance or dict
-            with compatible properties
-        orientation
-            Legacy polar charts are deprecated! Please switch to
-            "polar" subplots. Rotates the entire polar by the given
-            angle in legacy polar charts.
-        paper_bgcolor
-            Sets the color of paper where the graph is drawn.
-        piecolorway
-            Sets the default pie slice colors. Defaults to the main
-            `colorway` used for trace colors. If you specify a new
-            list here it can still be extended with lighter and
-            darker colors, see `extendpiecolors`.
-        plot_bgcolor
-            Sets the color of plotting area in-between x and y
-            axes.
-        polar
-            plotly.graph_objects.layout.Polar instance or dict with
-            compatible properties
-        radialaxis
-            plotly.graph_objects.layout.RadialAxis instance or dict
-            with compatible properties
-        scene
-            plotly.graph_objects.layout.Scene instance or dict with
-            compatible properties
-        selectdirection
-            When "dragmode" is set to "select", this limits the
-            selection of the drag to horizontal, vertical or
-            diagonal. "h" only allows horizontal selection, "v"
-            only vertical, "d" only diagonal and "any" sets no
-            limit.
-        selectionrevision
-            Controls persistence of user-driven changes in selected
-            points from all traces.
-        separators
-            Sets the decimal and thousand separators. For example,
-            *. * puts a '.' before decimals and a space between
-            thousands. In English locales, dflt is ".," but other
-            locales may alter this default.
-        shapes
-            A tuple of plotly.graph_objects.layout.Shape instances
-            or dicts with compatible properties
-        shapedefaults
-            When used in a template (as
-            layout.template.layout.shapedefaults), sets the default
-            property values to use for elements of layout.shapes
-        showlegend
-            Determines whether or not a legend is drawn. Default is
-            `true` if there is a trace to show and any of these: a)
-            Two or more traces would by default be shown in the
-            legend. b) One pie trace is shown in the legend. c) One
-            trace is explicitly given with `showlegend: true`.
-        sliders
-            A tuple of plotly.graph_objects.layout.Slider instances
-            or dicts with compatible properties
-        sliderdefaults
-            When used in a template (as
-            layout.template.layout.sliderdefaults), sets the
-            default property values to use for elements of
-            layout.sliders
-        spikedistance
-            Sets the default distance (in pixels) to look for data
-            to draw spikelines to (-1 means no cutoff, 0 means no
-            looking for data). As with hoverdistance, distance does
-            not apply to area-like objects. In addition, some
-            objects can be hovered on but will not generate
-            spikelines, such as scatter fills.
-        sunburstcolorway
-            Sets the default sunburst slice colors. Defaults to the
-            main `colorway` used for trace colors. If you specify a
-            new list here it can still be extended with lighter and
-            darker colors, see `extendsunburstcolors`.
-        template
-            Default attributes to be applied to the plot. This
-            should be a dict with format: `{'layout':
-            layoutTemplate, 'data': {trace_type: [traceTemplate,
-            ...], ...}}` where `layoutTemplate` is a dict matching
-            the structure of `figure.layout` and `traceTemplate` is
-            a dict matching the structure of the trace with type
-            `trace_type` (e.g. 'scatter'). Alternatively, this may
-            be specified as an instance of
-            plotly.graph_objs.layout.Template.  Trace templates are
-            applied cyclically to traces of each type. Container
-            arrays (eg `annotations`) have special handling: An
-            object ending in `defaults` (eg `annotationdefaults`)
-            is applied to each array item. But if an item has a
-            `templateitemname` key we look in the template array
-            for an item with matching `name` and apply that
-            instead. If no matching `name` is found we mark the
-            item invisible. Any named template item not referenced
-            is appended to the end of the array, so this can be
-            used to add a watermark annotation or a logo image, for
-            example. To omit one of these items on the plot, make
-            an item with matching `templateitemname` and `visible:
-            false`.
-        ternary
-            plotly.graph_objects.layout.Ternary instance or dict
-            with compatible properties
-        title
-            plotly.graph_objects.layout.Title instance or dict with
-            compatible properties
-        titlefont
-            Deprecated: Please use layout.title.font instead. Sets
-            the title font. Note that the title's font used to be
-            customized by the now deprecated `titlefont` attribute.
-        transition
-            Sets transition options used during Plotly.react
-            updates.
-        uirevision
-            Used to allow user interactions with the plot to
-            persist after `Plotly.react` calls that are unaware of
-            these interactions. If `uirevision` is omitted, or if
-            it is given and it changed from the previous
-            `Plotly.react` call, the exact new figure is used. If
-            `uirevision` is truthy and did NOT change, any
-            attribute that has been affected by user interactions
-            and did not receive a different value in the new figure
-            will keep the interaction value. `layout.uirevision`
-            attribute serves as the default for `uirevision`
-            attributes in various sub-containers. For finer control
-            you can set these sub-attributes directly. For example,
-            if your app separately controls the data on the x and y
-            axes you might set `xaxis.uirevision=*time*` and
-            `yaxis.uirevision=*cost*`. Then if only the y data is
-            changed, you can update `yaxis.uirevision=*quantity*`
-            and the y axis range will reset but the x axis range
-            will retain any user-driven zoom.
-        updatemenus
-            A tuple of plotly.graph_objects.layout.Updatemenu
-            instances or dicts with compatible properties
-        updatemenudefaults
-            When used in a template (as
-            layout.template.layout.updatemenudefaults), sets the
-            default property values to use for elements of
-            layout.updatemenus
-        violingap
-            Sets the gap (in plot fraction) between violins of
-            adjacent location coordinates. Has no effect on traces
-            that have "width" set.
-        violingroupgap
-            Sets the gap (in plot fraction) between violins of the
-            same location coordinate. Has no effect on traces that
-            have "width" set.
-        violinmode
-            Determines how violins at the same location coordinate
-            are displayed on the graph. If "group", the violins are
-            plotted next to one another centered around the shared
-            location. If "overlay", the violins are plotted over
-            one another, you might need to set "opacity" to see
-            them multiple violins. Has no effect on traces that
-            have "width" set.
-        waterfallgap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        waterfallgroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        waterfallmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "group", the bars are
-            plotted next to one another centered around the shared
-            location. With "overlay", the bars are plotted over one
-            another, you might need to an "opacity" to see multiple
-            bars.
-        width
-            Sets the plot's width (in px).
-        xaxis
-            plotly.graph_objects.layout.XAxis instance or dict with
-            compatible properties
-        yaxis
-            plotly.graph_objects.layout.YAxis instance or dict with
-            compatible properties
-        """
-
-    _mapped_properties = {"titlefont": ("title", "font")}
-
-    def __init__(
-        self,
-        arg=None,
-        angularaxis=None,
-        annotations=None,
-        annotationdefaults=None,
-        autosize=None,
-        bargap=None,
-        bargroupgap=None,
-        barmode=None,
-        barnorm=None,
-        boxgap=None,
-        boxgroupgap=None,
-        boxmode=None,
-        calendar=None,
-        clickmode=None,
-        coloraxis=None,
-        colorscale=None,
-        colorway=None,
-        datarevision=None,
-        direction=None,
-        dragmode=None,
-        editrevision=None,
-        extendfunnelareacolors=None,
-        extendpiecolors=None,
-        extendsunburstcolors=None,
-        font=None,
-        funnelareacolorway=None,
-        funnelgap=None,
-        funnelgroupgap=None,
-        funnelmode=None,
-        geo=None,
-        grid=None,
-        height=None,
-        hiddenlabels=None,
-        hiddenlabelssrc=None,
-        hidesources=None,
-        hoverdistance=None,
-        hoverlabel=None,
-        hovermode=None,
-        images=None,
-        imagedefaults=None,
-        legend=None,
-        mapbox=None,
-        margin=None,
-        meta=None,
-        metasrc=None,
-        modebar=None,
-        orientation=None,
-        paper_bgcolor=None,
-        piecolorway=None,
-        plot_bgcolor=None,
-        polar=None,
-        radialaxis=None,
-        scene=None,
-        selectdirection=None,
-        selectionrevision=None,
-        separators=None,
-        shapes=None,
-        shapedefaults=None,
-        showlegend=None,
-        sliders=None,
-        sliderdefaults=None,
-        spikedistance=None,
-        sunburstcolorway=None,
-        template=None,
-        ternary=None,
-        title=None,
-        titlefont=None,
-        transition=None,
-        uirevision=None,
-        updatemenus=None,
-        updatemenudefaults=None,
-        violingap=None,
-        violingroupgap=None,
-        violinmode=None,
-        waterfallgap=None,
-        waterfallgroupgap=None,
-        waterfallmode=None,
-        width=None,
-        xaxis=None,
-        yaxis=None,
-        **kwargs
-    ):
-        """
-        Construct a new Layout object
-        
-        Parameters
-        ----------
-        arg
-            dict of properties compatible with this constructor or
-            an instance of plotly.graph_objs.Layout
-        angularaxis
-            plotly.graph_objects.layout.AngularAxis instance or
-            dict with compatible properties
-        annotations
-            A tuple of plotly.graph_objects.layout.Annotation
-            instances or dicts with compatible properties
-        annotationdefaults
-            When used in a template (as
-            layout.template.layout.annotationdefaults), sets the
-            default property values to use for elements of
-            layout.annotations
-        autosize
-            Determines whether or not a layout width or height that
-            has been left undefined by the user is initialized on
-            each relayout. Note that, regardless of this attribute,
-            an undefined layout width or height is always
-            initialized on the first call to plot.
-        bargap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        bargroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        barmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "stack", the bars are
-            stacked on top of one another With "relative", the bars
-            are stacked on top of one another, with negative values
-            below the axis, positive values above With "group", the
-            bars are plotted next to one another centered around
-            the shared location. With "overlay", the bars are
-            plotted over one another, you might need to an
-            "opacity" to see multiple bars.
-        barnorm
-            Sets the normalization for bar traces on the graph.
-            With "fraction", the value of each bar is divided by
-            the sum of all values at that location coordinate.
-            "percent" is the same but multiplied by 100 to show
-            percentages.
-        boxgap
-            Sets the gap (in plot fraction) between boxes of
-            adjacent location coordinates. Has no effect on traces
-            that have "width" set.
-        boxgroupgap
-            Sets the gap (in plot fraction) between boxes of the
-            same location coordinate. Has no effect on traces that
-            have "width" set.
-        boxmode
-            Determines how boxes at the same location coordinate
-            are displayed on the graph. If "group", the boxes are
-            plotted next to one another centered around the shared
-            location. If "overlay", the boxes are plotted over one
-            another, you might need to set "opacity" to see them
-            multiple boxes. Has no effect on traces that have
-            "width" set.
-        calendar
-            Sets the default calendar system to use for
-            interpreting and displaying dates throughout the plot.
-        clickmode
-            Determines the mode of single click interactions.
-            "event" is the default value and emits the
-            `plotly_click` event. In addition this mode emits the
-            `plotly_selected` event in drag modes "lasso" and
-            "select", but with no event data attached (kept for
-            compatibility reasons). The "select" flag enables
-            selecting single data points via click. This mode also
-            supports persistent selections, meaning that pressing
-            Shift while clicking, adds to / subtracts from an
-            existing selection. "select" with `hovermode`: "x" can
-            be confusing, consider explicitly setting `hovermode`:
-            "closest" when using this feature. Selection events are
-            sent accordingly as long as "event" flag is set as
-            well. When the "event" flag is missing, `plotly_click`
-            and `plotly_selected` events are not fired.
-        coloraxis
-            plotly.graph_objects.layout.Coloraxis instance or dict
-            with compatible properties
-        colorscale
-            plotly.graph_objects.layout.Colorscale instance or dict
-            with compatible properties
-        colorway
-            Sets the default trace colors.
-        datarevision
-            If provided, a changed value tells `Plotly.react` that
-            one or more data arrays has changed. This way you can
-            modify arrays in-place rather than making a complete
-            new copy for an incremental change. If NOT provided,
-            `Plotly.react` assumes that data arrays are being
-            treated as immutable, thus any data array with a
-            different identity from its predecessor contains new
-            data.
-        direction
-            Legacy polar charts are deprecated! Please switch to
-            "polar" subplots. Sets the direction corresponding to
-            positive angles in legacy polar charts.
-        dragmode
-            Determines the mode of drag interactions. "select" and
-            "lasso" apply only to scatter traces with markers or
-            text. "orbit" and "turntable" apply only to 3D scenes.
-        editrevision
-            Controls persistence of user-driven changes in
-            `editable: true` configuration, other than trace names
-            and axis titles. Defaults to `layout.uirevision`.
-        extendfunnelareacolors
-            If `true`, the funnelarea slice colors (whether given
-            by `funnelareacolorway` or inherited from `colorway`)
-            will be extended to three times its original length by
-            first repeating every color 20% lighter then each color
-            20% darker. This is intended to reduce the likelihood
-            of reusing the same color when you have many slices,
-            but you can set `false` to disable. Colors provided in
-            the trace, using `marker.colors`, are never extended.
-        extendpiecolors
-            If `true`, the pie slice colors (whether given by
-            `piecolorway` or inherited from `colorway`) will be
-            extended to three times its original length by first
-            repeating every color 20% lighter then each color 20%
-            darker. This is intended to reduce the likelihood of
-            reusing the same color when you have many slices, but
-            you can set `false` to disable. Colors provided in the
-            trace, using `marker.colors`, are never extended.
-        extendsunburstcolors
-            If `true`, the sunburst slice colors (whether given by
-            `sunburstcolorway` or inherited from `colorway`) will
-            be extended to three times its original length by first
-            repeating every color 20% lighter then each color 20%
-            darker. This is intended to reduce the likelihood of
-            reusing the same color when you have many slices, but
-            you can set `false` to disable. Colors provided in the
-            trace, using `marker.colors`, are never extended.
-        font
-            Sets the global font. Note that fonts used in traces
-            and other layout components inherit from the global
-            font.
-        funnelareacolorway
-            Sets the default funnelarea slice colors. Defaults to
-            the main `colorway` used for trace colors. If you
-            specify a new list here it can still be extended with
-            lighter and darker colors, see
-            `extendfunnelareacolors`.
-        funnelgap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        funnelgroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        funnelmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "stack", the bars are
-            stacked on top of one another With "group", the bars
-            are plotted next to one another centered around the
-            shared location. With "overlay", the bars are plotted
-            over one another, you might need to an "opacity" to see
-            multiple bars.
-        geo
-            plotly.graph_objects.layout.Geo instance or dict with
-            compatible properties
-        grid
-            plotly.graph_objects.layout.Grid instance or dict with
-            compatible properties
-        height
-            Sets the plot's height (in px).
-        hiddenlabels
-            hiddenlabels is the funnelarea & pie chart analog of
-            visible:'legendonly' but it can contain many labels,
-            and can simultaneously hide slices from several
-            pies/funnelarea charts
-        hiddenlabelssrc
-            Sets the source reference on plot.ly for  hiddenlabels
-            .
-        hidesources
-            Determines whether or not a text link citing the data
-            source is placed at the bottom-right cored of the
-            figure. Has only an effect only on graphs that have
-            been generated via forked graphs from the plotly
-            service (at https://plot.ly or on-premise).
-        hoverdistance
-            Sets the default distance (in pixels) to look for data
-            to add hover labels (-1 means no cutoff, 0 means no
-            looking for data). This is only a real distance for
-            hovering on point-like objects, like scatter points.
-            For area-like objects (bars, scatter fills, etc)
-            hovering is on inside the area and off outside, but
-            these objects will not supersede hover on point-like
-            objects in case of conflict.
-        hoverlabel
-            plotly.graph_objects.layout.Hoverlabel instance or dict
-            with compatible properties
-        hovermode
-            Determines the mode of hover interactions. If
-            `clickmode` includes the "select" flag, `hovermode`
-            defaults to "closest". If `clickmode` lacks the
-            "select" flag, it defaults to "x" or "y" (depending on
-            the trace's `orientation` value) for plots based on
-            cartesian coordinates. For anything else the default
-            value is "closest".
-        images
-            A tuple of plotly.graph_objects.layout.Image instances
-            or dicts with compatible properties
-        imagedefaults
-            When used in a template (as
-            layout.template.layout.imagedefaults), sets the default
-            property values to use for elements of layout.images
-        legend
-            plotly.graph_objects.layout.Legend instance or dict
-            with compatible properties
-        mapbox
-            plotly.graph_objects.layout.Mapbox instance or dict
-            with compatible properties
-        margin
-            plotly.graph_objects.layout.Margin instance or dict
-            with compatible properties
-        meta
-            Assigns extra meta information that can be used in
-            various `text` attributes. Attributes such as the
-            graph, axis and colorbar `title.text`, annotation
-            `text` `trace.name` in legend items, `rangeselector`,
-            `updatemenues` and `sliders` `label` text all support
-            `meta`. One can access `meta` fields using template
-            strings: `%{meta[i]}` where `i` is the index of the
-            `meta` item in question. `meta` can also be an object
-            for example `{key: value}` which can be accessed
-            %{meta[key]}.
-        metasrc
-            Sets the source reference on plot.ly for  meta .
-        modebar
-            plotly.graph_objects.layout.Modebar instance or dict
-            with compatible properties
-        orientation
-            Legacy polar charts are deprecated! Please switch to
-            "polar" subplots. Rotates the entire polar by the given
-            angle in legacy polar charts.
-        paper_bgcolor
-            Sets the color of paper where the graph is drawn.
-        piecolorway
-            Sets the default pie slice colors. Defaults to the main
-            `colorway` used for trace colors. If you specify a new
-            list here it can still be extended with lighter and
-            darker colors, see `extendpiecolors`.
-        plot_bgcolor
-            Sets the color of plotting area in-between x and y
-            axes.
-        polar
-            plotly.graph_objects.layout.Polar instance or dict with
-            compatible properties
-        radialaxis
-            plotly.graph_objects.layout.RadialAxis instance or dict
-            with compatible properties
-        scene
-            plotly.graph_objects.layout.Scene instance or dict with
-            compatible properties
-        selectdirection
-            When "dragmode" is set to "select", this limits the
-            selection of the drag to horizontal, vertical or
-            diagonal. "h" only allows horizontal selection, "v"
-            only vertical, "d" only diagonal and "any" sets no
-            limit.
-        selectionrevision
-            Controls persistence of user-driven changes in selected
-            points from all traces.
-        separators
-            Sets the decimal and thousand separators. For example,
-            *. * puts a '.' before decimals and a space between
-            thousands. In English locales, dflt is ".," but other
-            locales may alter this default.
-        shapes
-            A tuple of plotly.graph_objects.layout.Shape instances
-            or dicts with compatible properties
-        shapedefaults
-            When used in a template (as
-            layout.template.layout.shapedefaults), sets the default
-            property values to use for elements of layout.shapes
-        showlegend
-            Determines whether or not a legend is drawn. Default is
-            `true` if there is a trace to show and any of these: a)
-            Two or more traces would by default be shown in the
-            legend. b) One pie trace is shown in the legend. c) One
-            trace is explicitly given with `showlegend: true`.
-        sliders
-            A tuple of plotly.graph_objects.layout.Slider instances
-            or dicts with compatible properties
-        sliderdefaults
-            When used in a template (as
-            layout.template.layout.sliderdefaults), sets the
-            default property values to use for elements of
-            layout.sliders
-        spikedistance
-            Sets the default distance (in pixels) to look for data
-            to draw spikelines to (-1 means no cutoff, 0 means no
-            looking for data). As with hoverdistance, distance does
-            not apply to area-like objects. In addition, some
-            objects can be hovered on but will not generate
-            spikelines, such as scatter fills.
-        sunburstcolorway
-            Sets the default sunburst slice colors. Defaults to the
-            main `colorway` used for trace colors. If you specify a
-            new list here it can still be extended with lighter and
-            darker colors, see `extendsunburstcolors`.
-        template
-            Default attributes to be applied to the plot. This
-            should be a dict with format: `{'layout':
-            layoutTemplate, 'data': {trace_type: [traceTemplate,
-            ...], ...}}` where `layoutTemplate` is a dict matching
-            the structure of `figure.layout` and `traceTemplate` is
-            a dict matching the structure of the trace with type
-            `trace_type` (e.g. 'scatter'). Alternatively, this may
-            be specified as an instance of
-            plotly.graph_objs.layout.Template.  Trace templates are
-            applied cyclically to traces of each type. Container
-            arrays (eg `annotations`) have special handling: An
-            object ending in `defaults` (eg `annotationdefaults`)
-            is applied to each array item. But if an item has a
-            `templateitemname` key we look in the template array
-            for an item with matching `name` and apply that
-            instead. If no matching `name` is found we mark the
-            item invisible. Any named template item not referenced
-            is appended to the end of the array, so this can be
-            used to add a watermark annotation or a logo image, for
-            example. To omit one of these items on the plot, make
-            an item with matching `templateitemname` and `visible:
-            false`.
-        ternary
-            plotly.graph_objects.layout.Ternary instance or dict
-            with compatible properties
-        title
-            plotly.graph_objects.layout.Title instance or dict with
-            compatible properties
-        titlefont
-            Deprecated: Please use layout.title.font instead. Sets
-            the title font. Note that the title's font used to be
-            customized by the now deprecated `titlefont` attribute.
-        transition
-            Sets transition options used during Plotly.react
-            updates.
-        uirevision
-            Used to allow user interactions with the plot to
-            persist after `Plotly.react` calls that are unaware of
-            these interactions. If `uirevision` is omitted, or if
-            it is given and it changed from the previous
-            `Plotly.react` call, the exact new figure is used. If
-            `uirevision` is truthy and did NOT change, any
-            attribute that has been affected by user interactions
-            and did not receive a different value in the new figure
-            will keep the interaction value. `layout.uirevision`
-            attribute serves as the default for `uirevision`
-            attributes in various sub-containers. For finer control
-            you can set these sub-attributes directly. For example,
-            if your app separately controls the data on the x and y
-            axes you might set `xaxis.uirevision=*time*` and
-            `yaxis.uirevision=*cost*`. Then if only the y data is
-            changed, you can update `yaxis.uirevision=*quantity*`
-            and the y axis range will reset but the x axis range
-            will retain any user-driven zoom.
-        updatemenus
-            A tuple of plotly.graph_objects.layout.Updatemenu
-            instances or dicts with compatible properties
-        updatemenudefaults
-            When used in a template (as
-            layout.template.layout.updatemenudefaults), sets the
-            default property values to use for elements of
-            layout.updatemenus
-        violingap
-            Sets the gap (in plot fraction) between violins of
-            adjacent location coordinates. Has no effect on traces
-            that have "width" set.
-        violingroupgap
-            Sets the gap (in plot fraction) between violins of the
-            same location coordinate. Has no effect on traces that
-            have "width" set.
-        violinmode
-            Determines how violins at the same location coordinate
-            are displayed on the graph. If "group", the violins are
-            plotted next to one another centered around the shared
-            location. If "overlay", the violins are plotted over
-            one another, you might need to set "opacity" to see
-            them multiple violins. Has no effect on traces that
-            have "width" set.
-        waterfallgap
-            Sets the gap (in plot fraction) between bars of
-            adjacent location coordinates.
-        waterfallgroupgap
-            Sets the gap (in plot fraction) between bars of the
-            same location coordinate.
-        waterfallmode
-            Determines how bars at the same location coordinate are
-            displayed on the graph. With "group", the bars are
-            plotted next to one another centered around the shared
-            location. With "overlay", the bars are plotted over one
-            another, you might need to an "opacity" to see multiple
-            bars.
-        width
-            Sets the plot's width (in px).
-        xaxis
-            plotly.graph_objects.layout.XAxis instance or dict with
-            compatible properties
-        yaxis
-            plotly.graph_objects.layout.YAxis instance or dict with
-            compatible properties
-
-        Returns
-        -------
-        Layout
-        """
-        super(Layout, self).__init__("layout")
-
-        # Validate arg
-        # ------------
-        if arg is None:
-            arg = {}
-        elif isinstance(arg, self.__class__):
-            arg = arg.to_plotly_json()
-        elif isinstance(arg, dict):
-            arg = _copy.copy(arg)
-        else:
-            raise ValueError(
-                """\
-The first argument to the plotly.graph_objs.Layout 
-constructor must be a dict or 
-an instance of plotly.graph_objs.Layout"""
-            )
-
-        # Handle skip_invalid
-        # -------------------
-        self._skip_invalid = kwargs.pop("skip_invalid", False)
-
-        # Import validators
-        # -----------------
-        from plotly.validators import layout as v_layout
-
-        # Initialize validators
-        # ---------------------
-        self._validators["angularaxis"] = v_layout.AngularAxisValidator()
-        self._validators["annotations"] = v_layout.AnnotationsValidator()
-        self._validators["annotationdefaults"] = v_layout.AnnotationValidator()
-        self._validators["autosize"] = v_layout.AutosizeValidator()
-        self._validators["bargap"] = v_layout.BargapValidator()
-        self._validators["bargroupgap"] = v_layout.BargroupgapValidator()
-        self._validators["barmode"] = v_layout.BarmodeValidator()
-        self._validators["barnorm"] = v_layout.BarnormValidator()
-        self._validators["boxgap"] = v_layout.BoxgapValidator()
-        self._validators["boxgroupgap"] = v_layout.BoxgroupgapValidator()
-        self._validators["boxmode"] = v_layout.BoxmodeValidator()
-        self._validators["calendar"] = v_layout.CalendarValidator()
-        self._validators["clickmode"] = v_layout.ClickmodeValidator()
-        self._validators["coloraxis"] = v_layout.ColoraxisValidator()
-        self._validators["colorscale"] = v_layout.ColorscaleValidator()
-        self._validators["colorway"] = v_layout.ColorwayValidator()
-        self._validators["datarevision"] = v_layout.DatarevisionValidator()
-        self._validators["direction"] = v_layout.DirectionValidator()
-        self._validators["dragmode"] = v_layout.DragmodeValidator()
-        self._validators["editrevision"] = v_layout.EditrevisionValidator()
-        self._validators[
-            "extendfunnelareacolors"
-        ] = v_layout.ExtendfunnelareacolorsValidator()
-        self._validators["extendpiecolors"] = v_layout.ExtendpiecolorsValidator()
-        self._validators[
-            "extendsunburstcolors"
-        ] = v_layout.ExtendsunburstcolorsValidator()
-        self._validators["font"] = v_layout.FontValidator()
-        self._validators["funnelareacolorway"] = v_layout.FunnelareacolorwayValidator()
-        self._validators["funnelgap"] = v_layout.FunnelgapValidator()
-        self._validators["funnelgroupgap"] = v_layout.FunnelgroupgapValidator()
-        self._validators["funnelmode"] = v_layout.FunnelmodeValidator()
-        self._validators["geo"] = v_layout.GeoValidator()
-        self._validators["grid"] = v_layout.GridValidator()
-        self._validators["height"] = v_layout.HeightValidator()
-        self._validators["hiddenlabels"] = v_layout.HiddenlabelsValidator()
-        self._validators["hiddenlabelssrc"] = v_layout.HiddenlabelssrcValidator()
-        self._validators["hidesources"] = v_layout.HidesourcesValidator()
-        self._validators["hoverdistance"] = v_layout.HoverdistanceValidator()
-        self._validators["hoverlabel"] = v_layout.HoverlabelValidator()
-        self._validators["hovermode"] = v_layout.HovermodeValidator()
-        self._validators["images"] = v_layout.ImagesValidator()
-        self._validators["imagedefaults"] = v_layout.ImageValidator()
-        self._validators["legend"] = v_layout.LegendValidator()
-        self._validators["mapbox"] = v_layout.MapboxValidator()
-        self._validators["margin"] = v_layout.MarginValidator()
-        self._validators["meta"] = v_layout.MetaValidator()
-        self._validators["metasrc"] = v_layout.MetasrcValidator()
-        self._validators["modebar"] = v_layout.ModebarValidator()
-        self._validators["orientation"] = v_layout.OrientationValidator()
-        self._validators["paper_bgcolor"] = v_layout.PaperBgcolorValidator()
-        self._validators["piecolorway"] = v_layout.PiecolorwayValidator()
-        self._validators["plot_bgcolor"] = v_layout.PlotBgcolorValidator()
-        self._validators["polar"] = v_layout.PolarValidator()
-        self._validators["radialaxis"] = v_layout.RadialAxisValidator()
-        self._validators["scene"] = v_layout.SceneValidator()
-        self._validators["selectdirection"] = v_layout.SelectdirectionValidator()
-        self._validators["selectionrevision"] = v_layout.SelectionrevisionValidator()
-        self._validators["separators"] = v_layout.SeparatorsValidator()
-        self._validators["shapes"] = v_layout.ShapesValidator()
-        self._validators["shapedefaults"] = v_layout.ShapeValidator()
-        self._validators["showlegend"] = v_layout.ShowlegendValidator()
-        self._validators["sliders"] = v_layout.SlidersValidator()
-        self._validators["sliderdefaults"] = v_layout.SliderValidator()
-        self._validators["spikedistance"] = v_layout.SpikedistanceValidator()
-        self._validators["sunburstcolorway"] = v_layout.SunburstcolorwayValidator()
-        self._validators["template"] = v_layout.TemplateValidator()
-        self._validators["ternary"] = v_layout.TernaryValidator()
-        self._validators["title"] = v_layout.TitleValidator()
-        self._validators["transition"] = v_layout.TransitionValidator()
-        self._validators["uirevision"] = v_layout.UirevisionValidator()
-        self._validators["updatemenus"] = v_layout.UpdatemenusValidator()
-        self._validators["updatemenudefaults"] = v_layout.UpdatemenuValidator()
-        self._validators["violingap"] = v_layout.ViolingapValidator()
-        self._validators["violingroupgap"] = v_layout.ViolingroupgapValidator()
-        self._validators["violinmode"] = v_layout.ViolinmodeValidator()
-        self._validators["waterfallgap"] = v_layout.WaterfallgapValidator()
-        self._validators["waterfallgroupgap"] = v_layout.WaterfallgroupgapValidator()
-        self._validators["waterfallmode"] = v_layout.WaterfallmodeValidator()
-        self._validators["width"] = v_layout.WidthValidator()
-        self._validators["xaxis"] = v_layout.XAxisValidator()
-        self._validators["yaxis"] = v_layout.YAxisValidator()
-
-        # Populate data dict with properties
-        # ----------------------------------
-        _v = arg.pop("angularaxis", None)
-        self["angularaxis"] = angularaxis if angularaxis is not None else _v
-        _v = arg.pop("annotations", None)
-        self["annotations"] = annotations if annotations is not None else _v
-        _v = arg.pop("annotationdefaults", None)
-        self["annotationdefaults"] = (
-            annotationdefaults if annotationdefaults is not None else _v
-        )
-        _v = arg.pop("autosize", None)
-        self["autosize"] = autosize if autosize is not None else _v
-        _v = arg.pop("bargap", None)
-        self["bargap"] = bargap if bargap is not None else _v
-        _v = arg.pop("bargroupgap", None)
-        self["bargroupgap"] = bargroupgap if bargroupgap is not None else _v
-        _v = arg.pop("barmode", None)
-        self["barmode"] = barmode if barmode is not None else _v
-        _v = arg.pop("barnorm", None)
-        self["barnorm"] = barnorm if barnorm is not None else _v
-        _v = arg.pop("boxgap", None)
-        self["boxgap"] = boxgap if boxgap is not None else _v
-        _v = arg.pop("boxgroupgap", None)
-        self["boxgroupgap"] = boxgroupgap if boxgroupgap is not None else _v
-        _v = arg.pop("boxmode", None)
-        self["boxmode"] = boxmode if boxmode is not None else _v
-        _v = arg.pop("calendar", None)
-        self["calendar"] = calendar if calendar is not None else _v
-        _v = arg.pop("clickmode", None)
-        self["clickmode"] = clickmode if clickmode is not None else _v
-        _v = arg.pop("coloraxis", None)
-        self["coloraxis"] = coloraxis if coloraxis is not None else _v
-        _v = arg.pop("colorscale", None)
-        self["colorscale"] = colorscale if colorscale is not None else _v
-        _v = arg.pop("colorway", None)
-        self["colorway"] = colorway if colorway is not None else _v
-        _v = arg.pop("datarevision", None)
-        self["datarevision"] = datarevision if datarevision is not None else _v
-        _v = arg.pop("direction", None)
-        self["direction"] = direction if direction is not None else _v
-        _v = arg.pop("dragmode", None)
-        self["dragmode"] = dragmode if dragmode is not None else _v
-        _v = arg.pop("editrevision", None)
-        self["editrevision"] = editrevision if editrevision is not None else _v
-        _v = arg.pop("extendfunnelareacolors", None)
-        self["extendfunnelareacolors"] = (
-            extendfunnelareacolors if extendfunnelareacolors is not None else _v
-        )
-        _v = arg.pop("extendpiecolors", None)
-        self["extendpiecolors"] = extendpiecolors if extendpiecolors is not None else _v
-        _v = arg.pop("extendsunburstcolors", None)
-        self["extendsunburstcolors"] = (
-            extendsunburstcolors if extendsunburstcolors is not None else _v
-        )
-        _v = arg.pop("font", None)
-        self["font"] = font if font is not None else _v
-        _v = arg.pop("funnelareacolorway", None)
-        self["funnelareacolorway"] = (
-            funnelareacolorway if funnelareacolorway is not None else _v
-        )
-        _v = arg.pop("funnelgap", None)
-        self["funnelgap"] = funnelgap if funnelgap is not None else _v
-        _v = arg.pop("funnelgroupgap", None)
-        self["funnelgroupgap"] = funnelgroupgap if funnelgroupgap is not None else _v
-        _v = arg.pop("funnelmode", None)
-        self["funnelmode"] = funnelmode if funnelmode is not None else _v
-        _v = arg.pop("geo", None)
-        self["geo"] = geo if geo is not None else _v
-        _v = arg.pop("grid", None)
-        self["grid"] = grid if grid is not None else _v
-        _v = arg.pop("height", None)
-        self["height"] = height if height is not None else _v
-        _v = arg.pop("hiddenlabels", None)
-        self["hiddenlabels"] = hiddenlabels if hiddenlabels is not None else _v
-        _v = arg.pop("hiddenlabelssrc", None)
-        self["hiddenlabelssrc"] = hiddenlabelssrc if hiddenlabelssrc is not None else _v
-        _v = arg.pop("hidesources", None)
-        self["hidesources"] = hidesources if hidesources is not None else _v
-        _v = arg.pop("hoverdistance", None)
-        self["hoverdistance"] = hoverdistance if hoverdistance is not None else _v
-        _v = arg.pop("hoverlabel", None)
-        self["hoverlabel"] = hoverlabel if hoverlabel is not None else _v
-        _v = arg.pop("hovermode", None)
-        self["hovermode"] = hovermode if hovermode is not None else _v
-        _v = arg.pop("images", None)
-        self["images"] = images if images is not None else _v
-        _v = arg.pop("imagedefaults", None)
-        self["imagedefaults"] = imagedefaults if imagedefaults is not None else _v
-        _v = arg.pop("legend", None)
-        self["legend"] = legend if legend is not None else _v
-        _v = arg.pop("mapbox", None)
-        self["mapbox"] = mapbox if mapbox is not None else _v
-        _v = arg.pop("margin", None)
-        self["margin"] = margin if margin is not None else _v
-        _v = arg.pop("meta", None)
-        self["meta"] = meta if meta is not None else _v
-        _v = arg.pop("metasrc", None)
-        self["metasrc"] = metasrc if metasrc is not None else _v
-        _v = arg.pop("modebar", None)
-        self["modebar"] = modebar if modebar is not None else _v
-        _v = arg.pop("orientation", None)
-        self["orientation"] = orientation if orientation is not None else _v
-        _v = arg.pop("paper_bgcolor", None)
-        self["paper_bgcolor"] = paper_bgcolor if paper_bgcolor is not None else _v
-        _v = arg.pop("piecolorway", None)
-        self["piecolorway"] = piecolorway if piecolorway is not None else _v
-        _v = arg.pop("plot_bgcolor", None)
-        self["plot_bgcolor"] = plot_bgcolor if plot_bgcolor is not None else _v
-        _v = arg.pop("polar", None)
-        self["polar"] = polar if polar is not None else _v
-        _v = arg.pop("radialaxis", None)
-        self["radialaxis"] = radialaxis if radialaxis is not None else _v
-        _v = arg.pop("scene", None)
-        self["scene"] = scene if scene is not None else _v
-        _v = arg.pop("selectdirection", None)
-        self["selectdirection"] = selectdirection if selectdirection is not None else _v
-        _v = arg.pop("selectionrevision", None)
-        self["selectionrevision"] = (
-            selectionrevision if selectionrevision is not None else _v
-        )
-        _v = arg.pop("separators", None)
-        self["separators"] = separators if separators is not None else _v
-        _v = arg.pop("shapes", None)
-        self["shapes"] = shapes if shapes is not None else _v
-        _v = arg.pop("shapedefaults", None)
-        self["shapedefaults"] = shapedefaults if shapedefaults is not None else _v
-        _v = arg.pop("showlegend", None)
-        self["showlegend"] = showlegend if showlegend is not None else _v
-        _v = arg.pop("sliders", None)
-        self["sliders"] = sliders if sliders is not None else _v
-        _v = arg.pop("sliderdefaults", None)
-        self["sliderdefaults"] = sliderdefaults if sliderdefaults is not None else _v
-        _v = arg.pop("spikedistance", None)
-        self["spikedistance"] = spikedistance if spikedistance is not None else _v
-        _v = arg.pop("sunburstcolorway", None)
-        self["sunburstcolorway"] = (
-            sunburstcolorway if sunburstcolorway is not None else _v
-        )
-        _v = arg.pop("template", None)
-        _v = template if template is not None else _v
-        if _v is not None:
-            self["template"] = _v
-        _v = arg.pop("ternary", None)
-        self["ternary"] = ternary if ternary is not None else _v
-        _v = arg.pop("title", None)
-        self["title"] = title if title is not None else _v
-        _v = arg.pop("titlefont", None)
-        _v = titlefont if titlefont is not None else _v
-        if _v is not None:
-            self["titlefont"] = _v
-        _v = arg.pop("transition", None)
-        self["transition"] = transition if transition is not None else _v
-        _v = arg.pop("uirevision", None)
-        self["uirevision"] = uirevision if uirevision is not None else _v
-        _v = arg.pop("updatemenus", None)
-        self["updatemenus"] = updatemenus if updatemenus is not None else _v
-        _v = arg.pop("updatemenudefaults", None)
-        self["updatemenudefaults"] = (
-            updatemenudefaults if updatemenudefaults is not None else _v
-        )
-        _v = arg.pop("violingap", None)
-        self["violingap"] = violingap if violingap is not None else _v
-        _v = arg.pop("violingroupgap", None)
-        self["violingroupgap"] = violingroupgap if violingroupgap is not None else _v
-        _v = arg.pop("violinmode", None)
-        self["violinmode"] = violinmode if violinmode is not None else _v
-        _v = arg.pop("waterfallgap", None)
-        self["waterfallgap"] = waterfallgap if waterfallgap is not None else _v
-        _v = arg.pop("waterfallgroupgap", None)
-        self["waterfallgroupgap"] = (
-            waterfallgroupgap if waterfallgroupgap is not None else _v
-        )
-        _v = arg.pop("waterfallmode", None)
-        self["waterfallmode"] = waterfallmode if waterfallmode is not None else _v
-        _v = arg.pop("width", None)
-        self["width"] = width if width is not None else _v
-        _v = arg.pop("xaxis", None)
-        self["xaxis"] = xaxis if xaxis is not None else _v
-        _v = arg.pop("yaxis", None)
-        self["yaxis"] = yaxis if yaxis is not None else _v
-
-        # Process unknown kwargs
-        # ----------------------
-        self._process_kwargs(**dict(arg, **kwargs))
-
-        # Reset skip_invalid
-        # ------------------
-        self._skip_invalid = False
-
-
 from plotly.basedatatypes import BaseTraceType as _BaseTraceType
 import copy as _copy
 
@@ -5832,7 +350,11 @@ class Waterfall(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -6647,6 +1169,61 @@ class Waterfall(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `initial`, `delta`, `final` and `label`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # totals
     # ------
     @property
@@ -7033,7 +1610,12 @@ class Waterfall(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -7166,6 +1748,26 @@ class Waterfall(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `initial`,
+            `delta`, `final` and `label`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         totals
             plotly.graph_objects.waterfall.Totals instance or dict
             with compatible properties
@@ -7275,6 +1877,8 @@ class Waterfall(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         totals=None,
         uid=None,
         uirevision=None,
@@ -7357,7 +1961,12 @@ class Waterfall(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -7490,6 +2099,26 @@ class Waterfall(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `initial`,
+            `delta`, `final` and `label`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         totals
             plotly.graph_objects.waterfall.Totals instance or dict
             with compatible properties
@@ -7627,6 +2256,8 @@ an instance of plotly.graph_objs.Waterfall"""
         self._validators["textposition"] = v_waterfall.TextpositionValidator()
         self._validators["textpositionsrc"] = v_waterfall.TextpositionsrcValidator()
         self._validators["textsrc"] = v_waterfall.TextsrcValidator()
+        self._validators["texttemplate"] = v_waterfall.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_waterfall.TexttemplatesrcValidator()
         self._validators["totals"] = v_waterfall.TotalsValidator()
         self._validators["uid"] = v_waterfall.UidValidator()
         self._validators["uirevision"] = v_waterfall.UirevisionValidator()
@@ -7736,6 +2367,10 @@ an instance of plotly.graph_objs.Waterfall"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("totals", None)
         self["totals"] = totals if totals is not None else _v
         _v = arg.pop("uid", None)
@@ -8460,7 +3095,11 @@ class Volume(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -9432,7 +4071,12 @@ class Volume(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -9732,7 +4376,12 @@ class Volume(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -10421,7 +5070,11 @@ class Violin(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -11532,7 +6185,12 @@ class Violin(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -11859,7 +6517,12 @@ class Violin(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -12271,6 +6934,1959 @@ an instance of plotly.graph_objs.Violin"""
         self._props["type"] = "violin"
         self._validators["type"] = LiteralValidator(
             plotly_name="type", parent_name="violin", val="violin"
+        )
+        arg.pop("type", None)
+
+        # Process unknown kwargs
+        # ----------------------
+        self._process_kwargs(**dict(arg, **kwargs))
+
+        # Reset skip_invalid
+        # ------------------
+        self._skip_invalid = False
+
+
+from plotly.basedatatypes import BaseTraceType as _BaseTraceType
+import copy as _copy
+
+
+class Treemap(_BaseTraceType):
+
+    # branchvalues
+    # ------------
+    @property
+    def branchvalues(self):
+        """
+        Determines how the items in `values` are summed. When set to
+        "total", items in `values` are taken to be value of all its
+        descendants. When set to "remainder", items in `values`
+        corresponding to the root and the branches sectors are taken to
+        be the extra part not part of the sum of the values at their
+        leaves.
+    
+        The 'branchvalues' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['remainder', 'total']
+
+        Returns
+        -------
+        Any
+        """
+        return self["branchvalues"]
+
+    @branchvalues.setter
+    def branchvalues(self, val):
+        self["branchvalues"] = val
+
+    # count
+    # -----
+    @property
+    def count(self):
+        """
+        Determines default for `values` when it is not provided, by
+        inferring a 1 for each of the "leaves" and/or "branches",
+        otherwise 0.
+    
+        The 'count' property is a flaglist and may be specified
+        as a string containing:
+          - Any combination of ['branches', 'leaves'] joined with '+' characters
+            (e.g. 'branches+leaves')
+
+        Returns
+        -------
+        Any
+        """
+        return self["count"]
+
+    @count.setter
+    def count(self, val):
+        self["count"] = val
+
+    # customdata
+    # ----------
+    @property
+    def customdata(self):
+        """
+        Assigns extra data each datum. This may be useful when
+        listening to hover, click and selection events. Note that,
+        "scatter" traces also appends customdata items in the markers
+        DOM elements
+    
+        The 'customdata' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["customdata"]
+
+    @customdata.setter
+    def customdata(self, val):
+        self["customdata"] = val
+
+    # customdatasrc
+    # -------------
+    @property
+    def customdatasrc(self):
+        """
+        Sets the source reference on plot.ly for  customdata .
+    
+        The 'customdatasrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["customdatasrc"]
+
+    @customdatasrc.setter
+    def customdatasrc(self, val):
+        self["customdatasrc"] = val
+
+    # domain
+    # ------
+    @property
+    def domain(self):
+        """
+        The 'domain' property is an instance of Domain
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Domain
+          - A dict of string/value properties that will be passed
+            to the Domain constructor
+    
+            Supported dict properties:
+                
+                column
+                    If there is a layout grid, use the domain for
+                    this column in the grid for this treemap trace
+                    .
+                row
+                    If there is a layout grid, use the domain for
+                    this row in the grid for this treemap trace .
+                x
+                    Sets the horizontal domain of this treemap
+                    trace (in plot fraction).
+                y
+                    Sets the vertical domain of this treemap trace
+                    (in plot fraction).
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Domain
+        """
+        return self["domain"]
+
+    @domain.setter
+    def domain(self, val):
+        self["domain"] = val
+
+    # hoverinfo
+    # ---------
+    @property
+    def hoverinfo(self):
+        """
+        Determines which trace information appear on hover. If `none`
+        or `skip` are set, no information is displayed upon hovering.
+        But, if `none` is set, click and hover events are still fired.
+    
+        The 'hoverinfo' property is a flaglist and may be specified
+        as a string containing:
+          - Any combination of ['label', 'text', 'value', 'name', 'current path', 'percent root', 'percent entry', 'percent parent'] joined with '+' characters
+            (e.g. 'label+text')
+            OR exactly one of ['all', 'none', 'skip'] (e.g. 'skip')
+          - A list or array of the above
+
+        Returns
+        -------
+        Any|numpy.ndarray
+        """
+        return self["hoverinfo"]
+
+    @hoverinfo.setter
+    def hoverinfo(self, val):
+        self["hoverinfo"] = val
+
+    # hoverinfosrc
+    # ------------
+    @property
+    def hoverinfosrc(self):
+        """
+        Sets the source reference on plot.ly for  hoverinfo .
+    
+        The 'hoverinfosrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["hoverinfosrc"]
+
+    @hoverinfosrc.setter
+    def hoverinfosrc(self, val):
+        self["hoverinfosrc"] = val
+
+    # hoverlabel
+    # ----------
+    @property
+    def hoverlabel(self):
+        """
+        The 'hoverlabel' property is an instance of Hoverlabel
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Hoverlabel
+          - A dict of string/value properties that will be passed
+            to the Hoverlabel constructor
+    
+            Supported dict properties:
+                
+                align
+                    Sets the horizontal alignment of the text
+                    content within hover label box. Has an effect
+                    only if the hover label text spans more two or
+                    more lines
+                alignsrc
+                    Sets the source reference on plot.ly for  align
+                    .
+                bgcolor
+                    Sets the background color of the hover labels
+                    for this trace
+                bgcolorsrc
+                    Sets the source reference on plot.ly for
+                    bgcolor .
+                bordercolor
+                    Sets the border color of the hover labels for
+                    this trace.
+                bordercolorsrc
+                    Sets the source reference on plot.ly for
+                    bordercolor .
+                font
+                    Sets the font used in hover labels.
+                namelength
+                    Sets the default length (in number of
+                    characters) of the trace name in the hover
+                    labels for all traces. -1 shows the whole name
+                    regardless of length. 0-3 shows the first 0-3
+                    characters, and an integer >3 will show the
+                    whole name if it is less than that many
+                    characters, but if it is longer, will truncate
+                    to `namelength - 3` characters and add an
+                    ellipsis.
+                namelengthsrc
+                    Sets the source reference on plot.ly for
+                    namelength .
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Hoverlabel
+        """
+        return self["hoverlabel"]
+
+    @hoverlabel.setter
+    def hoverlabel(self, val):
+        self["hoverlabel"] = val
+
+    # hovertemplate
+    # -------------
+    @property
+    def hovertemplate(self):
+        """
+        Template string used for rendering the information that appear
+        on hover box. Note that this will override `hoverinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
+        `hovertemplate` are the ones emitted as event data described at
+        this link https://plot.ly/javascript/plotlyjs-events/#event-
+        data. Additionally, every attributes that can be specified per-
+        point (the ones that are `arrayOk: true`) are available.
+        variables `currentPath`, `root`, `entry`, `percentRoot`,
+        `percentEntry` and `percentParent`. Anything contained in tag
+        `<extra>` is displayed in the secondary box, for example
+        "<extra>{fullData.name}</extra>". To hide the secondary box
+        completely, use an empty tag `<extra></extra>`.
+    
+        The 'hovertemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["hovertemplate"]
+
+    @hovertemplate.setter
+    def hovertemplate(self, val):
+        self["hovertemplate"] = val
+
+    # hovertemplatesrc
+    # ----------------
+    @property
+    def hovertemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  hovertemplate .
+    
+        The 'hovertemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["hovertemplatesrc"]
+
+    @hovertemplatesrc.setter
+    def hovertemplatesrc(self, val):
+        self["hovertemplatesrc"] = val
+
+    # hovertext
+    # ---------
+    @property
+    def hovertext(self):
+        """
+        Sets hover text elements associated with each sector. If a
+        single string, the same string appears for all data points. If
+        an array of string, the items are mapped in order of this
+        trace's sectors. To be seen, trace `hoverinfo` must contain a
+        "text" flag.
+    
+        The 'hovertext' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["hovertext"]
+
+    @hovertext.setter
+    def hovertext(self, val):
+        self["hovertext"] = val
+
+    # hovertextsrc
+    # ------------
+    @property
+    def hovertextsrc(self):
+        """
+        Sets the source reference on plot.ly for  hovertext .
+    
+        The 'hovertextsrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["hovertextsrc"]
+
+    @hovertextsrc.setter
+    def hovertextsrc(self, val):
+        self["hovertextsrc"] = val
+
+    # ids
+    # ---
+    @property
+    def ids(self):
+        """
+        Assigns id labels to each datum. These ids for object constancy
+        of data points during animation. Should be an array of strings,
+        not numbers or any other type.
+    
+        The 'ids' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["ids"]
+
+    @ids.setter
+    def ids(self, val):
+        self["ids"] = val
+
+    # idssrc
+    # ------
+    @property
+    def idssrc(self):
+        """
+        Sets the source reference on plot.ly for  ids .
+    
+        The 'idssrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["idssrc"]
+
+    @idssrc.setter
+    def idssrc(self, val):
+        self["idssrc"] = val
+
+    # insidetextfont
+    # --------------
+    @property
+    def insidetextfont(self):
+        """
+        Sets the font used for `textinfo` lying inside the sector.
+    
+        The 'insidetextfont' property is an instance of Insidetextfont
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Insidetextfont
+          - A dict of string/value properties that will be passed
+            to the Insidetextfont constructor
+    
+            Supported dict properties:
+                
+                color
+    
+                colorsrc
+                    Sets the source reference on plot.ly for  color
+                    .
+                family
+                    HTML font family - the typeface that will be
+                    applied by the web browser. The web browser
+                    will only be able to apply a font if it is
+                    available on the system which it operates.
+                    Provide multiple font families, separated by
+                    commas, to indicate the preference in which to
+                    apply fonts if they aren't available on the
+                    system. The plotly service (at https://plot.ly
+                    or on-premise) generates images on a server,
+                    where only a select number of fonts are
+                    installed and supported. These include "Arial",
+                    "Balto", "Courier New", "Droid Sans",, "Droid
+                    Serif", "Droid Sans Mono", "Gravitas One", "Old
+                    Standard TT", "Open Sans", "Overpass", "PT Sans
+                    Narrow", "Raleway", "Times New Roman".
+                familysrc
+                    Sets the source reference on plot.ly for
+                    family .
+                size
+    
+                sizesrc
+                    Sets the source reference on plot.ly for  size
+                    .
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Insidetextfont
+        """
+        return self["insidetextfont"]
+
+    @insidetextfont.setter
+    def insidetextfont(self, val):
+        self["insidetextfont"] = val
+
+    # labels
+    # ------
+    @property
+    def labels(self):
+        """
+        Sets the labels of each of the sectors.
+    
+        The 'labels' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["labels"]
+
+    @labels.setter
+    def labels(self, val):
+        self["labels"] = val
+
+    # labelssrc
+    # ---------
+    @property
+    def labelssrc(self):
+        """
+        Sets the source reference on plot.ly for  labels .
+    
+        The 'labelssrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["labelssrc"]
+
+    @labelssrc.setter
+    def labelssrc(self, val):
+        self["labelssrc"] = val
+
+    # level
+    # -----
+    @property
+    def level(self):
+        """
+        Sets the level from which this trace hierarchy is rendered. Set
+        `level` to `''` to start from the root node in the hierarchy.
+        Must be an "id" if `ids` is filled in, otherwise plotly
+        attempts to find a matching item in `labels`.
+    
+        The 'level' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["level"]
+
+    @level.setter
+    def level(self, val):
+        self["level"] = val
+
+    # marker
+    # ------
+    @property
+    def marker(self):
+        """
+        The 'marker' property is an instance of Marker
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Marker
+          - A dict of string/value properties that will be passed
+            to the Marker constructor
+    
+            Supported dict properties:
+                
+                autocolorscale
+                    Determines whether the colorscale is a default
+                    palette (`autocolorscale: true`) or the palette
+                    determined by `marker.colorscale`. Has an
+                    effect only if colorsis set to a numerical
+                    array. In case `colorscale` is unspecified or
+                    `autocolorscale` is true, the default  palette
+                    will be chosen according to whether numbers in
+                    the `color` array are all positive, all
+                    negative or mixed.
+                cauto
+                    Determines whether or not the color domain is
+                    computed with respect to the input data (here
+                    colors) or the bounds set in `marker.cmin` and
+                    `marker.cmax`  Has an effect only if colorsis
+                    set to a numerical array. Defaults to `false`
+                    when `marker.cmin` and `marker.cmax` are set by
+                    the user.
+                cmax
+                    Sets the upper bound of the color domain. Has
+                    an effect only if colorsis set to a numerical
+                    array. Value should have the same units as
+                    colors and if set, `marker.cmin` must be set as
+                    well.
+                cmid
+                    Sets the mid-point of the color domain by
+                    scaling `marker.cmin` and/or `marker.cmax` to
+                    be equidistant to this point. Has an effect
+                    only if colorsis set to a numerical array.
+                    Value should have the same units as colors. Has
+                    no effect when `marker.cauto` is `false`.
+                cmin
+                    Sets the lower bound of the color domain. Has
+                    an effect only if colorsis set to a numerical
+                    array. Value should have the same units as
+                    colors and if set, `marker.cmax` must be set as
+                    well.
+                coloraxis
+                    Sets a reference to a shared color axis.
+                    References to these shared color axes are
+                    "coloraxis", "coloraxis2", "coloraxis3", etc.
+                    Settings for these shared color axes are set in
+                    the layout, under `layout.coloraxis`,
+                    `layout.coloraxis2`, etc. Note that multiple
+                    color scales can be linked to the same color
+                    axis.
+                colorbar
+                    plotly.graph_objects.treemap.marker.ColorBar
+                    instance or dict with compatible properties
+                colors
+                    Sets the color of each sector of this trace. If
+                    not specified, the default trace color set is
+                    used to pick the sector colors.
+                colorscale
+                    Sets the colorscale. Has an effect only if
+                    colorsis set to a numerical array. The
+                    colorscale must be an array containing arrays
+                    mapping a normalized value to an rgb, rgba,
+                    hex, hsl, hsv, or named color string. At
+                    minimum, a mapping for the lowest (0) and
+                    highest (1) values are required. For example,
+                    `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`.
+                    To control the bounds of the colorscale in
+                    color space, use`marker.cmin` and
+                    `marker.cmax`. Alternatively, `colorscale` may
+                    be a palette name string of the following list:
+                    Greys,YlGnBu,Greens,YlOrRd,Bluered,RdBu,Reds,Bl
+                    ues,Picnic,Rainbow,Portland,Jet,Hot,Blackbody,E
+                    arth,Electric,Viridis,Cividis.
+                colorssrc
+                    Sets the source reference on plot.ly for
+                    colors .
+                depthfade
+                    Determines if the sector colors are faded
+                    towards the background from the leaves up to
+                    the headers. This option is unavailable when a
+                    `colorscale` is present, defaults to false when
+                    `marker.colors` is set, but otherwise defaults
+                    to true. When set to "reversed", the fading
+                    direction is inverted, that is the top elements
+                    within hierarchy are drawn with fully saturated
+                    colors while the leaves are faded towards the
+                    background color.
+                line
+                    plotly.graph_objects.treemap.marker.Line
+                    instance or dict with compatible properties
+                pad
+                    plotly.graph_objects.treemap.marker.Pad
+                    instance or dict with compatible properties
+                reversescale
+                    Reverses the color mapping if true. Has an
+                    effect only if colorsis set to a numerical
+                    array. If true, `marker.cmin` will correspond
+                    to the last color in the array and
+                    `marker.cmax` will correspond to the first
+                    color.
+                showscale
+                    Determines whether or not a colorbar is
+                    displayed for this trace. Has an effect only if
+                    colorsis set to a numerical array.
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Marker
+        """
+        return self["marker"]
+
+    @marker.setter
+    def marker(self, val):
+        self["marker"] = val
+
+    # maxdepth
+    # --------
+    @property
+    def maxdepth(self):
+        """
+        Sets the number of rendered sectors from any given `level`. Set
+        `maxdepth` to "-1" to render all the levels in the hierarchy.
+    
+        The 'maxdepth' property is a integer and may be specified as:
+          - An int (or float that will be cast to an int)
+
+        Returns
+        -------
+        int
+        """
+        return self["maxdepth"]
+
+    @maxdepth.setter
+    def maxdepth(self, val):
+        self["maxdepth"] = val
+
+    # meta
+    # ----
+    @property
+    def meta(self):
+        """
+        Assigns extra meta information associated with this trace that
+        can be used in various text attributes. Attributes such as
+        trace `name`, graph, axis and colorbar `title.text`, annotation
+        `text` `rangeselector`, `updatemenues` and `sliders` `label`
+        text all support `meta`. To access the trace `meta` values in
+        an attribute in the same trace, simply use `%{meta[i]}` where
+        `i` is the index or key of the `meta` item in question. To
+        access trace `meta` in layout attributes, use
+        `%{data[n[.meta[i]}` where `i` is the index or key of the
+        `meta` and `n` is the trace index.
+    
+        The 'meta' property accepts values of any type
+
+        Returns
+        -------
+        Any|numpy.ndarray
+        """
+        return self["meta"]
+
+    @meta.setter
+    def meta(self, val):
+        self["meta"] = val
+
+    # metasrc
+    # -------
+    @property
+    def metasrc(self):
+        """
+        Sets the source reference on plot.ly for  meta .
+    
+        The 'metasrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["metasrc"]
+
+    @metasrc.setter
+    def metasrc(self, val):
+        self["metasrc"] = val
+
+    # name
+    # ----
+    @property
+    def name(self):
+        """
+        Sets the trace name. The trace name appear as the legend item
+        and on hover.
+    
+        The 'name' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["name"]
+
+    @name.setter
+    def name(self, val):
+        self["name"] = val
+
+    # opacity
+    # -------
+    @property
+    def opacity(self):
+        """
+        Sets the opacity of the trace.
+    
+        The 'opacity' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["opacity"]
+
+    @opacity.setter
+    def opacity(self, val):
+        self["opacity"] = val
+
+    # outsidetextfont
+    # ---------------
+    @property
+    def outsidetextfont(self):
+        """
+        Sets the font used for `textinfo` lying outside the sector.
+    
+        The 'outsidetextfont' property is an instance of Outsidetextfont
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Outsidetextfont
+          - A dict of string/value properties that will be passed
+            to the Outsidetextfont constructor
+    
+            Supported dict properties:
+                
+                color
+    
+                colorsrc
+                    Sets the source reference on plot.ly for  color
+                    .
+                family
+                    HTML font family - the typeface that will be
+                    applied by the web browser. The web browser
+                    will only be able to apply a font if it is
+                    available on the system which it operates.
+                    Provide multiple font families, separated by
+                    commas, to indicate the preference in which to
+                    apply fonts if they aren't available on the
+                    system. The plotly service (at https://plot.ly
+                    or on-premise) generates images on a server,
+                    where only a select number of fonts are
+                    installed and supported. These include "Arial",
+                    "Balto", "Courier New", "Droid Sans",, "Droid
+                    Serif", "Droid Sans Mono", "Gravitas One", "Old
+                    Standard TT", "Open Sans", "Overpass", "PT Sans
+                    Narrow", "Raleway", "Times New Roman".
+                familysrc
+                    Sets the source reference on plot.ly for
+                    family .
+                size
+    
+                sizesrc
+                    Sets the source reference on plot.ly for  size
+                    .
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Outsidetextfont
+        """
+        return self["outsidetextfont"]
+
+    @outsidetextfont.setter
+    def outsidetextfont(self, val):
+        self["outsidetextfont"] = val
+
+    # parents
+    # -------
+    @property
+    def parents(self):
+        """
+        Sets the parent sectors for each of the sectors. Empty string
+        items '' are understood to reference the root node in the
+        hierarchy. If `ids` is filled, `parents` items are understood
+        to be "ids" themselves. When `ids` is not set, plotly attempts
+        to find matching items in `labels`, but beware they must be
+        unique.
+    
+        The 'parents' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["parents"]
+
+    @parents.setter
+    def parents(self, val):
+        self["parents"] = val
+
+    # parentssrc
+    # ----------
+    @property
+    def parentssrc(self):
+        """
+        Sets the source reference on plot.ly for  parents .
+    
+        The 'parentssrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["parentssrc"]
+
+    @parentssrc.setter
+    def parentssrc(self, val):
+        self["parentssrc"] = val
+
+    # pathbar
+    # -------
+    @property
+    def pathbar(self):
+        """
+        The 'pathbar' property is an instance of Pathbar
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Pathbar
+          - A dict of string/value properties that will be passed
+            to the Pathbar constructor
+    
+            Supported dict properties:
+                
+                edgeshape
+                    Determines which shape is used for edges
+                    between `barpath` labels.
+                side
+                    Determines on which side of the the treemap the
+                    `pathbar` should be presented.
+                textfont
+                    Sets the font used inside `pathbar`.
+                thickness
+                    Sets the thickness of `pathbar` (in px). If not
+                    specified the `pathbar.textfont.size` is used
+                    with 3 pixles extra padding on each side.
+                visible
+                    Determines if the path bar is drawn i.e.
+                    outside the trace `domain` and with one pixel
+                    gap.
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Pathbar
+        """
+        return self["pathbar"]
+
+    @pathbar.setter
+    def pathbar(self, val):
+        self["pathbar"] = val
+
+    # stream
+    # ------
+    @property
+    def stream(self):
+        """
+        The 'stream' property is an instance of Stream
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Stream
+          - A dict of string/value properties that will be passed
+            to the Stream constructor
+    
+            Supported dict properties:
+                
+                maxpoints
+                    Sets the maximum number of points to keep on
+                    the plots from an incoming stream. If
+                    `maxpoints` is set to 50, only the newest 50
+                    points will be displayed on the plot.
+                token
+                    The stream id number links a data trace on a
+                    plot with a stream. See
+                    https://plot.ly/settings for more details.
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Stream
+        """
+        return self["stream"]
+
+    @stream.setter
+    def stream(self, val):
+        self["stream"] = val
+
+    # text
+    # ----
+    @property
+    def text(self):
+        """
+        Sets text elements associated with each sector. If trace
+        `textinfo` contains a "text" flag, these elements will be seen
+        on the chart. If trace `hoverinfo` contains a "text" flag and
+        "hovertext" is not set, these elements will be seen in the
+        hover labels.
+    
+        The 'text' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["text"]
+
+    @text.setter
+    def text(self, val):
+        self["text"] = val
+
+    # textfont
+    # --------
+    @property
+    def textfont(self):
+        """
+        Sets the font used for `textinfo`.
+    
+        The 'textfont' property is an instance of Textfont
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Textfont
+          - A dict of string/value properties that will be passed
+            to the Textfont constructor
+    
+            Supported dict properties:
+                
+                color
+    
+                colorsrc
+                    Sets the source reference on plot.ly for  color
+                    .
+                family
+                    HTML font family - the typeface that will be
+                    applied by the web browser. The web browser
+                    will only be able to apply a font if it is
+                    available on the system which it operates.
+                    Provide multiple font families, separated by
+                    commas, to indicate the preference in which to
+                    apply fonts if they aren't available on the
+                    system. The plotly service (at https://plot.ly
+                    or on-premise) generates images on a server,
+                    where only a select number of fonts are
+                    installed and supported. These include "Arial",
+                    "Balto", "Courier New", "Droid Sans",, "Droid
+                    Serif", "Droid Sans Mono", "Gravitas One", "Old
+                    Standard TT", "Open Sans", "Overpass", "PT Sans
+                    Narrow", "Raleway", "Times New Roman".
+                familysrc
+                    Sets the source reference on plot.ly for
+                    family .
+                size
+    
+                sizesrc
+                    Sets the source reference on plot.ly for  size
+                    .
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Textfont
+        """
+        return self["textfont"]
+
+    @textfont.setter
+    def textfont(self, val):
+        self["textfont"] = val
+
+    # textinfo
+    # --------
+    @property
+    def textinfo(self):
+        """
+        Determines which trace information appear on the graph.
+    
+        The 'textinfo' property is a flaglist and may be specified
+        as a string containing:
+          - Any combination of ['label', 'text', 'value', 'current path', 'percent root', 'percent entry', 'percent parent'] joined with '+' characters
+            (e.g. 'label+text')
+            OR exactly one of ['none'] (e.g. 'none')
+
+        Returns
+        -------
+        Any
+        """
+        return self["textinfo"]
+
+    @textinfo.setter
+    def textinfo(self, val):
+        self["textinfo"] = val
+
+    # textposition
+    # ------------
+    @property
+    def textposition(self):
+        """
+        Sets the positions of the `text` elements.
+    
+        The 'textposition' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['top left', 'top center', 'top right', 'middle left',
+                'middle center', 'middle right', 'bottom left', 'bottom
+                center', 'bottom right']
+
+        Returns
+        -------
+        Any
+        """
+        return self["textposition"]
+
+    @textposition.setter
+    def textposition(self, val):
+        self["textposition"] = val
+
+    # textsrc
+    # -------
+    @property
+    def textsrc(self):
+        """
+        Sets the source reference on plot.ly for  text .
+    
+        The 'textsrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["textsrc"]
+
+    @textsrc.setter
+    def textsrc(self, val):
+        self["textsrc"] = val
+
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `currentPath`, `root`, `entry`,
+        `percentRoot`, `percentEntry`, `percentParent`, `label` and
+        `value`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
+    # tiling
+    # ------
+    @property
+    def tiling(self):
+        """
+        The 'tiling' property is an instance of Tiling
+        that may be specified as:
+          - An instance of plotly.graph_objs.treemap.Tiling
+          - A dict of string/value properties that will be passed
+            to the Tiling constructor
+    
+            Supported dict properties:
+                
+                flip
+                    Determines if the positions obtained from
+                    solver are flipped on each axis.
+                packing
+                    Determines d3 treemap solver. For more info
+                    please refer to
+                    https://github.com/d3/d3-hierarchy#treemap-
+                    tiling
+                pad
+                    Sets the inner padding (in px).
+                squarifyratio
+                    When using "squarify" `packing` algorithm,
+                    according to https://github.com/d3/d3-hierarchy
+                    /blob/master/README.md#squarify_ratio this
+                    option specifies the desired aspect ratio of
+                    the generated rectangles. The ratio must be
+                    specified as a number greater than or equal to
+                    one. Note that the orientation of the generated
+                    rectangles (tall or wide) is not implied by the
+                    ratio; for example, a ratio of two will attempt
+                    to produce a mixture of rectangles whose
+                    width:height ratio is either 2:1 or 1:2. When
+                    using "squarify", unlike d3 which uses the
+                    Golden Ratio i.e. 1.618034, Plotly applies 1 to
+                    increase squares in treemap layouts.
+
+        Returns
+        -------
+        plotly.graph_objs.treemap.Tiling
+        """
+        return self["tiling"]
+
+    @tiling.setter
+    def tiling(self, val):
+        self["tiling"] = val
+
+    # uid
+    # ---
+    @property
+    def uid(self):
+        """
+        Assign an id to this trace, Use this to provide object
+        constancy between traces during animations and transitions.
+    
+        The 'uid' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["uid"]
+
+    @uid.setter
+    def uid(self, val):
+        self["uid"] = val
+
+    # uirevision
+    # ----------
+    @property
+    def uirevision(self):
+        """
+        Controls persistence of some user-driven changes to the trace:
+        `constraintrange` in `parcoords` traces, as well as some
+        `editable: true` modifications such as `name` and
+        `colorbar.title`. Defaults to `layout.uirevision`. Note that
+        other user-driven trace attribute changes are controlled by
+        `layout` attributes: `trace.visible` is controlled by
+        `layout.legend.uirevision`, `selectedpoints` is controlled by
+        `layout.selectionrevision`, and `colorbar.(x|y)` (accessible
+        with `config: {editable: true}`) is controlled by
+        `layout.editrevision`. Trace changes are tracked by `uid`,
+        which only falls back on trace index if no `uid` is provided.
+        So if your app can add/remove traces before the end of the
+        `data` array, such that the same trace has a different index,
+        you can still preserve user-driven changes if you give each
+        trace a `uid` that stays with it as it moves.
+    
+        The 'uirevision' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["uirevision"]
+
+    @uirevision.setter
+    def uirevision(self, val):
+        self["uirevision"] = val
+
+    # values
+    # ------
+    @property
+    def values(self):
+        """
+        Sets the values associated with each of the sectors. Use with
+        `branchvalues` to determine how the values are summed.
+    
+        The 'values' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["values"]
+
+    @values.setter
+    def values(self, val):
+        self["values"] = val
+
+    # valuessrc
+    # ---------
+    @property
+    def valuessrc(self):
+        """
+        Sets the source reference on plot.ly for  values .
+    
+        The 'valuessrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["valuessrc"]
+
+    @valuessrc.setter
+    def valuessrc(self, val):
+        self["valuessrc"] = val
+
+    # visible
+    # -------
+    @property
+    def visible(self):
+        """
+        Determines whether or not this trace is visible. If
+        "legendonly", the trace is not drawn, but can appear as a
+        legend item (provided that the legend itself is visible).
+    
+        The 'visible' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                [True, False, 'legendonly']
+
+        Returns
+        -------
+        Any
+        """
+        return self["visible"]
+
+    @visible.setter
+    def visible(self, val):
+        self["visible"] = val
+
+    # type
+    # ----
+    @property
+    def type(self):
+        return self._props["type"]
+
+    # property parent name
+    # --------------------
+    @property
+    def _parent_path_str(self):
+        return ""
+
+    # Self properties description
+    # ---------------------------
+    @property
+    def _prop_descriptions(self):
+        return """\
+        branchvalues
+            Determines how the items in `values` are summed. When
+            set to "total", items in `values` are taken to be value
+            of all its descendants. When set to "remainder", items
+            in `values` corresponding to the root and the branches
+            sectors are taken to be the extra part not part of the
+            sum of the values at their leaves.
+        count
+            Determines default for `values` when it is not
+            provided, by inferring a 1 for each of the "leaves"
+            and/or "branches", otherwise 0.
+        customdata
+            Assigns extra data each datum. This may be useful when
+            listening to hover, click and selection events. Note
+            that, "scatter" traces also appends customdata items in
+            the markers DOM elements
+        customdatasrc
+            Sets the source reference on plot.ly for  customdata .
+        domain
+            plotly.graph_objects.treemap.Domain instance or dict
+            with compatible properties
+        hoverinfo
+            Determines which trace information appear on hover. If
+            `none` or `skip` are set, no information is displayed
+            upon hovering. But, if `none` is set, click and hover
+            events are still fired.
+        hoverinfosrc
+            Sets the source reference on plot.ly for  hoverinfo .
+        hoverlabel
+            plotly.graph_objects.treemap.Hoverlabel instance or
+            dict with compatible properties
+        hovertemplate
+            Template string used for rendering the information that
+            appear on hover box. Note that this will override
+            `hoverinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
+            available in `hovertemplate` are the ones emitted as
+            event data described at this link
+            https://plot.ly/javascript/plotlyjs-events/#event-data.
+            Additionally, every attributes that can be specified
+            per-point (the ones that are `arrayOk: true`) are
+            available. variables `currentPath`, `root`, `entry`,
+            `percentRoot`, `percentEntry` and `percentParent`.
+            Anything contained in tag `<extra>` is displayed in the
+            secondary box, for example
+            "<extra>{fullData.name}</extra>". To hide the secondary
+            box completely, use an empty tag `<extra></extra>`.
+        hovertemplatesrc
+            Sets the source reference on plot.ly for  hovertemplate
+            .
+        hovertext
+            Sets hover text elements associated with each sector.
+            If a single string, the same string appears for all
+            data points. If an array of string, the items are
+            mapped in order of this trace's sectors. To be seen,
+            trace `hoverinfo` must contain a "text" flag.
+        hovertextsrc
+            Sets the source reference on plot.ly for  hovertext .
+        ids
+            Assigns id labels to each datum. These ids for object
+            constancy of data points during animation. Should be an
+            array of strings, not numbers or any other type.
+        idssrc
+            Sets the source reference on plot.ly for  ids .
+        insidetextfont
+            Sets the font used for `textinfo` lying inside the
+            sector.
+        labels
+            Sets the labels of each of the sectors.
+        labelssrc
+            Sets the source reference on plot.ly for  labels .
+        level
+            Sets the level from which this trace hierarchy is
+            rendered. Set `level` to `''` to start from the root
+            node in the hierarchy. Must be an "id" if `ids` is
+            filled in, otherwise plotly attempts to find a matching
+            item in `labels`.
+        marker
+            plotly.graph_objects.treemap.Marker instance or dict
+            with compatible properties
+        maxdepth
+            Sets the number of rendered sectors from any given
+            `level`. Set `maxdepth` to "-1" to render all the
+            levels in the hierarchy.
+        meta
+            Assigns extra meta information associated with this
+            trace that can be used in various text attributes.
+            Attributes such as trace `name`, graph, axis and
+            colorbar `title.text`, annotation `text`
+            `rangeselector`, `updatemenues` and `sliders` `label`
+            text all support `meta`. To access the trace `meta`
+            values in an attribute in the same trace, simply use
+            `%{meta[i]}` where `i` is the index or key of the
+            `meta` item in question. To access trace `meta` in
+            layout attributes, use `%{data[n[.meta[i]}` where `i`
+            is the index or key of the `meta` and `n` is the trace
+            index.
+        metasrc
+            Sets the source reference on plot.ly for  meta .
+        name
+            Sets the trace name. The trace name appear as the
+            legend item and on hover.
+        opacity
+            Sets the opacity of the trace.
+        outsidetextfont
+            Sets the font used for `textinfo` lying outside the
+            sector.
+        parents
+            Sets the parent sectors for each of the sectors. Empty
+            string items '' are understood to reference the root
+            node in the hierarchy. If `ids` is filled, `parents`
+            items are understood to be "ids" themselves. When `ids`
+            is not set, plotly attempts to find matching items in
+            `labels`, but beware they must be unique.
+        parentssrc
+            Sets the source reference on plot.ly for  parents .
+        pathbar
+            plotly.graph_objects.treemap.Pathbar instance or dict
+            with compatible properties
+        stream
+            plotly.graph_objects.treemap.Stream instance or dict
+            with compatible properties
+        text
+            Sets text elements associated with each sector. If
+            trace `textinfo` contains a "text" flag, these elements
+            will be seen on the chart. If trace `hoverinfo`
+            contains a "text" flag and "hovertext" is not set,
+            these elements will be seen in the hover labels.
+        textfont
+            Sets the font used for `textinfo`.
+        textinfo
+            Determines which trace information appear on the graph.
+        textposition
+            Sets the positions of the `text` elements.
+        textsrc
+            Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `currentPath`, `root`, `entry`, `percentRoot`,
+            `percentEntry`, `percentParent`, `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
+        tiling
+            plotly.graph_objects.treemap.Tiling instance or dict
+            with compatible properties
+        uid
+            Assign an id to this trace, Use this to provide object
+            constancy between traces during animations and
+            transitions.
+        uirevision
+            Controls persistence of some user-driven changes to the
+            trace: `constraintrange` in `parcoords` traces, as well
+            as some `editable: true` modifications such as `name`
+            and `colorbar.title`. Defaults to `layout.uirevision`.
+            Note that other user-driven trace attribute changes are
+            controlled by `layout` attributes: `trace.visible` is
+            controlled by `layout.legend.uirevision`,
+            `selectedpoints` is controlled by
+            `layout.selectionrevision`, and `colorbar.(x|y)`
+            (accessible with `config: {editable: true}`) is
+            controlled by `layout.editrevision`. Trace changes are
+            tracked by `uid`, which only falls back on trace index
+            if no `uid` is provided. So if your app can add/remove
+            traces before the end of the `data` array, such that
+            the same trace has a different index, you can still
+            preserve user-driven changes if you give each trace a
+            `uid` that stays with it as it moves.
+        values
+            Sets the values associated with each of the sectors.
+            Use with `branchvalues` to determine how the values are
+            summed.
+        valuessrc
+            Sets the source reference on plot.ly for  values .
+        visible
+            Determines whether or not this trace is visible. If
+            "legendonly", the trace is not drawn, but can appear as
+            a legend item (provided that the legend itself is
+            visible).
+        """
+
+    def __init__(
+        self,
+        arg=None,
+        branchvalues=None,
+        count=None,
+        customdata=None,
+        customdatasrc=None,
+        domain=None,
+        hoverinfo=None,
+        hoverinfosrc=None,
+        hoverlabel=None,
+        hovertemplate=None,
+        hovertemplatesrc=None,
+        hovertext=None,
+        hovertextsrc=None,
+        ids=None,
+        idssrc=None,
+        insidetextfont=None,
+        labels=None,
+        labelssrc=None,
+        level=None,
+        marker=None,
+        maxdepth=None,
+        meta=None,
+        metasrc=None,
+        name=None,
+        opacity=None,
+        outsidetextfont=None,
+        parents=None,
+        parentssrc=None,
+        pathbar=None,
+        stream=None,
+        text=None,
+        textfont=None,
+        textinfo=None,
+        textposition=None,
+        textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
+        tiling=None,
+        uid=None,
+        uirevision=None,
+        values=None,
+        valuessrc=None,
+        visible=None,
+        **kwargs
+    ):
+        """
+        Construct a new Treemap object
+        
+        Visualize hierarchal data from leaves (and/or outer branches)
+        towards root with rectangles. The treemap sectors are
+        determined by the entries in "labels" or "ids" and in
+        "parents".
+
+        Parameters
+        ----------
+        arg
+            dict of properties compatible with this constructor or
+            an instance of plotly.graph_objs.Treemap
+        branchvalues
+            Determines how the items in `values` are summed. When
+            set to "total", items in `values` are taken to be value
+            of all its descendants. When set to "remainder", items
+            in `values` corresponding to the root and the branches
+            sectors are taken to be the extra part not part of the
+            sum of the values at their leaves.
+        count
+            Determines default for `values` when it is not
+            provided, by inferring a 1 for each of the "leaves"
+            and/or "branches", otherwise 0.
+        customdata
+            Assigns extra data each datum. This may be useful when
+            listening to hover, click and selection events. Note
+            that, "scatter" traces also appends customdata items in
+            the markers DOM elements
+        customdatasrc
+            Sets the source reference on plot.ly for  customdata .
+        domain
+            plotly.graph_objects.treemap.Domain instance or dict
+            with compatible properties
+        hoverinfo
+            Determines which trace information appear on hover. If
+            `none` or `skip` are set, no information is displayed
+            upon hovering. But, if `none` is set, click and hover
+            events are still fired.
+        hoverinfosrc
+            Sets the source reference on plot.ly for  hoverinfo .
+        hoverlabel
+            plotly.graph_objects.treemap.Hoverlabel instance or
+            dict with compatible properties
+        hovertemplate
+            Template string used for rendering the information that
+            appear on hover box. Note that this will override
+            `hoverinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
+            available in `hovertemplate` are the ones emitted as
+            event data described at this link
+            https://plot.ly/javascript/plotlyjs-events/#event-data.
+            Additionally, every attributes that can be specified
+            per-point (the ones that are `arrayOk: true`) are
+            available. variables `currentPath`, `root`, `entry`,
+            `percentRoot`, `percentEntry` and `percentParent`.
+            Anything contained in tag `<extra>` is displayed in the
+            secondary box, for example
+            "<extra>{fullData.name}</extra>". To hide the secondary
+            box completely, use an empty tag `<extra></extra>`.
+        hovertemplatesrc
+            Sets the source reference on plot.ly for  hovertemplate
+            .
+        hovertext
+            Sets hover text elements associated with each sector.
+            If a single string, the same string appears for all
+            data points. If an array of string, the items are
+            mapped in order of this trace's sectors. To be seen,
+            trace `hoverinfo` must contain a "text" flag.
+        hovertextsrc
+            Sets the source reference on plot.ly for  hovertext .
+        ids
+            Assigns id labels to each datum. These ids for object
+            constancy of data points during animation. Should be an
+            array of strings, not numbers or any other type.
+        idssrc
+            Sets the source reference on plot.ly for  ids .
+        insidetextfont
+            Sets the font used for `textinfo` lying inside the
+            sector.
+        labels
+            Sets the labels of each of the sectors.
+        labelssrc
+            Sets the source reference on plot.ly for  labels .
+        level
+            Sets the level from which this trace hierarchy is
+            rendered. Set `level` to `''` to start from the root
+            node in the hierarchy. Must be an "id" if `ids` is
+            filled in, otherwise plotly attempts to find a matching
+            item in `labels`.
+        marker
+            plotly.graph_objects.treemap.Marker instance or dict
+            with compatible properties
+        maxdepth
+            Sets the number of rendered sectors from any given
+            `level`. Set `maxdepth` to "-1" to render all the
+            levels in the hierarchy.
+        meta
+            Assigns extra meta information associated with this
+            trace that can be used in various text attributes.
+            Attributes such as trace `name`, graph, axis and
+            colorbar `title.text`, annotation `text`
+            `rangeselector`, `updatemenues` and `sliders` `label`
+            text all support `meta`. To access the trace `meta`
+            values in an attribute in the same trace, simply use
+            `%{meta[i]}` where `i` is the index or key of the
+            `meta` item in question. To access trace `meta` in
+            layout attributes, use `%{data[n[.meta[i]}` where `i`
+            is the index or key of the `meta` and `n` is the trace
+            index.
+        metasrc
+            Sets the source reference on plot.ly for  meta .
+        name
+            Sets the trace name. The trace name appear as the
+            legend item and on hover.
+        opacity
+            Sets the opacity of the trace.
+        outsidetextfont
+            Sets the font used for `textinfo` lying outside the
+            sector.
+        parents
+            Sets the parent sectors for each of the sectors. Empty
+            string items '' are understood to reference the root
+            node in the hierarchy. If `ids` is filled, `parents`
+            items are understood to be "ids" themselves. When `ids`
+            is not set, plotly attempts to find matching items in
+            `labels`, but beware they must be unique.
+        parentssrc
+            Sets the source reference on plot.ly for  parents .
+        pathbar
+            plotly.graph_objects.treemap.Pathbar instance or dict
+            with compatible properties
+        stream
+            plotly.graph_objects.treemap.Stream instance or dict
+            with compatible properties
+        text
+            Sets text elements associated with each sector. If
+            trace `textinfo` contains a "text" flag, these elements
+            will be seen on the chart. If trace `hoverinfo`
+            contains a "text" flag and "hovertext" is not set,
+            these elements will be seen in the hover labels.
+        textfont
+            Sets the font used for `textinfo`.
+        textinfo
+            Determines which trace information appear on the graph.
+        textposition
+            Sets the positions of the `text` elements.
+        textsrc
+            Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `currentPath`, `root`, `entry`, `percentRoot`,
+            `percentEntry`, `percentParent`, `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
+        tiling
+            plotly.graph_objects.treemap.Tiling instance or dict
+            with compatible properties
+        uid
+            Assign an id to this trace, Use this to provide object
+            constancy between traces during animations and
+            transitions.
+        uirevision
+            Controls persistence of some user-driven changes to the
+            trace: `constraintrange` in `parcoords` traces, as well
+            as some `editable: true` modifications such as `name`
+            and `colorbar.title`. Defaults to `layout.uirevision`.
+            Note that other user-driven trace attribute changes are
+            controlled by `layout` attributes: `trace.visible` is
+            controlled by `layout.legend.uirevision`,
+            `selectedpoints` is controlled by
+            `layout.selectionrevision`, and `colorbar.(x|y)`
+            (accessible with `config: {editable: true}`) is
+            controlled by `layout.editrevision`. Trace changes are
+            tracked by `uid`, which only falls back on trace index
+            if no `uid` is provided. So if your app can add/remove
+            traces before the end of the `data` array, such that
+            the same trace has a different index, you can still
+            preserve user-driven changes if you give each trace a
+            `uid` that stays with it as it moves.
+        values
+            Sets the values associated with each of the sectors.
+            Use with `branchvalues` to determine how the values are
+            summed.
+        valuessrc
+            Sets the source reference on plot.ly for  values .
+        visible
+            Determines whether or not this trace is visible. If
+            "legendonly", the trace is not drawn, but can appear as
+            a legend item (provided that the legend itself is
+            visible).
+
+        Returns
+        -------
+        Treemap
+        """
+        super(Treemap, self).__init__("treemap")
+
+        # Validate arg
+        # ------------
+        if arg is None:
+            arg = {}
+        elif isinstance(arg, self.__class__):
+            arg = arg.to_plotly_json()
+        elif isinstance(arg, dict):
+            arg = _copy.copy(arg)
+        else:
+            raise ValueError(
+                """\
+The first argument to the plotly.graph_objs.Treemap 
+constructor must be a dict or 
+an instance of plotly.graph_objs.Treemap"""
+            )
+
+        # Handle skip_invalid
+        # -------------------
+        self._skip_invalid = kwargs.pop("skip_invalid", False)
+
+        # Import validators
+        # -----------------
+        from plotly.validators import treemap as v_treemap
+
+        # Initialize validators
+        # ---------------------
+        self._validators["branchvalues"] = v_treemap.BranchvaluesValidator()
+        self._validators["count"] = v_treemap.CountValidator()
+        self._validators["customdata"] = v_treemap.CustomdataValidator()
+        self._validators["customdatasrc"] = v_treemap.CustomdatasrcValidator()
+        self._validators["domain"] = v_treemap.DomainValidator()
+        self._validators["hoverinfo"] = v_treemap.HoverinfoValidator()
+        self._validators["hoverinfosrc"] = v_treemap.HoverinfosrcValidator()
+        self._validators["hoverlabel"] = v_treemap.HoverlabelValidator()
+        self._validators["hovertemplate"] = v_treemap.HovertemplateValidator()
+        self._validators["hovertemplatesrc"] = v_treemap.HovertemplatesrcValidator()
+        self._validators["hovertext"] = v_treemap.HovertextValidator()
+        self._validators["hovertextsrc"] = v_treemap.HovertextsrcValidator()
+        self._validators["ids"] = v_treemap.IdsValidator()
+        self._validators["idssrc"] = v_treemap.IdssrcValidator()
+        self._validators["insidetextfont"] = v_treemap.InsidetextfontValidator()
+        self._validators["labels"] = v_treemap.LabelsValidator()
+        self._validators["labelssrc"] = v_treemap.LabelssrcValidator()
+        self._validators["level"] = v_treemap.LevelValidator()
+        self._validators["marker"] = v_treemap.MarkerValidator()
+        self._validators["maxdepth"] = v_treemap.MaxdepthValidator()
+        self._validators["meta"] = v_treemap.MetaValidator()
+        self._validators["metasrc"] = v_treemap.MetasrcValidator()
+        self._validators["name"] = v_treemap.NameValidator()
+        self._validators["opacity"] = v_treemap.OpacityValidator()
+        self._validators["outsidetextfont"] = v_treemap.OutsidetextfontValidator()
+        self._validators["parents"] = v_treemap.ParentsValidator()
+        self._validators["parentssrc"] = v_treemap.ParentssrcValidator()
+        self._validators["pathbar"] = v_treemap.PathbarValidator()
+        self._validators["stream"] = v_treemap.StreamValidator()
+        self._validators["text"] = v_treemap.TextValidator()
+        self._validators["textfont"] = v_treemap.TextfontValidator()
+        self._validators["textinfo"] = v_treemap.TextinfoValidator()
+        self._validators["textposition"] = v_treemap.TextpositionValidator()
+        self._validators["textsrc"] = v_treemap.TextsrcValidator()
+        self._validators["texttemplate"] = v_treemap.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_treemap.TexttemplatesrcValidator()
+        self._validators["tiling"] = v_treemap.TilingValidator()
+        self._validators["uid"] = v_treemap.UidValidator()
+        self._validators["uirevision"] = v_treemap.UirevisionValidator()
+        self._validators["values"] = v_treemap.ValuesValidator()
+        self._validators["valuessrc"] = v_treemap.ValuessrcValidator()
+        self._validators["visible"] = v_treemap.VisibleValidator()
+
+        # Populate data dict with properties
+        # ----------------------------------
+        _v = arg.pop("branchvalues", None)
+        self["branchvalues"] = branchvalues if branchvalues is not None else _v
+        _v = arg.pop("count", None)
+        self["count"] = count if count is not None else _v
+        _v = arg.pop("customdata", None)
+        self["customdata"] = customdata if customdata is not None else _v
+        _v = arg.pop("customdatasrc", None)
+        self["customdatasrc"] = customdatasrc if customdatasrc is not None else _v
+        _v = arg.pop("domain", None)
+        self["domain"] = domain if domain is not None else _v
+        _v = arg.pop("hoverinfo", None)
+        self["hoverinfo"] = hoverinfo if hoverinfo is not None else _v
+        _v = arg.pop("hoverinfosrc", None)
+        self["hoverinfosrc"] = hoverinfosrc if hoverinfosrc is not None else _v
+        _v = arg.pop("hoverlabel", None)
+        self["hoverlabel"] = hoverlabel if hoverlabel is not None else _v
+        _v = arg.pop("hovertemplate", None)
+        self["hovertemplate"] = hovertemplate if hovertemplate is not None else _v
+        _v = arg.pop("hovertemplatesrc", None)
+        self["hovertemplatesrc"] = (
+            hovertemplatesrc if hovertemplatesrc is not None else _v
+        )
+        _v = arg.pop("hovertext", None)
+        self["hovertext"] = hovertext if hovertext is not None else _v
+        _v = arg.pop("hovertextsrc", None)
+        self["hovertextsrc"] = hovertextsrc if hovertextsrc is not None else _v
+        _v = arg.pop("ids", None)
+        self["ids"] = ids if ids is not None else _v
+        _v = arg.pop("idssrc", None)
+        self["idssrc"] = idssrc if idssrc is not None else _v
+        _v = arg.pop("insidetextfont", None)
+        self["insidetextfont"] = insidetextfont if insidetextfont is not None else _v
+        _v = arg.pop("labels", None)
+        self["labels"] = labels if labels is not None else _v
+        _v = arg.pop("labelssrc", None)
+        self["labelssrc"] = labelssrc if labelssrc is not None else _v
+        _v = arg.pop("level", None)
+        self["level"] = level if level is not None else _v
+        _v = arg.pop("marker", None)
+        self["marker"] = marker if marker is not None else _v
+        _v = arg.pop("maxdepth", None)
+        self["maxdepth"] = maxdepth if maxdepth is not None else _v
+        _v = arg.pop("meta", None)
+        self["meta"] = meta if meta is not None else _v
+        _v = arg.pop("metasrc", None)
+        self["metasrc"] = metasrc if metasrc is not None else _v
+        _v = arg.pop("name", None)
+        self["name"] = name if name is not None else _v
+        _v = arg.pop("opacity", None)
+        self["opacity"] = opacity if opacity is not None else _v
+        _v = arg.pop("outsidetextfont", None)
+        self["outsidetextfont"] = outsidetextfont if outsidetextfont is not None else _v
+        _v = arg.pop("parents", None)
+        self["parents"] = parents if parents is not None else _v
+        _v = arg.pop("parentssrc", None)
+        self["parentssrc"] = parentssrc if parentssrc is not None else _v
+        _v = arg.pop("pathbar", None)
+        self["pathbar"] = pathbar if pathbar is not None else _v
+        _v = arg.pop("stream", None)
+        self["stream"] = stream if stream is not None else _v
+        _v = arg.pop("text", None)
+        self["text"] = text if text is not None else _v
+        _v = arg.pop("textfont", None)
+        self["textfont"] = textfont if textfont is not None else _v
+        _v = arg.pop("textinfo", None)
+        self["textinfo"] = textinfo if textinfo is not None else _v
+        _v = arg.pop("textposition", None)
+        self["textposition"] = textposition if textposition is not None else _v
+        _v = arg.pop("textsrc", None)
+        self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
+        _v = arg.pop("tiling", None)
+        self["tiling"] = tiling if tiling is not None else _v
+        _v = arg.pop("uid", None)
+        self["uid"] = uid if uid is not None else _v
+        _v = arg.pop("uirevision", None)
+        self["uirevision"] = uirevision if uirevision is not None else _v
+        _v = arg.pop("values", None)
+        self["values"] = values if values is not None else _v
+        _v = arg.pop("valuessrc", None)
+        self["valuessrc"] = valuessrc if valuessrc is not None else _v
+        _v = arg.pop("visible", None)
+        self["visible"] = visible if visible is not None else _v
+
+        # Read-only literals
+        # ------------------
+        from _plotly_utils.basevalidators import LiteralValidator
+
+        self._props["type"] = "treemap"
+        self._validators["type"] = LiteralValidator(
+            plotly_name="type", parent_name="treemap", val="treemap"
         )
         arg.pop("type", None)
 
@@ -13962,7 +10578,11 @@ class Surface(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -14817,7 +11437,12 @@ class Surface(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -15102,7 +11727,12 @@ class Surface(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -15465,6 +12095,30 @@ class Sunburst(_BaseTraceType):
     def branchvalues(self, val):
         self["branchvalues"] = val
 
+    # count
+    # -----
+    @property
+    def count(self):
+        """
+        Determines default for `values` when it is not provided, by
+        inferring a 1 for each of the "leaves" and/or "branches",
+        otherwise 0.
+    
+        The 'count' property is a flaglist and may be specified
+        as a string containing:
+          - Any combination of ['branches', 'leaves'] joined with '+' characters
+            (e.g. 'branches+leaves')
+
+        Returns
+        -------
+        Any
+        """
+        return self["count"]
+
+    @count.setter
+    def count(self, val):
+        self["count"] = val
+
     # customdata
     # ----------
     @property
@@ -15556,7 +12210,7 @@ class Sunburst(_BaseTraceType):
     
         The 'hoverinfo' property is a flaglist and may be specified
         as a string containing:
-          - Any combination of ['label', 'text', 'value', 'name'] joined with '+' characters
+          - Any combination of ['label', 'text', 'value', 'name', 'current path', 'percent root', 'percent entry', 'percent parent'] joined with '+' characters
             (e.g. 'label+text')
             OR exactly one of ['all', 'none', 'skip'] (e.g. 'skip')
           - A list or array of the above
@@ -15662,15 +12316,20 @@ class Sunburst(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
         point (the ones that are `arrayOk: true`) are available.
-        Anything contained in tag `<extra>` is displayed in the
-        secondary box, for example "<extra>{fullData.name}</extra>". To
-        hide the secondary box completely, use an empty tag
-        `<extra></extra>`.
+        variables `currentPath`, `root`, `entry`, `percentRoot`,
+        `percentEntry` and `percentParent`. Anything contained in tag
+        `<extra>` is displayed in the secondary box, for example
+        "<extra>{fullData.name}</extra>". To hide the secondary box
+        completely, use an empty tag `<extra></extra>`.
     
         The 'hovertemplate' property is a string and must be specified as:
           - A string
@@ -15855,7 +12514,7 @@ class Sunburst(_BaseTraceType):
     @property
     def labels(self):
         """
-        Sets the labels of each of the sunburst sectors.
+        Sets the labels of each of the sectors.
     
         The 'labels' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -15904,7 +12563,9 @@ class Sunburst(_BaseTraceType):
             Supported dict properties:
                 
                 opacity
-                    Sets the opacity of the leaves.
+                    Sets the opacity of the leaves. With colorscale
+                    it is defaulted to 1; otherwise it is defaulted
+                    to 0.7
 
         Returns
         -------
@@ -15921,11 +12582,10 @@ class Sunburst(_BaseTraceType):
     @property
     def level(self):
         """
-        Sets the level from which this sunburst trace hierarchy is
-        rendered. Set `level` to `''` to start the sunburst from the
-        root node in the hierarchy. Must be an "id" if `ids` is filled
-        in, otherwise plotly attempts to find a matching item in
-        `labels`.
+        Sets the level from which this trace hierarchy is rendered. Set
+        `level` to `''` to start from the root node in the hierarchy.
+        Must be an "id" if `ids` is filled in, otherwise plotly
+        attempts to find a matching item in `labels`.
     
         The 'level' property accepts values of any type
 
@@ -15952,16 +12612,92 @@ class Sunburst(_BaseTraceType):
     
             Supported dict properties:
                 
+                autocolorscale
+                    Determines whether the colorscale is a default
+                    palette (`autocolorscale: true`) or the palette
+                    determined by `marker.colorscale`. Has an
+                    effect only if colorsis set to a numerical
+                    array. In case `colorscale` is unspecified or
+                    `autocolorscale` is true, the default  palette
+                    will be chosen according to whether numbers in
+                    the `color` array are all positive, all
+                    negative or mixed.
+                cauto
+                    Determines whether or not the color domain is
+                    computed with respect to the input data (here
+                    colors) or the bounds set in `marker.cmin` and
+                    `marker.cmax`  Has an effect only if colorsis
+                    set to a numerical array. Defaults to `false`
+                    when `marker.cmin` and `marker.cmax` are set by
+                    the user.
+                cmax
+                    Sets the upper bound of the color domain. Has
+                    an effect only if colorsis set to a numerical
+                    array. Value should have the same units as
+                    colors and if set, `marker.cmin` must be set as
+                    well.
+                cmid
+                    Sets the mid-point of the color domain by
+                    scaling `marker.cmin` and/or `marker.cmax` to
+                    be equidistant to this point. Has an effect
+                    only if colorsis set to a numerical array.
+                    Value should have the same units as colors. Has
+                    no effect when `marker.cauto` is `false`.
+                cmin
+                    Sets the lower bound of the color domain. Has
+                    an effect only if colorsis set to a numerical
+                    array. Value should have the same units as
+                    colors and if set, `marker.cmax` must be set as
+                    well.
+                coloraxis
+                    Sets a reference to a shared color axis.
+                    References to these shared color axes are
+                    "coloraxis", "coloraxis2", "coloraxis3", etc.
+                    Settings for these shared color axes are set in
+                    the layout, under `layout.coloraxis`,
+                    `layout.coloraxis2`, etc. Note that multiple
+                    color scales can be linked to the same color
+                    axis.
+                colorbar
+                    plotly.graph_objects.sunburst.marker.ColorBar
+                    instance or dict with compatible properties
                 colors
-                    Sets the color of each sector of this sunburst
-                    chart. If not specified, the default trace
-                    color set is used to pick the sector colors.
+                    Sets the color of each sector of this trace. If
+                    not specified, the default trace color set is
+                    used to pick the sector colors.
+                colorscale
+                    Sets the colorscale. Has an effect only if
+                    colorsis set to a numerical array. The
+                    colorscale must be an array containing arrays
+                    mapping a normalized value to an rgb, rgba,
+                    hex, hsl, hsv, or named color string. At
+                    minimum, a mapping for the lowest (0) and
+                    highest (1) values are required. For example,
+                    `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`.
+                    To control the bounds of the colorscale in
+                    color space, use`marker.cmin` and
+                    `marker.cmax`. Alternatively, `colorscale` may
+                    be a palette name string of the following list:
+                    Greys,YlGnBu,Greens,YlOrRd,Bluered,RdBu,Reds,Bl
+                    ues,Picnic,Rainbow,Portland,Jet,Hot,Blackbody,E
+                    arth,Electric,Viridis,Cividis.
                 colorssrc
                     Sets the source reference on plot.ly for
                     colors .
                 line
                     plotly.graph_objects.sunburst.marker.Line
                     instance or dict with compatible properties
+                reversescale
+                    Reverses the color mapping if true. Has an
+                    effect only if colorsis set to a numerical
+                    array. If true, `marker.cmin` will correspond
+                    to the last color in the array and
+                    `marker.cmax` will correspond to the first
+                    color.
+                showscale
+                    Determines whether or not a colorbar is
+                    displayed for this trace. Has an effect only if
+                    colorsis set to a numerical array.
 
         Returns
         -------
@@ -15978,9 +12714,8 @@ class Sunburst(_BaseTraceType):
     @property
     def maxdepth(self):
         """
-        Sets the number of rendered sunburst rings from any given
-        `level`. Set `maxdepth` to "-1" to render all the levels in the
-        hierarchy.
+        Sets the number of rendered sectors from any given `level`. Set
+        `maxdepth` to "-1" to render all the levels in the hierarchy.
     
         The 'maxdepth' property is a integer and may be specified as:
           - An int (or float that will be cast to an int)
@@ -16145,12 +12880,12 @@ class Sunburst(_BaseTraceType):
     @property
     def parents(self):
         """
-        Sets the parent sectors for each of the sunburst sectors. Empty
-        string items '' are understood to reference the root node in
-        the hierarchy. If `ids` is filled, `parents` items are
-        understood to be "ids" themselves. When `ids` is not set,
-        plotly attempts to find matching items in `labels`, but beware
-        they must be unique.
+        Sets the parent sectors for each of the sectors. Empty string
+        items '' are understood to reference the root node in the
+        hierarchy. If `ids` is filled, `parents` items are understood
+        to be "ids" themselves. When `ids` is not set, plotly attempts
+        to find matching items in `labels`, but beware they must be
+        unique.
     
         The 'parents' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -16306,7 +13041,7 @@ class Sunburst(_BaseTraceType):
     
         The 'textinfo' property is a flaglist and may be specified
         as a string containing:
-          - Any combination of ['label', 'text', 'value'] joined with '+' characters
+          - Any combination of ['label', 'text', 'value', 'current path', 'percent root', 'percent entry', 'percent parent'] joined with '+' characters
             (e.g. 'label+text')
             OR exactly one of ['none'] (e.g. 'none')
 
@@ -16339,6 +13074,63 @@ class Sunburst(_BaseTraceType):
     @textsrc.setter
     def textsrc(self, val):
         self["textsrc"] = val
+
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `currentPath`, `root`, `entry`,
+        `percentRoot`, `percentEntry`, `percentParent`, `label` and
+        `value`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
 
     # uid
     # ---
@@ -16400,8 +13192,8 @@ class Sunburst(_BaseTraceType):
     @property
     def values(self):
         """
-        Sets the values associated with each of the sunburst sectors.
-        Use with `branchvalues` to determine how the values are summed.
+        Sets the values associated with each of the sectors. Use with
+        `branchvalues` to determine how the values are summed.
     
         The 'values' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -16483,6 +13275,10 @@ class Sunburst(_BaseTraceType):
             in `values` corresponding to the root and the branches
             sectors are taken to be the extra part not part of the
             sum of the values at their leaves.
+        count
+            Determines default for `values` when it is not
+            provided, by inferring a 1 for each of the "leaves"
+            and/or "branches", otherwise 0.
         customdata
             Assigns extra data each datum. This may be useful when
             listening to hover, click and selection events. Note
@@ -16511,14 +13307,21 @@ class Sunburst(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
             Additionally, every attributes that can be specified
             per-point (the ones that are `arrayOk: true`) are
-            available.  Anything contained in tag `<extra>` is
-            displayed in the secondary box, for example
+            available. variables `currentPath`, `root`, `entry`,
+            `percentRoot`, `percentEntry` and `percentParent`.
+            Anything contained in tag `<extra>` is displayed in the
+            secondary box, for example
             "<extra>{fullData.name}</extra>". To hide the secondary
             box completely, use an empty tag `<extra></extra>`.
         hovertemplatesrc
@@ -16542,24 +13345,24 @@ class Sunburst(_BaseTraceType):
             Sets the font used for `textinfo` lying inside the
             sector.
         labels
-            Sets the labels of each of the sunburst sectors.
+            Sets the labels of each of the sectors.
         labelssrc
             Sets the source reference on plot.ly for  labels .
         leaf
             plotly.graph_objects.sunburst.Leaf instance or dict
             with compatible properties
         level
-            Sets the level from which this sunburst trace hierarchy
-            is rendered. Set `level` to `''` to start the sunburst
-            from the root node in the hierarchy. Must be an "id" if
-            `ids` is filled in, otherwise plotly attempts to find a
-            matching item in `labels`.
+            Sets the level from which this trace hierarchy is
+            rendered. Set `level` to `''` to start from the root
+            node in the hierarchy. Must be an "id" if `ids` is
+            filled in, otherwise plotly attempts to find a matching
+            item in `labels`.
         marker
             plotly.graph_objects.sunburst.Marker instance or dict
             with compatible properties
         maxdepth
-            Sets the number of rendered sunburst rings from any
-            given `level`. Set `maxdepth` to "-1" to render all the
+            Sets the number of rendered sectors from any given
+            `level`. Set `maxdepth` to "-1" to render all the
             levels in the hierarchy.
         meta
             Assigns extra meta information associated with this
@@ -16585,13 +13388,12 @@ class Sunburst(_BaseTraceType):
             Sets the font used for `textinfo` lying outside the
             sector.
         parents
-            Sets the parent sectors for each of the sunburst
-            sectors. Empty string items '' are understood to
-            reference the root node in the hierarchy. If `ids` is
-            filled, `parents` items are understood to be "ids"
-            themselves. When `ids` is not set, plotly attempts to
-            find matching items in `labels`, but beware they must
-            be unique.
+            Sets the parent sectors for each of the sectors. Empty
+            string items '' are understood to reference the root
+            node in the hierarchy. If `ids` is filled, `parents`
+            items are understood to be "ids" themselves. When `ids`
+            is not set, plotly attempts to find matching items in
+            `labels`, but beware they must be unique.
         parentssrc
             Sets the source reference on plot.ly for  parents .
         stream
@@ -16609,6 +13411,27 @@ class Sunburst(_BaseTraceType):
             Determines which trace information appear on the graph.
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `currentPath`, `root`, `entry`, `percentRoot`,
+            `percentEntry`, `percentParent`, `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -16632,9 +13455,9 @@ class Sunburst(_BaseTraceType):
             preserve user-driven changes if you give each trace a
             `uid` that stays with it as it moves.
         values
-            Sets the values associated with each of the sunburst
-            sectors. Use with `branchvalues` to determine how the
-            values are summed.
+            Sets the values associated with each of the sectors.
+            Use with `branchvalues` to determine how the values are
+            summed.
         valuessrc
             Sets the source reference on plot.ly for  values .
         visible
@@ -16648,6 +13471,7 @@ class Sunburst(_BaseTraceType):
         self,
         arg=None,
         branchvalues=None,
+        count=None,
         customdata=None,
         customdatasrc=None,
         domain=None,
@@ -16679,6 +13503,8 @@ class Sunburst(_BaseTraceType):
         textfont=None,
         textinfo=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         values=None,
@@ -16705,6 +13531,10 @@ class Sunburst(_BaseTraceType):
             in `values` corresponding to the root and the branches
             sectors are taken to be the extra part not part of the
             sum of the values at their leaves.
+        count
+            Determines default for `values` when it is not
+            provided, by inferring a 1 for each of the "leaves"
+            and/or "branches", otherwise 0.
         customdata
             Assigns extra data each datum. This may be useful when
             listening to hover, click and selection events. Note
@@ -16733,14 +13563,21 @@ class Sunburst(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
             Additionally, every attributes that can be specified
             per-point (the ones that are `arrayOk: true`) are
-            available.  Anything contained in tag `<extra>` is
-            displayed in the secondary box, for example
+            available. variables `currentPath`, `root`, `entry`,
+            `percentRoot`, `percentEntry` and `percentParent`.
+            Anything contained in tag `<extra>` is displayed in the
+            secondary box, for example
             "<extra>{fullData.name}</extra>". To hide the secondary
             box completely, use an empty tag `<extra></extra>`.
         hovertemplatesrc
@@ -16764,24 +13601,24 @@ class Sunburst(_BaseTraceType):
             Sets the font used for `textinfo` lying inside the
             sector.
         labels
-            Sets the labels of each of the sunburst sectors.
+            Sets the labels of each of the sectors.
         labelssrc
             Sets the source reference on plot.ly for  labels .
         leaf
             plotly.graph_objects.sunburst.Leaf instance or dict
             with compatible properties
         level
-            Sets the level from which this sunburst trace hierarchy
-            is rendered. Set `level` to `''` to start the sunburst
-            from the root node in the hierarchy. Must be an "id" if
-            `ids` is filled in, otherwise plotly attempts to find a
-            matching item in `labels`.
+            Sets the level from which this trace hierarchy is
+            rendered. Set `level` to `''` to start from the root
+            node in the hierarchy. Must be an "id" if `ids` is
+            filled in, otherwise plotly attempts to find a matching
+            item in `labels`.
         marker
             plotly.graph_objects.sunburst.Marker instance or dict
             with compatible properties
         maxdepth
-            Sets the number of rendered sunburst rings from any
-            given `level`. Set `maxdepth` to "-1" to render all the
+            Sets the number of rendered sectors from any given
+            `level`. Set `maxdepth` to "-1" to render all the
             levels in the hierarchy.
         meta
             Assigns extra meta information associated with this
@@ -16807,13 +13644,12 @@ class Sunburst(_BaseTraceType):
             Sets the font used for `textinfo` lying outside the
             sector.
         parents
-            Sets the parent sectors for each of the sunburst
-            sectors. Empty string items '' are understood to
-            reference the root node in the hierarchy. If `ids` is
-            filled, `parents` items are understood to be "ids"
-            themselves. When `ids` is not set, plotly attempts to
-            find matching items in `labels`, but beware they must
-            be unique.
+            Sets the parent sectors for each of the sectors. Empty
+            string items '' are understood to reference the root
+            node in the hierarchy. If `ids` is filled, `parents`
+            items are understood to be "ids" themselves. When `ids`
+            is not set, plotly attempts to find matching items in
+            `labels`, but beware they must be unique.
         parentssrc
             Sets the source reference on plot.ly for  parents .
         stream
@@ -16831,6 +13667,27 @@ class Sunburst(_BaseTraceType):
             Determines which trace information appear on the graph.
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `currentPath`, `root`, `entry`, `percentRoot`,
+            `percentEntry`, `percentParent`, `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -16854,9 +13711,9 @@ class Sunburst(_BaseTraceType):
             preserve user-driven changes if you give each trace a
             `uid` that stays with it as it moves.
         values
-            Sets the values associated with each of the sunburst
-            sectors. Use with `branchvalues` to determine how the
-            values are summed.
+            Sets the values associated with each of the sectors.
+            Use with `branchvalues` to determine how the values are
+            summed.
         valuessrc
             Sets the source reference on plot.ly for  values .
         visible
@@ -16898,6 +13755,7 @@ an instance of plotly.graph_objs.Sunburst"""
         # Initialize validators
         # ---------------------
         self._validators["branchvalues"] = v_sunburst.BranchvaluesValidator()
+        self._validators["count"] = v_sunburst.CountValidator()
         self._validators["customdata"] = v_sunburst.CustomdataValidator()
         self._validators["customdatasrc"] = v_sunburst.CustomdatasrcValidator()
         self._validators["domain"] = v_sunburst.DomainValidator()
@@ -16929,6 +13787,8 @@ an instance of plotly.graph_objs.Sunburst"""
         self._validators["textfont"] = v_sunburst.TextfontValidator()
         self._validators["textinfo"] = v_sunburst.TextinfoValidator()
         self._validators["textsrc"] = v_sunburst.TextsrcValidator()
+        self._validators["texttemplate"] = v_sunburst.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_sunburst.TexttemplatesrcValidator()
         self._validators["uid"] = v_sunburst.UidValidator()
         self._validators["uirevision"] = v_sunburst.UirevisionValidator()
         self._validators["values"] = v_sunburst.ValuesValidator()
@@ -16939,6 +13799,8 @@ an instance of plotly.graph_objs.Sunburst"""
         # ----------------------------------
         _v = arg.pop("branchvalues", None)
         self["branchvalues"] = branchvalues if branchvalues is not None else _v
+        _v = arg.pop("count", None)
+        self["count"] = count if count is not None else _v
         _v = arg.pop("customdata", None)
         self["customdata"] = customdata if customdata is not None else _v
         _v = arg.pop("customdatasrc", None)
@@ -17003,6 +13865,10 @@ an instance of plotly.graph_objs.Sunburst"""
         self["textinfo"] = textinfo if textinfo is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -17626,7 +14492,11 @@ class Streamtube(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -18525,7 +15395,12 @@ class Streamtube(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -18725,7 +15600,9 @@ class Streamtube(_BaseTraceType):
         `u`, `v`, and `w`.  By default, the tubes' starting positions
         will be cut from the vector field's x-z plane at its minimum y
         value. To specify your own starting position, use attributes
-        `starts.x`, `starts.y` and `starts.z`.
+        `starts.x`, `starts.y` and `starts.z`. The color is encoded by
+        the norm of (u, v, w), and the local radius by the divergence
+        of (u, v, w).
 
         Parameters
         ----------
@@ -18804,7 +15681,12 @@ class Streamtube(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -19421,7 +16303,11 @@ class Splom(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -20217,7 +17103,12 @@ class Splom(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -20436,7 +17327,12 @@ class Splom(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -21178,7 +18074,11 @@ class Scatterternary(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -21955,6 +18855,61 @@ class Scatterternary(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `a`, `b`, `c` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -22161,7 +19116,12 @@ class Scatterternary(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -22272,6 +19232,26 @@ class Scatterternary(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `a`, `b`, `c`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -22348,6 +19328,8 @@ class Scatterternary(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         unselected=None,
@@ -22445,7 +19427,12 @@ class Scatterternary(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -22556,6 +19543,26 @@ class Scatterternary(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `a`, `b`, `c`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -22664,6 +19671,10 @@ an instance of plotly.graph_objs.Scatterternary"""
             "textpositionsrc"
         ] = v_scatterternary.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scatterternary.TextsrcValidator()
+        self._validators["texttemplate"] = v_scatterternary.TexttemplateValidator()
+        self._validators[
+            "texttemplatesrc"
+        ] = v_scatterternary.TexttemplatesrcValidator()
         self._validators["uid"] = v_scatterternary.UidValidator()
         self._validators["uirevision"] = v_scatterternary.UirevisionValidator()
         self._validators["unselected"] = v_scatterternary.UnselectedValidator()
@@ -22755,6 +19766,10 @@ an instance of plotly.graph_objs.Scatterternary"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -23113,7 +20128,11 @@ class Scatterpolargl(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -23910,6 +20929,61 @@ class Scatterpolargl(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `r`, `theta` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # theta
     # -----
     @property
@@ -24181,7 +21255,12 @@ class Scatterpolargl(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -24293,6 +21372,26 @@ class Scatterpolargl(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `r`, `theta`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         theta
             Sets the angular coordinates
         theta0
@@ -24376,6 +21475,8 @@ class Scatterpolargl(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         theta=None,
         theta0=None,
         thetasrc=None,
@@ -24462,7 +21563,12 @@ class Scatterpolargl(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -24574,6 +21680,26 @@ class Scatterpolargl(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `r`, `theta`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         theta
             Sets the angular coordinates
         theta0
@@ -24689,6 +21815,10 @@ an instance of plotly.graph_objs.Scatterpolargl"""
             "textpositionsrc"
         ] = v_scatterpolargl.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scatterpolargl.TextsrcValidator()
+        self._validators["texttemplate"] = v_scatterpolargl.TexttemplateValidator()
+        self._validators[
+            "texttemplatesrc"
+        ] = v_scatterpolargl.TexttemplatesrcValidator()
         self._validators["theta"] = v_scatterpolargl.ThetaValidator()
         self._validators["theta0"] = v_scatterpolargl.Theta0Validator()
         self._validators["thetasrc"] = v_scatterpolargl.ThetasrcValidator()
@@ -24776,6 +21906,10 @@ an instance of plotly.graph_objs.Scatterpolargl"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("theta", None)
         self["theta"] = theta if theta is not None else _v
         _v = arg.pop("theta0", None)
@@ -25179,7 +22313,11 @@ class Scatterpolar(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -25990,6 +23128,61 @@ class Scatterpolar(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `r`, `theta` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # theta
     # -----
     @property
@@ -26261,7 +23454,12 @@ class Scatterpolar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -26373,6 +23571,26 @@ class Scatterpolar(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `r`, `theta`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         theta
             Sets the angular coordinates
         theta0
@@ -26458,6 +23676,8 @@ class Scatterpolar(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         theta=None,
         theta0=None,
         thetasrc=None,
@@ -26545,7 +23765,12 @@ class Scatterpolar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -26657,6 +23882,26 @@ class Scatterpolar(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `r`, `theta`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         theta
             Sets the angular coordinates
         theta0
@@ -26772,6 +24017,8 @@ an instance of plotly.graph_objs.Scatterpolar"""
         self._validators["textposition"] = v_scatterpolar.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scatterpolar.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scatterpolar.TextsrcValidator()
+        self._validators["texttemplate"] = v_scatterpolar.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scatterpolar.TexttemplatesrcValidator()
         self._validators["theta"] = v_scatterpolar.ThetaValidator()
         self._validators["theta0"] = v_scatterpolar.Theta0Validator()
         self._validators["thetasrc"] = v_scatterpolar.ThetasrcValidator()
@@ -26863,6 +24110,10 @@ an instance of plotly.graph_objs.Scatterpolar"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("theta", None)
         self["theta"] = theta if theta is not None else _v
         _v = arg.pop("theta0", None)
@@ -27195,7 +24446,11 @@ class Scattermapbox(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -27964,6 +25219,61 @@ class Scattermapbox(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `lat`, `lon` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -28130,7 +25440,12 @@ class Scattermapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -28239,6 +25554,26 @@ class Scattermapbox(_BaseTraceType):
             to the (x,y) coordinates.
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `lat`, `lon`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -28310,6 +25645,8 @@ class Scattermapbox(_BaseTraceType):
         textfont=None,
         textposition=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         unselected=None,
@@ -28371,7 +25708,12 @@ class Scattermapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -28480,6 +25822,26 @@ class Scattermapbox(_BaseTraceType):
             to the (x,y) coordinates.
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `lat`, `lon`
+            and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -28581,6 +25943,8 @@ an instance of plotly.graph_objs.Scattermapbox"""
         self._validators["textfont"] = v_scattermapbox.TextfontValidator()
         self._validators["textposition"] = v_scattermapbox.TextpositionValidator()
         self._validators["textsrc"] = v_scattermapbox.TextsrcValidator()
+        self._validators["texttemplate"] = v_scattermapbox.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scattermapbox.TexttemplatesrcValidator()
         self._validators["uid"] = v_scattermapbox.UidValidator()
         self._validators["uirevision"] = v_scattermapbox.UirevisionValidator()
         self._validators["unselected"] = v_scattermapbox.UnselectedValidator()
@@ -28662,6 +26026,10 @@ an instance of plotly.graph_objs.Scattermapbox"""
         self["textposition"] = textposition if textposition is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -29178,7 +26546,11 @@ class Scattergl(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -29881,6 +27253,61 @@ class Scattergl(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -30291,7 +27718,12 @@ class Scattergl(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -30385,6 +27817,25 @@ class Scattergl(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -30485,6 +27936,8 @@ class Scattergl(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         unselected=None,
@@ -30579,7 +28032,12 @@ class Scattergl(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -30673,6 +28131,25 @@ class Scattergl(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -30801,6 +28278,8 @@ an instance of plotly.graph_objs.Scattergl"""
         self._validators["textposition"] = v_scattergl.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scattergl.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scattergl.TextsrcValidator()
+        self._validators["texttemplate"] = v_scattergl.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scattergl.TexttemplatesrcValidator()
         self._validators["uid"] = v_scattergl.UidValidator()
         self._validators["uirevision"] = v_scattergl.UirevisionValidator()
         self._validators["unselected"] = v_scattergl.UnselectedValidator()
@@ -30890,6 +28369,10 @@ an instance of plotly.graph_objs.Scattergl"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -31234,7 +28717,11 @@ class Scattergeo(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -32091,6 +29578,61 @@ class Scattergeo(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `lat`, `lon`, `location` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -32260,7 +29802,12 @@ class Scattergeo(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -32377,6 +29924,26 @@ class Scattergeo(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `lat`, `lon`,
+            `location` and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -32451,6 +30018,8 @@ class Scattergeo(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         unselected=None,
@@ -32513,7 +30082,12 @@ class Scattergeo(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -32630,6 +30204,26 @@ class Scattergeo(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `lat`, `lon`,
+            `location` and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -32732,6 +30326,8 @@ an instance of plotly.graph_objs.Scattergeo"""
         self._validators["textposition"] = v_scattergeo.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scattergeo.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scattergeo.TextsrcValidator()
+        self._validators["texttemplate"] = v_scattergeo.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scattergeo.TexttemplatesrcValidator()
         self._validators["uid"] = v_scattergeo.UidValidator()
         self._validators["uirevision"] = v_scattergeo.UirevisionValidator()
         self._validators["unselected"] = v_scattergeo.UnselectedValidator()
@@ -32819,6 +30415,10 @@ an instance of plotly.graph_objs.Scattergeo"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -32939,7 +30539,7 @@ class Scattercarpet(_BaseTraceType):
     def carpet(self):
         """
         An identifier for this carpet, so that `scattercarpet` and
-        `scattercontour` traces can specify a carpet plot on which they
+        `contourcarpet` traces can specify a carpet plot on which they
         lie
     
         The 'carpet' property is a string and must be specified as:
@@ -33252,7 +30852,11 @@ class Scattercarpet(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -33977,6 +31581,61 @@ class Scattercarpet(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `a`, `b` and `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -34164,8 +31823,8 @@ class Scattercarpet(_BaseTraceType):
             Sets the source reference on plot.ly for  b .
         carpet
             An identifier for this carpet, so that `scattercarpet`
-            and `scattercontour` traces can specify a carpet plot
-            on which they lie
+            and `contourcarpet` traces can specify a carpet plot on
+            which they lie
         connectgaps
             Determines whether or not gaps (i.e. {nan} or missing
             values) in the provided data arrays are connected.
@@ -34215,7 +31874,12 @@ class Scattercarpet(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -34313,6 +31977,26 @@ class Scattercarpet(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `a`, `b` and
+            `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -34395,6 +32079,8 @@ class Scattercarpet(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         unselected=None,
@@ -34424,8 +32110,8 @@ class Scattercarpet(_BaseTraceType):
             Sets the source reference on plot.ly for  b .
         carpet
             An identifier for this carpet, so that `scattercarpet`
-            and `scattercontour` traces can specify a carpet plot
-            on which they lie
+            and `contourcarpet` traces can specify a carpet plot on
+            which they lie
         connectgaps
             Determines whether or not gaps (i.e. {nan} or missing
             values) in the provided data arrays are connected.
@@ -34475,7 +32161,12 @@ class Scattercarpet(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -34573,6 +32264,26 @@ class Scattercarpet(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `a`, `b` and
+            `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -34685,6 +32396,8 @@ an instance of plotly.graph_objs.Scattercarpet"""
         self._validators["textposition"] = v_scattercarpet.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scattercarpet.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scattercarpet.TextsrcValidator()
+        self._validators["texttemplate"] = v_scattercarpet.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scattercarpet.TexttemplatesrcValidator()
         self._validators["uid"] = v_scattercarpet.UidValidator()
         self._validators["uirevision"] = v_scattercarpet.UirevisionValidator()
         self._validators["unselected"] = v_scattercarpet.UnselectedValidator()
@@ -34770,6 +32483,10 @@ an instance of plotly.graph_objs.Scattercarpet"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -35230,7 +32947,11 @@ class Scatter3d(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -36096,6 +33817,61 @@ class Scatter3d(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -36420,7 +34196,12 @@ class Scatter3d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -36525,6 +34306,25 @@ class Scatter3d(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -36609,6 +34409,8 @@ class Scatter3d(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         visible=None,
@@ -36675,7 +34477,12 @@ class Scatter3d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -36780,6 +34587,25 @@ class Scatter3d(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -36892,6 +34718,8 @@ an instance of plotly.graph_objs.Scatter3d"""
         self._validators["textposition"] = v_scatter3d.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scatter3d.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scatter3d.TextsrcValidator()
+        self._validators["texttemplate"] = v_scatter3d.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scatter3d.TexttemplatesrcValidator()
         self._validators["uid"] = v_scatter3d.UidValidator()
         self._validators["uirevision"] = v_scatter3d.UirevisionValidator()
         self._validators["visible"] = v_scatter3d.VisibleValidator()
@@ -36977,6 +34805,10 @@ an instance of plotly.graph_objs.Scatter3d"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -37586,7 +35418,11 @@ class Scatter(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -38466,6 +36302,61 @@ class Scatter(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # tsrc
     # ----
     @property
@@ -38919,7 +36810,12 @@ class Scatter(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -39059,6 +36955,25 @@ class Scatter(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         tsrc
             Sets the source reference on plot.ly for  t .
         uid
@@ -39170,6 +37085,8 @@ class Scatter(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         tsrc=None,
         uid=None,
         uirevision=None,
@@ -39290,7 +37207,12 @@ class Scatter(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -39430,6 +37352,25 @@ class Scatter(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         tsrc
             Sets the source reference on plot.ly for  t .
         uid
@@ -39569,6 +37510,8 @@ an instance of plotly.graph_objs.Scatter"""
         self._validators["textposition"] = v_scatter.TextpositionValidator()
         self._validators["textpositionsrc"] = v_scatter.TextpositionsrcValidator()
         self._validators["textsrc"] = v_scatter.TextsrcValidator()
+        self._validators["texttemplate"] = v_scatter.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_scatter.TexttemplatesrcValidator()
         self._validators["tsrc"] = v_scatter.TsrcValidator()
         self._validators["uid"] = v_scatter.UidValidator()
         self._validators["uirevision"] = v_scatter.UirevisionValidator()
@@ -39677,6 +37620,10 @@ an instance of plotly.graph_objs.Scatter"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("tsrc", None)
         self["tsrc"] = tsrc if tsrc is not None else _v
         _v = arg.pop("uid", None)
@@ -40019,7 +37966,13 @@ class Sankey(_BaseTraceType):
                     "Price: %{y:$.2f}".
                     https://github.com/d3/d3-3.x-api-
                     reference/blob/master/Formatting.md#d3_format
-                    for details on the formatting syntax. The
+                    for details on the formatting syntax. Dates are
+                    formatted using d3-time-format's syntax
+                    %{variable|d3-time-format}, for example "Day:
+                    %{2019-01-01|%A}".
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    for details on the date formatting syntax. The
                     variables available in `hovertemplate` are the
                     ones emitted as event data described at this
                     link https://plot.ly/javascript/plotlyjs-
@@ -40191,7 +38144,13 @@ class Sankey(_BaseTraceType):
                     "Price: %{y:$.2f}".
                     https://github.com/d3/d3-3.x-api-
                     reference/blob/master/Formatting.md#d3_format
-                    for details on the formatting syntax. The
+                    for details on the formatting syntax. Dates are
+                    formatted using d3-time-format's syntax
+                    %{variable|d3-time-format}, for example "Day:
+                    %{2019-01-01|%A}".
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    for details on the date formatting syntax. The
                     variables available in `hovertemplate` are the
                     ones emitted as event data described at this
                     link https://plot.ly/javascript/plotlyjs-
@@ -42501,7 +40460,11 @@ class Pie(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -43285,6 +41248,62 @@ class Pie(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `label`, `color`, `value`, `percent` and
+        `text`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # title
     # -----
     @property
@@ -43576,7 +41595,12 @@ class Pie(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -43691,6 +41715,26 @@ class Pie(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `label`,
+            `color`, `value`, `percent` and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         title
             plotly.graph_objects.pie.Title instance or dict with
             compatible properties
@@ -43784,6 +41828,8 @@ class Pie(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         title=None,
         titlefont=None,
         titleposition=None,
@@ -43842,7 +41888,12 @@ class Pie(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -43957,6 +42008,26 @@ class Pie(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `label`,
+            `color`, `value`, `percent` and `text`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         title
             plotly.graph_objects.pie.Title instance or dict with
             compatible properties
@@ -44073,6 +42144,8 @@ an instance of plotly.graph_objs.Pie"""
         self._validators["textposition"] = v_pie.TextpositionValidator()
         self._validators["textpositionsrc"] = v_pie.TextpositionsrcValidator()
         self._validators["textsrc"] = v_pie.TextsrcValidator()
+        self._validators["texttemplate"] = v_pie.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_pie.TexttemplatesrcValidator()
         self._validators["title"] = v_pie.TitleValidator()
         self._validators["uid"] = v_pie.UidValidator()
         self._validators["uirevision"] = v_pie.UirevisionValidator()
@@ -44162,6 +42235,10 @@ an instance of plotly.graph_objs.Pie"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("title", None)
         self["title"] = title if title is not None else _v
         _v = arg.pop("titlefont", None)
@@ -45593,7 +43670,11 @@ class Parcats(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -45761,7 +43842,13 @@ class Parcats(_BaseTraceType):
                     "Price: %{y:$.2f}".
                     https://github.com/d3/d3-3.x-api-
                     reference/blob/master/Formatting.md#d3_format
-                    for details on the formatting syntax. The
+                    for details on the formatting syntax. Dates are
+                    formatted using d3-time-format's syntax
+                    %{variable|d3-time-format}, for example "Day:
+                    %{2019-01-01|%A}".
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    for details on the date formatting syntax. The
                     variables available in `hovertemplate` are the
                     ones emitted as event data described at this
                     link https://plot.ly/javascript/plotlyjs-
@@ -46112,7 +44199,12 @@ class Parcats(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -46270,7 +44362,12 @@ class Parcats(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -48751,7 +46848,11 @@ class Mesh3d(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -49827,7 +47928,12 @@ class Mesh3d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -50193,7 +48299,12 @@ class Mesh3d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -51282,7 +49393,11 @@ class Isosurface(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -52229,7 +50344,12 @@ class Isosurface(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -52517,7 +50637,12 @@ class Isosurface(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -53044,13 +51169,13 @@ class Indicator(_BaseTraceType):
                     the gauge.
                 shape
                     Set the shape of the gauge
-                stepss
+                steps
                     A tuple of
-                    plotly.graph_objects.indicator.gauge.Steps
+                    plotly.graph_objects.indicator.gauge.Step
                     instances or dicts with compatible properties
-                stepsdefaults
+                stepdefaults
                     When used in a template (as layout.template.dat
-                    a.indicator.gauge.stepsdefaults), sets the
+                    a.indicator.gauge.stepdefaults), sets the
                     default property values to use for elements of
                     indicator.gauge.steps
                 threshold
@@ -53537,7 +51662,12 @@ class Indicator(_BaseTraceType):
         """
         Construct a new Indicator object
         
-        TODO: add description
+        An indicator is used to visualize a single `value` along with
+        some contextual information such as `steps` or a `threshold`,
+        using a combination of three visual elements: a number, a
+        delta, and/or a gauge. Deltas are taken with respect to a
+        `reference`. Gauges can be either angular or bullet (aka
+        linear) gauges.
 
         Parameters
         ----------
@@ -54489,7 +52619,11 @@ class Histogram2dContour(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -54625,7 +52759,7 @@ class Histogram2dContour(_BaseTraceType):
                     Sets the amount of smoothing for the contour
                     lines, where 0 corresponds to no smoothing.
                 width
-                    Sets the line width (in px).
+                    Sets the contour line width in (in px)
 
         Returns
         -------
@@ -55619,7 +53753,12 @@ class Histogram2dContour(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -55978,7 +54117,12 @@ class Histogram2dContour(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -57024,7 +55168,11 @@ class Histogram2d(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -58101,7 +56249,12 @@ class Histogram2d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -58439,7 +56592,12 @@ class Histogram2d(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -59355,7 +57513,11 @@ class Histogram(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -60485,7 +58647,12 @@ class Histogram(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -60793,7 +58960,12 @@ class Histogram(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -63557,7 +61729,11 @@ class Heatmap(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -64546,7 +62722,12 @@ class Heatmap(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -64854,7 +63035,12 @@ class Heatmap(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -65496,12 +63682,16 @@ class Funnelarea(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
         point (the ones that are `arrayOk: true`) are available.
-        variables `label`, `color`, `value`, `percent` and `text`.
+        variables `label`, `color`, `value`, `text` and `percent`.
         Anything contained in tag `<extra>` is displayed in the
         secondary box, for example "<extra>{fullData.name}</extra>". To
         hide the secondary box completely, use an empty tag
@@ -66139,6 +64329,62 @@ class Funnelarea(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `label`, `color`, `value`, `text` and
+        `percent`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # title
     # -----
     @property
@@ -66348,18 +64594,22 @@ class Funnelarea(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
             Additionally, every attributes that can be specified
             per-point (the ones that are `arrayOk: true`) are
-            available. variables `label`, `color`, `value`,
-            `percent` and `text`. Anything contained in tag
-            `<extra>` is displayed in the secondary box, for
-            example "<extra>{fullData.name}</extra>". To hide the
-            secondary box completely, use an empty tag
-            `<extra></extra>`.
+            available. variables `label`, `color`, `value`, `text`
+            and `percent`. Anything contained in tag `<extra>` is
+            displayed in the secondary box, for example
+            "<extra>{fullData.name}</extra>". To hide the secondary
+            box completely, use an empty tag `<extra></extra>`.
         hovertemplatesrc
             Sets the source reference on plot.ly for  hovertemplate
             .
@@ -66447,6 +64697,26 @@ class Funnelarea(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `label`,
+            `color`, `value`, `text` and `percent`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         title
             plotly.graph_objects.funnelarea.Title instance or dict
             with compatible properties
@@ -66521,6 +64791,8 @@ class Funnelarea(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         title=None,
         uid=None,
         uirevision=None,
@@ -66578,18 +64850,22 @@ class Funnelarea(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
             Additionally, every attributes that can be specified
             per-point (the ones that are `arrayOk: true`) are
-            available. variables `label`, `color`, `value`,
-            `percent` and `text`. Anything contained in tag
-            `<extra>` is displayed in the secondary box, for
-            example "<extra>{fullData.name}</extra>". To hide the
-            secondary box completely, use an empty tag
-            `<extra></extra>`.
+            available. variables `label`, `color`, `value`, `text`
+            and `percent`. Anything contained in tag `<extra>` is
+            displayed in the secondary box, for example
+            "<extra>{fullData.name}</extra>". To hide the secondary
+            box completely, use an empty tag `<extra></extra>`.
         hovertemplatesrc
             Sets the source reference on plot.ly for  hovertemplate
             .
@@ -66677,6 +64953,26 @@ class Funnelarea(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables `label`,
+            `color`, `value`, `text` and `percent`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         title
             plotly.graph_objects.funnelarea.Title instance or dict
             with compatible properties
@@ -66779,6 +65075,8 @@ an instance of plotly.graph_objs.Funnelarea"""
         self._validators["textposition"] = v_funnelarea.TextpositionValidator()
         self._validators["textpositionsrc"] = v_funnelarea.TextpositionsrcValidator()
         self._validators["textsrc"] = v_funnelarea.TextsrcValidator()
+        self._validators["texttemplate"] = v_funnelarea.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_funnelarea.TexttemplatesrcValidator()
         self._validators["title"] = v_funnelarea.TitleValidator()
         self._validators["uid"] = v_funnelarea.UidValidator()
         self._validators["uirevision"] = v_funnelarea.UirevisionValidator()
@@ -66858,6 +65156,10 @@ an instance of plotly.graph_objs.Funnelarea"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("title", None)
         self["title"] = title if title is not None else _v
         _v = arg.pop("uid", None)
@@ -67196,7 +65498,11 @@ class Funnel(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -68042,6 +66348,62 @@ class Funnel(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available. variables `percentInitial`, `percentPrevious`,
+        `percentTotal`, `label` and `value`.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # uid
     # ---
     @property
@@ -68374,7 +66736,12 @@ class Funnel(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -68502,6 +66869,27 @@ class Funnel(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `percentInitial`, `percentPrevious`, `percentTotal`,
+            `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -68601,6 +66989,8 @@ class Funnel(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         uid=None,
         uirevision=None,
         visible=None,
@@ -68675,7 +67065,12 @@ class Funnel(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -68803,6 +67198,27 @@ class Funnel(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available. variables
+            `percentInitial`, `percentPrevious`, `percentTotal`,
+            `label` and `value`.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         uid
             Assign an id to this trace, Use this to provide object
             constancy between traces during animations and
@@ -68930,6 +67346,8 @@ an instance of plotly.graph_objs.Funnel"""
         self._validators["textposition"] = v_funnel.TextpositionValidator()
         self._validators["textpositionsrc"] = v_funnel.TextpositionsrcValidator()
         self._validators["textsrc"] = v_funnel.TextsrcValidator()
+        self._validators["texttemplate"] = v_funnel.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_funnel.TexttemplatesrcValidator()
         self._validators["uid"] = v_funnel.UidValidator()
         self._validators["uirevision"] = v_funnel.UirevisionValidator()
         self._validators["visible"] = v_funnel.VisibleValidator()
@@ -69027,6 +67445,10 @@ an instance of plotly.graph_objs.Funnel"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("uid", None)
         self["uid"] = uid if uid is not None else _v
         _v = arg.pop("uirevision", None)
@@ -69599,7 +68021,11 @@ class Densitymapbox(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -70376,7 +68802,12 @@ class Densitymapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -70634,7 +69065,12 @@ class Densitymapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -71745,111 +70181,6 @@ class Contourcarpet(_BaseTraceType):
     def fillcolor(self, val):
         self["fillcolor"] = val
 
-    # hoverinfo
-    # ---------
-    @property
-    def hoverinfo(self):
-        """
-        Determines which trace information appear on hover. If `none`
-        or `skip` are set, no information is displayed upon hovering.
-        But, if `none` is set, click and hover events are still fired.
-    
-        The 'hoverinfo' property is a flaglist and may be specified
-        as a string containing:
-          - Any combination of ['x', 'y', 'z', 'text', 'name'] joined with '+' characters
-            (e.g. 'x+y')
-            OR exactly one of ['all', 'none', 'skip'] (e.g. 'skip')
-          - A list or array of the above
-
-        Returns
-        -------
-        Any|numpy.ndarray
-        """
-        return self["hoverinfo"]
-
-    @hoverinfo.setter
-    def hoverinfo(self, val):
-        self["hoverinfo"] = val
-
-    # hoverinfosrc
-    # ------------
-    @property
-    def hoverinfosrc(self):
-        """
-        Sets the source reference on plot.ly for  hoverinfo .
-    
-        The 'hoverinfosrc' property must be specified as a string or
-        as a plotly.grid_objs.Column object
-
-        Returns
-        -------
-        str
-        """
-        return self["hoverinfosrc"]
-
-    @hoverinfosrc.setter
-    def hoverinfosrc(self, val):
-        self["hoverinfosrc"] = val
-
-    # hoverlabel
-    # ----------
-    @property
-    def hoverlabel(self):
-        """
-        The 'hoverlabel' property is an instance of Hoverlabel
-        that may be specified as:
-          - An instance of plotly.graph_objs.contourcarpet.Hoverlabel
-          - A dict of string/value properties that will be passed
-            to the Hoverlabel constructor
-    
-            Supported dict properties:
-                
-                align
-                    Sets the horizontal alignment of the text
-                    content within hover label box. Has an effect
-                    only if the hover label text spans more two or
-                    more lines
-                alignsrc
-                    Sets the source reference on plot.ly for  align
-                    .
-                bgcolor
-                    Sets the background color of the hover labels
-                    for this trace
-                bgcolorsrc
-                    Sets the source reference on plot.ly for
-                    bgcolor .
-                bordercolor
-                    Sets the border color of the hover labels for
-                    this trace.
-                bordercolorsrc
-                    Sets the source reference on plot.ly for
-                    bordercolor .
-                font
-                    Sets the font used in hover labels.
-                namelength
-                    Sets the default length (in number of
-                    characters) of the trace name in the hover
-                    labels for all traces. -1 shows the whole name
-                    regardless of length. 0-3 shows the first 0-3
-                    characters, and an integer >3 will show the
-                    whole name if it is less than that many
-                    characters, but if it is longer, will truncate
-                    to `namelength - 3` characters and add an
-                    ellipsis.
-                namelengthsrc
-                    Sets the source reference on plot.ly for
-                    namelength .
-
-        Returns
-        -------
-        plotly.graph_objs.contourcarpet.Hoverlabel
-        """
-        return self["hoverlabel"]
-
-    @hoverlabel.setter
-    def hoverlabel(self, val):
-        self["hoverlabel"] = val
-
     # hovertext
     # ---------
     @property
@@ -71969,8 +70300,9 @@ class Contourcarpet(_BaseTraceType):
             Supported dict properties:
                 
                 color
-                    Sets the color of the contour level. Has no if
-                    `contours.coloring` is set to "lines".
+                    Sets the color of the contour level. Has no
+                    effect if `contours.coloring` is set to
+                    "lines".
                 dash
                     Sets the dash style of lines. Set to a dash
                     type string ("solid", "dot", "dash",
@@ -71980,7 +70312,10 @@ class Contourcarpet(_BaseTraceType):
                     Sets the amount of smoothing for the contour
                     lines, where 0 corresponds to no smoothing.
                 width
-                    Sets the line width (in px).
+                    Sets the contour line width in (in px) Defaults
+                    to 0.5 when `contours.type` is "levels".
+                    Defaults to 2 when `contour.type` is
+                    "constraint".
 
         Returns
         -------
@@ -72619,16 +70954,6 @@ class Contourcarpet(_BaseTraceType):
             Defaults to a half-transparent variant of the line
             color, marker color, or marker line color, whichever is
             available.
-        hoverinfo
-            Determines which trace information appear on hover. If
-            `none` or `skip` are set, no information is displayed
-            upon hovering. But, if `none` is set, click and hover
-            events are still fired.
-        hoverinfosrc
-            Sets the source reference on plot.ly for  hoverinfo .
-        hoverlabel
-            plotly.graph_objects.contourcarpet.Hoverlabel instance
-            or dict with compatible properties
         hovertext
             Same as `text`.
         hovertextsrc
@@ -72775,9 +71100,6 @@ class Contourcarpet(_BaseTraceType):
         da=None,
         db=None,
         fillcolor=None,
-        hoverinfo=None,
-        hoverinfosrc=None,
-        hoverlabel=None,
         hovertext=None,
         hovertextsrc=None,
         ids=None,
@@ -72905,16 +71227,6 @@ class Contourcarpet(_BaseTraceType):
             Defaults to a half-transparent variant of the line
             color, marker color, or marker line color, whichever is
             available.
-        hoverinfo
-            Determines which trace information appear on hover. If
-            `none` or `skip` are set, no information is displayed
-            upon hovering. But, if `none` is set, click and hover
-            events are still fired.
-        hoverinfosrc
-            Sets the source reference on plot.ly for  hoverinfo .
-        hoverlabel
-            plotly.graph_objects.contourcarpet.Hoverlabel instance
-            or dict with compatible properties
         hovertext
             Same as `text`.
         hovertextsrc
@@ -73089,9 +71401,6 @@ an instance of plotly.graph_objs.Contourcarpet"""
         self._validators["da"] = v_contourcarpet.DaValidator()
         self._validators["db"] = v_contourcarpet.DbValidator()
         self._validators["fillcolor"] = v_contourcarpet.FillcolorValidator()
-        self._validators["hoverinfo"] = v_contourcarpet.HoverinfoValidator()
-        self._validators["hoverinfosrc"] = v_contourcarpet.HoverinfosrcValidator()
-        self._validators["hoverlabel"] = v_contourcarpet.HoverlabelValidator()
         self._validators["hovertext"] = v_contourcarpet.HovertextValidator()
         self._validators["hovertextsrc"] = v_contourcarpet.HovertextsrcValidator()
         self._validators["ids"] = v_contourcarpet.IdsValidator()
@@ -73164,12 +71473,6 @@ an instance of plotly.graph_objs.Contourcarpet"""
         self["db"] = db if db is not None else _v
         _v = arg.pop("fillcolor", None)
         self["fillcolor"] = fillcolor if fillcolor is not None else _v
-        _v = arg.pop("hoverinfo", None)
-        self["hoverinfo"] = hoverinfo if hoverinfo is not None else _v
-        _v = arg.pop("hoverinfosrc", None)
-        self["hoverinfosrc"] = hoverinfosrc if hoverinfosrc is not None else _v
-        _v = arg.pop("hoverlabel", None)
-        self["hoverlabel"] = hoverlabel if hoverlabel is not None else _v
         _v = arg.pop("hovertext", None)
         self["hovertext"] = hovertext if hovertext is not None else _v
         _v = arg.pop("hovertextsrc", None)
@@ -73985,7 +72288,11 @@ class Contour(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -74161,7 +72468,10 @@ class Contour(_BaseTraceType):
                     Sets the amount of smoothing for the contour
                     lines, where 0 corresponds to no smoothing.
                 width
-                    Sets the line width (in px).
+                    Sets the contour line width in (in px) Defaults
+                    to 0.5 when `contours.type` is "levels".
+                    Defaults to 2 when `contour.type` is
+                    "constraint".
 
         Returns
         -------
@@ -75032,7 +73342,12 @@ class Contour(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -75357,7 +73672,12 @@ class Contour(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -76371,7 +74691,11 @@ class Cone(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -77288,7 +75612,12 @@ class Cone(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -77583,7 +75912,12 @@ class Cone(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -78489,7 +76823,11 @@ class Choroplethmapbox(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -79272,7 +77610,12 @@ class Choroplethmapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -79529,7 +77872,12 @@ class Choroplethmapbox(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -80375,7 +78723,11 @@ class Choropleth(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -81147,7 +79499,12 @@ class Choropleth(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -81394,7 +79751,12 @@ class Choropleth(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -82306,7 +80668,7 @@ class Carpet(_BaseTraceType):
     def carpet(self):
         """
         An identifier for this carpet, so that `scattercarpet` and
-        `scattercontour` traces can specify a carpet plot on which they
+        `contourcarpet` traces can specify a carpet plot on which they
         lie
     
         The 'carpet' property is a string and must be specified as:
@@ -82533,111 +80895,6 @@ class Carpet(_BaseTraceType):
     @font.setter
     def font(self, val):
         self["font"] = val
-
-    # hoverinfo
-    # ---------
-    @property
-    def hoverinfo(self):
-        """
-        Determines which trace information appear on hover. If `none`
-        or `skip` are set, no information is displayed upon hovering.
-        But, if `none` is set, click and hover events are still fired.
-    
-        The 'hoverinfo' property is a flaglist and may be specified
-        as a string containing:
-          - Any combination of ['x', 'y', 'z', 'text', 'name'] joined with '+' characters
-            (e.g. 'x+y')
-            OR exactly one of ['all', 'none', 'skip'] (e.g. 'skip')
-          - A list or array of the above
-
-        Returns
-        -------
-        Any|numpy.ndarray
-        """
-        return self["hoverinfo"]
-
-    @hoverinfo.setter
-    def hoverinfo(self, val):
-        self["hoverinfo"] = val
-
-    # hoverinfosrc
-    # ------------
-    @property
-    def hoverinfosrc(self):
-        """
-        Sets the source reference on plot.ly for  hoverinfo .
-    
-        The 'hoverinfosrc' property must be specified as a string or
-        as a plotly.grid_objs.Column object
-
-        Returns
-        -------
-        str
-        """
-        return self["hoverinfosrc"]
-
-    @hoverinfosrc.setter
-    def hoverinfosrc(self, val):
-        self["hoverinfosrc"] = val
-
-    # hoverlabel
-    # ----------
-    @property
-    def hoverlabel(self):
-        """
-        The 'hoverlabel' property is an instance of Hoverlabel
-        that may be specified as:
-          - An instance of plotly.graph_objs.carpet.Hoverlabel
-          - A dict of string/value properties that will be passed
-            to the Hoverlabel constructor
-    
-            Supported dict properties:
-                
-                align
-                    Sets the horizontal alignment of the text
-                    content within hover label box. Has an effect
-                    only if the hover label text spans more two or
-                    more lines
-                alignsrc
-                    Sets the source reference on plot.ly for  align
-                    .
-                bgcolor
-                    Sets the background color of the hover labels
-                    for this trace
-                bgcolorsrc
-                    Sets the source reference on plot.ly for
-                    bgcolor .
-                bordercolor
-                    Sets the border color of the hover labels for
-                    this trace.
-                bordercolorsrc
-                    Sets the source reference on plot.ly for
-                    bordercolor .
-                font
-                    Sets the font used in hover labels.
-                namelength
-                    Sets the default length (in number of
-                    characters) of the trace name in the hover
-                    labels for all traces. -1 shows the whole name
-                    regardless of length. 0-3 shows the first 0-3
-                    characters, and an integer >3 will show the
-                    whole name if it is less than that many
-                    characters, but if it is longer, will truncate
-                    to `namelength - 3` characters and add an
-                    ellipsis.
-                namelengthsrc
-                    Sets the source reference on plot.ly for
-                    namelength .
-
-        Returns
-        -------
-        plotly.graph_objs.carpet.Hoverlabel
-        """
-        return self["hoverlabel"]
-
-    @hoverlabel.setter
-    def hoverlabel(self, val):
-        self["hoverlabel"] = val
 
     # ids
     # ---
@@ -83056,8 +81313,8 @@ class Carpet(_BaseTraceType):
             Sets the source reference on plot.ly for  b .
         carpet
             An identifier for this carpet, so that `scattercarpet`
-            and `scattercontour` traces can specify a carpet plot
-            on which they lie
+            and `contourcarpet` traces can specify a carpet plot on
+            which they lie
         cheaterslope
             The shift applied to each successive row of data in
             creating a cheater plot. Only used if `x` is been
@@ -83081,16 +81338,6 @@ class Carpet(_BaseTraceType):
         font
             The default font used for axis & tick labels on this
             carpet
-        hoverinfo
-            Determines which trace information appear on hover. If
-            `none` or `skip` are set, no information is displayed
-            upon hovering. But, if `none` is set, click and hover
-            events are still fired.
-        hoverinfosrc
-            Sets the source reference on plot.ly for  hoverinfo .
-        hoverlabel
-            plotly.graph_objects.carpet.Hoverlabel instance or dict
-            with compatible properties
         ids
             Assigns id labels to each datum. These ids for object
             constancy of data points during animation. Should be an
@@ -83189,9 +81436,6 @@ class Carpet(_BaseTraceType):
         da=None,
         db=None,
         font=None,
-        hoverinfo=None,
-        hoverinfosrc=None,
-        hoverlabel=None,
         ids=None,
         idssrc=None,
         meta=None,
@@ -83250,8 +81494,8 @@ class Carpet(_BaseTraceType):
             Sets the source reference on plot.ly for  b .
         carpet
             An identifier for this carpet, so that `scattercarpet`
-            and `scattercontour` traces can specify a carpet plot
-            on which they lie
+            and `contourcarpet` traces can specify a carpet plot on
+            which they lie
         cheaterslope
             The shift applied to each successive row of data in
             creating a cheater plot. Only used if `x` is been
@@ -83275,16 +81519,6 @@ class Carpet(_BaseTraceType):
         font
             The default font used for axis & tick labels on this
             carpet
-        hoverinfo
-            Determines which trace information appear on hover. If
-            `none` or `skip` are set, no information is displayed
-            upon hovering. But, if `none` is set, click and hover
-            events are still fired.
-        hoverinfosrc
-            Sets the source reference on plot.ly for  hoverinfo .
-        hoverlabel
-            plotly.graph_objects.carpet.Hoverlabel instance or dict
-            with compatible properties
         ids
             Assigns id labels to each datum. These ids for object
             constancy of data points during animation. Should be an
@@ -83411,9 +81645,6 @@ an instance of plotly.graph_objs.Carpet"""
         self._validators["da"] = v_carpet.DaValidator()
         self._validators["db"] = v_carpet.DbValidator()
         self._validators["font"] = v_carpet.FontValidator()
-        self._validators["hoverinfo"] = v_carpet.HoverinfoValidator()
-        self._validators["hoverinfosrc"] = v_carpet.HoverinfosrcValidator()
-        self._validators["hoverlabel"] = v_carpet.HoverlabelValidator()
         self._validators["ids"] = v_carpet.IdsValidator()
         self._validators["idssrc"] = v_carpet.IdssrcValidator()
         self._validators["meta"] = v_carpet.MetaValidator()
@@ -83465,12 +81696,6 @@ an instance of plotly.graph_objs.Carpet"""
         self["db"] = db if db is not None else _v
         _v = arg.pop("font", None)
         self["font"] = font if font is not None else _v
-        _v = arg.pop("hoverinfo", None)
-        self["hoverinfo"] = hoverinfo if hoverinfo is not None else _v
-        _v = arg.pop("hoverinfosrc", None)
-        self["hoverinfosrc"] = hoverinfosrc if hoverinfosrc is not None else _v
-        _v = arg.pop("hoverlabel", None)
-        self["hoverlabel"] = hoverlabel if hoverlabel is not None else _v
         _v = arg.pop("ids", None)
         self["ids"] = ids if ids is not None else _v
         _v = arg.pop("idssrc", None)
@@ -85331,7 +83556,11 @@ class Box(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -86366,7 +84595,12 @@ class Box(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -86667,7 +84901,12 @@ class Box(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -87302,7 +85541,11 @@ class Barpolar(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -88229,7 +86472,12 @@ class Barpolar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -88463,7 +86711,12 @@ class Barpolar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -89261,7 +87514,11 @@ class Bar(_BaseTraceType):
         %{variable:d3-format}, for example "Price: %{y:$.2f}".
         https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
-        the formatting syntax. The variables available in
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. The variables available in
         `hovertemplate` are the ones emitted as event data described at
         this link https://plot.ly/javascript/plotlyjs-events/#event-
         data. Additionally, every attributes that can be specified per-
@@ -90192,6 +88449,61 @@ class Bar(_BaseTraceType):
     def textsrc(self, val):
         self["textsrc"] = val
 
+    # texttemplate
+    # ------------
+    @property
+    def texttemplate(self):
+        """
+        Template string used for rendering the information text that
+        appear on points. Note that this will override `textinfo`.
+        Variables are inserted using %{variable}, for example "y:
+        %{y}". Numbers are formatted using d3-format's syntax
+        %{variable:d3-format}, for example "Price: %{y:$.2f}".
+        https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format for details on
+        the formatting syntax. Dates are formatted using d3-time-
+        format's syntax %{variable|d3-time-format}, for example "Day:
+        %{2019-01-01|%A}". https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Time-Formatting.md#format for details on
+        the date formatting syntax. Every attributes that can be
+        specified per-point (the ones that are `arrayOk: true`) are
+        available.
+    
+        The 'texttemplate' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+          - A tuple, list, or one-dimensional numpy array of the above
+
+        Returns
+        -------
+        str|numpy.ndarray
+        """
+        return self["texttemplate"]
+
+    @texttemplate.setter
+    def texttemplate(self, val):
+        self["texttemplate"] = val
+
+    # texttemplatesrc
+    # ---------------
+    @property
+    def texttemplatesrc(self):
+        """
+        Sets the source reference on plot.ly for  texttemplate .
+    
+        The 'texttemplatesrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["texttemplatesrc"]
+
+    @texttemplatesrc.setter
+    def texttemplatesrc(self, val):
+        self["texttemplatesrc"] = val
+
     # tsrc
     # ----
     @property
@@ -90653,7 +88965,12 @@ class Bar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -90786,6 +89103,25 @@ class Bar(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         tsrc
             Sets the source reference on plot.ly for  t .
         uid
@@ -90903,6 +89239,8 @@ class Bar(_BaseTraceType):
         textposition=None,
         textpositionsrc=None,
         textsrc=None,
+        texttemplate=None,
+        texttemplatesrc=None,
         tsrc=None,
         uid=None,
         uirevision=None,
@@ -90990,7 +89328,12 @@ class Bar(_BaseTraceType):
             d3-format's syntax %{variable:d3-format}, for example
             "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
-            details on the formatting syntax. The variables
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
             https://plot.ly/javascript/plotlyjs-events/#event-data.
@@ -91123,6 +89466,25 @@ class Bar(_BaseTraceType):
             .
         textsrc
             Sets the source reference on plot.ly for  text .
+        texttemplate
+            Template string used for rendering the information text
+            that appear on points. Note that this will override
+            `textinfo`. Variables are inserted using %{variable},
+            for example "y: %{y}". Numbers are formatted using
+            d3-format's syntax %{variable:d3-format}, for example
+            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format for
+            details on the formatting syntax. Dates are formatted
+            using d3-time-format's syntax %{variable|d3-time-
+            format}, for example "Day: %{2019-01-01|%A}".
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Time-Formatting.md#format for
+            details on the date formatting syntax. Every attributes
+            that can be specified per-point (the ones that are
+            `arrayOk: true`) are available.
+        texttemplatesrc
+            Sets the source reference on plot.ly for  texttemplate
+            .
         tsrc
             Sets the source reference on plot.ly for  t .
         uid
@@ -91268,6 +89630,8 @@ an instance of plotly.graph_objs.Bar"""
         self._validators["textposition"] = v_bar.TextpositionValidator()
         self._validators["textpositionsrc"] = v_bar.TextpositionsrcValidator()
         self._validators["textsrc"] = v_bar.TextsrcValidator()
+        self._validators["texttemplate"] = v_bar.TexttemplateValidator()
+        self._validators["texttemplatesrc"] = v_bar.TexttemplatesrcValidator()
         self._validators["tsrc"] = v_bar.TsrcValidator()
         self._validators["uid"] = v_bar.UidValidator()
         self._validators["uirevision"] = v_bar.UirevisionValidator()
@@ -91384,6 +89748,10 @@ an instance of plotly.graph_objs.Bar"""
         self["textpositionsrc"] = textpositionsrc if textpositionsrc is not None else _v
         _v = arg.pop("textsrc", None)
         self["textsrc"] = textsrc if textsrc is not None else _v
+        _v = arg.pop("texttemplate", None)
+        self["texttemplate"] = texttemplate if texttemplate is not None else _v
+        _v = arg.pop("texttemplatesrc", None)
+        self["texttemplatesrc"] = texttemplatesrc if texttemplatesrc is not None else _v
         _v = arg.pop("tsrc", None)
         self["tsrc"] = tsrc if tsrc is not None else _v
         _v = arg.pop("uid", None)
@@ -92389,6 +90757,5598 @@ an instance of plotly.graph_objs.Area"""
         self._skip_invalid = False
 
 
+from plotly.basedatatypes import BaseLayoutType as _BaseLayoutType
+import copy as _copy
+
+
+class Layout(_BaseLayoutType):
+
+    _subplotid_prop_names = [
+        "coloraxis",
+        "geo",
+        "mapbox",
+        "polar",
+        "scene",
+        "ternary",
+        "xaxis",
+        "yaxis",
+    ]
+
+    import re
+
+    _subplotid_prop_re = re.compile("^(" + "|".join(_subplotid_prop_names) + ")(\d+)$")
+
+    @property
+    def _subplotid_validators(self):
+        """
+        dict of validator classes for each subplot type
+
+        Returns
+        -------
+        dict
+        """
+        from plotly.validators.layout import (
+            ColoraxisValidator,
+            GeoValidator,
+            MapboxValidator,
+            PolarValidator,
+            SceneValidator,
+            TernaryValidator,
+            XAxisValidator,
+            YAxisValidator,
+        )
+
+        return {
+            "coloraxis": ColoraxisValidator,
+            "geo": GeoValidator,
+            "mapbox": MapboxValidator,
+            "polar": PolarValidator,
+            "scene": SceneValidator,
+            "ternary": TernaryValidator,
+            "xaxis": XAxisValidator,
+            "yaxis": YAxisValidator,
+        }
+
+    def _subplot_re_match(self, prop):
+        return self._subplotid_prop_re.match(prop)
+
+    # angularaxis
+    # -----------
+    @property
+    def angularaxis(self):
+        """
+        The 'angularaxis' property is an instance of AngularAxis
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.AngularAxis
+          - A dict of string/value properties that will be passed
+            to the AngularAxis constructor
+    
+            Supported dict properties:
+                
+                domain
+                    Polar chart subplots are not supported yet.
+                    This key has currently no effect.
+                endpadding
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots.
+                range
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Defines the start
+                    and end point of this angular axis.
+                showline
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not the line bounding this angular axis will
+                    be shown on the figure.
+                showticklabels
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not the angular axis ticks will feature tick
+                    labels.
+                tickcolor
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the color of
+                    the tick lines on this angular axis.
+                ticklen
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the length of
+                    the tick lines on this angular axis.
+                tickorientation
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the
+                    orientation (from the paper perspective) of the
+                    angular axis tick labels.
+                ticksuffix
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the length of
+                    the tick lines on this angular axis.
+                visible
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not this axis will be visible.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.AngularAxis
+        """
+        return self["angularaxis"]
+
+    @angularaxis.setter
+    def angularaxis(self, val):
+        self["angularaxis"] = val
+
+    # annotations
+    # -----------
+    @property
+    def annotations(self):
+        """
+        The 'annotations' property is a tuple of instances of
+        Annotation that may be specified as:
+          - A list or tuple of instances of plotly.graph_objs.layout.Annotation
+          - A list or tuple of dicts of string/value properties that
+            will be passed to the Annotation constructor
+    
+            Supported dict properties:
+                
+                align
+                    Sets the horizontal alignment of the `text`
+                    within the box. Has an effect only if `text`
+                    spans more two or more lines (i.e. `text`
+                    contains one or more <br> HTML tags) or if an
+                    explicit width is set to override the text
+                    width.
+                arrowcolor
+                    Sets the color of the annotation arrow.
+                arrowhead
+                    Sets the end annotation arrow head style.
+                arrowside
+                    Sets the annotation arrow head position.
+                arrowsize
+                    Sets the size of the end annotation arrow head,
+                    relative to `arrowwidth`. A value of 1
+                    (default) gives a head about 3x as wide as the
+                    line.
+                arrowwidth
+                    Sets the width (in px) of annotation arrow
+                    line.
+                ax
+                    Sets the x component of the arrow tail about
+                    the arrow head. If `axref` is `pixel`, a
+                    positive (negative)  component corresponds to
+                    an arrow pointing from right to left (left to
+                    right). If `axref` is an axis, this is an
+                    absolute value on that axis, like `x`, NOT a
+                    relative value.
+                axref
+                    Indicates in what terms the tail of the
+                    annotation (ax,ay)  is specified. If `pixel`,
+                    `ax` is a relative offset in pixels  from `x`.
+                    If set to an x axis id (e.g. "x" or "x2"), `ax`
+                    is  specified in the same terms as that axis.
+                    This is useful  for trendline annotations which
+                    should continue to indicate  the correct trend
+                    when zoomed.
+                ay
+                    Sets the y component of the arrow tail about
+                    the arrow head. If `ayref` is `pixel`, a
+                    positive (negative)  component corresponds to
+                    an arrow pointing from bottom to top (top to
+                    bottom). If `ayref` is an axis, this is an
+                    absolute value on that axis, like `y`, NOT a
+                    relative value.
+                ayref
+                    Indicates in what terms the tail of the
+                    annotation (ax,ay)  is specified. If `pixel`,
+                    `ay` is a relative offset in pixels  from `y`.
+                    If set to a y axis id (e.g. "y" or "y2"), `ay`
+                    is  specified in the same terms as that axis.
+                    This is useful  for trendline annotations which
+                    should continue to indicate  the correct trend
+                    when zoomed.
+                bgcolor
+                    Sets the background color of the annotation.
+                bordercolor
+                    Sets the color of the border enclosing the
+                    annotation `text`.
+                borderpad
+                    Sets the padding (in px) between the `text` and
+                    the enclosing border.
+                borderwidth
+                    Sets the width (in px) of the border enclosing
+                    the annotation `text`.
+                captureevents
+                    Determines whether the annotation text box
+                    captures mouse move and click events, or allows
+                    those events to pass through to data points in
+                    the plot that may be behind the annotation. By
+                    default `captureevents` is False unless
+                    `hovertext` is provided. If you use the event
+                    `plotly_clickannotation` without `hovertext`
+                    you must explicitly enable `captureevents`.
+                clicktoshow
+                    Makes this annotation respond to clicks on the
+                    plot. If you click a data point that exactly
+                    matches the `x` and `y` values of this
+                    annotation, and it is hidden (visible: false),
+                    it will appear. In "onoff" mode, you must click
+                    the same point again to make it disappear, so
+                    if you click multiple points, you can show
+                    multiple annotations. In "onout" mode, a click
+                    anywhere else in the plot (on another data
+                    point or not) will hide this annotation. If you
+                    need to show/hide this annotation in response
+                    to different `x` or `y` values, you can set
+                    `xclick` and/or `yclick`. This is useful for
+                    example to label the side of a bar. To label
+                    markers though, `standoff` is preferred over
+                    `xclick` and `yclick`.
+                font
+                    Sets the annotation text font.
+                height
+                    Sets an explicit height for the text box. null
+                    (default) lets the text set the box height.
+                    Taller text will be clipped.
+                hoverlabel
+                    plotly.graph_objects.layout.annotation.Hoverlab
+                    el instance or dict with compatible properties
+                hovertext
+                    Sets text to appear when hovering over this
+                    annotation. If omitted or blank, no hover label
+                    will appear.
+                name
+                    When used in a template, named items are
+                    created in the output figure in addition to any
+                    items the figure already has in this array. You
+                    can modify these items in the output figure by
+                    making your own item with `templateitemname`
+                    matching this `name` alongside your
+                    modifications (including `visible: false` or
+                    `enabled: false` to hide it). Has no effect
+                    outside of a template.
+                opacity
+                    Sets the opacity of the annotation (text +
+                    arrow).
+                showarrow
+                    Determines whether or not the annotation is
+                    drawn with an arrow. If True, `text` is placed
+                    near the arrow's tail. If False, `text` lines
+                    up with the `x` and `y` provided.
+                standoff
+                    Sets a distance, in pixels, to move the end
+                    arrowhead away from the position it is pointing
+                    at, for example to point at the edge of a
+                    marker independent of zoom. Note that this
+                    shortens the arrow from the `ax` / `ay` vector,
+                    in contrast to `xshift` / `yshift` which moves
+                    everything by this amount.
+                startarrowhead
+                    Sets the start annotation arrow head style.
+                startarrowsize
+                    Sets the size of the start annotation arrow
+                    head, relative to `arrowwidth`. A value of 1
+                    (default) gives a head about 3x as wide as the
+                    line.
+                startstandoff
+                    Sets a distance, in pixels, to move the start
+                    arrowhead away from the position it is pointing
+                    at, for example to point at the edge of a
+                    marker independent of zoom. Note that this
+                    shortens the arrow from the `ax` / `ay` vector,
+                    in contrast to `xshift` / `yshift` which moves
+                    everything by this amount.
+                templateitemname
+                    Used to refer to a named item in this array in
+                    the template. Named items from the template
+                    will be created even without a matching item in
+                    the input figure, but you can modify one by
+                    making an item with `templateitemname` matching
+                    its `name`, alongside your modifications
+                    (including `visible: false` or `enabled: false`
+                    to hide it). If there is no template or no
+                    matching item, this item will be hidden unless
+                    you explicitly show it with `visible: true`.
+                text
+                    Sets the text associated with this annotation.
+                    Plotly uses a subset of HTML tags to do things
+                    like newline (<br>), bold (<b></b>), italics
+                    (<i></i>), hyperlinks (<a href='...'></a>).
+                    Tags <em>, <sup>, <sub> <span> are also
+                    supported.
+                textangle
+                    Sets the angle at which the `text` is drawn
+                    with respect to the horizontal.
+                valign
+                    Sets the vertical alignment of the `text`
+                    within the box. Has an effect only if an
+                    explicit height is set to override the text
+                    height.
+                visible
+                    Determines whether or not this annotation is
+                    visible.
+                width
+                    Sets an explicit width for the text box. null
+                    (default) lets the text set the box width.
+                    Wider text will be clipped. There is no
+                    automatic wrapping; use <br> to start a new
+                    line.
+                x
+                    Sets the annotation's x position. If the axis
+                    `type` is "log", then you must take the log of
+                    your desired range. If the axis `type` is
+                    "date", it should be date strings, like date
+                    data, though Date objects and unix milliseconds
+                    will be accepted and converted to strings. If
+                    the axis `type` is "category", it should be
+                    numbers, using the scale where each category is
+                    assigned a serial number from zero in the order
+                    it appears.
+                xanchor
+                    Sets the text box's horizontal position anchor
+                    This anchor binds the `x` position to the
+                    "left", "center" or "right" of the annotation.
+                    For example, if `x` is set to 1, `xref` to
+                    "paper" and `xanchor` to "right" then the
+                    right-most portion of the annotation lines up
+                    with the right-most edge of the plotting area.
+                    If "auto", the anchor is equivalent to "center"
+                    for data-referenced annotations or if there is
+                    an arrow, whereas for paper-referenced with no
+                    arrow, the anchor picked corresponds to the
+                    closest side.
+                xclick
+                    Toggle this annotation when clicking a data
+                    point whose `x` value is `xclick` rather than
+                    the annotation's `x` value.
+                xref
+                    Sets the annotation's x coordinate axis. If set
+                    to an x axis id (e.g. "x" or "x2"), the `x`
+                    position refers to an x coordinate If set to
+                    "paper", the `x` position refers to the
+                    distance from the left side of the plotting
+                    area in normalized coordinates where 0 (1)
+                    corresponds to the left (right) side.
+                xshift
+                    Shifts the position of the whole annotation and
+                    arrow to the right (positive) or left
+                    (negative) by this many pixels.
+                y
+                    Sets the annotation's y position. If the axis
+                    `type` is "log", then you must take the log of
+                    your desired range. If the axis `type` is
+                    "date", it should be date strings, like date
+                    data, though Date objects and unix milliseconds
+                    will be accepted and converted to strings. If
+                    the axis `type` is "category", it should be
+                    numbers, using the scale where each category is
+                    assigned a serial number from zero in the order
+                    it appears.
+                yanchor
+                    Sets the text box's vertical position anchor
+                    This anchor binds the `y` position to the
+                    "top", "middle" or "bottom" of the annotation.
+                    For example, if `y` is set to 1, `yref` to
+                    "paper" and `yanchor` to "top" then the top-
+                    most portion of the annotation lines up with
+                    the top-most edge of the plotting area. If
+                    "auto", the anchor is equivalent to "middle"
+                    for data-referenced annotations or if there is
+                    an arrow, whereas for paper-referenced with no
+                    arrow, the anchor picked corresponds to the
+                    closest side.
+                yclick
+                    Toggle this annotation when clicking a data
+                    point whose `y` value is `yclick` rather than
+                    the annotation's `y` value.
+                yref
+                    Sets the annotation's y coordinate axis. If set
+                    to an y axis id (e.g. "y" or "y2"), the `y`
+                    position refers to an y coordinate If set to
+                    "paper", the `y` position refers to the
+                    distance from the bottom of the plotting area
+                    in normalized coordinates where 0 (1)
+                    corresponds to the bottom (top).
+                yshift
+                    Shifts the position of the whole annotation and
+                    arrow up (positive) or down (negative) by this
+                    many pixels.
+
+        Returns
+        -------
+        tuple[plotly.graph_objs.layout.Annotation]
+        """
+        return self["annotations"]
+
+    @annotations.setter
+    def annotations(self, val):
+        self["annotations"] = val
+
+    # annotationdefaults
+    # ------------------
+    @property
+    def annotationdefaults(self):
+        """
+        When used in a template (as
+        layout.template.layout.annotationdefaults), sets the default
+        property values to use for elements of layout.annotations
+    
+        The 'annotationdefaults' property is an instance of Annotation
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Annotation
+          - A dict of string/value properties that will be passed
+            to the Annotation constructor
+    
+            Supported dict properties:
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Annotation
+        """
+        return self["annotationdefaults"]
+
+    @annotationdefaults.setter
+    def annotationdefaults(self, val):
+        self["annotationdefaults"] = val
+
+    # autosize
+    # --------
+    @property
+    def autosize(self):
+        """
+        Determines whether or not a layout width or height that has
+        been left undefined by the user is initialized on each
+        relayout. Note that, regardless of this attribute, an undefined
+        layout width or height is always initialized on the first call
+        to plot.
+    
+        The 'autosize' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["autosize"]
+
+    @autosize.setter
+    def autosize(self, val):
+        self["autosize"] = val
+
+    # bargap
+    # ------
+    @property
+    def bargap(self):
+        """
+        Sets the gap (in plot fraction) between bars of adjacent
+        location coordinates.
+    
+        The 'bargap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["bargap"]
+
+    @bargap.setter
+    def bargap(self, val):
+        self["bargap"] = val
+
+    # bargroupgap
+    # -----------
+    @property
+    def bargroupgap(self):
+        """
+        Sets the gap (in plot fraction) between bars of the same
+        location coordinate.
+    
+        The 'bargroupgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["bargroupgap"]
+
+    @bargroupgap.setter
+    def bargroupgap(self, val):
+        self["bargroupgap"] = val
+
+    # barmode
+    # -------
+    @property
+    def barmode(self):
+        """
+        Determines how bars at the same location coordinate are
+        displayed on the graph. With "stack", the bars are stacked on
+        top of one another With "relative", the bars are stacked on top
+        of one another, with negative values below the axis, positive
+        values above With "group", the bars are plotted next to one
+        another centered around the shared location. With "overlay",
+        the bars are plotted over one another, you might need to an
+        "opacity" to see multiple bars.
+    
+        The 'barmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['stack', 'group', 'overlay', 'relative']
+
+        Returns
+        -------
+        Any
+        """
+        return self["barmode"]
+
+    @barmode.setter
+    def barmode(self, val):
+        self["barmode"] = val
+
+    # barnorm
+    # -------
+    @property
+    def barnorm(self):
+        """
+        Sets the normalization for bar traces on the graph. With
+        "fraction", the value of each bar is divided by the sum of all
+        values at that location coordinate. "percent" is the same but
+        multiplied by 100 to show percentages.
+    
+        The 'barnorm' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['', 'fraction', 'percent']
+
+        Returns
+        -------
+        Any
+        """
+        return self["barnorm"]
+
+    @barnorm.setter
+    def barnorm(self, val):
+        self["barnorm"] = val
+
+    # boxgap
+    # ------
+    @property
+    def boxgap(self):
+        """
+        Sets the gap (in plot fraction) between boxes of adjacent
+        location coordinates. Has no effect on traces that have "width"
+        set.
+    
+        The 'boxgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["boxgap"]
+
+    @boxgap.setter
+    def boxgap(self, val):
+        self["boxgap"] = val
+
+    # boxgroupgap
+    # -----------
+    @property
+    def boxgroupgap(self):
+        """
+        Sets the gap (in plot fraction) between boxes of the same
+        location coordinate. Has no effect on traces that have "width"
+        set.
+    
+        The 'boxgroupgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["boxgroupgap"]
+
+    @boxgroupgap.setter
+    def boxgroupgap(self, val):
+        self["boxgroupgap"] = val
+
+    # boxmode
+    # -------
+    @property
+    def boxmode(self):
+        """
+        Determines how boxes at the same location coordinate are
+        displayed on the graph. If "group", the boxes are plotted next
+        to one another centered around the shared location. If
+        "overlay", the boxes are plotted over one another, you might
+        need to set "opacity" to see them multiple boxes. Has no effect
+        on traces that have "width" set.
+    
+        The 'boxmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['group', 'overlay']
+
+        Returns
+        -------
+        Any
+        """
+        return self["boxmode"]
+
+    @boxmode.setter
+    def boxmode(self, val):
+        self["boxmode"] = val
+
+    # calendar
+    # --------
+    @property
+    def calendar(self):
+        """
+        Sets the default calendar system to use for interpreting and
+        displaying dates throughout the plot.
+    
+        The 'calendar' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['gregorian', 'chinese', 'coptic', 'discworld',
+                'ethiopian', 'hebrew', 'islamic', 'julian', 'mayan',
+                'nanakshahi', 'nepali', 'persian', 'jalali', 'taiwan',
+                'thai', 'ummalqura']
+
+        Returns
+        -------
+        Any
+        """
+        return self["calendar"]
+
+    @calendar.setter
+    def calendar(self, val):
+        self["calendar"] = val
+
+    # clickmode
+    # ---------
+    @property
+    def clickmode(self):
+        """
+        Determines the mode of single click interactions. "event" is
+        the default value and emits the `plotly_click` event. In
+        addition this mode emits the `plotly_selected` event in drag
+        modes "lasso" and "select", but with no event data attached
+        (kept for compatibility reasons). The "select" flag enables
+        selecting single data points via click. This mode also supports
+        persistent selections, meaning that pressing Shift while
+        clicking, adds to / subtracts from an existing selection.
+        "select" with `hovermode`: "x" can be confusing, consider
+        explicitly setting `hovermode`: "closest" when using this
+        feature. Selection events are sent accordingly as long as
+        "event" flag is set as well. When the "event" flag is missing,
+        `plotly_click` and `plotly_selected` events are not fired.
+    
+        The 'clickmode' property is a flaglist and may be specified
+        as a string containing:
+          - Any combination of ['event', 'select'] joined with '+' characters
+            (e.g. 'event+select')
+            OR exactly one of ['none'] (e.g. 'none')
+
+        Returns
+        -------
+        Any
+        """
+        return self["clickmode"]
+
+    @clickmode.setter
+    def clickmode(self, val):
+        self["clickmode"] = val
+
+    # coloraxis
+    # ---------
+    @property
+    def coloraxis(self):
+        """
+        The 'coloraxis' property is an instance of Coloraxis
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Coloraxis
+          - A dict of string/value properties that will be passed
+            to the Coloraxis constructor
+    
+            Supported dict properties:
+                
+                autocolorscale
+                    Determines whether the colorscale is a default
+                    palette (`autocolorscale: true`) or the palette
+                    determined by `colorscale`. In case
+                    `colorscale` is unspecified or `autocolorscale`
+                    is true, the default  palette will be chosen
+                    according to whether numbers in the `color`
+                    array are all positive, all negative or mixed.
+                cauto
+                    Determines whether or not the color domain is
+                    computed with respect to the input data (here
+                    corresponding trace color array(s)) or the
+                    bounds set in `cmin` and `cmax`  Defaults to
+                    `false` when `cmin` and `cmax` are set by the
+                    user.
+                cmax
+                    Sets the upper bound of the color domain. Value
+                    should have the same units as corresponding
+                    trace color array(s) and if set, `cmin` must be
+                    set as well.
+                cmid
+                    Sets the mid-point of the color domain by
+                    scaling `cmin` and/or `cmax` to be equidistant
+                    to this point. Value should have the same units
+                    as corresponding trace color array(s). Has no
+                    effect when `cauto` is `false`.
+                cmin
+                    Sets the lower bound of the color domain. Value
+                    should have the same units as corresponding
+                    trace color array(s) and if set, `cmax` must be
+                    set as well.
+                colorbar
+                    plotly.graph_objects.layout.coloraxis.ColorBar
+                    instance or dict with compatible properties
+                colorscale
+                    Sets the colorscale. The colorscale must be an
+                    array containing arrays mapping a normalized
+                    value to an rgb, rgba, hex, hsl, hsv, or named
+                    color string. At minimum, a mapping for the
+                    lowest (0) and highest (1) values are required.
+                    For example, `[[0, 'rgb(0,0,255)'], [1,
+                    'rgb(255,0,0)']]`. To control the bounds of the
+                    colorscale in color space, use`cmin` and
+                    `cmax`. Alternatively, `colorscale` may be a
+                    palette name string of the following list: Grey
+                    s,YlGnBu,Greens,YlOrRd,Bluered,RdBu,Reds,Blues,
+                    Picnic,Rainbow,Portland,Jet,Hot,Blackbody,Earth
+                    ,Electric,Viridis,Cividis.
+                reversescale
+                    Reverses the color mapping if true. If true,
+                    `cmin` will correspond to the last color in the
+                    array and `cmax` will correspond to the first
+                    color.
+                showscale
+                    Determines whether or not a colorbar is
+                    displayed for this trace.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Coloraxis
+        """
+        return self["coloraxis"]
+
+    @coloraxis.setter
+    def coloraxis(self, val):
+        self["coloraxis"] = val
+
+    # colorscale
+    # ----------
+    @property
+    def colorscale(self):
+        """
+        The 'colorscale' property is an instance of Colorscale
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Colorscale
+          - A dict of string/value properties that will be passed
+            to the Colorscale constructor
+    
+            Supported dict properties:
+                
+                diverging
+                    Sets the default diverging colorscale. Note
+                    that `autocolorscale` must be true for this
+                    attribute to work.
+                sequential
+                    Sets the default sequential colorscale for
+                    positive values. Note that `autocolorscale`
+                    must be true for this attribute to work.
+                sequentialminus
+                    Sets the default sequential colorscale for
+                    negative values. Note that `autocolorscale`
+                    must be true for this attribute to work.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Colorscale
+        """
+        return self["colorscale"]
+
+    @colorscale.setter
+    def colorscale(self, val):
+        self["colorscale"] = val
+
+    # colorway
+    # --------
+    @property
+    def colorway(self):
+        """
+        Sets the default trace colors.
+    
+        The 'colorway' property is a colorlist that may be specified
+        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
+        color strings
+
+        Returns
+        -------
+        list
+        """
+        return self["colorway"]
+
+    @colorway.setter
+    def colorway(self, val):
+        self["colorway"] = val
+
+    # datarevision
+    # ------------
+    @property
+    def datarevision(self):
+        """
+        If provided, a changed value tells `Plotly.react` that one or
+        more data arrays has changed. This way you can modify arrays
+        in-place rather than making a complete new copy for an
+        incremental change. If NOT provided, `Plotly.react` assumes
+        that data arrays are being treated as immutable, thus any data
+        array with a different identity from its predecessor contains
+        new data.
+    
+        The 'datarevision' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["datarevision"]
+
+    @datarevision.setter
+    def datarevision(self, val):
+        self["datarevision"] = val
+
+    # direction
+    # ---------
+    @property
+    def direction(self):
+        """
+        Legacy polar charts are deprecated! Please switch to "polar"
+        subplots. Sets the direction corresponding to positive angles
+        in legacy polar charts.
+    
+        The 'direction' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['clockwise', 'counterclockwise']
+
+        Returns
+        -------
+        Any
+        """
+        return self["direction"]
+
+    @direction.setter
+    def direction(self, val):
+        self["direction"] = val
+
+    # dragmode
+    # --------
+    @property
+    def dragmode(self):
+        """
+        Determines the mode of drag interactions. "select" and "lasso"
+        apply only to scatter traces with markers or text. "orbit" and
+        "turntable" apply only to 3D scenes.
+    
+        The 'dragmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['zoom', 'pan', 'select', 'lasso', 'orbit', 'turntable',
+                False]
+
+        Returns
+        -------
+        Any
+        """
+        return self["dragmode"]
+
+    @dragmode.setter
+    def dragmode(self, val):
+        self["dragmode"] = val
+
+    # editrevision
+    # ------------
+    @property
+    def editrevision(self):
+        """
+        Controls persistence of user-driven changes in `editable: true`
+        configuration, other than trace names and axis titles. Defaults
+        to `layout.uirevision`.
+    
+        The 'editrevision' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["editrevision"]
+
+    @editrevision.setter
+    def editrevision(self, val):
+        self["editrevision"] = val
+
+    # extendfunnelareacolors
+    # ----------------------
+    @property
+    def extendfunnelareacolors(self):
+        """
+        If `true`, the funnelarea slice colors (whether given by
+        `funnelareacolorway` or inherited from `colorway`) will be
+        extended to three times its original length by first repeating
+        every color 20% lighter then each color 20% darker. This is
+        intended to reduce the likelihood of reusing the same color
+        when you have many slices, but you can set `false` to disable.
+        Colors provided in the trace, using `marker.colors`, are never
+        extended.
+    
+        The 'extendfunnelareacolors' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["extendfunnelareacolors"]
+
+    @extendfunnelareacolors.setter
+    def extendfunnelareacolors(self, val):
+        self["extendfunnelareacolors"] = val
+
+    # extendpiecolors
+    # ---------------
+    @property
+    def extendpiecolors(self):
+        """
+        If `true`, the pie slice colors (whether given by `piecolorway`
+        or inherited from `colorway`) will be extended to three times
+        its original length by first repeating every color 20% lighter
+        then each color 20% darker. This is intended to reduce the
+        likelihood of reusing the same color when you have many slices,
+        but you can set `false` to disable. Colors provided in the
+        trace, using `marker.colors`, are never extended.
+    
+        The 'extendpiecolors' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["extendpiecolors"]
+
+    @extendpiecolors.setter
+    def extendpiecolors(self, val):
+        self["extendpiecolors"] = val
+
+    # extendsunburstcolors
+    # --------------------
+    @property
+    def extendsunburstcolors(self):
+        """
+        If `true`, the sunburst slice colors (whether given by
+        `sunburstcolorway` or inherited from `colorway`) will be
+        extended to three times its original length by first repeating
+        every color 20% lighter then each color 20% darker. This is
+        intended to reduce the likelihood of reusing the same color
+        when you have many slices, but you can set `false` to disable.
+        Colors provided in the trace, using `marker.colors`, are never
+        extended.
+    
+        The 'extendsunburstcolors' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["extendsunburstcolors"]
+
+    @extendsunburstcolors.setter
+    def extendsunburstcolors(self, val):
+        self["extendsunburstcolors"] = val
+
+    # extendtreemapcolors
+    # -------------------
+    @property
+    def extendtreemapcolors(self):
+        """
+        If `true`, the treemap slice colors (whether given by
+        `treemapcolorway` or inherited from `colorway`) will be
+        extended to three times its original length by first repeating
+        every color 20% lighter then each color 20% darker. This is
+        intended to reduce the likelihood of reusing the same color
+        when you have many slices, but you can set `false` to disable.
+        Colors provided in the trace, using `marker.colors`, are never
+        extended.
+    
+        The 'extendtreemapcolors' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["extendtreemapcolors"]
+
+    @extendtreemapcolors.setter
+    def extendtreemapcolors(self, val):
+        self["extendtreemapcolors"] = val
+
+    # font
+    # ----
+    @property
+    def font(self):
+        """
+        Sets the global font. Note that fonts used in traces and other
+        layout components inherit from the global font.
+    
+        The 'font' property is an instance of Font
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Font
+          - A dict of string/value properties that will be passed
+            to the Font constructor
+    
+            Supported dict properties:
+                
+                color
+    
+                family
+                    HTML font family - the typeface that will be
+                    applied by the web browser. The web browser
+                    will only be able to apply a font if it is
+                    available on the system which it operates.
+                    Provide multiple font families, separated by
+                    commas, to indicate the preference in which to
+                    apply fonts if they aren't available on the
+                    system. The plotly service (at https://plot.ly
+                    or on-premise) generates images on a server,
+                    where only a select number of fonts are
+                    installed and supported. These include "Arial",
+                    "Balto", "Courier New", "Droid Sans",, "Droid
+                    Serif", "Droid Sans Mono", "Gravitas One", "Old
+                    Standard TT", "Open Sans", "Overpass", "PT Sans
+                    Narrow", "Raleway", "Times New Roman".
+                size
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Font
+        """
+        return self["font"]
+
+    @font.setter
+    def font(self, val):
+        self["font"] = val
+
+    # funnelareacolorway
+    # ------------------
+    @property
+    def funnelareacolorway(self):
+        """
+        Sets the default funnelarea slice colors. Defaults to the main
+        `colorway` used for trace colors. If you specify a new list
+        here it can still be extended with lighter and darker colors,
+        see `extendfunnelareacolors`.
+    
+        The 'funnelareacolorway' property is a colorlist that may be specified
+        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
+        color strings
+
+        Returns
+        -------
+        list
+        """
+        return self["funnelareacolorway"]
+
+    @funnelareacolorway.setter
+    def funnelareacolorway(self, val):
+        self["funnelareacolorway"] = val
+
+    # funnelgap
+    # ---------
+    @property
+    def funnelgap(self):
+        """
+        Sets the gap (in plot fraction) between bars of adjacent
+        location coordinates.
+    
+        The 'funnelgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["funnelgap"]
+
+    @funnelgap.setter
+    def funnelgap(self, val):
+        self["funnelgap"] = val
+
+    # funnelgroupgap
+    # --------------
+    @property
+    def funnelgroupgap(self):
+        """
+        Sets the gap (in plot fraction) between bars of the same
+        location coordinate.
+    
+        The 'funnelgroupgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["funnelgroupgap"]
+
+    @funnelgroupgap.setter
+    def funnelgroupgap(self, val):
+        self["funnelgroupgap"] = val
+
+    # funnelmode
+    # ----------
+    @property
+    def funnelmode(self):
+        """
+        Determines how bars at the same location coordinate are
+        displayed on the graph. With "stack", the bars are stacked on
+        top of one another With "group", the bars are plotted next to
+        one another centered around the shared location. With
+        "overlay", the bars are plotted over one another, you might
+        need to an "opacity" to see multiple bars.
+    
+        The 'funnelmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['stack', 'group', 'overlay']
+
+        Returns
+        -------
+        Any
+        """
+        return self["funnelmode"]
+
+    @funnelmode.setter
+    def funnelmode(self, val):
+        self["funnelmode"] = val
+
+    # geo
+    # ---
+    @property
+    def geo(self):
+        """
+        The 'geo' property is an instance of Geo
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Geo
+          - A dict of string/value properties that will be passed
+            to the Geo constructor
+    
+            Supported dict properties:
+                
+                bgcolor
+                    Set the background color of the map
+                center
+                    plotly.graph_objects.layout.geo.Center instance
+                    or dict with compatible properties
+                coastlinecolor
+                    Sets the coastline color.
+                coastlinewidth
+                    Sets the coastline stroke width (in px).
+                countrycolor
+                    Sets line color of the country boundaries.
+                countrywidth
+                    Sets line width (in px) of the country
+                    boundaries.
+                domain
+                    plotly.graph_objects.layout.geo.Domain instance
+                    or dict with compatible properties
+                framecolor
+                    Sets the color the frame.
+                framewidth
+                    Sets the stroke width (in px) of the frame.
+                lakecolor
+                    Sets the color of the lakes.
+                landcolor
+                    Sets the land mass color.
+                lataxis
+                    plotly.graph_objects.layout.geo.Lataxis
+                    instance or dict with compatible properties
+                lonaxis
+                    plotly.graph_objects.layout.geo.Lonaxis
+                    instance or dict with compatible properties
+                oceancolor
+                    Sets the ocean color
+                projection
+                    plotly.graph_objects.layout.geo.Projection
+                    instance or dict with compatible properties
+                resolution
+                    Sets the resolution of the base layers. The
+                    values have units of km/mm e.g. 110 corresponds
+                    to a scale ratio of 1:110,000,000.
+                rivercolor
+                    Sets color of the rivers.
+                riverwidth
+                    Sets the stroke width (in px) of the rivers.
+                scope
+                    Set the scope of the map.
+                showcoastlines
+                    Sets whether or not the coastlines are drawn.
+                showcountries
+                    Sets whether or not country boundaries are
+                    drawn.
+                showframe
+                    Sets whether or not a frame is drawn around the
+                    map.
+                showlakes
+                    Sets whether or not lakes are drawn.
+                showland
+                    Sets whether or not land masses are filled in
+                    color.
+                showocean
+                    Sets whether or not oceans are filled in color.
+                showrivers
+                    Sets whether or not rivers are drawn.
+                showsubunits
+                    Sets whether or not boundaries of subunits
+                    within countries (e.g. states, provinces) are
+                    drawn.
+                subunitcolor
+                    Sets the color of the subunits boundaries.
+                subunitwidth
+                    Sets the stroke width (in px) of the subunits
+                    boundaries.
+                uirevision
+                    Controls persistence of user-driven changes in
+                    the view (projection and center). Defaults to
+                    `layout.uirevision`.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Geo
+        """
+        return self["geo"]
+
+    @geo.setter
+    def geo(self, val):
+        self["geo"] = val
+
+    # grid
+    # ----
+    @property
+    def grid(self):
+        """
+        The 'grid' property is an instance of Grid
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Grid
+          - A dict of string/value properties that will be passed
+            to the Grid constructor
+    
+            Supported dict properties:
+                
+                columns
+                    The number of columns in the grid. If you
+                    provide a 2D `subplots` array, the length of
+                    its longest row is used as the default. If you
+                    give an `xaxes` array, its length is used as
+                    the default. But it's also possible to have a
+                    different length, if you want to leave a row at
+                    the end for non-cartesian subplots.
+                domain
+                    plotly.graph_objects.layout.grid.Domain
+                    instance or dict with compatible properties
+                pattern
+                    If no `subplots`, `xaxes`, or `yaxes` are given
+                    but we do have `rows` and `columns`, we can
+                    generate defaults using consecutive axis IDs,
+                    in two ways: "coupled" gives one x axis per
+                    column and one y axis per row. "independent"
+                    uses a new xy pair for each cell, left-to-right
+                    across each row then iterating rows according
+                    to `roworder`.
+                roworder
+                    Is the first row the top or the bottom? Note
+                    that columns are always enumerated from left to
+                    right.
+                rows
+                    The number of rows in the grid. If you provide
+                    a 2D `subplots` array or a `yaxes` array, its
+                    length is used as the default. But it's also
+                    possible to have a different length, if you
+                    want to leave a row at the end for non-
+                    cartesian subplots.
+                subplots
+                    Used for freeform grids, where some axes may be
+                    shared across subplots but others are not. Each
+                    entry should be a cartesian subplot id, like
+                    "xy" or "x3y2", or "" to leave that cell empty.
+                    You may reuse x axes within the same column,
+                    and y axes within the same row. Non-cartesian
+                    subplots and traces that support `domain` can
+                    place themselves in this grid separately using
+                    the `gridcell` attribute.
+                xaxes
+                    Used with `yaxes` when the x and y axes are
+                    shared across columns and rows. Each entry
+                    should be an x axis id like "x", "x2", etc., or
+                    "" to not put an x axis in that column. Entries
+                    other than "" must be unique. Ignored if
+                    `subplots` is present. If missing but `yaxes`
+                    is present, will generate consecutive IDs.
+                xgap
+                    Horizontal space between grid cells, expressed
+                    as a fraction of the total width available to
+                    one cell. Defaults to 0.1 for coupled-axes
+                    grids and 0.2 for independent grids.
+                xside
+                    Sets where the x axis labels and titles go.
+                    "bottom" means the very bottom of the grid.
+                    "bottom plot" is the lowest plot that each x
+                    axis is used in. "top" and "top plot" are
+                    similar.
+                yaxes
+                    Used with `yaxes` when the x and y axes are
+                    shared across columns and rows. Each entry
+                    should be an y axis id like "y", "y2", etc., or
+                    "" to not put a y axis in that row. Entries
+                    other than "" must be unique. Ignored if
+                    `subplots` is present. If missing but `xaxes`
+                    is present, will generate consecutive IDs.
+                ygap
+                    Vertical space between grid cells, expressed as
+                    a fraction of the total height available to one
+                    cell. Defaults to 0.1 for coupled-axes grids
+                    and 0.3 for independent grids.
+                yside
+                    Sets where the y axis labels and titles go.
+                    "left" means the very left edge of the grid.
+                    *left plot* is the leftmost plot that each y
+                    axis is used in. "right" and *right plot* are
+                    similar.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Grid
+        """
+        return self["grid"]
+
+    @grid.setter
+    def grid(self, val):
+        self["grid"] = val
+
+    # height
+    # ------
+    @property
+    def height(self):
+        """
+        Sets the plot's height (in px).
+    
+        The 'height' property is a number and may be specified as:
+          - An int or float in the interval [10, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["height"]
+
+    @height.setter
+    def height(self, val):
+        self["height"] = val
+
+    # hiddenlabels
+    # ------------
+    @property
+    def hiddenlabels(self):
+        """
+        hiddenlabels is the funnelarea & pie chart analog of
+        visible:'legendonly' but it can contain many labels, and can
+        simultaneously hide slices from several pies/funnelarea charts
+    
+        The 'hiddenlabels' property is an array that may be specified as a tuple,
+        list, numpy array, or pandas Series
+
+        Returns
+        -------
+        numpy.ndarray
+        """
+        return self["hiddenlabels"]
+
+    @hiddenlabels.setter
+    def hiddenlabels(self, val):
+        self["hiddenlabels"] = val
+
+    # hiddenlabelssrc
+    # ---------------
+    @property
+    def hiddenlabelssrc(self):
+        """
+        Sets the source reference on plot.ly for  hiddenlabels .
+    
+        The 'hiddenlabelssrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["hiddenlabelssrc"]
+
+    @hiddenlabelssrc.setter
+    def hiddenlabelssrc(self, val):
+        self["hiddenlabelssrc"] = val
+
+    # hidesources
+    # -----------
+    @property
+    def hidesources(self):
+        """
+        Determines whether or not a text link citing the data source is
+        placed at the bottom-right cored of the figure. Has only an
+        effect only on graphs that have been generated via forked
+        graphs from the plotly service (at https://plot.ly or on-
+        premise).
+    
+        The 'hidesources' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["hidesources"]
+
+    @hidesources.setter
+    def hidesources(self, val):
+        self["hidesources"] = val
+
+    # hoverdistance
+    # -------------
+    @property
+    def hoverdistance(self):
+        """
+        Sets the default distance (in pixels) to look for data to add
+        hover labels (-1 means no cutoff, 0 means no looking for data).
+        This is only a real distance for hovering on point-like
+        objects, like scatter points. For area-like objects (bars,
+        scatter fills, etc) hovering is on inside the area and off
+        outside, but these objects will not supersede hover on point-
+        like objects in case of conflict.
+    
+        The 'hoverdistance' property is a integer and may be specified as:
+          - An int (or float that will be cast to an int)
+            in the interval [-1, 9223372036854775807]
+
+        Returns
+        -------
+        int
+        """
+        return self["hoverdistance"]
+
+    @hoverdistance.setter
+    def hoverdistance(self, val):
+        self["hoverdistance"] = val
+
+    # hoverlabel
+    # ----------
+    @property
+    def hoverlabel(self):
+        """
+        The 'hoverlabel' property is an instance of Hoverlabel
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Hoverlabel
+          - A dict of string/value properties that will be passed
+            to the Hoverlabel constructor
+    
+            Supported dict properties:
+                
+                align
+                    Sets the horizontal alignment of the text
+                    content within hover label box. Has an effect
+                    only if the hover label text spans more two or
+                    more lines
+                bgcolor
+                    Sets the background color of all hover labels
+                    on graph
+                bordercolor
+                    Sets the border color of all hover labels on
+                    graph.
+                font
+                    Sets the default hover label font used by all
+                    traces on the graph.
+                namelength
+                    Sets the default length (in number of
+                    characters) of the trace name in the hover
+                    labels for all traces. -1 shows the whole name
+                    regardless of length. 0-3 shows the first 0-3
+                    characters, and an integer >3 will show the
+                    whole name if it is less than that many
+                    characters, but if it is longer, will truncate
+                    to `namelength - 3` characters and add an
+                    ellipsis.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Hoverlabel
+        """
+        return self["hoverlabel"]
+
+    @hoverlabel.setter
+    def hoverlabel(self, val):
+        self["hoverlabel"] = val
+
+    # hovermode
+    # ---------
+    @property
+    def hovermode(self):
+        """
+        Determines the mode of hover interactions. If `clickmode`
+        includes the "select" flag, `hovermode` defaults to "closest".
+        If `clickmode` lacks the "select" flag, it defaults to "x" or
+        "y" (depending on the trace's `orientation` value) for plots
+        based on cartesian coordinates. For anything else the default
+        value is "closest".
+    
+        The 'hovermode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['x', 'y', 'closest', False]
+
+        Returns
+        -------
+        Any
+        """
+        return self["hovermode"]
+
+    @hovermode.setter
+    def hovermode(self, val):
+        self["hovermode"] = val
+
+    # images
+    # ------
+    @property
+    def images(self):
+        """
+        The 'images' property is a tuple of instances of
+        Image that may be specified as:
+          - A list or tuple of instances of plotly.graph_objs.layout.Image
+          - A list or tuple of dicts of string/value properties that
+            will be passed to the Image constructor
+    
+            Supported dict properties:
+                
+                layer
+                    Specifies whether images are drawn below or
+                    above traces. When `xref` and `yref` are both
+                    set to `paper`, image is drawn below the entire
+                    plot area.
+                name
+                    When used in a template, named items are
+                    created in the output figure in addition to any
+                    items the figure already has in this array. You
+                    can modify these items in the output figure by
+                    making your own item with `templateitemname`
+                    matching this `name` alongside your
+                    modifications (including `visible: false` or
+                    `enabled: false` to hide it). Has no effect
+                    outside of a template.
+                opacity
+                    Sets the opacity of the image.
+                sizex
+                    Sets the image container size horizontally. The
+                    image will be sized based on the `position`
+                    value. When `xref` is set to `paper`, units are
+                    sized relative to the plot width.
+                sizey
+                    Sets the image container size vertically. The
+                    image will be sized based on the `position`
+                    value. When `yref` is set to `paper`, units are
+                    sized relative to the plot height.
+                sizing
+                    Specifies which dimension of the image to
+                    constrain.
+                source
+                    Specifies the URL of the image to be used. The
+                    URL must be accessible from the domain where
+                    the plot code is run, and can be either
+                    relative or absolute.
+                templateitemname
+                    Used to refer to a named item in this array in
+                    the template. Named items from the template
+                    will be created even without a matching item in
+                    the input figure, but you can modify one by
+                    making an item with `templateitemname` matching
+                    its `name`, alongside your modifications
+                    (including `visible: false` or `enabled: false`
+                    to hide it). If there is no template or no
+                    matching item, this item will be hidden unless
+                    you explicitly show it with `visible: true`.
+                visible
+                    Determines whether or not this image is
+                    visible.
+                x
+                    Sets the image's x position. When `xref` is set
+                    to `paper`, units are sized relative to the
+                    plot height. See `xref` for more info
+                xanchor
+                    Sets the anchor for the x position
+                xref
+                    Sets the images's x coordinate axis. If set to
+                    a x axis id (e.g. "x" or "x2"), the `x`
+                    position refers to an x data coordinate If set
+                    to "paper", the `x` position refers to the
+                    distance from the left of plot in normalized
+                    coordinates where 0 (1) corresponds to the left
+                    (right).
+                y
+                    Sets the image's y position. When `yref` is set
+                    to `paper`, units are sized relative to the
+                    plot height. See `yref` for more info
+                yanchor
+                    Sets the anchor for the y position.
+                yref
+                    Sets the images's y coordinate axis. If set to
+                    a y axis id (e.g. "y" or "y2"), the `y`
+                    position refers to a y data coordinate. If set
+                    to "paper", the `y` position refers to the
+                    distance from the bottom of the plot in
+                    normalized coordinates where 0 (1) corresponds
+                    to the bottom (top).
+
+        Returns
+        -------
+        tuple[plotly.graph_objs.layout.Image]
+        """
+        return self["images"]
+
+    @images.setter
+    def images(self, val):
+        self["images"] = val
+
+    # imagedefaults
+    # -------------
+    @property
+    def imagedefaults(self):
+        """
+        When used in a template (as
+        layout.template.layout.imagedefaults), sets the default
+        property values to use for elements of layout.images
+    
+        The 'imagedefaults' property is an instance of Image
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Image
+          - A dict of string/value properties that will be passed
+            to the Image constructor
+    
+            Supported dict properties:
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Image
+        """
+        return self["imagedefaults"]
+
+    @imagedefaults.setter
+    def imagedefaults(self, val):
+        self["imagedefaults"] = val
+
+    # legend
+    # ------
+    @property
+    def legend(self):
+        """
+        The 'legend' property is an instance of Legend
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Legend
+          - A dict of string/value properties that will be passed
+            to the Legend constructor
+    
+            Supported dict properties:
+                
+                bgcolor
+                    Sets the legend background color.
+                bordercolor
+                    Sets the color of the border enclosing the
+                    legend.
+                borderwidth
+                    Sets the width (in px) of the border enclosing
+                    the legend.
+                font
+                    Sets the font used to text the legend items.
+                itemclick
+                    Determines the behavior on legend item click.
+                    "toggle" toggles the visibility of the item
+                    clicked on the graph. "toggleothers" makes the
+                    clicked item the sole visible item on the
+                    graph. False disable legend item click
+                    interactions.
+                itemdoubleclick
+                    Determines the behavior on legend item double-
+                    click. "toggle" toggles the visibility of the
+                    item clicked on the graph. "toggleothers" makes
+                    the clicked item the sole visible item on the
+                    graph. False disable legend item double-click
+                    interactions.
+                itemsizing
+                    Determines if the legend items symbols scale
+                    with their corresponding "trace" attributes or
+                    remain "constant" independent of the symbol
+                    size on the graph.
+                orientation
+                    Sets the orientation of the legend.
+                tracegroupgap
+                    Sets the amount of vertical space (in px)
+                    between legend groups.
+                traceorder
+                    Determines the order at which the legend items
+                    are displayed. If "normal", the items are
+                    displayed top-to-bottom in the same order as
+                    the input data. If "reversed", the items are
+                    displayed in the opposite order as "normal". If
+                    "grouped", the items are displayed in groups
+                    (when a trace `legendgroup` is provided). if
+                    "grouped+reversed", the items are displayed in
+                    the opposite order as "grouped".
+                uirevision
+                    Controls persistence of legend-driven changes
+                    in trace and pie label visibility. Defaults to
+                    `layout.uirevision`.
+                valign
+                    Sets the vertical alignment of the symbols with
+                    respect to their associated text.
+                x
+                    Sets the x position (in normalized coordinates)
+                    of the legend. Defaults to 1.02 for vertical
+                    legends and defaults to 0 for horizontal
+                    legends.
+                xanchor
+                    Sets the legend's horizontal position anchor.
+                    This anchor binds the `x` position to the
+                    "left", "center" or "right" of the legend.
+                    Value "auto" anchors legends to the right for
+                    `x` values greater than or equal to 2/3,
+                    anchors legends to the left for `x` values less
+                    than or equal to 1/3 and anchors legends with
+                    respect to their center otherwise.
+                y
+                    Sets the y position (in normalized coordinates)
+                    of the legend. Defaults to 1 for vertical
+                    legends, defaults to "-0.1" for horizontal
+                    legends on graphs w/o range sliders and
+                    defaults to 1.1 for horizontal legends on graph
+                    with one or multiple range sliders.
+                yanchor
+                    Sets the legend's vertical position anchor This
+                    anchor binds the `y` position to the "top",
+                    "middle" or "bottom" of the legend. Value
+                    "auto" anchors legends at their bottom for `y`
+                    values less than or equal to 1/3, anchors
+                    legends to at their top for `y` values greater
+                    than or equal to 2/3 and anchors legends with
+                    respect to their middle otherwise.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Legend
+        """
+        return self["legend"]
+
+    @legend.setter
+    def legend(self, val):
+        self["legend"] = val
+
+    # mapbox
+    # ------
+    @property
+    def mapbox(self):
+        """
+        The 'mapbox' property is an instance of Mapbox
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Mapbox
+          - A dict of string/value properties that will be passed
+            to the Mapbox constructor
+    
+            Supported dict properties:
+                
+                accesstoken
+                    Sets the mapbox access token to be used for
+                    this mapbox map. Alternatively, the mapbox
+                    access token can be set in the configuration
+                    options under `mapboxAccessToken`. Note that
+                    accessToken are only required when `style` (e.g
+                    with values : basic, streets, outdoors, light,
+                    dark, satellite, satellite-streets ) and/or a
+                    layout layer references the Mapbox server.
+                bearing
+                    Sets the bearing angle of the map in degrees
+                    counter-clockwise from North (mapbox.bearing).
+                center
+                    plotly.graph_objects.layout.mapbox.Center
+                    instance or dict with compatible properties
+                domain
+                    plotly.graph_objects.layout.mapbox.Domain
+                    instance or dict with compatible properties
+                layers
+                    A tuple of
+                    plotly.graph_objects.layout.mapbox.Layer
+                    instances or dicts with compatible properties
+                layerdefaults
+                    When used in a template (as
+                    layout.template.layout.mapbox.layerdefaults),
+                    sets the default property values to use for
+                    elements of layout.mapbox.layers
+                pitch
+                    Sets the pitch angle of the map (in degrees,
+                    where 0 means perpendicular to the surface of
+                    the map) (mapbox.pitch).
+                style
+                    Defines the map layers that are rendered by
+                    default below the trace layers defined in
+                    `data`, which are themselves by default
+                    rendered below the layers defined in
+                    `layout.mapbox.layers`.  These layers can be
+                    defined either explicitly as a Mapbox Style
+                    object which can contain multiple layer
+                    definitions that load data from any public or
+                    private Tile Map Service (TMS or XYZ) or Web
+                    Map Service (WMS) or implicitly by using one of
+                    the built-in style objects which use WMSes
+                    which do not require any access tokens, or by
+                    using a default Mapbox style or custom Mapbox
+                    style URL, both of which require a Mapbox
+                    access token  Note that Mapbox access token can
+                    be set in the `accesstoken` attribute or in the
+                    `mapboxAccessToken` config option.  Mapbox
+                    Style objects are of the form described in the
+                    Mapbox GL JS documentation available at
+                    https://docs.mapbox.com/mapbox-gl-js/style-spec
+                    The built-in plotly.js styles objects are:
+                    open-street-map, white-bg, carto-positron,
+                    carto-darkmatter, stamen-terrain, stamen-toner,
+                    stamen-watercolor  The built-in Mapbox styles
+                    are: basic, streets, outdoors, light, dark,
+                    satellite, satellite-streets  Mapbox style URLs
+                    are of the form:
+                    mapbox://mapbox.mapbox-<name>-<version>
+                uirevision
+                    Controls persistence of user-driven changes in
+                    the view: `center`, `zoom`, `bearing`, `pitch`.
+                    Defaults to `layout.uirevision`.
+                zoom
+                    Sets the zoom level of the map (mapbox.zoom).
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Mapbox
+        """
+        return self["mapbox"]
+
+    @mapbox.setter
+    def mapbox(self, val):
+        self["mapbox"] = val
+
+    # margin
+    # ------
+    @property
+    def margin(self):
+        """
+        The 'margin' property is an instance of Margin
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Margin
+          - A dict of string/value properties that will be passed
+            to the Margin constructor
+    
+            Supported dict properties:
+                
+                autoexpand
+                    Turns on/off margin expansion computations.
+                    Legends, colorbars, updatemenus, sliders, axis
+                    rangeselector and rangeslider are allowed to
+                    push the margins by defaults.
+                b
+                    Sets the bottom margin (in px).
+                l
+                    Sets the left margin (in px).
+                pad
+                    Sets the amount of padding (in px) between the
+                    plotting area and the axis lines
+                r
+                    Sets the right margin (in px).
+                t
+                    Sets the top margin (in px).
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Margin
+        """
+        return self["margin"]
+
+    @margin.setter
+    def margin(self, val):
+        self["margin"] = val
+
+    # meta
+    # ----
+    @property
+    def meta(self):
+        """
+        Assigns extra meta information that can be used in various
+        `text` attributes. Attributes such as the graph, axis and
+        colorbar `title.text`, annotation `text` `trace.name` in legend
+        items, `rangeselector`, `updatemenus` and `sliders` `label`
+        text all support `meta`. One can access `meta` fields using
+        template strings: `%{meta[i]}` where `i` is the index of the
+        `meta` item in question. `meta` can also be an object for
+        example `{key: value}` which can be accessed %{meta[key]}.
+    
+        The 'meta' property accepts values of any type
+
+        Returns
+        -------
+        Any|numpy.ndarray
+        """
+        return self["meta"]
+
+    @meta.setter
+    def meta(self, val):
+        self["meta"] = val
+
+    # metasrc
+    # -------
+    @property
+    def metasrc(self):
+        """
+        Sets the source reference on plot.ly for  meta .
+    
+        The 'metasrc' property must be specified as a string or
+        as a plotly.grid_objs.Column object
+
+        Returns
+        -------
+        str
+        """
+        return self["metasrc"]
+
+    @metasrc.setter
+    def metasrc(self, val):
+        self["metasrc"] = val
+
+    # modebar
+    # -------
+    @property
+    def modebar(self):
+        """
+        The 'modebar' property is an instance of Modebar
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Modebar
+          - A dict of string/value properties that will be passed
+            to the Modebar constructor
+    
+            Supported dict properties:
+                
+                activecolor
+                    Sets the color of the active or hovered on
+                    icons in the modebar.
+                bgcolor
+                    Sets the background color of the modebar.
+                color
+                    Sets the color of the icons in the modebar.
+                orientation
+                    Sets the orientation of the modebar.
+                uirevision
+                    Controls persistence of user-driven changes
+                    related to the modebar, including `hovermode`,
+                    `dragmode`, and `showspikes` at both the root
+                    level and inside subplots. Defaults to
+                    `layout.uirevision`.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Modebar
+        """
+        return self["modebar"]
+
+    @modebar.setter
+    def modebar(self, val):
+        self["modebar"] = val
+
+    # orientation
+    # -----------
+    @property
+    def orientation(self):
+        """
+        Legacy polar charts are deprecated! Please switch to "polar"
+        subplots. Rotates the entire polar by the given angle in legacy
+        polar charts.
+    
+        The 'orientation' property is a angle (in degrees) that may be
+        specified as a number between -180 and 180. Numeric values outside this
+        range are converted to the equivalent value
+        (e.g. 270 is converted to -90).
+
+        Returns
+        -------
+        int|float
+        """
+        return self["orientation"]
+
+    @orientation.setter
+    def orientation(self, val):
+        self["orientation"] = val
+
+    # paper_bgcolor
+    # -------------
+    @property
+    def paper_bgcolor(self):
+        """
+        Sets the color of paper where the graph is drawn.
+    
+        The 'paper_bgcolor' property is a color and may be specified as:
+          - A hex string (e.g. '#ff0000')
+          - An rgb/rgba string (e.g. 'rgb(255,0,0)')
+          - An hsl/hsla string (e.g. 'hsl(0,100%,50%)')
+          - An hsv/hsva string (e.g. 'hsv(0,100%,100%)')
+          - A named CSS color:
+                aliceblue, antiquewhite, aqua, aquamarine, azure,
+                beige, bisque, black, blanchedalmond, blue,
+                blueviolet, brown, burlywood, cadetblue,
+                chartreuse, chocolate, coral, cornflowerblue,
+                cornsilk, crimson, cyan, darkblue, darkcyan,
+                darkgoldenrod, darkgray, darkgrey, darkgreen,
+                darkkhaki, darkmagenta, darkolivegreen, darkorange,
+                darkorchid, darkred, darksalmon, darkseagreen,
+                darkslateblue, darkslategray, darkslategrey,
+                darkturquoise, darkviolet, deeppink, deepskyblue,
+                dimgray, dimgrey, dodgerblue, firebrick,
+                floralwhite, forestgreen, fuchsia, gainsboro,
+                ghostwhite, gold, goldenrod, gray, grey, green,
+                greenyellow, honeydew, hotpink, indianred, indigo,
+                ivory, khaki, lavender, lavenderblush, lawngreen,
+                lemonchiffon, lightblue, lightcoral, lightcyan,
+                lightgoldenrodyellow, lightgray, lightgrey,
+                lightgreen, lightpink, lightsalmon, lightseagreen,
+                lightskyblue, lightslategray, lightslategrey,
+                lightsteelblue, lightyellow, lime, limegreen,
+                linen, magenta, maroon, mediumaquamarine,
+                mediumblue, mediumorchid, mediumpurple,
+                mediumseagreen, mediumslateblue, mediumspringgreen,
+                mediumturquoise, mediumvioletred, midnightblue,
+                mintcream, mistyrose, moccasin, navajowhite, navy,
+                oldlace, olive, olivedrab, orange, orangered,
+                orchid, palegoldenrod, palegreen, paleturquoise,
+                palevioletred, papayawhip, peachpuff, peru, pink,
+                plum, powderblue, purple, red, rosybrown,
+                royalblue, rebeccapurple, saddlebrown, salmon,
+                sandybrown, seagreen, seashell, sienna, silver,
+                skyblue, slateblue, slategray, slategrey, snow,
+                springgreen, steelblue, tan, teal, thistle, tomato,
+                turquoise, violet, wheat, white, whitesmoke,
+                yellow, yellowgreen
+
+        Returns
+        -------
+        str
+        """
+        return self["paper_bgcolor"]
+
+    @paper_bgcolor.setter
+    def paper_bgcolor(self, val):
+        self["paper_bgcolor"] = val
+
+    # piecolorway
+    # -----------
+    @property
+    def piecolorway(self):
+        """
+        Sets the default pie slice colors. Defaults to the main
+        `colorway` used for trace colors. If you specify a new list
+        here it can still be extended with lighter and darker colors,
+        see `extendpiecolors`.
+    
+        The 'piecolorway' property is a colorlist that may be specified
+        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
+        color strings
+
+        Returns
+        -------
+        list
+        """
+        return self["piecolorway"]
+
+    @piecolorway.setter
+    def piecolorway(self, val):
+        self["piecolorway"] = val
+
+    # plot_bgcolor
+    # ------------
+    @property
+    def plot_bgcolor(self):
+        """
+        Sets the color of plotting area in-between x and y axes.
+    
+        The 'plot_bgcolor' property is a color and may be specified as:
+          - A hex string (e.g. '#ff0000')
+          - An rgb/rgba string (e.g. 'rgb(255,0,0)')
+          - An hsl/hsla string (e.g. 'hsl(0,100%,50%)')
+          - An hsv/hsva string (e.g. 'hsv(0,100%,100%)')
+          - A named CSS color:
+                aliceblue, antiquewhite, aqua, aquamarine, azure,
+                beige, bisque, black, blanchedalmond, blue,
+                blueviolet, brown, burlywood, cadetblue,
+                chartreuse, chocolate, coral, cornflowerblue,
+                cornsilk, crimson, cyan, darkblue, darkcyan,
+                darkgoldenrod, darkgray, darkgrey, darkgreen,
+                darkkhaki, darkmagenta, darkolivegreen, darkorange,
+                darkorchid, darkred, darksalmon, darkseagreen,
+                darkslateblue, darkslategray, darkslategrey,
+                darkturquoise, darkviolet, deeppink, deepskyblue,
+                dimgray, dimgrey, dodgerblue, firebrick,
+                floralwhite, forestgreen, fuchsia, gainsboro,
+                ghostwhite, gold, goldenrod, gray, grey, green,
+                greenyellow, honeydew, hotpink, indianred, indigo,
+                ivory, khaki, lavender, lavenderblush, lawngreen,
+                lemonchiffon, lightblue, lightcoral, lightcyan,
+                lightgoldenrodyellow, lightgray, lightgrey,
+                lightgreen, lightpink, lightsalmon, lightseagreen,
+                lightskyblue, lightslategray, lightslategrey,
+                lightsteelblue, lightyellow, lime, limegreen,
+                linen, magenta, maroon, mediumaquamarine,
+                mediumblue, mediumorchid, mediumpurple,
+                mediumseagreen, mediumslateblue, mediumspringgreen,
+                mediumturquoise, mediumvioletred, midnightblue,
+                mintcream, mistyrose, moccasin, navajowhite, navy,
+                oldlace, olive, olivedrab, orange, orangered,
+                orchid, palegoldenrod, palegreen, paleturquoise,
+                palevioletred, papayawhip, peachpuff, peru, pink,
+                plum, powderblue, purple, red, rosybrown,
+                royalblue, rebeccapurple, saddlebrown, salmon,
+                sandybrown, seagreen, seashell, sienna, silver,
+                skyblue, slateblue, slategray, slategrey, snow,
+                springgreen, steelblue, tan, teal, thistle, tomato,
+                turquoise, violet, wheat, white, whitesmoke,
+                yellow, yellowgreen
+
+        Returns
+        -------
+        str
+        """
+        return self["plot_bgcolor"]
+
+    @plot_bgcolor.setter
+    def plot_bgcolor(self, val):
+        self["plot_bgcolor"] = val
+
+    # polar
+    # -----
+    @property
+    def polar(self):
+        """
+        The 'polar' property is an instance of Polar
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Polar
+          - A dict of string/value properties that will be passed
+            to the Polar constructor
+    
+            Supported dict properties:
+                
+                angularaxis
+                    plotly.graph_objects.layout.polar.AngularAxis
+                    instance or dict with compatible properties
+                bargap
+                    Sets the gap between bars of adjacent location
+                    coordinates. Values are unitless, they
+                    represent fractions of the minimum difference
+                    in bar positions in the data.
+                barmode
+                    Determines how bars at the same location
+                    coordinate are displayed on the graph. With
+                    "stack", the bars are stacked on top of one
+                    another With "overlay", the bars are plotted
+                    over one another, you might need to an
+                    "opacity" to see multiple bars.
+                bgcolor
+                    Set the background color of the subplot
+                domain
+                    plotly.graph_objects.layout.polar.Domain
+                    instance or dict with compatible properties
+                gridshape
+                    Determines if the radial axis grid lines and
+                    angular axis line are drawn as "circular"
+                    sectors or as "linear" (polygon) sectors. Has
+                    an effect only when the angular axis has `type`
+                    "category". Note that `radialaxis.angle` is
+                    snapped to the angle of the closest vertex when
+                    `gridshape` is "circular" (so that radial axis
+                    scale is the same as the data scale).
+                hole
+                    Sets the fraction of the radius to cut out of
+                    the polar subplot.
+                radialaxis
+                    plotly.graph_objects.layout.polar.RadialAxis
+                    instance or dict with compatible properties
+                sector
+                    Sets angular span of this polar subplot with
+                    two angles (in degrees). Sector are assumed to
+                    be spanned in the counterclockwise direction
+                    with 0 corresponding to rightmost limit of the
+                    polar subplot.
+                uirevision
+                    Controls persistence of user-driven changes in
+                    axis attributes, if not overridden in the
+                    individual axes. Defaults to
+                    `layout.uirevision`.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Polar
+        """
+        return self["polar"]
+
+    @polar.setter
+    def polar(self, val):
+        self["polar"] = val
+
+    # radialaxis
+    # ----------
+    @property
+    def radialaxis(self):
+        """
+        The 'radialaxis' property is an instance of RadialAxis
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.RadialAxis
+          - A dict of string/value properties that will be passed
+            to the RadialAxis constructor
+    
+            Supported dict properties:
+                
+                domain
+                    Polar chart subplots are not supported yet.
+                    This key has currently no effect.
+                endpadding
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots.
+                orientation
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the
+                    orientation (an angle with respect to the
+                    origin) of the radial axis.
+                range
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Defines the start
+                    and end point of this radial axis.
+                showline
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not the line bounding this radial axis will
+                    be shown on the figure.
+                showticklabels
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not the radial axis ticks will feature tick
+                    labels.
+                tickcolor
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the color of
+                    the tick lines on this radial axis.
+                ticklen
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the length of
+                    the tick lines on this radial axis.
+                tickorientation
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the
+                    orientation (from the paper perspective) of the
+                    radial axis tick labels.
+                ticksuffix
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Sets the length of
+                    the tick lines on this radial axis.
+                visible
+                    Legacy polar charts are deprecated! Please
+                    switch to "polar" subplots. Determines whether
+                    or not this axis will be visible.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.RadialAxis
+        """
+        return self["radialaxis"]
+
+    @radialaxis.setter
+    def radialaxis(self, val):
+        self["radialaxis"] = val
+
+    # scene
+    # -----
+    @property
+    def scene(self):
+        """
+        The 'scene' property is an instance of Scene
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Scene
+          - A dict of string/value properties that will be passed
+            to the Scene constructor
+    
+            Supported dict properties:
+                
+                annotations
+                    A tuple of
+                    plotly.graph_objects.layout.scene.Annotation
+                    instances or dicts with compatible properties
+                annotationdefaults
+                    When used in a template (as layout.template.lay
+                    out.scene.annotationdefaults), sets the default
+                    property values to use for elements of
+                    layout.scene.annotations
+                aspectmode
+                    If "cube", this scene's axes are drawn as a
+                    cube, regardless of the axes' ranges. If
+                    "data", this scene's axes are drawn in
+                    proportion with the axes' ranges. If "manual",
+                    this scene's axes are drawn in proportion with
+                    the input of "aspectratio" (the default
+                    behavior if "aspectratio" is provided). If
+                    "auto", this scene's axes are drawn using the
+                    results of "data" except when one axis is more
+                    than four times the size of the two others,
+                    where in that case the results of "cube" are
+                    used.
+                aspectratio
+                    Sets this scene's axis aspectratio.
+                bgcolor
+    
+                camera
+                    plotly.graph_objects.layout.scene.Camera
+                    instance or dict with compatible properties
+                domain
+                    plotly.graph_objects.layout.scene.Domain
+                    instance or dict with compatible properties
+                dragmode
+                    Determines the mode of drag interactions for
+                    this scene.
+                hovermode
+                    Determines the mode of hover interactions for
+                    this scene.
+                uirevision
+                    Controls persistence of user-driven changes in
+                    camera attributes. Defaults to
+                    `layout.uirevision`.
+                xaxis
+                    plotly.graph_objects.layout.scene.XAxis
+                    instance or dict with compatible properties
+                yaxis
+                    plotly.graph_objects.layout.scene.YAxis
+                    instance or dict with compatible properties
+                zaxis
+                    plotly.graph_objects.layout.scene.ZAxis
+                    instance or dict with compatible properties
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Scene
+        """
+        return self["scene"]
+
+    @scene.setter
+    def scene(self, val):
+        self["scene"] = val
+
+    # selectdirection
+    # ---------------
+    @property
+    def selectdirection(self):
+        """
+        When "dragmode" is set to "select", this limits the selection
+        of the drag to horizontal, vertical or diagonal. "h" only
+        allows horizontal selection, "v" only vertical, "d" only
+        diagonal and "any" sets no limit.
+    
+        The 'selectdirection' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['h', 'v', 'd', 'any']
+
+        Returns
+        -------
+        Any
+        """
+        return self["selectdirection"]
+
+    @selectdirection.setter
+    def selectdirection(self, val):
+        self["selectdirection"] = val
+
+    # selectionrevision
+    # -----------------
+    @property
+    def selectionrevision(self):
+        """
+        Controls persistence of user-driven changes in selected points
+        from all traces.
+    
+        The 'selectionrevision' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["selectionrevision"]
+
+    @selectionrevision.setter
+    def selectionrevision(self, val):
+        self["selectionrevision"] = val
+
+    # separators
+    # ----------
+    @property
+    def separators(self):
+        """
+        Sets the decimal and thousand separators. For example, *. *
+        puts a '.' before decimals and a space between thousands. In
+        English locales, dflt is ".," but other locales may alter this
+        default.
+    
+        The 'separators' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["separators"]
+
+    @separators.setter
+    def separators(self, val):
+        self["separators"] = val
+
+    # shapes
+    # ------
+    @property
+    def shapes(self):
+        """
+        The 'shapes' property is a tuple of instances of
+        Shape that may be specified as:
+          - A list or tuple of instances of plotly.graph_objs.layout.Shape
+          - A list or tuple of dicts of string/value properties that
+            will be passed to the Shape constructor
+    
+            Supported dict properties:
+                
+                fillcolor
+                    Sets the color filling the shape's interior.
+                layer
+                    Specifies whether shapes are drawn below or
+                    above traces.
+                line
+                    plotly.graph_objects.layout.shape.Line instance
+                    or dict with compatible properties
+                name
+                    When used in a template, named items are
+                    created in the output figure in addition to any
+                    items the figure already has in this array. You
+                    can modify these items in the output figure by
+                    making your own item with `templateitemname`
+                    matching this `name` alongside your
+                    modifications (including `visible: false` or
+                    `enabled: false` to hide it). Has no effect
+                    outside of a template.
+                opacity
+                    Sets the opacity of the shape.
+                path
+                    For `type` "path" - a valid SVG path with the
+                    pixel values replaced by data values in
+                    `xsizemode`/`ysizemode` being "scaled" and
+                    taken unmodified as pixels relative to
+                    `xanchor` and `yanchor` in case of "pixel" size
+                    mode. There are a few restrictions / quirks
+                    only absolute instructions, not relative. So
+                    the allowed segments are: M, L, H, V, Q, C, T,
+                    S, and Z arcs (A) are not allowed because
+                    radius rx and ry are relative. In the future we
+                    could consider supporting relative commands,
+                    but we would have to decide on how to handle
+                    date and log axes. Note that even as is, Q and
+                    C Bezier paths that are smooth on linear axes
+                    may not be smooth on log, and vice versa. no
+                    chained "polybezier" commands - specify the
+                    segment type for each one. On category axes,
+                    values are numbers scaled to the serial numbers
+                    of categories because using the categories
+                    themselves there would be no way to describe
+                    fractional positions On data axes: because
+                    space and T are both normal components of path
+                    strings, we can't use either to separate date
+                    from time parts. Therefore we'll use underscore
+                    for this purpose: 2015-02-21_13:45:56.789
+                templateitemname
+                    Used to refer to a named item in this array in
+                    the template. Named items from the template
+                    will be created even without a matching item in
+                    the input figure, but you can modify one by
+                    making an item with `templateitemname` matching
+                    its `name`, alongside your modifications
+                    (including `visible: false` or `enabled: false`
+                    to hide it). If there is no template or no
+                    matching item, this item will be hidden unless
+                    you explicitly show it with `visible: true`.
+                type
+                    Specifies the shape type to be drawn. If
+                    "line", a line is drawn from (`x0`,`y0`) to
+                    (`x1`,`y1`) with respect to the axes' sizing
+                    mode. If "circle", a circle is drawn from
+                    ((`x0`+`x1`)/2, (`y0`+`y1`)/2)) with radius
+                    (|(`x0`+`x1`)/2 - `x0`|, |(`y0`+`y1`)/2
+                    -`y0`)|) with respect to the axes' sizing mode.
+                    If "rect", a rectangle is drawn linking
+                    (`x0`,`y0`), (`x1`,`y0`), (`x1`,`y1`),
+                    (`x0`,`y1`), (`x0`,`y0`) with respect to the
+                    axes' sizing mode. If "path", draw a custom SVG
+                    path using `path`. with respect to the axes'
+                    sizing mode.
+                visible
+                    Determines whether or not this shape is
+                    visible.
+                x0
+                    Sets the shape's starting x position. See
+                    `type` and `xsizemode` for more info.
+                x1
+                    Sets the shape's end x position. See `type` and
+                    `xsizemode` for more info.
+                xanchor
+                    Only relevant in conjunction with `xsizemode`
+                    set to "pixel". Specifies the anchor point on
+                    the x axis to which `x0`, `x1` and x
+                    coordinates within `path` are relative to. E.g.
+                    useful to attach a pixel sized shape to a
+                    certain data value. No effect when `xsizemode`
+                    not set to "pixel".
+                xref
+                    Sets the shape's x coordinate axis. If set to
+                    an x axis id (e.g. "x" or "x2"), the `x`
+                    position refers to an x coordinate. If set to
+                    "paper", the `x` position refers to the
+                    distance from the left side of the plotting
+                    area in normalized coordinates where 0 (1)
+                    corresponds to the left (right) side. If the
+                    axis `type` is "log", then you must take the
+                    log of your desired range. If the axis `type`
+                    is "date", then you must convert the date to
+                    unix time in milliseconds.
+                xsizemode
+                    Sets the shapes's sizing mode along the x axis.
+                    If set to "scaled", `x0`, `x1` and x
+                    coordinates within `path` refer to data values
+                    on the x axis or a fraction of the plot area's
+                    width (`xref` set to "paper"). If set to
+                    "pixel", `xanchor` specifies the x position in
+                    terms of data or plot fraction but `x0`, `x1`
+                    and x coordinates within `path` are pixels
+                    relative to `xanchor`. This way, the shape can
+                    have a fixed width while maintaining a position
+                    relative to data or plot fraction.
+                y0
+                    Sets the shape's starting y position. See
+                    `type` and `ysizemode` for more info.
+                y1
+                    Sets the shape's end y position. See `type` and
+                    `ysizemode` for more info.
+                yanchor
+                    Only relevant in conjunction with `ysizemode`
+                    set to "pixel". Specifies the anchor point on
+                    the y axis to which `y0`, `y1` and y
+                    coordinates within `path` are relative to. E.g.
+                    useful to attach a pixel sized shape to a
+                    certain data value. No effect when `ysizemode`
+                    not set to "pixel".
+                yref
+                    Sets the annotation's y coordinate axis. If set
+                    to an y axis id (e.g. "y" or "y2"), the `y`
+                    position refers to an y coordinate If set to
+                    "paper", the `y` position refers to the
+                    distance from the bottom of the plotting area
+                    in normalized coordinates where 0 (1)
+                    corresponds to the bottom (top).
+                ysizemode
+                    Sets the shapes's sizing mode along the y axis.
+                    If set to "scaled", `y0`, `y1` and y
+                    coordinates within `path` refer to data values
+                    on the y axis or a fraction of the plot area's
+                    height (`yref` set to "paper"). If set to
+                    "pixel", `yanchor` specifies the y position in
+                    terms of data or plot fraction but `y0`, `y1`
+                    and y coordinates within `path` are pixels
+                    relative to `yanchor`. This way, the shape can
+                    have a fixed height while maintaining a
+                    position relative to data or plot fraction.
+
+        Returns
+        -------
+        tuple[plotly.graph_objs.layout.Shape]
+        """
+        return self["shapes"]
+
+    @shapes.setter
+    def shapes(self, val):
+        self["shapes"] = val
+
+    # shapedefaults
+    # -------------
+    @property
+    def shapedefaults(self):
+        """
+        When used in a template (as
+        layout.template.layout.shapedefaults), sets the default
+        property values to use for elements of layout.shapes
+    
+        The 'shapedefaults' property is an instance of Shape
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Shape
+          - A dict of string/value properties that will be passed
+            to the Shape constructor
+    
+            Supported dict properties:
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Shape
+        """
+        return self["shapedefaults"]
+
+    @shapedefaults.setter
+    def shapedefaults(self, val):
+        self["shapedefaults"] = val
+
+    # showlegend
+    # ----------
+    @property
+    def showlegend(self):
+        """
+        Determines whether or not a legend is drawn. Default is `true`
+        if there is a trace to show and any of these: a) Two or more
+        traces would by default be shown in the legend. b) One pie
+        trace is shown in the legend. c) One trace is explicitly given
+        with `showlegend: true`.
+    
+        The 'showlegend' property must be specified as a bool
+        (either True, or False)
+
+        Returns
+        -------
+        bool
+        """
+        return self["showlegend"]
+
+    @showlegend.setter
+    def showlegend(self, val):
+        self["showlegend"] = val
+
+    # sliders
+    # -------
+    @property
+    def sliders(self):
+        """
+        The 'sliders' property is a tuple of instances of
+        Slider that may be specified as:
+          - A list or tuple of instances of plotly.graph_objs.layout.Slider
+          - A list or tuple of dicts of string/value properties that
+            will be passed to the Slider constructor
+    
+            Supported dict properties:
+                
+                active
+                    Determines which button (by index starting from
+                    0) is considered active.
+                activebgcolor
+                    Sets the background color of the slider grip
+                    while dragging.
+                bgcolor
+                    Sets the background color of the slider.
+                bordercolor
+                    Sets the color of the border enclosing the
+                    slider.
+                borderwidth
+                    Sets the width (in px) of the border enclosing
+                    the slider.
+                currentvalue
+                    plotly.graph_objects.layout.slider.Currentvalue
+                    instance or dict with compatible properties
+                font
+                    Sets the font of the slider step labels.
+                len
+                    Sets the length of the slider This measure
+                    excludes the padding of both ends. That is, the
+                    slider's length is this length minus the
+                    padding on both ends.
+                lenmode
+                    Determines whether this slider length is set in
+                    units of plot "fraction" or in *pixels. Use
+                    `len` to set the value.
+                minorticklen
+                    Sets the length in pixels of minor step tick
+                    marks
+                name
+                    When used in a template, named items are
+                    created in the output figure in addition to any
+                    items the figure already has in this array. You
+                    can modify these items in the output figure by
+                    making your own item with `templateitemname`
+                    matching this `name` alongside your
+                    modifications (including `visible: false` or
+                    `enabled: false` to hide it). Has no effect
+                    outside of a template.
+                pad
+                    Set the padding of the slider component along
+                    each side.
+                steps
+                    A tuple of
+                    plotly.graph_objects.layout.slider.Step
+                    instances or dicts with compatible properties
+                stepdefaults
+                    When used in a template (as
+                    layout.template.layout.slider.stepdefaults),
+                    sets the default property values to use for
+                    elements of layout.slider.steps
+                templateitemname
+                    Used to refer to a named item in this array in
+                    the template. Named items from the template
+                    will be created even without a matching item in
+                    the input figure, but you can modify one by
+                    making an item with `templateitemname` matching
+                    its `name`, alongside your modifications
+                    (including `visible: false` or `enabled: false`
+                    to hide it). If there is no template or no
+                    matching item, this item will be hidden unless
+                    you explicitly show it with `visible: true`.
+                tickcolor
+                    Sets the color of the border enclosing the
+                    slider.
+                ticklen
+                    Sets the length in pixels of step tick marks
+                tickwidth
+                    Sets the tick width (in px).
+                transition
+                    plotly.graph_objects.layout.slider.Transition
+                    instance or dict with compatible properties
+                visible
+                    Determines whether or not the slider is
+                    visible.
+                x
+                    Sets the x position (in normalized coordinates)
+                    of the slider.
+                xanchor
+                    Sets the slider's horizontal position anchor.
+                    This anchor binds the `x` position to the
+                    "left", "center" or "right" of the range
+                    selector.
+                y
+                    Sets the y position (in normalized coordinates)
+                    of the slider.
+                yanchor
+                    Sets the slider's vertical position anchor This
+                    anchor binds the `y` position to the "top",
+                    "middle" or "bottom" of the range selector.
+
+        Returns
+        -------
+        tuple[plotly.graph_objs.layout.Slider]
+        """
+        return self["sliders"]
+
+    @sliders.setter
+    def sliders(self, val):
+        self["sliders"] = val
+
+    # sliderdefaults
+    # --------------
+    @property
+    def sliderdefaults(self):
+        """
+        When used in a template (as
+        layout.template.layout.sliderdefaults), sets the default
+        property values to use for elements of layout.sliders
+    
+        The 'sliderdefaults' property is an instance of Slider
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Slider
+          - A dict of string/value properties that will be passed
+            to the Slider constructor
+    
+            Supported dict properties:
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Slider
+        """
+        return self["sliderdefaults"]
+
+    @sliderdefaults.setter
+    def sliderdefaults(self, val):
+        self["sliderdefaults"] = val
+
+    # spikedistance
+    # -------------
+    @property
+    def spikedistance(self):
+        """
+        Sets the default distance (in pixels) to look for data to draw
+        spikelines to (-1 means no cutoff, 0 means no looking for
+        data). As with hoverdistance, distance does not apply to area-
+        like objects. In addition, some objects can be hovered on but
+        will not generate spikelines, such as scatter fills.
+    
+        The 'spikedistance' property is a integer and may be specified as:
+          - An int (or float that will be cast to an int)
+            in the interval [-1, 9223372036854775807]
+
+        Returns
+        -------
+        int
+        """
+        return self["spikedistance"]
+
+    @spikedistance.setter
+    def spikedistance(self, val):
+        self["spikedistance"] = val
+
+    # sunburstcolorway
+    # ----------------
+    @property
+    def sunburstcolorway(self):
+        """
+        Sets the default sunburst slice colors. Defaults to the main
+        `colorway` used for trace colors. If you specify a new list
+        here it can still be extended with lighter and darker colors,
+        see `extendsunburstcolors`.
+    
+        The 'sunburstcolorway' property is a colorlist that may be specified
+        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
+        color strings
+
+        Returns
+        -------
+        list
+        """
+        return self["sunburstcolorway"]
+
+    @sunburstcolorway.setter
+    def sunburstcolorway(self, val):
+        self["sunburstcolorway"] = val
+
+    # template
+    # --------
+    @property
+    def template(self):
+        """
+        Default attributes to be applied to the plot. This should be a
+        dict with format: `{'layout': layoutTemplate, 'data':
+        {trace_type: [traceTemplate, ...], ...}}` where
+        `layoutTemplate` is a dict matching the structure of
+        `figure.layout` and `traceTemplate` is a dict matching the
+        structure of the trace with type `trace_type` (e.g. 'scatter').
+        Alternatively, this may be specified as an instance of
+        plotly.graph_objs.layout.Template.  Trace templates are applied
+        cyclically to traces of each type. Container arrays (eg
+        `annotations`) have special handling: An object ending in
+        `defaults` (eg `annotationdefaults`) is applied to each array
+        item. But if an item has a `templateitemname` key we look in
+        the template array for an item with matching `name` and apply
+        that instead. If no matching `name` is found we mark the item
+        invisible. Any named template item not referenced is appended
+        to the end of the array, so this can be used to add a watermark
+        annotation or a logo image, for example. To omit one of these
+        items on the plot, make an item with matching
+        `templateitemname` and `visible: false`.
+    
+        The 'template' property is an instance of Template
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Template
+          - A dict of string/value properties that will be passed
+            to the Template constructor
+    
+            Supported dict properties:
+                
+                data
+                    plotly.graph_objects.layout.template.Data
+                    instance or dict with compatible properties
+                layout
+                    plotly.graph_objects.Layout instance or dict
+                    with compatible properties
+    
+          - The name of a registered template where current registered templates
+            are stored in the plotly.io.templates configuration object. The names
+            of all registered templates can be retrieved with:
+                >>> import plotly.io as pio
+                >>> list(pio.templates)
+          - A string containing multiple registered template names, joined on '+'
+            characters (e.g. 'template1+template2'). In this case the resulting
+            template is computed by merging together the collection of registered 
+            templates
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Template
+        """
+        return self["template"]
+
+    @template.setter
+    def template(self, val):
+        self["template"] = val
+
+    # ternary
+    # -------
+    @property
+    def ternary(self):
+        """
+        The 'ternary' property is an instance of Ternary
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Ternary
+          - A dict of string/value properties that will be passed
+            to the Ternary constructor
+    
+            Supported dict properties:
+                
+                aaxis
+                    plotly.graph_objects.layout.ternary.Aaxis
+                    instance or dict with compatible properties
+                baxis
+                    plotly.graph_objects.layout.ternary.Baxis
+                    instance or dict with compatible properties
+                bgcolor
+                    Set the background color of the subplot
+                caxis
+                    plotly.graph_objects.layout.ternary.Caxis
+                    instance or dict with compatible properties
+                domain
+                    plotly.graph_objects.layout.ternary.Domain
+                    instance or dict with compatible properties
+                sum
+                    The number each triplet should sum to, and the
+                    maximum range of each axis
+                uirevision
+                    Controls persistence of user-driven changes in
+                    axis `min` and `title`, if not overridden in
+                    the individual axes. Defaults to
+                    `layout.uirevision`.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Ternary
+        """
+        return self["ternary"]
+
+    @ternary.setter
+    def ternary(self, val):
+        self["ternary"] = val
+
+    # title
+    # -----
+    @property
+    def title(self):
+        """
+        The 'title' property is an instance of Title
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Title
+          - A dict of string/value properties that will be passed
+            to the Title constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets the title font. Note that the title's font
+                    used to be customized by the now deprecated
+                    `titlefont` attribute.
+                pad
+                    Sets the padding of the title. Each padding
+                    value only applies when the corresponding
+                    `xanchor`/`yanchor` value is set accordingly.
+                    E.g. for left padding to take effect, `xanchor`
+                    must be set to "left". The same rule applies if
+                    `xanchor`/`yanchor` is determined
+                    automatically. Padding is muted if the
+                    respective anchor value is "middle*/*center".
+                text
+                    Sets the plot's title. Note that before the
+                    existence of `title.text`, the title's contents
+                    used to be defined as the `title` attribute
+                    itself. This behavior has been deprecated.
+                x
+                    Sets the x position with respect to `xref` in
+                    normalized coordinates from 0 (left) to 1
+                    (right).
+                xanchor
+                    Sets the title's horizontal alignment with
+                    respect to its x position. "left" means that
+                    the title starts at x, "right" means that the
+                    title ends at x and "center" means that the
+                    title's center is at x. "auto" divides `xref`
+                    by three and calculates the `xanchor` value
+                    automatically based on the value of `x`.
+                xref
+                    Sets the container `x` refers to. "container"
+                    spans the entire `width` of the plot. "paper"
+                    refers to the width of the plotting area only.
+                y
+                    Sets the y position with respect to `yref` in
+                    normalized coordinates from 0 (bottom) to 1
+                    (top). "auto" places the baseline of the title
+                    onto the vertical center of the top margin.
+                yanchor
+                    Sets the title's vertical alignment with
+                    respect to its y position. "top" means that the
+                    title's cap line is at y, "bottom" means that
+                    the title's baseline is at y and "middle" means
+                    that the title's midline is at y. "auto"
+                    divides `yref` by three and calculates the
+                    `yanchor` value automatically based on the
+                    value of `y`.
+                yref
+                    Sets the container `y` refers to. "container"
+                    spans the entire `height` of the plot. "paper"
+                    refers to the height of the plotting area only.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Title
+        """
+        return self["title"]
+
+    @title.setter
+    def title(self, val):
+        self["title"] = val
+
+    # titlefont
+    # ---------
+    @property
+    def titlefont(self):
+        """
+        Deprecated: Please use layout.title.font instead. Sets the
+        title font. Note that the title's font used to be customized by
+        the now deprecated `titlefont` attribute.
+    
+        The 'font' property is an instance of Font
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.title.Font
+          - A dict of string/value properties that will be passed
+            to the Font constructor
+    
+            Supported dict properties:
+                
+                color
+    
+                family
+                    HTML font family - the typeface that will be
+                    applied by the web browser. The web browser
+                    will only be able to apply a font if it is
+                    available on the system which it operates.
+                    Provide multiple font families, separated by
+                    commas, to indicate the preference in which to
+                    apply fonts if they aren't available on the
+                    system. The plotly service (at https://plot.ly
+                    or on-premise) generates images on a server,
+                    where only a select number of fonts are
+                    installed and supported. These include "Arial",
+                    "Balto", "Courier New", "Droid Sans",, "Droid
+                    Serif", "Droid Sans Mono", "Gravitas One", "Old
+                    Standard TT", "Open Sans", "Overpass", "PT Sans
+                    Narrow", "Raleway", "Times New Roman".
+                size
+
+        Returns
+        -------
+        
+        """
+        return self["titlefont"]
+
+    @titlefont.setter
+    def titlefont(self, val):
+        self["titlefont"] = val
+
+    # transition
+    # ----------
+    @property
+    def transition(self):
+        """
+        Sets transition options used during Plotly.react updates.
+    
+        The 'transition' property is an instance of Transition
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Transition
+          - A dict of string/value properties that will be passed
+            to the Transition constructor
+    
+            Supported dict properties:
+                
+                duration
+                    The duration of the transition, in
+                    milliseconds. If equal to zero, updates are
+                    synchronous.
+                easing
+                    The easing function used for the transition
+                ordering
+                    Determines whether the figure's layout or
+                    traces smoothly transitions during updates that
+                    make both traces and layout change.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Transition
+        """
+        return self["transition"]
+
+    @transition.setter
+    def transition(self, val):
+        self["transition"] = val
+
+    # treemapcolorway
+    # ---------------
+    @property
+    def treemapcolorway(self):
+        """
+        Sets the default treemap slice colors. Defaults to the main
+        `colorway` used for trace colors. If you specify a new list
+        here it can still be extended with lighter and darker colors,
+        see `extendtreemapcolors`.
+    
+        The 'treemapcolorway' property is a colorlist that may be specified
+        as a tuple, list, one-dimensional numpy array, or pandas Series of valid
+        color strings
+
+        Returns
+        -------
+        list
+        """
+        return self["treemapcolorway"]
+
+    @treemapcolorway.setter
+    def treemapcolorway(self, val):
+        self["treemapcolorway"] = val
+
+    # uirevision
+    # ----------
+    @property
+    def uirevision(self):
+        """
+        Used to allow user interactions with the plot to persist after
+        `Plotly.react` calls that are unaware of these interactions. If
+        `uirevision` is omitted, or if it is given and it changed from
+        the previous `Plotly.react` call, the exact new figure is used.
+        If `uirevision` is truthy and did NOT change, any attribute
+        that has been affected by user interactions and did not receive
+        a different value in the new figure will keep the interaction
+        value. `layout.uirevision` attribute serves as the default for
+        `uirevision` attributes in various sub-containers. For finer
+        control you can set these sub-attributes directly. For example,
+        if your app separately controls the data on the x and y axes
+        you might set `xaxis.uirevision=*time*` and
+        `yaxis.uirevision=*cost*`. Then if only the y data is changed,
+        you can update `yaxis.uirevision=*quantity*` and the y axis
+        range will reset but the x axis range will retain any user-
+        driven zoom.
+    
+        The 'uirevision' property accepts values of any type
+
+        Returns
+        -------
+        Any
+        """
+        return self["uirevision"]
+
+    @uirevision.setter
+    def uirevision(self, val):
+        self["uirevision"] = val
+
+    # updatemenus
+    # -----------
+    @property
+    def updatemenus(self):
+        """
+        The 'updatemenus' property is a tuple of instances of
+        Updatemenu that may be specified as:
+          - A list or tuple of instances of plotly.graph_objs.layout.Updatemenu
+          - A list or tuple of dicts of string/value properties that
+            will be passed to the Updatemenu constructor
+    
+            Supported dict properties:
+                
+                active
+                    Determines which button (by index starting from
+                    0) is considered active.
+                bgcolor
+                    Sets the background color of the update menu
+                    buttons.
+                bordercolor
+                    Sets the color of the border enclosing the
+                    update menu.
+                borderwidth
+                    Sets the width (in px) of the border enclosing
+                    the update menu.
+                buttons
+                    A tuple of
+                    plotly.graph_objects.layout.updatemenu.Button
+                    instances or dicts with compatible properties
+                buttondefaults
+                    When used in a template (as layout.template.lay
+                    out.updatemenu.buttondefaults), sets the
+                    default property values to use for elements of
+                    layout.updatemenu.buttons
+                direction
+                    Determines the direction in which the buttons
+                    are laid out, whether in a dropdown menu or a
+                    row/column of buttons. For `left` and `up`, the
+                    buttons will still appear in left-to-right or
+                    top-to-bottom order respectively.
+                font
+                    Sets the font of the update menu button text.
+                name
+                    When used in a template, named items are
+                    created in the output figure in addition to any
+                    items the figure already has in this array. You
+                    can modify these items in the output figure by
+                    making your own item with `templateitemname`
+                    matching this `name` alongside your
+                    modifications (including `visible: false` or
+                    `enabled: false` to hide it). Has no effect
+                    outside of a template.
+                pad
+                    Sets the padding around the buttons or dropdown
+                    menu.
+                showactive
+                    Highlights active dropdown item or active
+                    button if true.
+                templateitemname
+                    Used to refer to a named item in this array in
+                    the template. Named items from the template
+                    will be created even without a matching item in
+                    the input figure, but you can modify one by
+                    making an item with `templateitemname` matching
+                    its `name`, alongside your modifications
+                    (including `visible: false` or `enabled: false`
+                    to hide it). If there is no template or no
+                    matching item, this item will be hidden unless
+                    you explicitly show it with `visible: true`.
+                type
+                    Determines whether the buttons are accessible
+                    via a dropdown menu or whether the buttons are
+                    stacked horizontally or vertically
+                visible
+                    Determines whether or not the update menu is
+                    visible.
+                x
+                    Sets the x position (in normalized coordinates)
+                    of the update menu.
+                xanchor
+                    Sets the update menu's horizontal position
+                    anchor. This anchor binds the `x` position to
+                    the "left", "center" or "right" of the range
+                    selector.
+                y
+                    Sets the y position (in normalized coordinates)
+                    of the update menu.
+                yanchor
+                    Sets the update menu's vertical position anchor
+                    This anchor binds the `y` position to the
+                    "top", "middle" or "bottom" of the range
+                    selector.
+
+        Returns
+        -------
+        tuple[plotly.graph_objs.layout.Updatemenu]
+        """
+        return self["updatemenus"]
+
+    @updatemenus.setter
+    def updatemenus(self, val):
+        self["updatemenus"] = val
+
+    # updatemenudefaults
+    # ------------------
+    @property
+    def updatemenudefaults(self):
+        """
+        When used in a template (as
+        layout.template.layout.updatemenudefaults), sets the default
+        property values to use for elements of layout.updatemenus
+    
+        The 'updatemenudefaults' property is an instance of Updatemenu
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.Updatemenu
+          - A dict of string/value properties that will be passed
+            to the Updatemenu constructor
+    
+            Supported dict properties:
+
+        Returns
+        -------
+        plotly.graph_objs.layout.Updatemenu
+        """
+        return self["updatemenudefaults"]
+
+    @updatemenudefaults.setter
+    def updatemenudefaults(self, val):
+        self["updatemenudefaults"] = val
+
+    # violingap
+    # ---------
+    @property
+    def violingap(self):
+        """
+        Sets the gap (in plot fraction) between violins of adjacent
+        location coordinates. Has no effect on traces that have "width"
+        set.
+    
+        The 'violingap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["violingap"]
+
+    @violingap.setter
+    def violingap(self, val):
+        self["violingap"] = val
+
+    # violingroupgap
+    # --------------
+    @property
+    def violingroupgap(self):
+        """
+        Sets the gap (in plot fraction) between violins of the same
+        location coordinate. Has no effect on traces that have "width"
+        set.
+    
+        The 'violingroupgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["violingroupgap"]
+
+    @violingroupgap.setter
+    def violingroupgap(self, val):
+        self["violingroupgap"] = val
+
+    # violinmode
+    # ----------
+    @property
+    def violinmode(self):
+        """
+        Determines how violins at the same location coordinate are
+        displayed on the graph. If "group", the violins are plotted
+        next to one another centered around the shared location. If
+        "overlay", the violins are plotted over one another, you might
+        need to set "opacity" to see them multiple violins. Has no
+        effect on traces that have "width" set.
+    
+        The 'violinmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['group', 'overlay']
+
+        Returns
+        -------
+        Any
+        """
+        return self["violinmode"]
+
+    @violinmode.setter
+    def violinmode(self, val):
+        self["violinmode"] = val
+
+    # waterfallgap
+    # ------------
+    @property
+    def waterfallgap(self):
+        """
+        Sets the gap (in plot fraction) between bars of adjacent
+        location coordinates.
+    
+        The 'waterfallgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["waterfallgap"]
+
+    @waterfallgap.setter
+    def waterfallgap(self, val):
+        self["waterfallgap"] = val
+
+    # waterfallgroupgap
+    # -----------------
+    @property
+    def waterfallgroupgap(self):
+        """
+        Sets the gap (in plot fraction) between bars of the same
+        location coordinate.
+    
+        The 'waterfallgroupgap' property is a number and may be specified as:
+          - An int or float in the interval [0, 1]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["waterfallgroupgap"]
+
+    @waterfallgroupgap.setter
+    def waterfallgroupgap(self, val):
+        self["waterfallgroupgap"] = val
+
+    # waterfallmode
+    # -------------
+    @property
+    def waterfallmode(self):
+        """
+        Determines how bars at the same location coordinate are
+        displayed on the graph. With "group", the bars are plotted next
+        to one another centered around the shared location. With
+        "overlay", the bars are plotted over one another, you might
+        need to an "opacity" to see multiple bars.
+    
+        The 'waterfallmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['group', 'overlay']
+
+        Returns
+        -------
+        Any
+        """
+        return self["waterfallmode"]
+
+    @waterfallmode.setter
+    def waterfallmode(self, val):
+        self["waterfallmode"] = val
+
+    # width
+    # -----
+    @property
+    def width(self):
+        """
+        Sets the plot's width (in px).
+    
+        The 'width' property is a number and may be specified as:
+          - An int or float in the interval [10, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["width"]
+
+    @width.setter
+    def width(self, val):
+        self["width"] = val
+
+    # xaxis
+    # -----
+    @property
+    def xaxis(self):
+        """
+        The 'xaxis' property is an instance of XAxis
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.XAxis
+          - A dict of string/value properties that will be passed
+            to the XAxis constructor
+    
+            Supported dict properties:
+                
+                anchor
+                    If set to an opposite-letter axis id (e.g.
+                    `x2`, `y`), this axis is bound to the
+                    corresponding opposite-letter axis. If set to
+                    "free", this axis' position is determined by
+                    `position`.
+                automargin
+                    Determines whether long tick labels
+                    automatically grow the figure margins.
+                autorange
+                    Determines whether or not the range of this
+                    axis is computed in relation to the input data.
+                    See `rangemode` for more info. If `range` is
+                    provided, then `autorange` is set to False.
+                calendar
+                    Sets the calendar system to use for `range` and
+                    `tick0` if this is a date axis. This does not
+                    set the calendar for interpreting data on this
+                    axis, that's specified in the trace or via the
+                    global `layout.calendar`
+                categoryarray
+                    Sets the order in which categories on this axis
+                    appear. Only has an effect if `categoryorder`
+                    is set to "array". Used with `categoryorder`.
+                categoryarraysrc
+                    Sets the source reference on plot.ly for
+                    categoryarray .
+                categoryorder
+                    Specifies the ordering logic for the case of
+                    categorical variables. By default, plotly uses
+                    "trace", which specifies the order that is
+                    present in the data supplied. Set
+                    `categoryorder` to *category ascending* or
+                    *category descending* if order should be
+                    determined by the alphanumerical order of the
+                    category names. Set `categoryorder` to "array"
+                    to derive the ordering from the attribute
+                    `categoryarray`. If a category is not found in
+                    the `categoryarray` array, the sorting behavior
+                    for that attribute will be identical to the
+                    "trace" mode. The unspecified categories will
+                    follow the categories in `categoryarray`. Set
+                    `categoryorder` to *total ascending* or *total
+                    descending* if order should be determined by
+                    the numerical order of the values. Similarly,
+                    the order can be determined by the min, max,
+                    sum, mean or median of all the values.
+                color
+                    Sets default for all colors associated with
+                    this axis all at once: line, font, tick, and
+                    grid colors. Grid color is lightened by
+                    blending this with the plot background
+                    Individual pieces can override this.
+                constrain
+                    If this axis needs to be compressed (either due
+                    to its own `scaleanchor` and `scaleratio` or
+                    those of the other axis), determines how that
+                    happens: by increasing the "range" (default),
+                    or by decreasing the "domain".
+                constraintoward
+                    If this axis needs to be compressed (either due
+                    to its own `scaleanchor` and `scaleratio` or
+                    those of the other axis), determines which
+                    direction we push the originally specified plot
+                    area. Options are "left", "center" (default),
+                    and "right" for x axes, and "top", "middle"
+                    (default), and "bottom" for y axes.
+                dividercolor
+                    Sets the color of the dividers Only has an
+                    effect on "multicategory" axes.
+                dividerwidth
+                    Sets the width (in px) of the dividers Only has
+                    an effect on "multicategory" axes.
+                domain
+                    Sets the domain of this axis (in plot
+                    fraction).
+                dtick
+                    Sets the step in-between ticks on this axis.
+                    Use with `tick0`. Must be a positive number, or
+                    special strings available to "log" and "date"
+                    axes. If the axis `type` is "log", then ticks
+                    are set every 10^(n*dtick) where n is the tick
+                    number. For example, to set a tick mark at 1,
+                    10, 100, 1000, ... set dtick to 1. To set tick
+                    marks at 1, 100, 10000, ... set dtick to 2. To
+                    set tick marks at 1, 5, 25, 125, 625, 3125, ...
+                    set dtick to log_10(5), or 0.69897000433. "log"
+                    has several special values; "L<f>", where `f`
+                    is a positive number, gives ticks linearly
+                    spaced in value (but not position). For example
+                    `tick0` = 0.1, `dtick` = "L0.5" will put ticks
+                    at 0.1, 0.6, 1.1, 1.6 etc. To show powers of 10
+                    plus small digits between, use "D1" (all
+                    digits) or "D2" (only 2 and 5). `tick0` is
+                    ignored for "D1" and "D2". If the axis `type`
+                    is "date", then you must convert the time to
+                    milliseconds. For example, to set the interval
+                    between ticks to one day, set `dtick` to
+                    86400000.0. "date" also has special values
+                    "M<n>" gives ticks spaced by a number of
+                    months. `n` must be a positive integer. To set
+                    ticks on the 15th of every third month, set
+                    `tick0` to "2000-01-15" and `dtick` to "M3". To
+                    set ticks every 4 years, set `dtick` to "M48"
+                exponentformat
+                    Determines a formatting rule for the tick
+                    exponents. For example, consider the number
+                    1,000,000,000. If "none", it appears as
+                    1,000,000,000. If "e", 1e+9. If "E", 1E+9. If
+                    "power", 1x10^9 (with 9 in a super script). If
+                    "SI", 1G. If "B", 1B.
+                fixedrange
+                    Determines whether or not this axis is zoom-
+                    able. If true, then zoom is disabled.
+                gridcolor
+                    Sets the color of the grid lines.
+                gridwidth
+                    Sets the width (in px) of the grid lines.
+                hoverformat
+                    Sets the hover text formatting rule using d3
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Formatting.md#d3_format
+                    And for dates see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    We add one item to d3's date formatter: "%{n}f"
+                    for fractional seconds with n digits. For
+                    example, *2016-10-13 09:15:23.456* with
+                    tickformat "%H~%M~%S.%2f" would display
+                    "09~15~23.46"
+                layer
+                    Sets the layer on which this axis is displayed.
+                    If *above traces*, this axis is displayed above
+                    all the subplot's traces If *below traces*,
+                    this axis is displayed below all the subplot's
+                    traces, but above the grid lines. Useful when
+                    used together with scatter-like traces with
+                    `cliponaxis` set to False to show markers
+                    and/or text nodes above this axis.
+                linecolor
+                    Sets the axis line color.
+                linewidth
+                    Sets the width (in px) of the axis line.
+                matches
+                    If set to another axis id (e.g. `x2`, `y`), the
+                    range of this axis will match the range of the
+                    corresponding axis in data-coordinates space.
+                    Moreover, matching axes share auto-range
+                    values, category lists and histogram auto-bins.
+                    Note that setting axes simultaneously in both a
+                    `scaleanchor` and a `matches` constraint is
+                    currently forbidden. Moreover, note that
+                    matching axes must have the same `type`.
+                mirror
+                    Determines if the axis lines or/and ticks are
+                    mirrored to the opposite side of the plotting
+                    area. If True, the axis lines are mirrored. If
+                    "ticks", the axis lines and ticks are mirrored.
+                    If False, mirroring is disable. If "all", axis
+                    lines are mirrored on all shared-axes subplots.
+                    If "allticks", axis lines and ticks are
+                    mirrored on all shared-axes subplots.
+                nticks
+                    Specifies the maximum number of ticks for the
+                    particular axis. The actual number of ticks
+                    will be chosen automatically to be less than or
+                    equal to `nticks`. Has an effect only if
+                    `tickmode` is set to "auto".
+                overlaying
+                    If set a same-letter axis id, this axis is
+                    overlaid on top of the corresponding same-
+                    letter axis, with traces and axes visible for
+                    both axes. If False, this axis does not overlay
+                    any same-letter axes. In this case, for axes
+                    with overlapping domains only the highest-
+                    numbered axis will be visible.
+                position
+                    Sets the position of this axis in the plotting
+                    space (in normalized coordinates). Only has an
+                    effect if `anchor` is set to "free".
+                range
+                    Sets the range of this axis. If the axis `type`
+                    is "log", then you must take the log of your
+                    desired range (e.g. to set the range from 1 to
+                    100, set the range from 0 to 2). If the axis
+                    `type` is "date", it should be date strings,
+                    like date data, though Date objects and unix
+                    milliseconds will be accepted and converted to
+                    strings. If the axis `type` is "category", it
+                    should be numbers, using the scale where each
+                    category is assigned a serial number from zero
+                    in the order it appears.
+                rangemode
+                    If "normal", the range is computed in relation
+                    to the extrema of the input data. If *tozero*`,
+                    the range extends to 0, regardless of the input
+                    data If "nonnegative", the range is non-
+                    negative, regardless of the input data. Applies
+                    only to linear axes.
+                rangeselector
+                    plotly.graph_objects.layout.xaxis.Rangeselector
+                    instance or dict with compatible properties
+                rangeslider
+                    plotly.graph_objects.layout.xaxis.Rangeslider
+                    instance or dict with compatible properties
+                scaleanchor
+                    If set to another axis id (e.g. `x2`, `y`), the
+                    range of this axis changes together with the
+                    range of the corresponding axis such that the
+                    scale of pixels per unit is in a constant
+                    ratio. Both axes are still zoomable, but when
+                    you zoom one, the other will zoom the same
+                    amount, keeping a fixed midpoint. `constrain`
+                    and `constraintoward` determine how we enforce
+                    the constraint. You can chain these, ie `yaxis:
+                    {scaleanchor: *x*}, xaxis2: {scaleanchor: *y*}`
+                    but you can only link axes of the same `type`.
+                    The linked axis can have the opposite letter
+                    (to constrain the aspect ratio) or the same
+                    letter (to match scales across subplots). Loops
+                    (`yaxis: {scaleanchor: *x*}, xaxis:
+                    {scaleanchor: *y*}` or longer) are redundant
+                    and the last constraint encountered will be
+                    ignored to avoid possible inconsistent
+                    constraints via `scaleratio`. Note that setting
+                    axes simultaneously in both a `scaleanchor` and
+                    a `matches` constraint is currently forbidden.
+                scaleratio
+                    If this axis is linked to another by
+                    `scaleanchor`, this determines the pixel to
+                    unit scale ratio. For example, if this value is
+                    10, then every unit on this axis spans 10 times
+                    the number of pixels as a unit on the linked
+                    axis. Use this for example to create an
+                    elevation profile where the vertical scale is
+                    exaggerated a fixed amount with respect to the
+                    horizontal.
+                separatethousands
+                    If "true", even 4-digit integers are separated
+                showdividers
+                    Determines whether or not a dividers are drawn
+                    between the category levels of this axis. Only
+                    has an effect on "multicategory" axes.
+                showexponent
+                    If "all", all exponents are shown besides their
+                    significands. If "first", only the exponent of
+                    the first tick is shown. If "last", only the
+                    exponent of the last tick is shown. If "none",
+                    no exponents appear.
+                showgrid
+                    Determines whether or not grid lines are drawn.
+                    If True, the grid lines are drawn at every tick
+                    mark.
+                showline
+                    Determines whether or not a line bounding this
+                    axis is drawn.
+                showspikes
+                    Determines whether or not spikes (aka
+                    droplines) are drawn for this axis. Note: This
+                    only takes affect when hovermode = closest
+                showticklabels
+                    Determines whether or not the tick labels are
+                    drawn.
+                showtickprefix
+                    If "all", all tick labels are displayed with a
+                    prefix. If "first", only the first tick is
+                    displayed with a prefix. If "last", only the
+                    last tick is displayed with a suffix. If
+                    "none", tick prefixes are hidden.
+                showticksuffix
+                    Same as `showtickprefix` but for tick suffixes.
+                side
+                    Determines whether a x (y) axis is positioned
+                    at the "bottom" ("left") or "top" ("right") of
+                    the plotting area.
+                spikecolor
+                    Sets the spike color. If undefined, will use
+                    the series color
+                spikedash
+                    Sets the dash style of lines. Set to a dash
+                    type string ("solid", "dot", "dash",
+                    "longdash", "dashdot", or "longdashdot") or a
+                    dash length list in px (eg "5px,10px,2px,2px").
+                spikemode
+                    Determines the drawing mode for the spike line
+                    If "toaxis", the line is drawn from the data
+                    point to the axis the  series is plotted on. If
+                    "across", the line is drawn across the entire
+                    plot area, and supercedes "toaxis". If
+                    "marker", then a marker dot is drawn on the
+                    axis the series is plotted on
+                spikesnap
+                    Determines whether spikelines are stuck to the
+                    cursor or to the closest datapoints.
+                spikethickness
+                    Sets the width (in px) of the zero line.
+                tick0
+                    Sets the placement of the first tick on this
+                    axis. Use with `dtick`. If the axis `type` is
+                    "log", then you must take the log of your
+                    starting tick (e.g. to set the starting tick to
+                    100, set the `tick0` to 2) except when
+                    `dtick`=*L<f>* (see `dtick` for more info). If
+                    the axis `type` is "date", it should be a date
+                    string, like date data. If the axis `type` is
+                    "category", it should be a number, using the
+                    scale where each category is assigned a serial
+                    number from zero in the order it appears.
+                tickangle
+                    Sets the angle of the tick labels with respect
+                    to the horizontal. For example, a `tickangle`
+                    of -90 draws the tick labels vertically.
+                tickcolor
+                    Sets the tick color.
+                tickfont
+                    Sets the tick font.
+                tickformat
+                    Sets the tick label formatting rule using d3
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Formatting.md#d3_format
+                    And for dates see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    We add one item to d3's date formatter: "%{n}f"
+                    for fractional seconds with n digits. For
+                    example, *2016-10-13 09:15:23.456* with
+                    tickformat "%H~%M~%S.%2f" would display
+                    "09~15~23.46"
+                tickformatstops
+                    A tuple of plotly.graph_objects.layout.xaxis.Ti
+                    ckformatstop instances or dicts with compatible
+                    properties
+                tickformatstopdefaults
+                    When used in a template (as layout.template.lay
+                    out.xaxis.tickformatstopdefaults), sets the
+                    default property values to use for elements of
+                    layout.xaxis.tickformatstops
+                ticklen
+                    Sets the tick length (in px).
+                tickmode
+                    Sets the tick mode for this axis. If "auto",
+                    the number of ticks is set via `nticks`. If
+                    "linear", the placement of the ticks is
+                    determined by a starting position `tick0` and a
+                    tick step `dtick` ("linear" is the default
+                    value if `tick0` and `dtick` are provided). If
+                    "array", the placement of the ticks is set via
+                    `tickvals` and the tick text is `ticktext`.
+                    ("array" is the default value if `tickvals` is
+                    provided).
+                tickprefix
+                    Sets a tick label prefix.
+                ticks
+                    Determines whether ticks are drawn or not. If
+                    "", this axis' ticks are not drawn. If
+                    "outside" ("inside"), this axis' are drawn
+                    outside (inside) the axis lines.
+                tickson
+                    Determines where ticks and grid lines are drawn
+                    with respect to their corresponding tick
+                    labels. Only has an effect for axes of `type`
+                    "category" or "multicategory". When set to
+                    "boundaries", ticks and grid lines are drawn
+                    half a category to the left/bottom of labels.
+                ticksuffix
+                    Sets a tick label suffix.
+                ticktext
+                    Sets the text displayed at the ticks position
+                    via `tickvals`. Only has an effect if
+                    `tickmode` is set to "array". Used with
+                    `tickvals`.
+                ticktextsrc
+                    Sets the source reference on plot.ly for
+                    ticktext .
+                tickvals
+                    Sets the values at which ticks on this axis
+                    appear. Only has an effect if `tickmode` is set
+                    to "array". Used with `ticktext`.
+                tickvalssrc
+                    Sets the source reference on plot.ly for
+                    tickvals .
+                tickwidth
+                    Sets the tick width (in px).
+                title
+                    plotly.graph_objects.layout.xaxis.Title
+                    instance or dict with compatible properties
+                titlefont
+                    Deprecated: Please use layout.xaxis.title.font
+                    instead. Sets this axis' title font. Note that
+                    the title's font used to be customized by the
+                    now deprecated `titlefont` attribute.
+                type
+                    Sets the axis type. By default, plotly attempts
+                    to determined the axis type by looking into the
+                    data of the traces that referenced the axis in
+                    question.
+                uirevision
+                    Controls persistence of user-driven changes in
+                    axis `range`, `autorange`, and `title` if in
+                    `editable: true` configuration. Defaults to
+                    `layout.uirevision`.
+                visible
+                    A single toggle to hide the axis while
+                    preserving interaction like dragging. Default
+                    is true when a cheater plot is present on the
+                    axis, otherwise false
+                zeroline
+                    Determines whether or not a line is drawn at
+                    along the 0 value of this axis. If True, the
+                    zero line is drawn on top of the grid lines.
+                zerolinecolor
+                    Sets the line color of the zero line.
+                zerolinewidth
+                    Sets the width (in px) of the zero line.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.XAxis
+        """
+        return self["xaxis"]
+
+    @xaxis.setter
+    def xaxis(self, val):
+        self["xaxis"] = val
+
+    # yaxis
+    # -----
+    @property
+    def yaxis(self):
+        """
+        The 'yaxis' property is an instance of YAxis
+        that may be specified as:
+          - An instance of plotly.graph_objs.layout.YAxis
+          - A dict of string/value properties that will be passed
+            to the YAxis constructor
+    
+            Supported dict properties:
+                
+                anchor
+                    If set to an opposite-letter axis id (e.g.
+                    `x2`, `y`), this axis is bound to the
+                    corresponding opposite-letter axis. If set to
+                    "free", this axis' position is determined by
+                    `position`.
+                automargin
+                    Determines whether long tick labels
+                    automatically grow the figure margins.
+                autorange
+                    Determines whether or not the range of this
+                    axis is computed in relation to the input data.
+                    See `rangemode` for more info. If `range` is
+                    provided, then `autorange` is set to False.
+                calendar
+                    Sets the calendar system to use for `range` and
+                    `tick0` if this is a date axis. This does not
+                    set the calendar for interpreting data on this
+                    axis, that's specified in the trace or via the
+                    global `layout.calendar`
+                categoryarray
+                    Sets the order in which categories on this axis
+                    appear. Only has an effect if `categoryorder`
+                    is set to "array". Used with `categoryorder`.
+                categoryarraysrc
+                    Sets the source reference on plot.ly for
+                    categoryarray .
+                categoryorder
+                    Specifies the ordering logic for the case of
+                    categorical variables. By default, plotly uses
+                    "trace", which specifies the order that is
+                    present in the data supplied. Set
+                    `categoryorder` to *category ascending* or
+                    *category descending* if order should be
+                    determined by the alphanumerical order of the
+                    category names. Set `categoryorder` to "array"
+                    to derive the ordering from the attribute
+                    `categoryarray`. If a category is not found in
+                    the `categoryarray` array, the sorting behavior
+                    for that attribute will be identical to the
+                    "trace" mode. The unspecified categories will
+                    follow the categories in `categoryarray`. Set
+                    `categoryorder` to *total ascending* or *total
+                    descending* if order should be determined by
+                    the numerical order of the values. Similarly,
+                    the order can be determined by the min, max,
+                    sum, mean or median of all the values.
+                color
+                    Sets default for all colors associated with
+                    this axis all at once: line, font, tick, and
+                    grid colors. Grid color is lightened by
+                    blending this with the plot background
+                    Individual pieces can override this.
+                constrain
+                    If this axis needs to be compressed (either due
+                    to its own `scaleanchor` and `scaleratio` or
+                    those of the other axis), determines how that
+                    happens: by increasing the "range" (default),
+                    or by decreasing the "domain".
+                constraintoward
+                    If this axis needs to be compressed (either due
+                    to its own `scaleanchor` and `scaleratio` or
+                    those of the other axis), determines which
+                    direction we push the originally specified plot
+                    area. Options are "left", "center" (default),
+                    and "right" for x axes, and "top", "middle"
+                    (default), and "bottom" for y axes.
+                dividercolor
+                    Sets the color of the dividers Only has an
+                    effect on "multicategory" axes.
+                dividerwidth
+                    Sets the width (in px) of the dividers Only has
+                    an effect on "multicategory" axes.
+                domain
+                    Sets the domain of this axis (in plot
+                    fraction).
+                dtick
+                    Sets the step in-between ticks on this axis.
+                    Use with `tick0`. Must be a positive number, or
+                    special strings available to "log" and "date"
+                    axes. If the axis `type` is "log", then ticks
+                    are set every 10^(n*dtick) where n is the tick
+                    number. For example, to set a tick mark at 1,
+                    10, 100, 1000, ... set dtick to 1. To set tick
+                    marks at 1, 100, 10000, ... set dtick to 2. To
+                    set tick marks at 1, 5, 25, 125, 625, 3125, ...
+                    set dtick to log_10(5), or 0.69897000433. "log"
+                    has several special values; "L<f>", where `f`
+                    is a positive number, gives ticks linearly
+                    spaced in value (but not position). For example
+                    `tick0` = 0.1, `dtick` = "L0.5" will put ticks
+                    at 0.1, 0.6, 1.1, 1.6 etc. To show powers of 10
+                    plus small digits between, use "D1" (all
+                    digits) or "D2" (only 2 and 5). `tick0` is
+                    ignored for "D1" and "D2". If the axis `type`
+                    is "date", then you must convert the time to
+                    milliseconds. For example, to set the interval
+                    between ticks to one day, set `dtick` to
+                    86400000.0. "date" also has special values
+                    "M<n>" gives ticks spaced by a number of
+                    months. `n` must be a positive integer. To set
+                    ticks on the 15th of every third month, set
+                    `tick0` to "2000-01-15" and `dtick` to "M3". To
+                    set ticks every 4 years, set `dtick` to "M48"
+                exponentformat
+                    Determines a formatting rule for the tick
+                    exponents. For example, consider the number
+                    1,000,000,000. If "none", it appears as
+                    1,000,000,000. If "e", 1e+9. If "E", 1E+9. If
+                    "power", 1x10^9 (with 9 in a super script). If
+                    "SI", 1G. If "B", 1B.
+                fixedrange
+                    Determines whether or not this axis is zoom-
+                    able. If true, then zoom is disabled.
+                gridcolor
+                    Sets the color of the grid lines.
+                gridwidth
+                    Sets the width (in px) of the grid lines.
+                hoverformat
+                    Sets the hover text formatting rule using d3
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Formatting.md#d3_format
+                    And for dates see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    We add one item to d3's date formatter: "%{n}f"
+                    for fractional seconds with n digits. For
+                    example, *2016-10-13 09:15:23.456* with
+                    tickformat "%H~%M~%S.%2f" would display
+                    "09~15~23.46"
+                layer
+                    Sets the layer on which this axis is displayed.
+                    If *above traces*, this axis is displayed above
+                    all the subplot's traces If *below traces*,
+                    this axis is displayed below all the subplot's
+                    traces, but above the grid lines. Useful when
+                    used together with scatter-like traces with
+                    `cliponaxis` set to False to show markers
+                    and/or text nodes above this axis.
+                linecolor
+                    Sets the axis line color.
+                linewidth
+                    Sets the width (in px) of the axis line.
+                matches
+                    If set to another axis id (e.g. `x2`, `y`), the
+                    range of this axis will match the range of the
+                    corresponding axis in data-coordinates space.
+                    Moreover, matching axes share auto-range
+                    values, category lists and histogram auto-bins.
+                    Note that setting axes simultaneously in both a
+                    `scaleanchor` and a `matches` constraint is
+                    currently forbidden. Moreover, note that
+                    matching axes must have the same `type`.
+                mirror
+                    Determines if the axis lines or/and ticks are
+                    mirrored to the opposite side of the plotting
+                    area. If True, the axis lines are mirrored. If
+                    "ticks", the axis lines and ticks are mirrored.
+                    If False, mirroring is disable. If "all", axis
+                    lines are mirrored on all shared-axes subplots.
+                    If "allticks", axis lines and ticks are
+                    mirrored on all shared-axes subplots.
+                nticks
+                    Specifies the maximum number of ticks for the
+                    particular axis. The actual number of ticks
+                    will be chosen automatically to be less than or
+                    equal to `nticks`. Has an effect only if
+                    `tickmode` is set to "auto".
+                overlaying
+                    If set a same-letter axis id, this axis is
+                    overlaid on top of the corresponding same-
+                    letter axis, with traces and axes visible for
+                    both axes. If False, this axis does not overlay
+                    any same-letter axes. In this case, for axes
+                    with overlapping domains only the highest-
+                    numbered axis will be visible.
+                position
+                    Sets the position of this axis in the plotting
+                    space (in normalized coordinates). Only has an
+                    effect if `anchor` is set to "free".
+                range
+                    Sets the range of this axis. If the axis `type`
+                    is "log", then you must take the log of your
+                    desired range (e.g. to set the range from 1 to
+                    100, set the range from 0 to 2). If the axis
+                    `type` is "date", it should be date strings,
+                    like date data, though Date objects and unix
+                    milliseconds will be accepted and converted to
+                    strings. If the axis `type` is "category", it
+                    should be numbers, using the scale where each
+                    category is assigned a serial number from zero
+                    in the order it appears.
+                rangemode
+                    If "normal", the range is computed in relation
+                    to the extrema of the input data. If *tozero*`,
+                    the range extends to 0, regardless of the input
+                    data If "nonnegative", the range is non-
+                    negative, regardless of the input data. Applies
+                    only to linear axes.
+                scaleanchor
+                    If set to another axis id (e.g. `x2`, `y`), the
+                    range of this axis changes together with the
+                    range of the corresponding axis such that the
+                    scale of pixels per unit is in a constant
+                    ratio. Both axes are still zoomable, but when
+                    you zoom one, the other will zoom the same
+                    amount, keeping a fixed midpoint. `constrain`
+                    and `constraintoward` determine how we enforce
+                    the constraint. You can chain these, ie `yaxis:
+                    {scaleanchor: *x*}, xaxis2: {scaleanchor: *y*}`
+                    but you can only link axes of the same `type`.
+                    The linked axis can have the opposite letter
+                    (to constrain the aspect ratio) or the same
+                    letter (to match scales across subplots). Loops
+                    (`yaxis: {scaleanchor: *x*}, xaxis:
+                    {scaleanchor: *y*}` or longer) are redundant
+                    and the last constraint encountered will be
+                    ignored to avoid possible inconsistent
+                    constraints via `scaleratio`. Note that setting
+                    axes simultaneously in both a `scaleanchor` and
+                    a `matches` constraint is currently forbidden.
+                scaleratio
+                    If this axis is linked to another by
+                    `scaleanchor`, this determines the pixel to
+                    unit scale ratio. For example, if this value is
+                    10, then every unit on this axis spans 10 times
+                    the number of pixels as a unit on the linked
+                    axis. Use this for example to create an
+                    elevation profile where the vertical scale is
+                    exaggerated a fixed amount with respect to the
+                    horizontal.
+                separatethousands
+                    If "true", even 4-digit integers are separated
+                showdividers
+                    Determines whether or not a dividers are drawn
+                    between the category levels of this axis. Only
+                    has an effect on "multicategory" axes.
+                showexponent
+                    If "all", all exponents are shown besides their
+                    significands. If "first", only the exponent of
+                    the first tick is shown. If "last", only the
+                    exponent of the last tick is shown. If "none",
+                    no exponents appear.
+                showgrid
+                    Determines whether or not grid lines are drawn.
+                    If True, the grid lines are drawn at every tick
+                    mark.
+                showline
+                    Determines whether or not a line bounding this
+                    axis is drawn.
+                showspikes
+                    Determines whether or not spikes (aka
+                    droplines) are drawn for this axis. Note: This
+                    only takes affect when hovermode = closest
+                showticklabels
+                    Determines whether or not the tick labels are
+                    drawn.
+                showtickprefix
+                    If "all", all tick labels are displayed with a
+                    prefix. If "first", only the first tick is
+                    displayed with a prefix. If "last", only the
+                    last tick is displayed with a suffix. If
+                    "none", tick prefixes are hidden.
+                showticksuffix
+                    Same as `showtickprefix` but for tick suffixes.
+                side
+                    Determines whether a x (y) axis is positioned
+                    at the "bottom" ("left") or "top" ("right") of
+                    the plotting area.
+                spikecolor
+                    Sets the spike color. If undefined, will use
+                    the series color
+                spikedash
+                    Sets the dash style of lines. Set to a dash
+                    type string ("solid", "dot", "dash",
+                    "longdash", "dashdot", or "longdashdot") or a
+                    dash length list in px (eg "5px,10px,2px,2px").
+                spikemode
+                    Determines the drawing mode for the spike line
+                    If "toaxis", the line is drawn from the data
+                    point to the axis the  series is plotted on. If
+                    "across", the line is drawn across the entire
+                    plot area, and supercedes "toaxis". If
+                    "marker", then a marker dot is drawn on the
+                    axis the series is plotted on
+                spikesnap
+                    Determines whether spikelines are stuck to the
+                    cursor or to the closest datapoints.
+                spikethickness
+                    Sets the width (in px) of the zero line.
+                tick0
+                    Sets the placement of the first tick on this
+                    axis. Use with `dtick`. If the axis `type` is
+                    "log", then you must take the log of your
+                    starting tick (e.g. to set the starting tick to
+                    100, set the `tick0` to 2) except when
+                    `dtick`=*L<f>* (see `dtick` for more info). If
+                    the axis `type` is "date", it should be a date
+                    string, like date data. If the axis `type` is
+                    "category", it should be a number, using the
+                    scale where each category is assigned a serial
+                    number from zero in the order it appears.
+                tickangle
+                    Sets the angle of the tick labels with respect
+                    to the horizontal. For example, a `tickangle`
+                    of -90 draws the tick labels vertically.
+                tickcolor
+                    Sets the tick color.
+                tickfont
+                    Sets the tick font.
+                tickformat
+                    Sets the tick label formatting rule using d3
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Formatting.md#d3_format
+                    And for dates see:
+                    https://github.com/d3/d3-3.x-api-
+                    reference/blob/master/Time-Formatting.md#format
+                    We add one item to d3's date formatter: "%{n}f"
+                    for fractional seconds with n digits. For
+                    example, *2016-10-13 09:15:23.456* with
+                    tickformat "%H~%M~%S.%2f" would display
+                    "09~15~23.46"
+                tickformatstops
+                    A tuple of plotly.graph_objects.layout.yaxis.Ti
+                    ckformatstop instances or dicts with compatible
+                    properties
+                tickformatstopdefaults
+                    When used in a template (as layout.template.lay
+                    out.yaxis.tickformatstopdefaults), sets the
+                    default property values to use for elements of
+                    layout.yaxis.tickformatstops
+                ticklen
+                    Sets the tick length (in px).
+                tickmode
+                    Sets the tick mode for this axis. If "auto",
+                    the number of ticks is set via `nticks`. If
+                    "linear", the placement of the ticks is
+                    determined by a starting position `tick0` and a
+                    tick step `dtick` ("linear" is the default
+                    value if `tick0` and `dtick` are provided). If
+                    "array", the placement of the ticks is set via
+                    `tickvals` and the tick text is `ticktext`.
+                    ("array" is the default value if `tickvals` is
+                    provided).
+                tickprefix
+                    Sets a tick label prefix.
+                ticks
+                    Determines whether ticks are drawn or not. If
+                    "", this axis' ticks are not drawn. If
+                    "outside" ("inside"), this axis' are drawn
+                    outside (inside) the axis lines.
+                tickson
+                    Determines where ticks and grid lines are drawn
+                    with respect to their corresponding tick
+                    labels. Only has an effect for axes of `type`
+                    "category" or "multicategory". When set to
+                    "boundaries", ticks and grid lines are drawn
+                    half a category to the left/bottom of labels.
+                ticksuffix
+                    Sets a tick label suffix.
+                ticktext
+                    Sets the text displayed at the ticks position
+                    via `tickvals`. Only has an effect if
+                    `tickmode` is set to "array". Used with
+                    `tickvals`.
+                ticktextsrc
+                    Sets the source reference on plot.ly for
+                    ticktext .
+                tickvals
+                    Sets the values at which ticks on this axis
+                    appear. Only has an effect if `tickmode` is set
+                    to "array". Used with `ticktext`.
+                tickvalssrc
+                    Sets the source reference on plot.ly for
+                    tickvals .
+                tickwidth
+                    Sets the tick width (in px).
+                title
+                    plotly.graph_objects.layout.yaxis.Title
+                    instance or dict with compatible properties
+                titlefont
+                    Deprecated: Please use layout.yaxis.title.font
+                    instead. Sets this axis' title font. Note that
+                    the title's font used to be customized by the
+                    now deprecated `titlefont` attribute.
+                type
+                    Sets the axis type. By default, plotly attempts
+                    to determined the axis type by looking into the
+                    data of the traces that referenced the axis in
+                    question.
+                uirevision
+                    Controls persistence of user-driven changes in
+                    axis `range`, `autorange`, and `title` if in
+                    `editable: true` configuration. Defaults to
+                    `layout.uirevision`.
+                visible
+                    A single toggle to hide the axis while
+                    preserving interaction like dragging. Default
+                    is true when a cheater plot is present on the
+                    axis, otherwise false
+                zeroline
+                    Determines whether or not a line is drawn at
+                    along the 0 value of this axis. If True, the
+                    zero line is drawn on top of the grid lines.
+                zerolinecolor
+                    Sets the line color of the zero line.
+                zerolinewidth
+                    Sets the width (in px) of the zero line.
+
+        Returns
+        -------
+        plotly.graph_objs.layout.YAxis
+        """
+        return self["yaxis"]
+
+    @yaxis.setter
+    def yaxis(self, val):
+        self["yaxis"] = val
+
+    # property parent name
+    # --------------------
+    @property
+    def _parent_path_str(self):
+        return ""
+
+    # Self properties description
+    # ---------------------------
+    @property
+    def _prop_descriptions(self):
+        return """\
+        angularaxis
+            plotly.graph_objects.layout.AngularAxis instance or
+            dict with compatible properties
+        annotations
+            A tuple of plotly.graph_objects.layout.Annotation
+            instances or dicts with compatible properties
+        annotationdefaults
+            When used in a template (as
+            layout.template.layout.annotationdefaults), sets the
+            default property values to use for elements of
+            layout.annotations
+        autosize
+            Determines whether or not a layout width or height that
+            has been left undefined by the user is initialized on
+            each relayout. Note that, regardless of this attribute,
+            an undefined layout width or height is always
+            initialized on the first call to plot.
+        bargap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        bargroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        barmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "stack", the bars are
+            stacked on top of one another With "relative", the bars
+            are stacked on top of one another, with negative values
+            below the axis, positive values above With "group", the
+            bars are plotted next to one another centered around
+            the shared location. With "overlay", the bars are
+            plotted over one another, you might need to an
+            "opacity" to see multiple bars.
+        barnorm
+            Sets the normalization for bar traces on the graph.
+            With "fraction", the value of each bar is divided by
+            the sum of all values at that location coordinate.
+            "percent" is the same but multiplied by 100 to show
+            percentages.
+        boxgap
+            Sets the gap (in plot fraction) between boxes of
+            adjacent location coordinates. Has no effect on traces
+            that have "width" set.
+        boxgroupgap
+            Sets the gap (in plot fraction) between boxes of the
+            same location coordinate. Has no effect on traces that
+            have "width" set.
+        boxmode
+            Determines how boxes at the same location coordinate
+            are displayed on the graph. If "group", the boxes are
+            plotted next to one another centered around the shared
+            location. If "overlay", the boxes are plotted over one
+            another, you might need to set "opacity" to see them
+            multiple boxes. Has no effect on traces that have
+            "width" set.
+        calendar
+            Sets the default calendar system to use for
+            interpreting and displaying dates throughout the plot.
+        clickmode
+            Determines the mode of single click interactions.
+            "event" is the default value and emits the
+            `plotly_click` event. In addition this mode emits the
+            `plotly_selected` event in drag modes "lasso" and
+            "select", but with no event data attached (kept for
+            compatibility reasons). The "select" flag enables
+            selecting single data points via click. This mode also
+            supports persistent selections, meaning that pressing
+            Shift while clicking, adds to / subtracts from an
+            existing selection. "select" with `hovermode`: "x" can
+            be confusing, consider explicitly setting `hovermode`:
+            "closest" when using this feature. Selection events are
+            sent accordingly as long as "event" flag is set as
+            well. When the "event" flag is missing, `plotly_click`
+            and `plotly_selected` events are not fired.
+        coloraxis
+            plotly.graph_objects.layout.Coloraxis instance or dict
+            with compatible properties
+        colorscale
+            plotly.graph_objects.layout.Colorscale instance or dict
+            with compatible properties
+        colorway
+            Sets the default trace colors.
+        datarevision
+            If provided, a changed value tells `Plotly.react` that
+            one or more data arrays has changed. This way you can
+            modify arrays in-place rather than making a complete
+            new copy for an incremental change. If NOT provided,
+            `Plotly.react` assumes that data arrays are being
+            treated as immutable, thus any data array with a
+            different identity from its predecessor contains new
+            data.
+        direction
+            Legacy polar charts are deprecated! Please switch to
+            "polar" subplots. Sets the direction corresponding to
+            positive angles in legacy polar charts.
+        dragmode
+            Determines the mode of drag interactions. "select" and
+            "lasso" apply only to scatter traces with markers or
+            text. "orbit" and "turntable" apply only to 3D scenes.
+        editrevision
+            Controls persistence of user-driven changes in
+            `editable: true` configuration, other than trace names
+            and axis titles. Defaults to `layout.uirevision`.
+        extendfunnelareacolors
+            If `true`, the funnelarea slice colors (whether given
+            by `funnelareacolorway` or inherited from `colorway`)
+            will be extended to three times its original length by
+            first repeating every color 20% lighter then each color
+            20% darker. This is intended to reduce the likelihood
+            of reusing the same color when you have many slices,
+            but you can set `false` to disable. Colors provided in
+            the trace, using `marker.colors`, are never extended.
+        extendpiecolors
+            If `true`, the pie slice colors (whether given by
+            `piecolorway` or inherited from `colorway`) will be
+            extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        extendsunburstcolors
+            If `true`, the sunburst slice colors (whether given by
+            `sunburstcolorway` or inherited from `colorway`) will
+            be extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        extendtreemapcolors
+            If `true`, the treemap slice colors (whether given by
+            `treemapcolorway` or inherited from `colorway`) will be
+            extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        font
+            Sets the global font. Note that fonts used in traces
+            and other layout components inherit from the global
+            font.
+        funnelareacolorway
+            Sets the default funnelarea slice colors. Defaults to
+            the main `colorway` used for trace colors. If you
+            specify a new list here it can still be extended with
+            lighter and darker colors, see
+            `extendfunnelareacolors`.
+        funnelgap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        funnelgroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        funnelmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "stack", the bars are
+            stacked on top of one another With "group", the bars
+            are plotted next to one another centered around the
+            shared location. With "overlay", the bars are plotted
+            over one another, you might need to an "opacity" to see
+            multiple bars.
+        geo
+            plotly.graph_objects.layout.Geo instance or dict with
+            compatible properties
+        grid
+            plotly.graph_objects.layout.Grid instance or dict with
+            compatible properties
+        height
+            Sets the plot's height (in px).
+        hiddenlabels
+            hiddenlabels is the funnelarea & pie chart analog of
+            visible:'legendonly' but it can contain many labels,
+            and can simultaneously hide slices from several
+            pies/funnelarea charts
+        hiddenlabelssrc
+            Sets the source reference on plot.ly for  hiddenlabels
+            .
+        hidesources
+            Determines whether or not a text link citing the data
+            source is placed at the bottom-right cored of the
+            figure. Has only an effect only on graphs that have
+            been generated via forked graphs from the plotly
+            service (at https://plot.ly or on-premise).
+        hoverdistance
+            Sets the default distance (in pixels) to look for data
+            to add hover labels (-1 means no cutoff, 0 means no
+            looking for data). This is only a real distance for
+            hovering on point-like objects, like scatter points.
+            For area-like objects (bars, scatter fills, etc)
+            hovering is on inside the area and off outside, but
+            these objects will not supersede hover on point-like
+            objects in case of conflict.
+        hoverlabel
+            plotly.graph_objects.layout.Hoverlabel instance or dict
+            with compatible properties
+        hovermode
+            Determines the mode of hover interactions. If
+            `clickmode` includes the "select" flag, `hovermode`
+            defaults to "closest". If `clickmode` lacks the
+            "select" flag, it defaults to "x" or "y" (depending on
+            the trace's `orientation` value) for plots based on
+            cartesian coordinates. For anything else the default
+            value is "closest".
+        images
+            A tuple of plotly.graph_objects.layout.Image instances
+            or dicts with compatible properties
+        imagedefaults
+            When used in a template (as
+            layout.template.layout.imagedefaults), sets the default
+            property values to use for elements of layout.images
+        legend
+            plotly.graph_objects.layout.Legend instance or dict
+            with compatible properties
+        mapbox
+            plotly.graph_objects.layout.Mapbox instance or dict
+            with compatible properties
+        margin
+            plotly.graph_objects.layout.Margin instance or dict
+            with compatible properties
+        meta
+            Assigns extra meta information that can be used in
+            various `text` attributes. Attributes such as the
+            graph, axis and colorbar `title.text`, annotation
+            `text` `trace.name` in legend items, `rangeselector`,
+            `updatemenus` and `sliders` `label` text all support
+            `meta`. One can access `meta` fields using template
+            strings: `%{meta[i]}` where `i` is the index of the
+            `meta` item in question. `meta` can also be an object
+            for example `{key: value}` which can be accessed
+            %{meta[key]}.
+        metasrc
+            Sets the source reference on plot.ly for  meta .
+        modebar
+            plotly.graph_objects.layout.Modebar instance or dict
+            with compatible properties
+        orientation
+            Legacy polar charts are deprecated! Please switch to
+            "polar" subplots. Rotates the entire polar by the given
+            angle in legacy polar charts.
+        paper_bgcolor
+            Sets the color of paper where the graph is drawn.
+        piecolorway
+            Sets the default pie slice colors. Defaults to the main
+            `colorway` used for trace colors. If you specify a new
+            list here it can still be extended with lighter and
+            darker colors, see `extendpiecolors`.
+        plot_bgcolor
+            Sets the color of plotting area in-between x and y
+            axes.
+        polar
+            plotly.graph_objects.layout.Polar instance or dict with
+            compatible properties
+        radialaxis
+            plotly.graph_objects.layout.RadialAxis instance or dict
+            with compatible properties
+        scene
+            plotly.graph_objects.layout.Scene instance or dict with
+            compatible properties
+        selectdirection
+            When "dragmode" is set to "select", this limits the
+            selection of the drag to horizontal, vertical or
+            diagonal. "h" only allows horizontal selection, "v"
+            only vertical, "d" only diagonal and "any" sets no
+            limit.
+        selectionrevision
+            Controls persistence of user-driven changes in selected
+            points from all traces.
+        separators
+            Sets the decimal and thousand separators. For example,
+            *. * puts a '.' before decimals and a space between
+            thousands. In English locales, dflt is ".," but other
+            locales may alter this default.
+        shapes
+            A tuple of plotly.graph_objects.layout.Shape instances
+            or dicts with compatible properties
+        shapedefaults
+            When used in a template (as
+            layout.template.layout.shapedefaults), sets the default
+            property values to use for elements of layout.shapes
+        showlegend
+            Determines whether or not a legend is drawn. Default is
+            `true` if there is a trace to show and any of these: a)
+            Two or more traces would by default be shown in the
+            legend. b) One pie trace is shown in the legend. c) One
+            trace is explicitly given with `showlegend: true`.
+        sliders
+            A tuple of plotly.graph_objects.layout.Slider instances
+            or dicts with compatible properties
+        sliderdefaults
+            When used in a template (as
+            layout.template.layout.sliderdefaults), sets the
+            default property values to use for elements of
+            layout.sliders
+        spikedistance
+            Sets the default distance (in pixels) to look for data
+            to draw spikelines to (-1 means no cutoff, 0 means no
+            looking for data). As with hoverdistance, distance does
+            not apply to area-like objects. In addition, some
+            objects can be hovered on but will not generate
+            spikelines, such as scatter fills.
+        sunburstcolorway
+            Sets the default sunburst slice colors. Defaults to the
+            main `colorway` used for trace colors. If you specify a
+            new list here it can still be extended with lighter and
+            darker colors, see `extendsunburstcolors`.
+        template
+            Default attributes to be applied to the plot. This
+            should be a dict with format: `{'layout':
+            layoutTemplate, 'data': {trace_type: [traceTemplate,
+            ...], ...}}` where `layoutTemplate` is a dict matching
+            the structure of `figure.layout` and `traceTemplate` is
+            a dict matching the structure of the trace with type
+            `trace_type` (e.g. 'scatter'). Alternatively, this may
+            be specified as an instance of
+            plotly.graph_objs.layout.Template.  Trace templates are
+            applied cyclically to traces of each type. Container
+            arrays (eg `annotations`) have special handling: An
+            object ending in `defaults` (eg `annotationdefaults`)
+            is applied to each array item. But if an item has a
+            `templateitemname` key we look in the template array
+            for an item with matching `name` and apply that
+            instead. If no matching `name` is found we mark the
+            item invisible. Any named template item not referenced
+            is appended to the end of the array, so this can be
+            used to add a watermark annotation or a logo image, for
+            example. To omit one of these items on the plot, make
+            an item with matching `templateitemname` and `visible:
+            false`.
+        ternary
+            plotly.graph_objects.layout.Ternary instance or dict
+            with compatible properties
+        title
+            plotly.graph_objects.layout.Title instance or dict with
+            compatible properties
+        titlefont
+            Deprecated: Please use layout.title.font instead. Sets
+            the title font. Note that the title's font used to be
+            customized by the now deprecated `titlefont` attribute.
+        transition
+            Sets transition options used during Plotly.react
+            updates.
+        treemapcolorway
+            Sets the default treemap slice colors. Defaults to the
+            main `colorway` used for trace colors. If you specify a
+            new list here it can still be extended with lighter and
+            darker colors, see `extendtreemapcolors`.
+        uirevision
+            Used to allow user interactions with the plot to
+            persist after `Plotly.react` calls that are unaware of
+            these interactions. If `uirevision` is omitted, or if
+            it is given and it changed from the previous
+            `Plotly.react` call, the exact new figure is used. If
+            `uirevision` is truthy and did NOT change, any
+            attribute that has been affected by user interactions
+            and did not receive a different value in the new figure
+            will keep the interaction value. `layout.uirevision`
+            attribute serves as the default for `uirevision`
+            attributes in various sub-containers. For finer control
+            you can set these sub-attributes directly. For example,
+            if your app separately controls the data on the x and y
+            axes you might set `xaxis.uirevision=*time*` and
+            `yaxis.uirevision=*cost*`. Then if only the y data is
+            changed, you can update `yaxis.uirevision=*quantity*`
+            and the y axis range will reset but the x axis range
+            will retain any user-driven zoom.
+        updatemenus
+            A tuple of plotly.graph_objects.layout.Updatemenu
+            instances or dicts with compatible properties
+        updatemenudefaults
+            When used in a template (as
+            layout.template.layout.updatemenudefaults), sets the
+            default property values to use for elements of
+            layout.updatemenus
+        violingap
+            Sets the gap (in plot fraction) between violins of
+            adjacent location coordinates. Has no effect on traces
+            that have "width" set.
+        violingroupgap
+            Sets the gap (in plot fraction) between violins of the
+            same location coordinate. Has no effect on traces that
+            have "width" set.
+        violinmode
+            Determines how violins at the same location coordinate
+            are displayed on the graph. If "group", the violins are
+            plotted next to one another centered around the shared
+            location. If "overlay", the violins are plotted over
+            one another, you might need to set "opacity" to see
+            them multiple violins. Has no effect on traces that
+            have "width" set.
+        waterfallgap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        waterfallgroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        waterfallmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "group", the bars are
+            plotted next to one another centered around the shared
+            location. With "overlay", the bars are plotted over one
+            another, you might need to an "opacity" to see multiple
+            bars.
+        width
+            Sets the plot's width (in px).
+        xaxis
+            plotly.graph_objects.layout.XAxis instance or dict with
+            compatible properties
+        yaxis
+            plotly.graph_objects.layout.YAxis instance or dict with
+            compatible properties
+        """
+
+    _mapped_properties = {"titlefont": ("title", "font")}
+
+    def __init__(
+        self,
+        arg=None,
+        angularaxis=None,
+        annotations=None,
+        annotationdefaults=None,
+        autosize=None,
+        bargap=None,
+        bargroupgap=None,
+        barmode=None,
+        barnorm=None,
+        boxgap=None,
+        boxgroupgap=None,
+        boxmode=None,
+        calendar=None,
+        clickmode=None,
+        coloraxis=None,
+        colorscale=None,
+        colorway=None,
+        datarevision=None,
+        direction=None,
+        dragmode=None,
+        editrevision=None,
+        extendfunnelareacolors=None,
+        extendpiecolors=None,
+        extendsunburstcolors=None,
+        extendtreemapcolors=None,
+        font=None,
+        funnelareacolorway=None,
+        funnelgap=None,
+        funnelgroupgap=None,
+        funnelmode=None,
+        geo=None,
+        grid=None,
+        height=None,
+        hiddenlabels=None,
+        hiddenlabelssrc=None,
+        hidesources=None,
+        hoverdistance=None,
+        hoverlabel=None,
+        hovermode=None,
+        images=None,
+        imagedefaults=None,
+        legend=None,
+        mapbox=None,
+        margin=None,
+        meta=None,
+        metasrc=None,
+        modebar=None,
+        orientation=None,
+        paper_bgcolor=None,
+        piecolorway=None,
+        plot_bgcolor=None,
+        polar=None,
+        radialaxis=None,
+        scene=None,
+        selectdirection=None,
+        selectionrevision=None,
+        separators=None,
+        shapes=None,
+        shapedefaults=None,
+        showlegend=None,
+        sliders=None,
+        sliderdefaults=None,
+        spikedistance=None,
+        sunburstcolorway=None,
+        template=None,
+        ternary=None,
+        title=None,
+        titlefont=None,
+        transition=None,
+        treemapcolorway=None,
+        uirevision=None,
+        updatemenus=None,
+        updatemenudefaults=None,
+        violingap=None,
+        violingroupgap=None,
+        violinmode=None,
+        waterfallgap=None,
+        waterfallgroupgap=None,
+        waterfallmode=None,
+        width=None,
+        xaxis=None,
+        yaxis=None,
+        **kwargs
+    ):
+        """
+        Construct a new Layout object
+        
+        Parameters
+        ----------
+        arg
+            dict of properties compatible with this constructor or
+            an instance of plotly.graph_objs.Layout
+        angularaxis
+            plotly.graph_objects.layout.AngularAxis instance or
+            dict with compatible properties
+        annotations
+            A tuple of plotly.graph_objects.layout.Annotation
+            instances or dicts with compatible properties
+        annotationdefaults
+            When used in a template (as
+            layout.template.layout.annotationdefaults), sets the
+            default property values to use for elements of
+            layout.annotations
+        autosize
+            Determines whether or not a layout width or height that
+            has been left undefined by the user is initialized on
+            each relayout. Note that, regardless of this attribute,
+            an undefined layout width or height is always
+            initialized on the first call to plot.
+        bargap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        bargroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        barmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "stack", the bars are
+            stacked on top of one another With "relative", the bars
+            are stacked on top of one another, with negative values
+            below the axis, positive values above With "group", the
+            bars are plotted next to one another centered around
+            the shared location. With "overlay", the bars are
+            plotted over one another, you might need to an
+            "opacity" to see multiple bars.
+        barnorm
+            Sets the normalization for bar traces on the graph.
+            With "fraction", the value of each bar is divided by
+            the sum of all values at that location coordinate.
+            "percent" is the same but multiplied by 100 to show
+            percentages.
+        boxgap
+            Sets the gap (in plot fraction) between boxes of
+            adjacent location coordinates. Has no effect on traces
+            that have "width" set.
+        boxgroupgap
+            Sets the gap (in plot fraction) between boxes of the
+            same location coordinate. Has no effect on traces that
+            have "width" set.
+        boxmode
+            Determines how boxes at the same location coordinate
+            are displayed on the graph. If "group", the boxes are
+            plotted next to one another centered around the shared
+            location. If "overlay", the boxes are plotted over one
+            another, you might need to set "opacity" to see them
+            multiple boxes. Has no effect on traces that have
+            "width" set.
+        calendar
+            Sets the default calendar system to use for
+            interpreting and displaying dates throughout the plot.
+        clickmode
+            Determines the mode of single click interactions.
+            "event" is the default value and emits the
+            `plotly_click` event. In addition this mode emits the
+            `plotly_selected` event in drag modes "lasso" and
+            "select", but with no event data attached (kept for
+            compatibility reasons). The "select" flag enables
+            selecting single data points via click. This mode also
+            supports persistent selections, meaning that pressing
+            Shift while clicking, adds to / subtracts from an
+            existing selection. "select" with `hovermode`: "x" can
+            be confusing, consider explicitly setting `hovermode`:
+            "closest" when using this feature. Selection events are
+            sent accordingly as long as "event" flag is set as
+            well. When the "event" flag is missing, `plotly_click`
+            and `plotly_selected` events are not fired.
+        coloraxis
+            plotly.graph_objects.layout.Coloraxis instance or dict
+            with compatible properties
+        colorscale
+            plotly.graph_objects.layout.Colorscale instance or dict
+            with compatible properties
+        colorway
+            Sets the default trace colors.
+        datarevision
+            If provided, a changed value tells `Plotly.react` that
+            one or more data arrays has changed. This way you can
+            modify arrays in-place rather than making a complete
+            new copy for an incremental change. If NOT provided,
+            `Plotly.react` assumes that data arrays are being
+            treated as immutable, thus any data array with a
+            different identity from its predecessor contains new
+            data.
+        direction
+            Legacy polar charts are deprecated! Please switch to
+            "polar" subplots. Sets the direction corresponding to
+            positive angles in legacy polar charts.
+        dragmode
+            Determines the mode of drag interactions. "select" and
+            "lasso" apply only to scatter traces with markers or
+            text. "orbit" and "turntable" apply only to 3D scenes.
+        editrevision
+            Controls persistence of user-driven changes in
+            `editable: true` configuration, other than trace names
+            and axis titles. Defaults to `layout.uirevision`.
+        extendfunnelareacolors
+            If `true`, the funnelarea slice colors (whether given
+            by `funnelareacolorway` or inherited from `colorway`)
+            will be extended to three times its original length by
+            first repeating every color 20% lighter then each color
+            20% darker. This is intended to reduce the likelihood
+            of reusing the same color when you have many slices,
+            but you can set `false` to disable. Colors provided in
+            the trace, using `marker.colors`, are never extended.
+        extendpiecolors
+            If `true`, the pie slice colors (whether given by
+            `piecolorway` or inherited from `colorway`) will be
+            extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        extendsunburstcolors
+            If `true`, the sunburst slice colors (whether given by
+            `sunburstcolorway` or inherited from `colorway`) will
+            be extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        extendtreemapcolors
+            If `true`, the treemap slice colors (whether given by
+            `treemapcolorway` or inherited from `colorway`) will be
+            extended to three times its original length by first
+            repeating every color 20% lighter then each color 20%
+            darker. This is intended to reduce the likelihood of
+            reusing the same color when you have many slices, but
+            you can set `false` to disable. Colors provided in the
+            trace, using `marker.colors`, are never extended.
+        font
+            Sets the global font. Note that fonts used in traces
+            and other layout components inherit from the global
+            font.
+        funnelareacolorway
+            Sets the default funnelarea slice colors. Defaults to
+            the main `colorway` used for trace colors. If you
+            specify a new list here it can still be extended with
+            lighter and darker colors, see
+            `extendfunnelareacolors`.
+        funnelgap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        funnelgroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        funnelmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "stack", the bars are
+            stacked on top of one another With "group", the bars
+            are plotted next to one another centered around the
+            shared location. With "overlay", the bars are plotted
+            over one another, you might need to an "opacity" to see
+            multiple bars.
+        geo
+            plotly.graph_objects.layout.Geo instance or dict with
+            compatible properties
+        grid
+            plotly.graph_objects.layout.Grid instance or dict with
+            compatible properties
+        height
+            Sets the plot's height (in px).
+        hiddenlabels
+            hiddenlabels is the funnelarea & pie chart analog of
+            visible:'legendonly' but it can contain many labels,
+            and can simultaneously hide slices from several
+            pies/funnelarea charts
+        hiddenlabelssrc
+            Sets the source reference on plot.ly for  hiddenlabels
+            .
+        hidesources
+            Determines whether or not a text link citing the data
+            source is placed at the bottom-right cored of the
+            figure. Has only an effect only on graphs that have
+            been generated via forked graphs from the plotly
+            service (at https://plot.ly or on-premise).
+        hoverdistance
+            Sets the default distance (in pixels) to look for data
+            to add hover labels (-1 means no cutoff, 0 means no
+            looking for data). This is only a real distance for
+            hovering on point-like objects, like scatter points.
+            For area-like objects (bars, scatter fills, etc)
+            hovering is on inside the area and off outside, but
+            these objects will not supersede hover on point-like
+            objects in case of conflict.
+        hoverlabel
+            plotly.graph_objects.layout.Hoverlabel instance or dict
+            with compatible properties
+        hovermode
+            Determines the mode of hover interactions. If
+            `clickmode` includes the "select" flag, `hovermode`
+            defaults to "closest". If `clickmode` lacks the
+            "select" flag, it defaults to "x" or "y" (depending on
+            the trace's `orientation` value) for plots based on
+            cartesian coordinates. For anything else the default
+            value is "closest".
+        images
+            A tuple of plotly.graph_objects.layout.Image instances
+            or dicts with compatible properties
+        imagedefaults
+            When used in a template (as
+            layout.template.layout.imagedefaults), sets the default
+            property values to use for elements of layout.images
+        legend
+            plotly.graph_objects.layout.Legend instance or dict
+            with compatible properties
+        mapbox
+            plotly.graph_objects.layout.Mapbox instance or dict
+            with compatible properties
+        margin
+            plotly.graph_objects.layout.Margin instance or dict
+            with compatible properties
+        meta
+            Assigns extra meta information that can be used in
+            various `text` attributes. Attributes such as the
+            graph, axis and colorbar `title.text`, annotation
+            `text` `trace.name` in legend items, `rangeselector`,
+            `updatemenus` and `sliders` `label` text all support
+            `meta`. One can access `meta` fields using template
+            strings: `%{meta[i]}` where `i` is the index of the
+            `meta` item in question. `meta` can also be an object
+            for example `{key: value}` which can be accessed
+            %{meta[key]}.
+        metasrc
+            Sets the source reference on plot.ly for  meta .
+        modebar
+            plotly.graph_objects.layout.Modebar instance or dict
+            with compatible properties
+        orientation
+            Legacy polar charts are deprecated! Please switch to
+            "polar" subplots. Rotates the entire polar by the given
+            angle in legacy polar charts.
+        paper_bgcolor
+            Sets the color of paper where the graph is drawn.
+        piecolorway
+            Sets the default pie slice colors. Defaults to the main
+            `colorway` used for trace colors. If you specify a new
+            list here it can still be extended with lighter and
+            darker colors, see `extendpiecolors`.
+        plot_bgcolor
+            Sets the color of plotting area in-between x and y
+            axes.
+        polar
+            plotly.graph_objects.layout.Polar instance or dict with
+            compatible properties
+        radialaxis
+            plotly.graph_objects.layout.RadialAxis instance or dict
+            with compatible properties
+        scene
+            plotly.graph_objects.layout.Scene instance or dict with
+            compatible properties
+        selectdirection
+            When "dragmode" is set to "select", this limits the
+            selection of the drag to horizontal, vertical or
+            diagonal. "h" only allows horizontal selection, "v"
+            only vertical, "d" only diagonal and "any" sets no
+            limit.
+        selectionrevision
+            Controls persistence of user-driven changes in selected
+            points from all traces.
+        separators
+            Sets the decimal and thousand separators. For example,
+            *. * puts a '.' before decimals and a space between
+            thousands. In English locales, dflt is ".," but other
+            locales may alter this default.
+        shapes
+            A tuple of plotly.graph_objects.layout.Shape instances
+            or dicts with compatible properties
+        shapedefaults
+            When used in a template (as
+            layout.template.layout.shapedefaults), sets the default
+            property values to use for elements of layout.shapes
+        showlegend
+            Determines whether or not a legend is drawn. Default is
+            `true` if there is a trace to show and any of these: a)
+            Two or more traces would by default be shown in the
+            legend. b) One pie trace is shown in the legend. c) One
+            trace is explicitly given with `showlegend: true`.
+        sliders
+            A tuple of plotly.graph_objects.layout.Slider instances
+            or dicts with compatible properties
+        sliderdefaults
+            When used in a template (as
+            layout.template.layout.sliderdefaults), sets the
+            default property values to use for elements of
+            layout.sliders
+        spikedistance
+            Sets the default distance (in pixels) to look for data
+            to draw spikelines to (-1 means no cutoff, 0 means no
+            looking for data). As with hoverdistance, distance does
+            not apply to area-like objects. In addition, some
+            objects can be hovered on but will not generate
+            spikelines, such as scatter fills.
+        sunburstcolorway
+            Sets the default sunburst slice colors. Defaults to the
+            main `colorway` used for trace colors. If you specify a
+            new list here it can still be extended with lighter and
+            darker colors, see `extendsunburstcolors`.
+        template
+            Default attributes to be applied to the plot. This
+            should be a dict with format: `{'layout':
+            layoutTemplate, 'data': {trace_type: [traceTemplate,
+            ...], ...}}` where `layoutTemplate` is a dict matching
+            the structure of `figure.layout` and `traceTemplate` is
+            a dict matching the structure of the trace with type
+            `trace_type` (e.g. 'scatter'). Alternatively, this may
+            be specified as an instance of
+            plotly.graph_objs.layout.Template.  Trace templates are
+            applied cyclically to traces of each type. Container
+            arrays (eg `annotations`) have special handling: An
+            object ending in `defaults` (eg `annotationdefaults`)
+            is applied to each array item. But if an item has a
+            `templateitemname` key we look in the template array
+            for an item with matching `name` and apply that
+            instead. If no matching `name` is found we mark the
+            item invisible. Any named template item not referenced
+            is appended to the end of the array, so this can be
+            used to add a watermark annotation or a logo image, for
+            example. To omit one of these items on the plot, make
+            an item with matching `templateitemname` and `visible:
+            false`.
+        ternary
+            plotly.graph_objects.layout.Ternary instance or dict
+            with compatible properties
+        title
+            plotly.graph_objects.layout.Title instance or dict with
+            compatible properties
+        titlefont
+            Deprecated: Please use layout.title.font instead. Sets
+            the title font. Note that the title's font used to be
+            customized by the now deprecated `titlefont` attribute.
+        transition
+            Sets transition options used during Plotly.react
+            updates.
+        treemapcolorway
+            Sets the default treemap slice colors. Defaults to the
+            main `colorway` used for trace colors. If you specify a
+            new list here it can still be extended with lighter and
+            darker colors, see `extendtreemapcolors`.
+        uirevision
+            Used to allow user interactions with the plot to
+            persist after `Plotly.react` calls that are unaware of
+            these interactions. If `uirevision` is omitted, or if
+            it is given and it changed from the previous
+            `Plotly.react` call, the exact new figure is used. If
+            `uirevision` is truthy and did NOT change, any
+            attribute that has been affected by user interactions
+            and did not receive a different value in the new figure
+            will keep the interaction value. `layout.uirevision`
+            attribute serves as the default for `uirevision`
+            attributes in various sub-containers. For finer control
+            you can set these sub-attributes directly. For example,
+            if your app separately controls the data on the x and y
+            axes you might set `xaxis.uirevision=*time*` and
+            `yaxis.uirevision=*cost*`. Then if only the y data is
+            changed, you can update `yaxis.uirevision=*quantity*`
+            and the y axis range will reset but the x axis range
+            will retain any user-driven zoom.
+        updatemenus
+            A tuple of plotly.graph_objects.layout.Updatemenu
+            instances or dicts with compatible properties
+        updatemenudefaults
+            When used in a template (as
+            layout.template.layout.updatemenudefaults), sets the
+            default property values to use for elements of
+            layout.updatemenus
+        violingap
+            Sets the gap (in plot fraction) between violins of
+            adjacent location coordinates. Has no effect on traces
+            that have "width" set.
+        violingroupgap
+            Sets the gap (in plot fraction) between violins of the
+            same location coordinate. Has no effect on traces that
+            have "width" set.
+        violinmode
+            Determines how violins at the same location coordinate
+            are displayed on the graph. If "group", the violins are
+            plotted next to one another centered around the shared
+            location. If "overlay", the violins are plotted over
+            one another, you might need to set "opacity" to see
+            them multiple violins. Has no effect on traces that
+            have "width" set.
+        waterfallgap
+            Sets the gap (in plot fraction) between bars of
+            adjacent location coordinates.
+        waterfallgroupgap
+            Sets the gap (in plot fraction) between bars of the
+            same location coordinate.
+        waterfallmode
+            Determines how bars at the same location coordinate are
+            displayed on the graph. With "group", the bars are
+            plotted next to one another centered around the shared
+            location. With "overlay", the bars are plotted over one
+            another, you might need to an "opacity" to see multiple
+            bars.
+        width
+            Sets the plot's width (in px).
+        xaxis
+            plotly.graph_objects.layout.XAxis instance or dict with
+            compatible properties
+        yaxis
+            plotly.graph_objects.layout.YAxis instance or dict with
+            compatible properties
+
+        Returns
+        -------
+        Layout
+        """
+        super(Layout, self).__init__("layout")
+
+        # Validate arg
+        # ------------
+        if arg is None:
+            arg = {}
+        elif isinstance(arg, self.__class__):
+            arg = arg.to_plotly_json()
+        elif isinstance(arg, dict):
+            arg = _copy.copy(arg)
+        else:
+            raise ValueError(
+                """\
+The first argument to the plotly.graph_objs.Layout 
+constructor must be a dict or 
+an instance of plotly.graph_objs.Layout"""
+            )
+
+        # Handle skip_invalid
+        # -------------------
+        self._skip_invalid = kwargs.pop("skip_invalid", False)
+
+        # Import validators
+        # -----------------
+        from plotly.validators import layout as v_layout
+
+        # Initialize validators
+        # ---------------------
+        self._validators["angularaxis"] = v_layout.AngularAxisValidator()
+        self._validators["annotations"] = v_layout.AnnotationsValidator()
+        self._validators["annotationdefaults"] = v_layout.AnnotationValidator()
+        self._validators["autosize"] = v_layout.AutosizeValidator()
+        self._validators["bargap"] = v_layout.BargapValidator()
+        self._validators["bargroupgap"] = v_layout.BargroupgapValidator()
+        self._validators["barmode"] = v_layout.BarmodeValidator()
+        self._validators["barnorm"] = v_layout.BarnormValidator()
+        self._validators["boxgap"] = v_layout.BoxgapValidator()
+        self._validators["boxgroupgap"] = v_layout.BoxgroupgapValidator()
+        self._validators["boxmode"] = v_layout.BoxmodeValidator()
+        self._validators["calendar"] = v_layout.CalendarValidator()
+        self._validators["clickmode"] = v_layout.ClickmodeValidator()
+        self._validators["coloraxis"] = v_layout.ColoraxisValidator()
+        self._validators["colorscale"] = v_layout.ColorscaleValidator()
+        self._validators["colorway"] = v_layout.ColorwayValidator()
+        self._validators["datarevision"] = v_layout.DatarevisionValidator()
+        self._validators["direction"] = v_layout.DirectionValidator()
+        self._validators["dragmode"] = v_layout.DragmodeValidator()
+        self._validators["editrevision"] = v_layout.EditrevisionValidator()
+        self._validators[
+            "extendfunnelareacolors"
+        ] = v_layout.ExtendfunnelareacolorsValidator()
+        self._validators["extendpiecolors"] = v_layout.ExtendpiecolorsValidator()
+        self._validators[
+            "extendsunburstcolors"
+        ] = v_layout.ExtendsunburstcolorsValidator()
+        self._validators[
+            "extendtreemapcolors"
+        ] = v_layout.ExtendtreemapcolorsValidator()
+        self._validators["font"] = v_layout.FontValidator()
+        self._validators["funnelareacolorway"] = v_layout.FunnelareacolorwayValidator()
+        self._validators["funnelgap"] = v_layout.FunnelgapValidator()
+        self._validators["funnelgroupgap"] = v_layout.FunnelgroupgapValidator()
+        self._validators["funnelmode"] = v_layout.FunnelmodeValidator()
+        self._validators["geo"] = v_layout.GeoValidator()
+        self._validators["grid"] = v_layout.GridValidator()
+        self._validators["height"] = v_layout.HeightValidator()
+        self._validators["hiddenlabels"] = v_layout.HiddenlabelsValidator()
+        self._validators["hiddenlabelssrc"] = v_layout.HiddenlabelssrcValidator()
+        self._validators["hidesources"] = v_layout.HidesourcesValidator()
+        self._validators["hoverdistance"] = v_layout.HoverdistanceValidator()
+        self._validators["hoverlabel"] = v_layout.HoverlabelValidator()
+        self._validators["hovermode"] = v_layout.HovermodeValidator()
+        self._validators["images"] = v_layout.ImagesValidator()
+        self._validators["imagedefaults"] = v_layout.ImageValidator()
+        self._validators["legend"] = v_layout.LegendValidator()
+        self._validators["mapbox"] = v_layout.MapboxValidator()
+        self._validators["margin"] = v_layout.MarginValidator()
+        self._validators["meta"] = v_layout.MetaValidator()
+        self._validators["metasrc"] = v_layout.MetasrcValidator()
+        self._validators["modebar"] = v_layout.ModebarValidator()
+        self._validators["orientation"] = v_layout.OrientationValidator()
+        self._validators["paper_bgcolor"] = v_layout.PaperBgcolorValidator()
+        self._validators["piecolorway"] = v_layout.PiecolorwayValidator()
+        self._validators["plot_bgcolor"] = v_layout.PlotBgcolorValidator()
+        self._validators["polar"] = v_layout.PolarValidator()
+        self._validators["radialaxis"] = v_layout.RadialAxisValidator()
+        self._validators["scene"] = v_layout.SceneValidator()
+        self._validators["selectdirection"] = v_layout.SelectdirectionValidator()
+        self._validators["selectionrevision"] = v_layout.SelectionrevisionValidator()
+        self._validators["separators"] = v_layout.SeparatorsValidator()
+        self._validators["shapes"] = v_layout.ShapesValidator()
+        self._validators["shapedefaults"] = v_layout.ShapeValidator()
+        self._validators["showlegend"] = v_layout.ShowlegendValidator()
+        self._validators["sliders"] = v_layout.SlidersValidator()
+        self._validators["sliderdefaults"] = v_layout.SliderValidator()
+        self._validators["spikedistance"] = v_layout.SpikedistanceValidator()
+        self._validators["sunburstcolorway"] = v_layout.SunburstcolorwayValidator()
+        self._validators["template"] = v_layout.TemplateValidator()
+        self._validators["ternary"] = v_layout.TernaryValidator()
+        self._validators["title"] = v_layout.TitleValidator()
+        self._validators["transition"] = v_layout.TransitionValidator()
+        self._validators["treemapcolorway"] = v_layout.TreemapcolorwayValidator()
+        self._validators["uirevision"] = v_layout.UirevisionValidator()
+        self._validators["updatemenus"] = v_layout.UpdatemenusValidator()
+        self._validators["updatemenudefaults"] = v_layout.UpdatemenuValidator()
+        self._validators["violingap"] = v_layout.ViolingapValidator()
+        self._validators["violingroupgap"] = v_layout.ViolingroupgapValidator()
+        self._validators["violinmode"] = v_layout.ViolinmodeValidator()
+        self._validators["waterfallgap"] = v_layout.WaterfallgapValidator()
+        self._validators["waterfallgroupgap"] = v_layout.WaterfallgroupgapValidator()
+        self._validators["waterfallmode"] = v_layout.WaterfallmodeValidator()
+        self._validators["width"] = v_layout.WidthValidator()
+        self._validators["xaxis"] = v_layout.XAxisValidator()
+        self._validators["yaxis"] = v_layout.YAxisValidator()
+
+        # Populate data dict with properties
+        # ----------------------------------
+        _v = arg.pop("angularaxis", None)
+        self["angularaxis"] = angularaxis if angularaxis is not None else _v
+        _v = arg.pop("annotations", None)
+        self["annotations"] = annotations if annotations is not None else _v
+        _v = arg.pop("annotationdefaults", None)
+        self["annotationdefaults"] = (
+            annotationdefaults if annotationdefaults is not None else _v
+        )
+        _v = arg.pop("autosize", None)
+        self["autosize"] = autosize if autosize is not None else _v
+        _v = arg.pop("bargap", None)
+        self["bargap"] = bargap if bargap is not None else _v
+        _v = arg.pop("bargroupgap", None)
+        self["bargroupgap"] = bargroupgap if bargroupgap is not None else _v
+        _v = arg.pop("barmode", None)
+        self["barmode"] = barmode if barmode is not None else _v
+        _v = arg.pop("barnorm", None)
+        self["barnorm"] = barnorm if barnorm is not None else _v
+        _v = arg.pop("boxgap", None)
+        self["boxgap"] = boxgap if boxgap is not None else _v
+        _v = arg.pop("boxgroupgap", None)
+        self["boxgroupgap"] = boxgroupgap if boxgroupgap is not None else _v
+        _v = arg.pop("boxmode", None)
+        self["boxmode"] = boxmode if boxmode is not None else _v
+        _v = arg.pop("calendar", None)
+        self["calendar"] = calendar if calendar is not None else _v
+        _v = arg.pop("clickmode", None)
+        self["clickmode"] = clickmode if clickmode is not None else _v
+        _v = arg.pop("coloraxis", None)
+        self["coloraxis"] = coloraxis if coloraxis is not None else _v
+        _v = arg.pop("colorscale", None)
+        self["colorscale"] = colorscale if colorscale is not None else _v
+        _v = arg.pop("colorway", None)
+        self["colorway"] = colorway if colorway is not None else _v
+        _v = arg.pop("datarevision", None)
+        self["datarevision"] = datarevision if datarevision is not None else _v
+        _v = arg.pop("direction", None)
+        self["direction"] = direction if direction is not None else _v
+        _v = arg.pop("dragmode", None)
+        self["dragmode"] = dragmode if dragmode is not None else _v
+        _v = arg.pop("editrevision", None)
+        self["editrevision"] = editrevision if editrevision is not None else _v
+        _v = arg.pop("extendfunnelareacolors", None)
+        self["extendfunnelareacolors"] = (
+            extendfunnelareacolors if extendfunnelareacolors is not None else _v
+        )
+        _v = arg.pop("extendpiecolors", None)
+        self["extendpiecolors"] = extendpiecolors if extendpiecolors is not None else _v
+        _v = arg.pop("extendsunburstcolors", None)
+        self["extendsunburstcolors"] = (
+            extendsunburstcolors if extendsunburstcolors is not None else _v
+        )
+        _v = arg.pop("extendtreemapcolors", None)
+        self["extendtreemapcolors"] = (
+            extendtreemapcolors if extendtreemapcolors is not None else _v
+        )
+        _v = arg.pop("font", None)
+        self["font"] = font if font is not None else _v
+        _v = arg.pop("funnelareacolorway", None)
+        self["funnelareacolorway"] = (
+            funnelareacolorway if funnelareacolorway is not None else _v
+        )
+        _v = arg.pop("funnelgap", None)
+        self["funnelgap"] = funnelgap if funnelgap is not None else _v
+        _v = arg.pop("funnelgroupgap", None)
+        self["funnelgroupgap"] = funnelgroupgap if funnelgroupgap is not None else _v
+        _v = arg.pop("funnelmode", None)
+        self["funnelmode"] = funnelmode if funnelmode is not None else _v
+        _v = arg.pop("geo", None)
+        self["geo"] = geo if geo is not None else _v
+        _v = arg.pop("grid", None)
+        self["grid"] = grid if grid is not None else _v
+        _v = arg.pop("height", None)
+        self["height"] = height if height is not None else _v
+        _v = arg.pop("hiddenlabels", None)
+        self["hiddenlabels"] = hiddenlabels if hiddenlabels is not None else _v
+        _v = arg.pop("hiddenlabelssrc", None)
+        self["hiddenlabelssrc"] = hiddenlabelssrc if hiddenlabelssrc is not None else _v
+        _v = arg.pop("hidesources", None)
+        self["hidesources"] = hidesources if hidesources is not None else _v
+        _v = arg.pop("hoverdistance", None)
+        self["hoverdistance"] = hoverdistance if hoverdistance is not None else _v
+        _v = arg.pop("hoverlabel", None)
+        self["hoverlabel"] = hoverlabel if hoverlabel is not None else _v
+        _v = arg.pop("hovermode", None)
+        self["hovermode"] = hovermode if hovermode is not None else _v
+        _v = arg.pop("images", None)
+        self["images"] = images if images is not None else _v
+        _v = arg.pop("imagedefaults", None)
+        self["imagedefaults"] = imagedefaults if imagedefaults is not None else _v
+        _v = arg.pop("legend", None)
+        self["legend"] = legend if legend is not None else _v
+        _v = arg.pop("mapbox", None)
+        self["mapbox"] = mapbox if mapbox is not None else _v
+        _v = arg.pop("margin", None)
+        self["margin"] = margin if margin is not None else _v
+        _v = arg.pop("meta", None)
+        self["meta"] = meta if meta is not None else _v
+        _v = arg.pop("metasrc", None)
+        self["metasrc"] = metasrc if metasrc is not None else _v
+        _v = arg.pop("modebar", None)
+        self["modebar"] = modebar if modebar is not None else _v
+        _v = arg.pop("orientation", None)
+        self["orientation"] = orientation if orientation is not None else _v
+        _v = arg.pop("paper_bgcolor", None)
+        self["paper_bgcolor"] = paper_bgcolor if paper_bgcolor is not None else _v
+        _v = arg.pop("piecolorway", None)
+        self["piecolorway"] = piecolorway if piecolorway is not None else _v
+        _v = arg.pop("plot_bgcolor", None)
+        self["plot_bgcolor"] = plot_bgcolor if plot_bgcolor is not None else _v
+        _v = arg.pop("polar", None)
+        self["polar"] = polar if polar is not None else _v
+        _v = arg.pop("radialaxis", None)
+        self["radialaxis"] = radialaxis if radialaxis is not None else _v
+        _v = arg.pop("scene", None)
+        self["scene"] = scene if scene is not None else _v
+        _v = arg.pop("selectdirection", None)
+        self["selectdirection"] = selectdirection if selectdirection is not None else _v
+        _v = arg.pop("selectionrevision", None)
+        self["selectionrevision"] = (
+            selectionrevision if selectionrevision is not None else _v
+        )
+        _v = arg.pop("separators", None)
+        self["separators"] = separators if separators is not None else _v
+        _v = arg.pop("shapes", None)
+        self["shapes"] = shapes if shapes is not None else _v
+        _v = arg.pop("shapedefaults", None)
+        self["shapedefaults"] = shapedefaults if shapedefaults is not None else _v
+        _v = arg.pop("showlegend", None)
+        self["showlegend"] = showlegend if showlegend is not None else _v
+        _v = arg.pop("sliders", None)
+        self["sliders"] = sliders if sliders is not None else _v
+        _v = arg.pop("sliderdefaults", None)
+        self["sliderdefaults"] = sliderdefaults if sliderdefaults is not None else _v
+        _v = arg.pop("spikedistance", None)
+        self["spikedistance"] = spikedistance if spikedistance is not None else _v
+        _v = arg.pop("sunburstcolorway", None)
+        self["sunburstcolorway"] = (
+            sunburstcolorway if sunburstcolorway is not None else _v
+        )
+        _v = arg.pop("template", None)
+        _v = template if template is not None else _v
+        if _v is not None:
+            self["template"] = _v
+        _v = arg.pop("ternary", None)
+        self["ternary"] = ternary if ternary is not None else _v
+        _v = arg.pop("title", None)
+        self["title"] = title if title is not None else _v
+        _v = arg.pop("titlefont", None)
+        _v = titlefont if titlefont is not None else _v
+        if _v is not None:
+            self["titlefont"] = _v
+        _v = arg.pop("transition", None)
+        self["transition"] = transition if transition is not None else _v
+        _v = arg.pop("treemapcolorway", None)
+        self["treemapcolorway"] = treemapcolorway if treemapcolorway is not None else _v
+        _v = arg.pop("uirevision", None)
+        self["uirevision"] = uirevision if uirevision is not None else _v
+        _v = arg.pop("updatemenus", None)
+        self["updatemenus"] = updatemenus if updatemenus is not None else _v
+        _v = arg.pop("updatemenudefaults", None)
+        self["updatemenudefaults"] = (
+            updatemenudefaults if updatemenudefaults is not None else _v
+        )
+        _v = arg.pop("violingap", None)
+        self["violingap"] = violingap if violingap is not None else _v
+        _v = arg.pop("violingroupgap", None)
+        self["violingroupgap"] = violingroupgap if violingroupgap is not None else _v
+        _v = arg.pop("violinmode", None)
+        self["violinmode"] = violinmode if violinmode is not None else _v
+        _v = arg.pop("waterfallgap", None)
+        self["waterfallgap"] = waterfallgap if waterfallgap is not None else _v
+        _v = arg.pop("waterfallgroupgap", None)
+        self["waterfallgroupgap"] = (
+            waterfallgroupgap if waterfallgroupgap is not None else _v
+        )
+        _v = arg.pop("waterfallmode", None)
+        self["waterfallmode"] = waterfallmode if waterfallmode is not None else _v
+        _v = arg.pop("width", None)
+        self["width"] = width if width is not None else _v
+        _v = arg.pop("xaxis", None)
+        self["xaxis"] = xaxis if xaxis is not None else _v
+        _v = arg.pop("yaxis", None)
+        self["yaxis"] = yaxis if yaxis is not None else _v
+
+        # Process unknown kwargs
+        # ----------------------
+        self._process_kwargs(**dict(arg, **kwargs))
+
+        # Reset skip_invalid
+        # ------------------
+        self._skip_invalid = False
+
+
 from plotly.basedatatypes import BaseFrameHierarchyType as _BaseFrameHierarchyType
 import copy as _copy
 
@@ -92657,6 +96617,7 @@ an instance of plotly.graph_objs.Frame"""
 from plotly.graph_objs import waterfall
 from plotly.graph_objs import volume
 from plotly.graph_objs import violin
+from plotly.graph_objs import treemap
 from plotly.graph_objs import table
 from plotly.graph_objs import surface
 from plotly.graph_objs import sunburst
@@ -92701,17 +96662,6 @@ from plotly.graph_objs import bar
 from plotly.graph_objs import area
 from plotly.graph_objs import layout
 from ._figure import Figure
-
-try:
-    import ipywidgets
-    from distutils.version import LooseVersion
-
-    if LooseVersion(ipywidgets.__version__) >= LooseVersion("7.0.0"):
-        from ._figurewidget import FigureWidget
-    del LooseVersion
-    del ipywidgets
-except ImportError:
-    pass
 from ._deprecations import (
     Data,
     Annotations,
@@ -92739,3 +96689,138 @@ from ._deprecations import (
     Trace,
     Histogram2dcontour,
 )
+
+__all__ = [
+    "AngularAxis",
+    "Annotation",
+    "Annotations",
+    "Area",
+    "Bar",
+    "Barpolar",
+    "Box",
+    "Candlestick",
+    "Carpet",
+    "Choropleth",
+    "Choroplethmapbox",
+    "ColorBar",
+    "Cone",
+    "Contour",
+    "Contourcarpet",
+    "Contours",
+    "Data",
+    "Densitymapbox",
+    "ErrorX",
+    "ErrorY",
+    "ErrorZ",
+    "Figure",
+    "Font",
+    "Frame",
+    "Frames",
+    "Funnel",
+    "Funnelarea",
+    "Heatmap",
+    "Heatmapgl",
+    "Histogram",
+    "Histogram2d",
+    "Histogram2dContour",
+    "Histogram2dcontour",
+    "Indicator",
+    "Isosurface",
+    "Layout",
+    "Legend",
+    "Line",
+    "Margin",
+    "Marker",
+    "Mesh3d",
+    "Ohlc",
+    "Parcats",
+    "Parcoords",
+    "Pie",
+    "Pointcloud",
+    "RadialAxis",
+    "Sankey",
+    "Scatter",
+    "Scatter3d",
+    "Scattercarpet",
+    "Scattergeo",
+    "Scattergl",
+    "Scattermapbox",
+    "Scatterpolar",
+    "Scatterpolargl",
+    "Scatterternary",
+    "Scene",
+    "Splom",
+    "Stream",
+    "Streamtube",
+    "Sunburst",
+    "Surface",
+    "Table",
+    "Trace",
+    "Treemap",
+    "Violin",
+    "Volume",
+    "Waterfall",
+    "XAxis",
+    "XBins",
+    "YAxis",
+    "YBins",
+    "ZAxis",
+    "area",
+    "bar",
+    "barpolar",
+    "box",
+    "candlestick",
+    "carpet",
+    "choropleth",
+    "choroplethmapbox",
+    "cone",
+    "contour",
+    "contourcarpet",
+    "densitymapbox",
+    "funnel",
+    "funnelarea",
+    "heatmap",
+    "heatmapgl",
+    "histogram",
+    "histogram2d",
+    "histogram2dcontour",
+    "indicator",
+    "isosurface",
+    "layout",
+    "mesh3d",
+    "ohlc",
+    "parcats",
+    "parcoords",
+    "pie",
+    "pointcloud",
+    "sankey",
+    "scatter",
+    "scatter3d",
+    "scattercarpet",
+    "scattergeo",
+    "scattergl",
+    "scattermapbox",
+    "scatterpolar",
+    "scatterpolargl",
+    "scatterternary",
+    "splom",
+    "streamtube",
+    "sunburst",
+    "surface",
+    "table",
+    "treemap",
+    "violin",
+    "volume",
+    "waterfall",
+]
+try:
+    import ipywidgets
+    from distutils.version import LooseVersion
+
+    if LooseVersion(ipywidgets.__version__) >= LooseVersion("7.0.0"):
+        from ._figurewidget import FigureWidget
+    del LooseVersion
+    del ipywidgets
+    __all__.append("FigureWidget")
+except ImportError:
+    pass

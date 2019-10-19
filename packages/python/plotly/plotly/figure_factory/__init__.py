@@ -24,9 +24,41 @@ from plotly.figure_factory._quiver import create_quiver
 from plotly.figure_factory._scatterplot import create_scatterplotmatrix
 from plotly.figure_factory._streamline import create_streamline
 from plotly.figure_factory._table import create_table
-from plotly.figure_factory._ternary_contour import create_ternary_contour
 from plotly.figure_factory._trisurf import create_trisurf
 from plotly.figure_factory._violin import create_violin
 
 if optional_imports.get_module("pandas") is not None:
     from plotly.figure_factory._county_choropleth import create_choropleth
+else:
+
+    def create_choropleth(*args, **kwargs):
+        raise ImportError("Please install pandas to use `create_choropleth`")
+
+
+if optional_imports.get_module("skimage") is not None:
+    from plotly.figure_factory._ternary_contour import create_ternary_contour
+else:
+
+    def create_ternary_contour(*args, **kwargs):
+        raise ImportError("Please install scikit-image to use `create_ternary_contour`")
+
+
+__all__ = [
+    "create_2d_density",
+    "create_annotated_heatmap",
+    "create_bullet",
+    "create_candlestick",
+    "create_choropleth",
+    "create_dendrogram",
+    "create_distplot",
+    "create_facet_grid",
+    "create_gantt",
+    "create_ohlc",
+    "create_quiver",
+    "create_scatterplotmatrix",
+    "create_streamline",
+    "create_table",
+    "create_ternary_contour",
+    "create_trisurf",
+    "create_violin",
+]
