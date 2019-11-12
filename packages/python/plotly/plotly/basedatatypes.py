@@ -252,14 +252,11 @@ class BaseFigure(object):
         # Dict from trace indexes to trace edit dicts. These trace edit dicts
         # are suitable as `data` elements of Plotly.animate, but not
         # the Plotly.update (See `_build_update_params_from_batch`)
-        #
-        # type: OrderedDict[int, OrderedDict[str, typ.Any]]
         self._batch_trace_edits = OrderedDict()
 
         # ### Batch layout edits ###
         # Dict from layout properties to new layout values. This dict is
         # directly suitable for use in Plotly.animate and Plotly.update
-        # type: collections.OrderedDict[str, typ.Any]
         self._batch_layout_edits = OrderedDict()
 
         # Animation property validators
@@ -436,7 +433,7 @@ class BaseFigure(object):
         if pio.renderers.render_on_display and pio.renderers.default:
             pio.show(self)
         else:
-            print (repr(self))
+            print(repr(self))
 
     def update(self, dict1=None, overwrite=False, **kwargs):
         """
@@ -1030,18 +1027,12 @@ class BaseFigure(object):
 
         for obj in self.layout[prop]:
             # Filter by row
-            if col is not None:
-                if col == "paper" and obj.xref != "paper":
-                    continue
-                elif col != "paper" and xref_to_col.get(obj.xref, None) != col:
-                    continue
+            if col is not None and xref_to_col.get(obj.xref, None) != col:
+                continue
 
             # Filter by col
-            if row is not None:
-                if row == "paper" and obj.yref != "paper":
-                    continue
-                elif row != "paper" and yref_to_row.get(obj.yref, None) != row:
-                    continue
+            if row is not None and yref_to_row.get(obj.yref, None) != row:
+                continue
 
             # Filter by secondary y
             if (
@@ -1104,11 +1095,6 @@ because subplot does not have a secondary y-axis"""
                 xaxis, yaxis = refs[0].layout_keys
             xref, yref = xaxis.replace("axis", ""), yaxis.replace("axis", "")
             new_obj.update(xref=xref, yref=yref)
-
-        if new_obj.xref is None:
-            new_obj.xref = "paper"
-        if new_obj.yref is None:
-            new_obj.yref = "paper"
 
         self.layout[prop_plural] += (new_obj,)
 
@@ -1593,16 +1579,19 @@ Invalid property path '{key_path_str}' for trace class {trace_class}
 
         Examples
         --------
+
         >>> from plotly import subplots
         >>> import plotly.graph_objs as go
 
         Add two Scatter traces to a figure
+
         >>> fig = go.Figure()
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]))
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]))
 
 
         Add two Scatter traces to vertically stacked subplots
+
         >>> fig = subplots.make_subplots(rows=2)
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]), row=1, col=1)
         >>> fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]), row=2, col=1)
@@ -1665,15 +1654,18 @@ Invalid property path '{key_path_str}' for trace class {trace_class}
 
         Examples
         --------
+
         >>> from plotly import subplots
         >>> import plotly.graph_objs as go
 
         Add two Scatter traces to a figure
+
         >>> fig = go.Figure()
         >>> fig.add_traces([go.Scatter(x=[1,2,3], y=[2,1,2]),
         ...                 go.Scatter(x=[1,2,3], y=[2,1,2])])
 
         Add two Scatter traces to vertically stacked subplots
+
         >>> fig = subplots.make_subplots(rows=2)
         >>> fig.add_traces([go.Scatter(x=[1,2,3], y=[2,1,2]),
         ...                 go.Scatter(x=[1,2,3], y=[2,1,2])],
@@ -1751,7 +1743,7 @@ Invalid property path '{key_path_str}' for trace class {trace_class}
             raise Exception(
                 "Use plotly.tools.make_subplots " "to create a subplot grid."
             )
-        print (self._grid_str)
+        print(self._grid_str)
 
     def append_trace(self, trace, row, col):
         """
@@ -1773,10 +1765,12 @@ Invalid property path '{key_path_str}' for trace class {trace_class}
 
         Examples
         --------
+
         >>> from plotly import tools
         >>> import plotly.graph_objs as go
-        # stack two subplots vertically
+        >>> # stack two subplots vertically
         >>> fig = tools.make_subplots(rows=2)
+
         This is the format of your plot grid:
         [ (1,1) x1,y1 ]
         [ (2,1) x2,y2 ]
@@ -1945,7 +1939,7 @@ Please use the add_trace method with the row and col parameters.
             if pio.templates.default is not None:
                 self._layout_obj.template = pio.templates.default
             else:
-                self._layout_obj.template = {}
+                self._layout_obj.template = None
 
     @property
     def layout(self):
@@ -2425,6 +2419,7 @@ Invalid property path '{key_path_str}' for layout
         --------
         For example, suppose we have a figure widget, `fig`, with a single
         trace.
+
         >>> import plotly.graph_objs as go
         >>> fig = go.FigureWidget(data=[{'y': [3, 4, 2]}])
 
@@ -2593,6 +2588,7 @@ Invalid property path '{key_path_str}' for layout
 
         2) Animate a change in the size and color of the trace's markers
         over 2 seconds using the elastic-in-out easing method
+
         >>> with fig.batch_update(duration=2000, easing='elastic-in-out'):
         ...     fig.data[0].marker.color = 'green'
         ...     fig.data[0].marker.size = 20
@@ -2984,38 +2980,32 @@ class BasePlotlyType(object):
         # ---------------------
         # ### _validators ###
         # A dict from property names to property validators
-        # type: Dict[str, BaseValidator]
         self._validators = {}
 
         # ### _compound_props ###
         # A dict from compound property names to compound objects
-        # type: Dict[str, BasePlotlyType]
         self._compound_props = {}
 
         # ### _compound_array_props ###
         # A dict from compound array property names to tuples of compound
         # objects
-        # type: Dict[str, Tuple[BasePlotlyType]]
         self._compound_array_props = {}
 
         # ### _orphan_props ###
         # A dict of properties for use while object has no parent. When
         # object has a parent, it requests its properties dict from its
         # parent and doesn't use this.
-        # type: Dict
         self._orphan_props = {}
 
         # ### _parent ###
         # The parent of the object. May be another BasePlotlyType or it may
         # be a BaseFigure (as is the case for the Layout and Trace objects)
-        # type: Union[BasePlotlyType, BaseFigure]
         self._parent = None
 
         # ### _change_callbacks ###
         # A dict from tuples of child property path tuples to lists
         # of callbacks that should be executed whenever any of these
         # properties is modified
-        # type: Dict[Tuple[Tuple[Union[str, int]]], List[Callable]]
         self._change_callbacks = {}
 
     def _process_kwargs(self, **kwargs):
@@ -3055,6 +3045,7 @@ class BasePlotlyType(object):
 
         Examples
         --------
+
         >>> import plotly.graph_objs as go
         >>> go.Layout()._parent_path_str
         ''
@@ -3831,7 +3822,6 @@ class BasePlotlyType(object):
         # Import value
         # ------------
         validator = self._validators.get(prop)
-        # type: BasePlotlyType
         val = validator.validate_coerce(val, skip_invalid=self._skip_invalid)
 
         # Save deep copies of current and new states
@@ -3906,7 +3896,6 @@ class BasePlotlyType(object):
         # Import value
         # ------------
         validator = self._validators.get(prop)
-        # type: Tuple[BasePlotlyType]
         val = validator.validate_coerce(val, skip_invalid=self._skip_invalid)
 
         # Save deep copies of current and new states
@@ -4582,6 +4571,7 @@ class BaseTraceType(BaseTraceHierarchyType):
 
         Examples
         --------
+
         >>> from plotly.callbacks import Points, InputDeviceState
         >>> points, state = Points(), InputDeviceState()
 
@@ -4641,6 +4631,7 @@ class BaseTraceType(BaseTraceHierarchyType):
 
         Examples
         --------
+
         >>> from plotly.callbacks import Points, InputDeviceState
         >>> points, state = Points(), InputDeviceState()
 
@@ -4700,6 +4691,7 @@ class BaseTraceType(BaseTraceHierarchyType):
 
         Examples
         --------
+
         >>> from plotly.callbacks import Points, InputDeviceState
         >>> points, state = Points(), InputDeviceState()
 
@@ -4758,6 +4750,7 @@ class BaseTraceType(BaseTraceHierarchyType):
 
         Examples
         --------
+
         >>> from plotly.callbacks import Points
         >>> points = Points()
 
@@ -4823,6 +4816,7 @@ class BaseTraceType(BaseTraceHierarchyType):
 
         Examples
         --------
+
         >>> from plotly.callbacks import Points
         >>> points = Points()
 

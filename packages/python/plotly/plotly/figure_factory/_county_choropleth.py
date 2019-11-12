@@ -86,7 +86,7 @@ def _create_us_counties_df(st_to_state_name_dict, state_to_st_dict):
         columns=["State", "ST", "geometry", "FIPS", "STATEFP", "NAME"],
         index=[max(gdf.index) + 1],
     )
-    gdf = gdf.append(singlerow)
+    gdf = gdf.append(singlerow, sort=True)
 
     f = 51515
     singlerow = pd.DataFrame(
@@ -103,7 +103,7 @@ def _create_us_counties_df(st_to_state_name_dict, state_to_st_dict):
         columns=["State", "ST", "geometry", "FIPS", "STATEFP", "NAME"],
         index=[max(gdf.index) + 1],
     )
-    gdf = gdf.append(singlerow)
+    gdf = gdf.append(singlerow, sort=True)
 
     f = 2270
     singlerow = pd.DataFrame(
@@ -120,19 +120,19 @@ def _create_us_counties_df(st_to_state_name_dict, state_to_st_dict):
         columns=["State", "ST", "geometry", "FIPS", "STATEFP", "NAME"],
         index=[max(gdf.index) + 1],
     )
-    gdf = gdf.append(singlerow)
+    gdf = gdf.append(singlerow, sort=True)
 
     row_2198 = gdf[gdf["FIPS"] == 2198]
     row_2198.index = [max(gdf.index) + 1]
     row_2198.loc[row_2198.index[0], "FIPS"] = 2201
     row_2198.loc[row_2198.index[0], "STATEFP"] = "02"
-    gdf = gdf.append(row_2198)
+    gdf = gdf.append(row_2198, sort=True)
 
     row_2105 = gdf[gdf["FIPS"] == 2105]
     row_2105.index = [max(gdf.index) + 1]
     row_2105.loc[row_2105.index[0], "FIPS"] = 2232
     row_2105.loc[row_2105.index[0], "STATEFP"] = "02"
-    gdf = gdf.append(row_2105)
+    gdf = gdf.append(row_2105, sort=True)
     gdf = gdf.rename(columns={"NAME": "COUNTY_NAME"})
 
     gdf_reduced = gdf[["FIPS", "STATEFP", "COUNTY_NAME", "geometry"]]
@@ -478,35 +478,33 @@ def create_choropleth(
     :param **layout_options: a **kwargs argument for all layout parameters
 
 
-    Example 1: Florida
-    ```
-    import plotly.plotly as py
-    import plotly.figure_factory as ff
+    Example 1: Florida:: 
+    
+        import plotly.plotly as py
+        import plotly.figure_factory as ff
 
-    import numpy as np
-    import pandas as pd
+        import numpy as np
+        import pandas as pd
 
-    df_sample = pd.read_csv(
-        'https://raw.githubusercontent.com/plotly/datasets/master/minoritymajority.csv'
-    )
-    df_sample_r = df_sample[df_sample['STNAME'] == 'Florida']
+        df_sample = pd.read_csv(
+            'https://raw.githubusercontent.com/plotly/datasets/master/minoritymajority.csv'
+        )
+        df_sample_r = df_sample[df_sample['STNAME'] == 'Florida']
 
-    values = df_sample_r['TOT_POP'].tolist()
-    fips = df_sample_r['FIPS'].tolist()
+        values = df_sample_r['TOT_POP'].tolist()
+        fips = df_sample_r['FIPS'].tolist()
 
-    binning_endpoints = list(np.mgrid[min(values):max(values):4j])
-    colorscale = ["#030512","#1d1d3b","#323268","#3d4b94","#3e6ab0",
-                  "#4989bc","#60a7c7","#85c5d3","#b7e0e4","#eafcfd"]
-    fig = ff.create_choropleth(
-        fips=fips, values=values, scope=['Florida'], show_state_data=True,
-        colorscale=colorscale, binning_endpoints=binning_endpoints,
-        round_legend_values=True, plot_bgcolor='rgb(229,229,229)',
-        paper_bgcolor='rgb(229,229,229)', legend_title='Florida Population',
-        county_outline={'color': 'rgb(255,255,255)', 'width': 0.5},
-        exponent_format=True,
-    )
-    py.iplot(fig, filename='choropleth_florida')
-    ```
+        binning_endpoints = list(np.mgrid[min(values):max(values):4j])
+        colorscale = ["#030512","#1d1d3b","#323268","#3d4b94","#3e6ab0",
+                    "#4989bc","#60a7c7","#85c5d3","#b7e0e4","#eafcfd"]
+        fig = ff.create_choropleth(
+            fips=fips, values=values, scope=['Florida'], show_state_data=True,
+            colorscale=colorscale, binning_endpoints=binning_endpoints,
+            round_legend_values=True, plot_bgcolor='rgb(229,229,229)',
+            paper_bgcolor='rgb(229,229,229)', legend_title='Florida Population',
+            county_outline={'color': 'rgb(255,255,255)', 'width': 0.5},
+            exponent_format=True,
+        )
 
     Example 2: New England
     ```

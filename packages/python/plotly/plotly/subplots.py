@@ -120,7 +120,7 @@ def make_subplots(
         Empty strings ("") can be included in the list if no subplot title
         is desired in that space so that the titles are properly indexed.
 
-    specs: list of lists of dictionaries or None (default None)
+    specs: list of lists of dict or None (default None)
         Per subplot specifications of subplot type, row/column spanning, and
         spacing.
 
@@ -173,7 +173,7 @@ def make_subplots(
         - Note: Use 'horizontal_spacing' and 'vertical_spacing' to adjust
           the spacing in between the subplots.
 
-    insets: list of dictionaries or None (default None):
+    insets: list of dict or None (default None):
         Inset specifications.  Insets are subplots that overlay grid subplots
 
         - Each item in 'insets' is a dictionary.
@@ -230,11 +230,13 @@ def make_subplots(
 
     Examples
     --------
+
     Example 1:
-    # Stack two subplots vertically, and add a scatter trace to each
+
+    >>> # Stack two subplots vertically, and add a scatter trace to each
     >>> from plotly.subplots import make_subplots
     ... import plotly.graph_objs as go
-    ... fig = tools.make_subplots(rows=2)
+    ... fig = make_subplots(rows=2)
 
     This is the format of your plot grid:
     [ (1,1) xaxis1,yaxis1 ]
@@ -243,10 +245,11 @@ def make_subplots(
     >>> fig.add_scatter(y=[2, 1, 3], row=1, col=1)
     ... fig.add_scatter(y=[1, 3, 2], row=2, col=1)
 
-    # or see Figure.append_trace
+    or see Figure.append_trace
 
     Example 2:
-    # Stack a scatter plot
+
+    >>> # Stack a scatter plot
     >>> fig = make_subplots(rows=2, shared_xaxes=True)
 
     This is the format of your plot grid:
@@ -257,10 +260,11 @@ def make_subplots(
     ... fig.add_scatter(y=[1, 3, 2], row=2, col=1)
 
     Example 3:
-    # irregular subplot layout (more examples below under 'specs')
-    fig = tools.make_subplots(rows=2, cols=2,
-                              specs=[[{}, {}],
-                                     [{'colspan': 2}, None]])
+
+    >>> # irregular subplot layout (more examples below under 'specs')
+    >>> fig = make_subplots(rows=2, cols=2,
+                            specs=[[{}, {}],
+                                   [{'colspan': 2}, None]])
 
     This is the format of your plot grid:
     [ (1,1) xaxis1,yaxis1 ]  [ (1,2) xaxis2,yaxis2 ]
@@ -271,7 +275,8 @@ def make_subplots(
     ... fig.add_trace(go.Scatter(x=[1,2,3], y=[2,1,2]), row=2, col=1)
 
     Example 4:
-    # insets
+
+    >>> # insets
     >>> fig = make_subplots(insets=[{'cell': (1,1), 'l': 0.7, 'b': 0.3}])
 
     This is the format of your plot grid:
@@ -284,7 +289,8 @@ def make_subplots(
     ... fig.add_scatter(x=[1,2,3], y=[2,1,2], xaxis='x2', yaxis='y2')
 
     Example 5:
-    # include subplot titles
+
+    >>> # include subplot titles
     >>> fig = make_subplots(rows=2, subplot_titles=('Plot 1','Plot 2'))
 
     This is the format of your plot grid:
@@ -295,6 +301,7 @@ def make_subplots(
     >>> fig.add_bar(x=[1,2,3], y=[2,1,2], row=2, col=1)
 
     Example 6:
+
     Subplot with mixed subplot types
 
     >>> fig = make_subplots(rows=2, cols=2,
@@ -787,7 +794,7 @@ The row_titles argument to make_subplots must be a list or tuple
 
     # Handle displaying grid information
     if print_grid:
-        print (grid_str)
+        print(grid_str)
 
     # Build resulting figure
     fig = go.Figure(layout=layout)
