@@ -1,9 +1,10 @@
 """
-`plotly_express` is a terse, consistent, high-level wrapper around `plotly` for rapid \
-data exploration and figure generation. See the gallery at https://plotly.github.io/plotly_express
+`plotly.express` is a terse, consistent, high-level wrapper around `plotly.graph_objects`
+for rapid data exploration and figure generation. Learn more at https://plotly.express/
 """
 from __future__ import absolute_import
 from plotly import optional_imports
+from ._imshow import imshow
 
 pd = optional_imports.get_module("pandas")
 if pd is None:
@@ -11,7 +12,6 @@ if pd is None:
         """\
 Plotly express requires pandas to be installed."""
     )
-
 
 from ._chart_types import (  # noqa: F401
     scatter,
@@ -39,9 +39,15 @@ from ._chart_types import (  # noqa: F401
     choropleth,
     density_contour,
     density_heatmap,
+    pie,
+    sunburst,
+    treemap,
+    funnel,
+    funnel_area,
+    choropleth_mapbox,
+    density_mapbox,
 )
 
-from ._imshow import imshow
 
 from ._core import (  # noqa: F401
     set_mapbox_access_token,
@@ -61,6 +67,7 @@ __all__ = [
     "scatter_matrix",
     "density_contour",
     "density_heatmap",
+    "density_mapbox",
     "line",
     "line_3d",
     "line_polar",
@@ -77,6 +84,12 @@ __all__ = [
     "strip",
     "histogram",
     "choropleth",
+    "choropleth_mapbox",
+    "pie",
+    "sunburst",
+    "treemap",
+    "funnel",
+    "funnel_area",
     "imshow",
     "data",
     "colors",

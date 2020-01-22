@@ -46,7 +46,7 @@ def validate_gantt(df):
         for index in range(num_of_rows):
             task_dict = {}
             for key in df:
-                task_dict[key] = df.ix[index][key]
+                task_dict[key] = df.iloc[index][key]
             chart.append(task_dict)
 
         return chart
@@ -820,6 +820,7 @@ def create_gantt(
 ):
     """
     Returns figure for a gantt chart
+
     :param (array|list) df: input data for gantt chart. Must be either a
         a dataframe or a list. If dataframe, the columns must include
         'Task', 'Start' and 'Finish'. Other columns can be included and

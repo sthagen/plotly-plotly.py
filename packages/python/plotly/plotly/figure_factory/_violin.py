@@ -5,7 +5,7 @@ from numbers import Number
 from plotly import exceptions, optional_imports
 import plotly.colors as clrs
 from plotly.graph_objs import graph_objs
-from plotly.tools import make_subplots
+from plotly.subplots import make_subplots
 
 pd = optional_imports.get_module("pandas")
 np = optional_imports.get_module("numpy")
@@ -451,7 +451,8 @@ def create_violin(
     title="Violin and Rug Plot",
 ):
     """
-    Returns figure for a violin plot
+    **deprecated**, use instead the plotly.graph_objects trace
+    :class:`plotly.graph_objects.Violin`.
 
     :param (list|array) data: accepts either a list of numerical values,
         a list of dictionaries all with identical keys and at least one
@@ -496,7 +497,6 @@ def create_violin(
 
     >>> # create list of random values
     >>> data_list = np.random.randn(100)
-    >>> data_list.tolist()
 
     >>> # create violin fig
     >>> fig = create_violin(data_list, colors='#604d9e')

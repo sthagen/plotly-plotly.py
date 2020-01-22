@@ -35,7 +35,7 @@ def _bullet(
         horizontal_spacing = 1.0 / num_of_lanes
     if not vertical_spacing:
         vertical_spacing = 1.0 / num_of_lanes
-    fig = plotly.tools.make_subplots(
+    fig = plotly.subplots.make_subplots(
         num_of_rows,
         num_of_cols,
         print_grid=False,
@@ -198,7 +198,8 @@ def create_bullet(
     **layout_options
 ):
     """
-    Returns figure for bullet chart.
+    **deprecated**, use instead the plotly.graph_objects trace
+    :class:`plotly.graph_objects.Indicator`.
 
     :param (pd.DataFrame | list | tuple) data: either a list/tuple of
         dictionaries or a pandas DataFrame.

@@ -1,6 +1,10 @@
 import inspect
 from textwrap import TextWrapper
 
+try:
+    getfullargspec = inspect.getfullargspec
+except AttributeError:  # python 2
+    getfullargspec = inspect.getargspec
 
 # TODO contents of columns
 # TODO explain categorical
@@ -22,6 +26,7 @@ docs = dict(
         "DataFrame or array-like or dict",
         "This argument needs to be passed for column names (and not keyword names) to be used.",
         "Array-like and dict are tranformed internally to a pandas DataFrame.",
+        "Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.",
     ],
     x=[
         colref_type,
@@ -66,6 +71,27 @@ docs = dict(
         colref_desc,
         "Values from this column or array_like are used to position marks along the angular axis in polar coordinates.",
     ],
+    values=[
+        colref_type,
+        colref_desc,
+        "Values from this column or array_like are used to set values associated to sectors.",
+    ],
+    parents=[
+        colref_type,
+        colref_desc,
+        "Values from this column or array_like are used as parents in sunburst and treemap charts.",
+    ],
+    ids=[
+        colref_type,
+        colref_desc,
+        "Values from this column or array_like are used to set ids of sectors",
+    ],
+    path=[
+        colref_list_type,
+        colref_list_desc,
+        "List of columns names or columns of a rectangular dataframe defining the hierarchy of sectors, from root to leaves.",
+        "An error is raised if path AND ids or parents is passed",
+    ],
     lat=[
         colref_type,
         colref_desc,
@@ -85,6 +111,12 @@ docs = dict(
         colref_list_type,
         colref_list_desc,
         "Values from these columns are used for multidimensional visualization.",
+    ],
+    dimensions_max_cardinality=[
+        "int (default 50)",
+        "When `dimensions` is `None` and `data_frame` is provided, "
+        "columns with more than this number of unique values are excluded from the output.",
+        "Not used when `dimensions` is passed.",
     ],
     error_x=[
         colref_type,
@@ -148,6 +180,7 @@ docs = dict(
         colref_desc,
         "Values from this column or array_like are used to assign mark sizes.",
     ],
+    radius=["int (default is 30)", "Sets the radius of influence of each point.",],
     hover_name=[
         colref_type,
         colref_desc,
@@ -167,6 +200,11 @@ docs = dict(
         colref_type,
         colref_desc,
         "Values from this column or array_like appear in the figure as text labels.",
+    ],
+    names=[
+        colref_type,
+        colref_desc,
+        "Values from this column or array_like are used as labels for sectors.",
     ],
     locationmode=[
         "str",
@@ -225,7 +263,7 @@ docs = dict(
         "list of str",
         "Strings should define valid CSS-colors.",
         "When `color` is set and the values in the corresponding column are not numeric, values in that column are assigned colors by cycling through `color_discrete_sequence` in the order described in `category_orders`, unless the value of `color` is a key in `color_discrete_map`.",
-        "Various useful color sequences are available in the `plotly_express.colors` submodules, specifically `plotly_express.colors.qualitative`.",
+        "Various useful color sequences are available in the `plotly.express.colors` submodules, specifically `plotly.express.colors.qualitative`.",
     ],
     color_discrete_map=[
         "dict with str keys and str values (default `{}`)",
@@ -237,12 +275,12 @@ docs = dict(
         "list of str",
         "Strings should define valid CSS-colors",
         "This list is used to build a continuous color scale when the column denoted by `color` contains numeric data.",
-        "Various useful color scales are available in the `plotly_express.colors` submodules, specifically `plotly_express.colors.sequential`, `plotly_express.colors.diverging` and `plotly_express.colors.cyclical`.",
+        "Various useful color scales are available in the `plotly.express.colors` submodules, specifically `plotly.express.colors.sequential`, `plotly.express.colors.diverging` and `plotly.express.colors.cyclical`.",
     ],
     color_continuous_midpoint=[
         "number (default `None`)",
         "If set, computes the bounds of the continuous color scale to have the desired midpoint.",
-        "Setting this value is recommended when using `plotly_express.colors.diverging` color scales as the inputs to `color_continuous_scale`.",
+        "Setting this value is recommended when using `plotly.express.colors.diverging` color scales as the inputs to `color_continuous_scale`.",
     ],
     size_max=["int (default `20`)", "Set the maximum mark size when using `size`."],
     log_x=[
@@ -280,6 +318,10 @@ docs = dict(
     range_r=[
         "list of two numbers",
         "If provided, overrides auto-scaling on the radial axis in polar coordinates.",
+    ],
+    range_theta=[
+        "list of two numbers",
+        "If provided, overrides auto-scaling on the angular axis in polar coordinates.",
     ],
     title=["str", "The figure title."],
     template=[
@@ -424,6 +466,12 @@ docs = dict(
         "Dict keys are `'lat'` and `'lon'`",
         "Sets the center point of the map.",
     ],
+    mapbox_style=[
+        "str (default `'basic'`, needs Mapbox API token)",
+        "Identifier of base map style, some of which require a Mapbox API token to be set using `plotly.express.set_mapbox_access_token()`.",
+        "Allowed values which do not require a Mapbox API token are `'open-street-map'`, `'white-bg'`, `'carto-positron'`, `'carto-darkmatter'`, `'stamen-terrain'`, `'stamen-toner'`, `'stamen-watercolor'`.",
+        "Allowed values which do require a Mapbox API token are `'basic'`, `'streets'`, `'outdoors'`, `'light'`, `'dark'`, `'satellite'`, `'satellite-streets'`.",
+    ],
     points=[
         "str or boolean (default `'outliers'`)",
         "One of `'outliers'`, `'suspectedoutliers'`, `'all'`, or `False`.",
@@ -435,6 +483,15 @@ docs = dict(
     ],
     box=["boolean (default `False`)", "If `True`, boxes are drawn inside the violins."],
     notched=["boolean (default `False`)", "If `True`, boxes are drawn with notches."],
+    geojson=[
+        "GeoJSON-formatted dict",
+        "Must contain a Polygon feature collection, with IDs, which are references from `locations`.",
+    ],
+    featureidkey=[
+        "str (default: `'id'`)",
+        "Path to field in GeoJSON feature object with which to match the values passed in to `locations`."
+        "The most common alternative to the default is of the form `'properties.<key>`.",
+    ],
     cumulative=[
         "boolean (default `False`)",
         "If `True`, histogram values are cumulative.",
@@ -442,21 +499,41 @@ docs = dict(
     nbins=["int", "Positive integer.", "Sets the number of bins."],
     nbinsx=["int", "Positive integer.", "Sets the number of bins along the x axis."],
     nbinsy=["int", "Positive integer.", "Sets the number of bins along the y axis."],
+    branchvalues=[
+        "str",
+        "'total' or 'remainder'",
+        "Determines how the items in `values` are summed. When"
+        "set to 'total', items in `values` are taken to be value"
+        "of all its descendants. When set to 'remainder', items"
+        "in `values` corresponding to the root and the branches"
+        ":sectors are taken to be the extra part not part of the"
+        "sum of the values at their leaves.",
+    ],
+    maxdepth=[
+        "int",
+        "Positive integer",
+        "Sets the number of rendered sectors from any given `level`. Set `maxdepth` to -1 to render all the"
+        "levels in the hierarchy.",
+    ],
 )
 
 
-def make_docstring(fn):
-    tw = TextWrapper(width=77, initial_indent="    ", subsequent_indent="    ")
+def make_docstring(fn, override_dict={}):
+    tw = TextWrapper(width=75, initial_indent="    ", subsequent_indent="    ")
     result = (fn.__doc__ or "") + "\nParameters\n----------\n"
-    for param in inspect.getargspec(fn)[0]:
-        param_desc_list = docs[param][1:]
+    for param in getfullargspec(fn)[0]:
+        if override_dict.get(param):
+            param_doc = override_dict[param]
+        else:
+            param_doc = docs[param]
+        param_desc_list = param_doc[1:]
         param_desc = (
             tw.fill(" ".join(param_desc_list or ""))
             if param in docs
             else "(documentation missing from map)"
         )
 
-        param_type = docs[param][0]
+        param_type = param_doc[0]
         result += "%s: %s\n%s\n" % (param, param_type, param_desc)
     result += "\nReturns\n-------\n"
     result += "    A `Figure` object."

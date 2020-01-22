@@ -6,7 +6,7 @@ from plotly import exceptions, optional_imports
 import plotly.colors as clrs
 from plotly.figure_factory import utils
 from plotly.graph_objs import graph_objs
-from plotly.tools import make_subplots
+from plotly.subplots import make_subplots
 
 pd = optional_imports.get_module("pandas")
 
@@ -854,7 +854,10 @@ def create_scatterplotmatrix(
     **kwargs
 ):
     """
-    Returns data for a scatterplot matrix.
+    Returns data for a scatterplot matrix;
+    **deprecated**,
+    use instead the plotly.graph_objects trace
+    :class:`plotly.graph_objects.Splom`.
 
     :param (array) df: array of the data with column headers
     :param (str) index: name of the index column in data array
