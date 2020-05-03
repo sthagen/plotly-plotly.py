@@ -2,6 +2,32 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Dev version
+
+To add:
+* https://github.com/plotly/plotly.py/pull/2349
+* https://github.com/plotly/plotly.py/pull/2357
+* https://github.com/plotly/plotly.py/pull/2419
+
+### Updated
+
+- Updated Plotly.js to version 1.54.0. The main feature of the Plotly.js is the
+  possibility to draw layout shapes, using custom dragmodes and corresponding
+  modebar buttons.
+
+### Added
+
+- The `hover_data` parameter of `px` functions can now be a dictionary. This
+  makes it possible to skip hover information for some arguments or to change  
+  the formatting of hover informatiom [#2377](https://github.com/plotly/plotly.py/pull/2377).
+
+### Performance
+This version includes several performance improvements ([#2368](https://github.com/plotly/plotly.py/pull/2368), [#2403](https://github.com/plotly/plotly.py/pull/2403)).
+ 
+ - Child graph objects (e.g. `figure.layout.xaxis`) are no longer created eagerly during graph object construction. Instead, they are created lazily the first time the property is accessed.
+ - Property validation is now disabled for select internal operations.
+ - When used with Python 3.7 and above, ploty.py now takes advantage of [PEP-562](https://www.python.org/dev/peps/pep-0562/) to perform submodule imports lazily.  This dramatically improves import times.
+
 ## [4.6] - 2020-03-31
 
 ### Updated
