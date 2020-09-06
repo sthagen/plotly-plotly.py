@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: 3D Volume Plots
-    order: 12
+    order: 11
     page_type: u-guide
     permalink: python/3d-volume-plots/
     thumbnail: thumbnail/3d-volume-plots.jpg
@@ -254,7 +254,7 @@ fig.show()
 ```
 
 #### Reference
-See https://plotly.com/python/reference/#volume for more information and chart attribute options!
+See https://plotly.com/python/reference/volume/ for more information and chart attribute options!
 
 #### See also
 [3D isosurface documentation](/python/3d-isosurface-plots/)

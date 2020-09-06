@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: Network Graphs
-    order: 13
+    order: 12
     page_type: u-guide
     permalink: python/network-graphs/
     redirect_from:
@@ -146,4 +146,4 @@ fig.show()
 
 
 #### Reference
-See https://plotly.com/python/reference/#scatter for more information and chart attribute options!
+See https://plotly.com/python/reference/scatter/ for more information and chart attribute options!

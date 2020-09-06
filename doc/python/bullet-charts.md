@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: Bullet Charts
-    order: 9
+    order: 8
     page_type: u-guide
     permalink: python/bullet-charts/
     thumbnail: thumbnail/bullet.png
@@ -78,7 +78,7 @@ fig.show()
 ```
 
 #### Custom Bullet
-The following example shows how to customize your charts. For more information about all possible options check our [reference page](https://plotly.com/python/reference/#indicator).
+The following example shows how to customize your charts. For more information about all possible options check our [reference page](https://plotly.com/python/reference/indicator/).
 
 ```python
 import plotly.graph_objects as go
@@ -167,7 +167,7 @@ fig.show()
 ```
 
 #### Reference
-See https://plotly.com/python/reference/#indicator for more information and chart attribute options!
+See https://plotly.com/python/reference/indicator/ for more information and chart attribute options!
 
 ```python
 

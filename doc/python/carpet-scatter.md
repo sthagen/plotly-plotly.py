@@ -29,12 +29,11 @@ jupyter:
     language: python
     layout: base
     name: Carpet Scatter Plot
-    order: 16
+    order: 15
     page_type: u-guide
     permalink: python/carpet-scatter/
     thumbnail: thumbnail/scattercarpet.jpg
 ---
-
 
 ### Basic Carpet Plot
 
@@ -187,4 +186,4 @@ fig.show()
 ### Reference
 
 
-See https://plotly.com/python/reference/#scattercarpet for more information and chart attribute options!
+See https://plotly.com/python/reference/scattercarpet/ for more information and chart attribute options!

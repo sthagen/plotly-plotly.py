@@ -5,7 +5,7 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.1"
+      format_version: '1.1'
       jupytext_version: 1.2.3
   kernelspec:
     display_name: Python 3
@@ -22,14 +22,13 @@ jupyter:
     pygments_lexer: ipython3
     version: 3.7.3
   plotly:
-    description:
-      How to make 3D Bubble Charts in Python with Plotly. Three examples
+    description: How to make 3D Bubble Charts in Python with Plotly. Three examples
       of 3D Bubble Charts.
     display_as: 3d_charts
     language: python
     layout: base
     name: 3D Bubble Charts
-    order: 7
+    order: 6
     page_type: u-guide
     permalink: python/3d-bubble-charts/
     thumbnail: thumbnail/3dbubble.jpg
@@ -108,7 +107,7 @@ fig = go.Figure(data=go.Scatter3d(
     mode = 'markers',
     marker = dict(
         sizemode = 'diameter',
-        sizeref = 750, # info on sizeref: https://plotly.com/python/reference/#scatter-marker-sizeref
+        sizeref = 750, # info on sizeref: https://plotly.com/python/reference/scatter/#scatter-marker-sizeref
         size = planet_diameter,
         color = planet_colors,
         )
@@ -147,7 +146,7 @@ fig = go.Figure(go.Scatter3d(
     mode = 'markers',
     marker = dict(
         sizemode = 'diameter',
-        sizeref = 750, # info on sizeref: https://plotly.com/python/reference/#scatter-marker-sizeref
+        sizeref = 750, # info on sizeref: https://plotly.com/python/reference/scatter/#scatter-marker-sizeref
         size = planet_diameter,
         color = temperatures,
         colorbar_title = 'Mean<br>Temperature',
@@ -167,4 +166,4 @@ fig.show()
 
 #### Reference
 
-See https://plotly.com/python/reference/#scatter3d and https://plotly.com/python/reference/#scatter-marker-sizeref <br>for more information and chart attribute options!
+See https://plotly.com/python/reference/scatter3d/ and https://plotly.com/python/reference/scatter/#scatter-marker-sizeref <br>for more information and chart attribute options!

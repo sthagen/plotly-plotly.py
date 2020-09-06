@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: WebGL vs SVG
-    order: 15
+    order: 14
     permalink: python/webgl-vs-svg/
     thumbnail: thumbnail/webgl.jpg
 ---
@@ -149,4 +149,4 @@ fig.show()
 
 ### Reference
 
-See https://plotly.com/python/reference/#scattergl for more information and chart attribute options!
+See https://plotly.com/python/reference/scattergl/ for more information and chart attribute options!

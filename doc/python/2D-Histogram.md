@@ -27,12 +27,12 @@ jupyter:
     language: python
     layout: base
     name: 2D Histograms
-    order: 6
+    order: 5
     page_type: u-guide
     permalink: python/2D-Histogram/
     redirect_from:
-      - python/2d-histogram/
-      - python/2d-histograms/
+    - python/2d-histogram/
+    - python/2d-histograms/
     thumbnail: thumbnail/histogram2d.jpg
 ---
 
@@ -42,7 +42,7 @@ A 2D histogram, also known as a density heatmap, is the 2-dimensional generaliza
 
 ## Density Heatmaps with Plotly Express
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on "tidy" data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/). The Plotly Express function `density_heatmap()` can be used to produce density heatmaps.
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/). The Plotly Express function `density_heatmap()` can be used to produce density heatmaps.
 
 ```python
 import plotly.express as px
@@ -96,7 +96,7 @@ fig.show()
 
 ### 2D Histograms with Graph Objects
 
-To build this kind of plot without using Plotly Express, we can use the `go.Histogram2d` class.
+To build this kind of figure using [graph objects](/python/graph-objects/) without using Plotly Express, we can use the `go.Histogram2d` class.
 
 
 ### 2D Histogram of a Bivariate Normal Distribution ###
@@ -137,7 +137,7 @@ fig = go.Figure(go.Histogram2d(x=x, y=y, histnorm='probability',
 fig.show()
 ```
 ### Sharing bin settings between 2D Histograms
-This example shows how to use [bingroup](https://plotly.com/python/reference/#histogram-bingroup) attribute to have a compatible bin settings for both histograms. To define `start`, `end` and `size` value of x-axis and y-axis seperatly, set [ybins](https://plotly.com/python/reference/#histogram2dcontour-ybins) and `xbins`.
+This example shows how to use [bingroup](https://plotly.com/python/reference/histogram/#histogram-bingroup) attribute to have a compatible bin settings for both histograms. To define `start`, `end` and `size` value of x-axis and y-axis seperatly, set [ybins](https://plotly.com/python/reference/histogram2dcontour/#histogram2dcontour-ybins) and `xbins`.
 
 ```python
 import plotly.graph_objects as go
@@ -236,4 +236,4 @@ fig.show()
 ```
 
 #### Reference
-See https://plotly.com/python/reference/#histogram2d for more information and chart attribute options!
+See https://plotly.com/python/reference/histogram2d/ for more information and chart attribute options!

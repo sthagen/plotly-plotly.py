@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: Log Plots
-    order: 6
+    order: 5
     permalink: python/log-plot/
     thumbnail: thumbnail/log.jpg
 ---
@@ -54,5 +54,4 @@ fig.show()
 ```
 
 #### Reference
-See https://plotly.com/python/reference/#layout-xaxis-type for more information and chart attribute options!
-
+See https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-type for more information and chart attribute options!

@@ -18,7 +18,7 @@ jupyter:
     language: python
     layout: base
     name: OHLC Charts
-    order: 6
+    order: 5
     permalink: python/ohlc-charts/
     thumbnail: thumbnail/ohlc.jpg
 ---
@@ -155,4 +155,4 @@ fig.show()
 ```
 
 #### Reference
-For more information on candlestick attributes, see: https://plotly.com/python/reference/#ohlc
+For more information on candlestick attributes, see: https://plotly.com/python/reference/ohlc/

@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: Scatter Plots on Mapbox
-    order: 10
+    order: 9
     page_type: u-guide
     permalink: python/scattermapbox/
     thumbnail: thumbnail/scatter-mapbox.jpg
@@ -41,7 +41,7 @@ To plot on Mapbox maps with Plotly you _may_ need a Mapbox account and a public 
 
 Here we show the [Plotly Express](/python/plotly-express/) function `px.scatter_mapbox` for a scatter plot on a tile map.
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on "tidy" data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
 
 ```python
 import plotly.express as px
@@ -196,7 +196,7 @@ fig.show()
 
 ### Set Marker Symbols
 
-You can define a symbol on your map by setting [symbol](https://plotly.com/python/reference/#scattermapbox-marker-symbol) attribute. This attribute only works on Mapbox-provided `style`s:
+You can define a symbol on your map by setting [symbol](https://plotly.com/python/reference/scattermapbox/#scattermapbox-marker-symbol) attribute. This attribute only works on Mapbox-provided `style`s:
 
 - basic
 - streets
@@ -228,4 +228,4 @@ fig.show()
 
 #### Reference
 
-See https://plotly.com/python/reference/#scattermapbox for more information and options!
+See https://plotly.com/python/reference/scattermapbox/ for more information and options!

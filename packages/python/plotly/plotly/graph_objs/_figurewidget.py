@@ -902,8 +902,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -1055,8 +1054,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `value` and
@@ -1329,8 +1327,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -1710,8 +1707,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -2752,8 +2748,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -3097,8 +3092,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -3455,8 +3449,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -3858,8 +3851,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -4606,8 +4598,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -4946,8 +4937,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -5091,8 +5081,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables
@@ -5340,8 +5329,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -5457,8 +5445,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `label`,
@@ -5722,8 +5709,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -6028,6 +6014,7 @@ class FigureWidget(BaseFigureWidget):
         zmax=None,
         zmid=None,
         zmin=None,
+        zsmooth=None,
         zsrc=None,
         row=None,
         col=None,
@@ -6225,6 +6212,8 @@ class FigureWidget(BaseFigureWidget):
             Sets the lower bound of the color domain. Value should
             have the same units as in `z` and if set, `zmax` must
             be set as well.
+        zsmooth
+            Picks a smoothing algorithm use to smooth `z` data.
         zsrc
             Sets the source reference on Chart Studio Cloud for  z
             .
@@ -6295,6 +6284,7 @@ class FigureWidget(BaseFigureWidget):
             zmax=zmax,
             zmid=zmid,
             zmin=zmin,
+            zsmooth=zsmooth,
             zsrc=zsrc,
             **kwargs
         )
@@ -6458,8 +6448,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -6873,8 +6862,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -7323,8 +7311,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -7613,6 +7600,7 @@ class FigureWidget(BaseFigureWidget):
         metasrc=None,
         name=None,
         opacity=None,
+        source=None,
         stream=None,
         text=None,
         textsrc=None,
@@ -7646,7 +7634,9 @@ class FigureWidget(BaseFigureWidget):
         ----------
         colormodel
             Color model used to map the numerical color components
-            described in `z` into colors.
+            described in `z` into colors. If `source` is specified,
+            this attribute will be set to `rgba256` otherwise it
+            defaults to `rgb`.
         customdata
             Assigns extra data each datum. This may be useful when
             listening to hover, click and selection events. Note
@@ -7681,8 +7671,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -7730,6 +7719,10 @@ class FigureWidget(BaseFigureWidget):
             legend item and on hover.
         opacity
             Sets the opacity of the trace.
+        source
+            Specifies the data URI of the image to be visualized.
+            The URI consists of "data:image/[<media
+            subtype>][;base64],<data>"
         stream
             :class:`plotly.graph_objects.image.Stream` instance or
             dict with compatible properties
@@ -7787,7 +7780,8 @@ class FigureWidget(BaseFigureWidget):
             component. Note that the default value will depend on
             the colormodel. For the `rgb` colormodel, it is [255,
             255, 255]. For the `rgba` colormodel, it is [255, 255,
-            255, 1]. For the `hsl` colormodel, it is [360, 100,
+            255, 1]. For the `rgba256` colormodel, it is [255, 255,
+            255, 255]. For the `hsl` colormodel, it is [360, 100,
             100]. For the `hsla` colormodel, it is [360, 100, 100,
             1].
         zmin
@@ -7795,7 +7789,8 @@ class FigureWidget(BaseFigureWidget):
             component. Note that the default value will depend on
             the colormodel. For the `rgb` colormodel, it is [0, 0,
             0]. For the `rgba` colormodel, it is [0, 0, 0, 0]. For
-            the `hsl` colormodel, it is [0, 0, 0]. For the `hsla`
+            the `rgba256` colormodel, it is [0, 0, 0, 0]. For the
+            `hsl` colormodel, it is [0, 0, 0]. For the `hsla`
             colormodel, it is [0, 0, 0, 0].
         zsrc
             Sets the source reference on Chart Studio Cloud for  z
@@ -7844,6 +7839,7 @@ class FigureWidget(BaseFigureWidget):
             metasrc=metasrc,
             name=name,
             opacity=opacity,
+            source=source,
             stream=stream,
             text=text,
             textsrc=textsrc,
@@ -8186,8 +8182,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -8605,8 +8600,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -9256,8 +9250,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -9653,8 +9646,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -9797,8 +9789,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `label`,
@@ -10551,8 +10542,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -10709,8 +10699,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available.
@@ -10981,8 +10970,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -11103,8 +11091,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available.
@@ -11355,8 +11342,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -11470,8 +11456,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `a`, `b` and
@@ -11718,8 +11703,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -11859,8 +11843,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `lat`, `lon`,
@@ -12103,8 +12086,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -12214,8 +12196,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available.
@@ -12470,8 +12451,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -12598,8 +12578,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `lat`, `lon`
@@ -12833,8 +12812,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -12963,8 +12941,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `r`, `theta`
@@ -13214,8 +13191,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -13344,8 +13320,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `r`, `theta`
@@ -13611,8 +13586,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -13739,8 +13713,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `a`, `b`, `c`
@@ -13940,8 +13913,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -14273,8 +14245,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -14596,8 +14567,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -14728,8 +14698,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables
@@ -14993,8 +14962,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -15500,8 +15468,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -15624,8 +15591,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables
@@ -15855,8 +15821,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -16315,8 +16280,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -16685,8 +16649,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. The variables
             available in `hovertemplate` are the ones emitted as
             event data described at this link
@@ -16837,8 +16800,7 @@ class FigureWidget(BaseFigureWidget):
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
             format}, for example "Day: %{2019-01-01|%A}".
-            https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format for
+            https://github.com/d3/d3-time-format#locale_format for
             details on the date formatting syntax. Every attributes
             that can be specified per-point (the ones that are
             `arrayOk: true`) are available. variables `initial`,
