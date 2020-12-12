@@ -32,6 +32,7 @@ if sys.version_info < (3, 7):
     from ._rotation import RotationValidator
     from ._period import PeriodValidator
     from ._nticks import NticksValidator
+    from ._minexponent import MinexponentValidator
     from ._linewidth import LinewidthValidator
     from ._linecolor import LinecolorValidator
     from ._layer import LayerValidator
@@ -45,6 +46,7 @@ if sys.version_info < (3, 7):
     from ._categoryorder import CategoryorderValidator
     from ._categoryarraysrc import CategoryarraysrcValidator
     from ._categoryarray import CategoryarrayValidator
+    from ._autotypenumbers import AutotypenumbersValidator
 else:
     from _plotly_utils.importers import relative_import
 
@@ -83,6 +85,7 @@ else:
             "._rotation.RotationValidator",
             "._period.PeriodValidator",
             "._nticks.NticksValidator",
+            "._minexponent.MinexponentValidator",
             "._linewidth.LinewidthValidator",
             "._linecolor.LinecolorValidator",
             "._layer.LayerValidator",
@@ -96,5 +99,6 @@ else:
             "._categoryorder.CategoryorderValidator",
             "._categoryarraysrc.CategoryarraysrcValidator",
             "._categoryarray.CategoryarrayValidator",
+            "._autotypenumbers.AutotypenumbersValidator",
         ],
     )

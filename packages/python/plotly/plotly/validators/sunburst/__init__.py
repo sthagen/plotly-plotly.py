@@ -13,6 +13,9 @@ if sys.version_info < (3, 7):
     from ._textfont import TextfontValidator
     from ._text import TextValidator
     from ._stream import StreamValidator
+    from ._sort import SortValidator
+    from ._rotation import RotationValidator
+    from ._root import RootValidator
     from ._parentssrc import ParentssrcValidator
     from ._parents import ParentsValidator
     from ._outsidetextfont import OutsidetextfontValidator
@@ -61,6 +64,9 @@ else:
             "._textfont.TextfontValidator",
             "._text.TextValidator",
             "._stream.StreamValidator",
+            "._sort.SortValidator",
+            "._rotation.RotationValidator",
+            "._root.RootValidator",
             "._parentssrc.ParentssrcValidator",
             "._parents.ParentsValidator",
             "._outsidetextfont.OutsidetextfontValidator",

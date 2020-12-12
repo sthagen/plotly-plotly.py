@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.2'
-      jupytext_version: 1.4.2
+      jupytext_version: 1.6.0
   kernelspec:
     display_name: Python 3
     language: python
@@ -20,7 +20,7 @@ jupyter:
     name: python
     nbconvert_exporter: python
     pygments_lexer: ipython3
-    version: 3.7.7
+    version: 3.7.6
   plotly:
     description: How to configure and style the legend in Plotly with Python.
     display_as: file_settings
@@ -54,6 +54,46 @@ import plotly.express as px
 df = px.data.tips()
 fig = px.scatter(df, x="total_bill", y="tip", color="sex", symbol="smoker", facet_col="time",
           labels={"sex": "Gender", "smoker": "Smokes"})
+fig.show()
+```
+
+### Legend Order
+
+By default, Plotly Express lays out legend items in the order in which values appear in the underlying data. Every Plotly Express function also includes a `category_orders` keyword argument which can be used to control [the order in which categorical axes are drawn](/python/categorical-axes/), but beyond that can also control the order in which legend items appear, and [the order in which facets are laid out](/python/facet-plots/).
+
+```python
+import plotly.express as px
+df = px.data.tips()
+fig = px.bar(df, x="day", y="total_bill", color="smoker", barmode="group", facet_col="sex",
+             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
+                              "smoker": ["Yes", "No"],
+                              "sex": ["Male", "Female"]})
+fig.show()
+```
+
+When using stacked bars, the bars are stacked from the bottom in the same order as they appear in the legend, so it can make sense to set `layout.legend.traceorder` to `"reversed"` to get the legend and stacks to match:
+
+```python
+import plotly.express as px
+df = px.data.tips()
+fig = px.bar(df, x="day", y="total_bill", color="smoker", barmode="stack", facet_col="sex",
+             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
+                              "smoker": ["Yes", "No"],
+                              "sex": ["Male", "Female"]})
+fig.update_layout(legend_traceorder="reversed")
+fig.show()
+```
+
+When using [`plotly.graph_objects`](/python/graph-objects/) rather than Plotly Express, legend items will appear in the order that traces appear in the `data`:
+
+```python
+import plotly.graph_objects as go
+
+fig = go.Figure()
+fig.add_trace(go.Bar(name="first", x=["a", "b"], y=[1,2]))
+fig.add_trace(go.Bar(name="second", x=["a", "b"], y=[2,1]))
+fig.add_trace(go.Bar(name="third", x=["a", "b"], y=[1,2]))
+fig.add_trace(go.Bar(name="fourth", x=["a", "b"], y=[2,1]))
 fig.show()
 ```
 
@@ -91,6 +131,19 @@ fig.update_layout(legend=dict(
 ))
 
 fig.show()
+```
+
+#### Legends in Dash
+
+[Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
+
+Get started  with [the official Dash docs](https://dash.plotly.com/installation) and **learn how to effortlessly [style](https://plotly.com/dash/design-kit/) & [deploy](https://plotly.com/dash/app-manager/) apps like this with <a class="plotly-red" href="https://plotly.com/dash/">Dash Enterprise</a>.**
+
+
+```python hide_code=true
+from IPython.display import IFrame
+snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
+IFrame(snippet_url + 'legend', width='100%', height=630)
 ```
 
 #### Horizontal Legends

@@ -33,6 +33,7 @@ if sys.version_info < (3, 7):
     from ._minorgridwidth import MinorgridwidthValidator
     from ._minorgridcount import MinorgridcountValidator
     from ._minorgridcolor import MinorgridcolorValidator
+    from ._minexponent import MinexponentValidator
     from ._linewidth import LinewidthValidator
     from ._linecolor import LinecolorValidator
     from ._labelsuffix import LabelsuffixValidator
@@ -51,6 +52,7 @@ if sys.version_info < (3, 7):
     from ._categoryorder import CategoryorderValidator
     from ._categoryarraysrc import CategoryarraysrcValidator
     from ._categoryarray import CategoryarrayValidator
+    from ._autotypenumbers import AutotypenumbersValidator
     from ._autorange import AutorangeValidator
     from ._arraytick0 import Arraytick0Validator
     from ._arraydtick import ArraydtickValidator
@@ -93,6 +95,7 @@ else:
             "._minorgridwidth.MinorgridwidthValidator",
             "._minorgridcount.MinorgridcountValidator",
             "._minorgridcolor.MinorgridcolorValidator",
+            "._minexponent.MinexponentValidator",
             "._linewidth.LinewidthValidator",
             "._linecolor.LinecolorValidator",
             "._labelsuffix.LabelsuffixValidator",
@@ -111,6 +114,7 @@ else:
             "._categoryorder.CategoryorderValidator",
             "._categoryarraysrc.CategoryarraysrcValidator",
             "._categoryarray.CategoryarrayValidator",
+            "._autotypenumbers.AutotypenumbersValidator",
             "._autorange.AutorangeValidator",
             "._arraytick0.Arraytick0Validator",
             "._arraydtick.ArraydtickValidator",

@@ -12,6 +12,7 @@ class Baxis(_BaseTraceHierarchyType):
         "arraydtick",
         "arraytick0",
         "autorange",
+        "autotypenumbers",
         "categoryarray",
         "categoryarraysrc",
         "categoryorder",
@@ -30,6 +31,7 @@ class Baxis(_BaseTraceHierarchyType):
         "labelsuffix",
         "linecolor",
         "linewidth",
+        "minexponent",
         "minorgridcolor",
         "minorgridcount",
         "minorgridwidth",
@@ -130,6 +132,30 @@ class Baxis(_BaseTraceHierarchyType):
     @autorange.setter
     def autorange(self, val):
         self["autorange"] = val
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # categoryarray
     # -------------
@@ -673,6 +699,26 @@ class Baxis(_BaseTraceHierarchyType):
     @linewidth.setter
     def linewidth(self, val):
         self["linewidth"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # minorgridcolor
     # --------------
@@ -1617,6 +1663,12 @@ class Baxis(_BaseTraceHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         categoryarray
             Sets the order in which categories on this axis appear.
             Only has an effect if `categoryorder` is set to
@@ -1677,6 +1729,8 @@ class Baxis(_BaseTraceHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number
         minorgridcolor
             Sets the color of the grid lines.
         minorgridcount
@@ -1817,6 +1871,7 @@ class Baxis(_BaseTraceHierarchyType):
         arraydtick=None,
         arraytick0=None,
         autorange=None,
+        autotypenumbers=None,
         categoryarray=None,
         categoryarraysrc=None,
         categoryorder=None,
@@ -1835,6 +1890,7 @@ class Baxis(_BaseTraceHierarchyType):
         labelsuffix=None,
         linecolor=None,
         linewidth=None,
+        minexponent=None,
         minorgridcolor=None,
         minorgridcount=None,
         minorgridwidth=None,
@@ -1888,6 +1944,12 @@ class Baxis(_BaseTraceHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         categoryarray
             Sets the order in which categories on this axis appear.
             Only has an effect if `categoryorder` is set to
@@ -1948,6 +2010,8 @@ class Baxis(_BaseTraceHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number
         minorgridcolor
             Sets the color of the grid lines.
         minorgridcount
@@ -2121,6 +2185,10 @@ an instance of :class:`plotly.graph_objs.carpet.Baxis`"""
         _v = autorange if autorange is not None else _v
         if _v is not None:
             self["autorange"] = _v
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("categoryarray", None)
         _v = categoryarray if categoryarray is not None else _v
         if _v is not None:
@@ -2193,6 +2261,10 @@ an instance of :class:`plotly.graph_objs.carpet.Baxis`"""
         _v = linewidth if linewidth is not None else _v
         if _v is not None:
             self["linewidth"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("minorgridcolor", None)
         _v = minorgridcolor if minorgridcolor is not None else _v
         if _v is not None:

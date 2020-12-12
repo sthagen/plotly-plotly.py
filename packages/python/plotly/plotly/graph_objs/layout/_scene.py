@@ -529,6 +529,13 @@ class Scene(_BaseLayoutHierarchyType):
                     axis is computed in relation to the input data.
                     See `rangemode` for more info. If `range` is
                     provided, then `autorange` is set to False.
+                autotypenumbers
+                    Using "strict" a numeric string in trace data
+                    is not converted to a number. Using *convert
+                    types* a numeric string in trace data may be
+                    treated as a number during automatic axis
+                    `type` detection. Defaults to
+                    layout.autotypenumbers.
                 backgroundcolor
                     Sets the background color of this axis' wall.
                 calendar
@@ -626,6 +633,10 @@ class Scene(_BaseLayoutHierarchyType):
                     Sets the axis line color.
                 linewidth
                     Sets the width (in px) of the axis line.
+                minexponent
+                    Hide SI prefix for 10^n if |n| is below this
+                    number. This only has an effect when
+                    `tickformat` is "SI" or "B".
                 mirror
                     Determines if the axis lines or/and ticks are
                     mirrored to the opposite side of the plotting
@@ -840,6 +851,13 @@ class Scene(_BaseLayoutHierarchyType):
                     axis is computed in relation to the input data.
                     See `rangemode` for more info. If `range` is
                     provided, then `autorange` is set to False.
+                autotypenumbers
+                    Using "strict" a numeric string in trace data
+                    is not converted to a number. Using *convert
+                    types* a numeric string in trace data may be
+                    treated as a number during automatic axis
+                    `type` detection. Defaults to
+                    layout.autotypenumbers.
                 backgroundcolor
                     Sets the background color of this axis' wall.
                 calendar
@@ -937,6 +955,10 @@ class Scene(_BaseLayoutHierarchyType):
                     Sets the axis line color.
                 linewidth
                     Sets the width (in px) of the axis line.
+                minexponent
+                    Hide SI prefix for 10^n if |n| is below this
+                    number. This only has an effect when
+                    `tickformat` is "SI" or "B".
                 mirror
                     Determines if the axis lines or/and ticks are
                     mirrored to the opposite side of the plotting
@@ -1151,6 +1173,13 @@ class Scene(_BaseLayoutHierarchyType):
                     axis is computed in relation to the input data.
                     See `rangemode` for more info. If `range` is
                     provided, then `autorange` is set to False.
+                autotypenumbers
+                    Using "strict" a numeric string in trace data
+                    is not converted to a number. Using *convert
+                    types* a numeric string in trace data may be
+                    treated as a number during automatic axis
+                    `type` detection. Defaults to
+                    layout.autotypenumbers.
                 backgroundcolor
                     Sets the background color of this axis' wall.
                 calendar
@@ -1248,6 +1277,10 @@ class Scene(_BaseLayoutHierarchyType):
                     Sets the axis line color.
                 linewidth
                     Sets the width (in px) of the axis line.
+                minexponent
+                    Hide SI prefix for 10^n if |n| is below this
+                    number. This only has an effect when
+                    `tickformat` is "SI" or "B".
                 mirror
                     Determines if the axis lines or/and ticks are
                     mirrored to the opposite side of the plotting

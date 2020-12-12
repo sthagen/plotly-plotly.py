@@ -15,6 +15,8 @@ if sys.version_info < (3, 7):
     from ._textfont import TextfontValidator
     from ._text import TextValidator
     from ._stream import StreamValidator
+    from ._sort import SortValidator
+    from ._root import RootValidator
     from ._pathbar import PathbarValidator
     from ._parentssrc import ParentssrcValidator
     from ._parents import ParentsValidator
@@ -64,6 +66,8 @@ else:
             "._textfont.TextfontValidator",
             "._text.TextValidator",
             "._stream.StreamValidator",
+            "._sort.SortValidator",
+            "._root.RootValidator",
             "._pathbar.PathbarValidator",
             "._parentssrc.ParentssrcValidator",
             "._parents.ParentsValidator",

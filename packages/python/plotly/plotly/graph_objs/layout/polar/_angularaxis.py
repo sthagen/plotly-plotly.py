@@ -9,6 +9,7 @@ class AngularAxis(_BaseLayoutHierarchyType):
     _parent_path_str = "layout.polar"
     _path_str = "layout.polar.angularaxis"
     _valid_props = {
+        "autotypenumbers",
         "categoryarray",
         "categoryarraysrc",
         "categoryorder",
@@ -22,6 +23,7 @@ class AngularAxis(_BaseLayoutHierarchyType):
         "layer",
         "linecolor",
         "linewidth",
+        "minexponent",
         "nticks",
         "period",
         "rotation",
@@ -54,6 +56,30 @@ class AngularAxis(_BaseLayoutHierarchyType):
         "uirevision",
         "visible",
     }
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # categoryarray
     # -------------
@@ -495,6 +521,27 @@ class AngularAxis(_BaseLayoutHierarchyType):
     @linewidth.setter
     def linewidth(self, val):
         self["linewidth"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # nticks
     # ------
@@ -1294,6 +1341,12 @@ class AngularAxis(_BaseLayoutHierarchyType):
     @property
     def _prop_descriptions(self):
         return """\
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         categoryarray
             Sets the order in which categories on this axis appear.
             Only has an effect if `categoryorder` is set to
@@ -1382,6 +1435,10 @@ class AngularAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -1515,6 +1572,7 @@ class AngularAxis(_BaseLayoutHierarchyType):
     def __init__(
         self,
         arg=None,
+        autotypenumbers=None,
         categoryarray=None,
         categoryarraysrc=None,
         categoryorder=None,
@@ -1528,6 +1586,7 @@ class AngularAxis(_BaseLayoutHierarchyType):
         layer=None,
         linecolor=None,
         linewidth=None,
+        minexponent=None,
         nticks=None,
         period=None,
         rotation=None,
@@ -1570,6 +1629,12 @@ class AngularAxis(_BaseLayoutHierarchyType):
             dict of properties compatible with this constructor or
             an instance of
             :class:`plotly.graph_objs.layout.polar.AngularAxis`
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         categoryarray
             Sets the order in which categories on this axis appear.
             Only has an effect if `categoryorder` is set to
@@ -1658,6 +1723,10 @@ class AngularAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -1820,6 +1889,10 @@ an instance of :class:`plotly.graph_objs.layout.polar.AngularAxis`"""
 
         # Populate data dict with properties
         # ----------------------------------
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("categoryarray", None)
         _v = categoryarray if categoryarray is not None else _v
         if _v is not None:
@@ -1872,6 +1945,10 @@ an instance of :class:`plotly.graph_objs.layout.polar.AngularAxis`"""
         _v = linewidth if linewidth is not None else _v
         if _v is not None:
             self["linewidth"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("nticks", None)
         _v = nticks if nticks is not None else _v
         if _v is not None:

@@ -10,6 +10,13 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
+            autotypenumbers
+                Using "strict" a numeric string in trace data
+                is not converted to a number. Using *convert
+                types* a numeric string in trace data may be
+                treated as a number during automatic axis
+                `type` detection. Defaults to
+                layout.autotypenumbers.
             categoryarray
                 Sets the order in which categories on this axis
                 appear. Only has an effect if `categoryorder`
@@ -111,6 +118,10 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 Sets the axis line color.
             linewidth
                 Sets the width (in px) of the axis line.
+            minexponent
+                Hide SI prefix for 10^n if |n| is below this
+                number. This only has an effect when
+                `tickformat` is "SI" or "B".
             nticks
                 Specifies the maximum number of ticks for the
                 particular axis. The actual number of ticks

@@ -11,6 +11,7 @@ class RadialAxis(_BaseLayoutHierarchyType):
     _valid_props = {
         "angle",
         "autorange",
+        "autotypenumbers",
         "calendar",
         "categoryarray",
         "categoryarraysrc",
@@ -24,6 +25,7 @@ class RadialAxis(_BaseLayoutHierarchyType):
         "layer",
         "linecolor",
         "linewidth",
+        "minexponent",
         "nticks",
         "range",
         "rangemode",
@@ -107,6 +109,30 @@ class RadialAxis(_BaseLayoutHierarchyType):
     @autorange.setter
     def autorange(self, val):
         self["autorange"] = val
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # calendar
     # --------
@@ -554,6 +580,27 @@ class RadialAxis(_BaseLayoutHierarchyType):
     @linewidth.setter
     def linewidth(self, val):
         self["linewidth"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # nticks
     # ------
@@ -1454,6 +1501,12 @@ class RadialAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         calendar
             Sets the calendar system to use for `range` and `tick0`
             if this is a date axis. This does not set the calendar
@@ -1545,6 +1598,10 @@ class RadialAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -1697,6 +1754,7 @@ class RadialAxis(_BaseLayoutHierarchyType):
         arg=None,
         angle=None,
         autorange=None,
+        autotypenumbers=None,
         calendar=None,
         categoryarray=None,
         categoryarraysrc=None,
@@ -1710,6 +1768,7 @@ class RadialAxis(_BaseLayoutHierarchyType):
         layer=None,
         linecolor=None,
         linewidth=None,
+        minexponent=None,
         nticks=None,
         range=None,
         rangemode=None,
@@ -1765,6 +1824,12 @@ class RadialAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         calendar
             Sets the calendar system to use for `range` and `tick0`
             if this is a date axis. This does not set the calendar
@@ -1856,6 +1921,10 @@ class RadialAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -2041,6 +2110,10 @@ an instance of :class:`plotly.graph_objs.layout.polar.RadialAxis`"""
         _v = autorange if autorange is not None else _v
         if _v is not None:
             self["autorange"] = _v
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("calendar", None)
         _v = calendar if calendar is not None else _v
         if _v is not None:
@@ -2093,6 +2166,10 @@ an instance of :class:`plotly.graph_objs.layout.polar.RadialAxis`"""
         _v = linewidth if linewidth is not None else _v
         if _v is not None:
             self["linewidth"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("nticks", None)
         _v = nticks if nticks is not None else _v
         if _v is not None:

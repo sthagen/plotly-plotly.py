@@ -10,6 +10,7 @@ class XAxis(_BaseLayoutHierarchyType):
     _path_str = "layout.scene.xaxis"
     _valid_props = {
         "autorange",
+        "autotypenumbers",
         "backgroundcolor",
         "calendar",
         "categoryarray",
@@ -23,6 +24,7 @@ class XAxis(_BaseLayoutHierarchyType):
         "hoverformat",
         "linecolor",
         "linewidth",
+        "minexponent",
         "mirror",
         "nticks",
         "range",
@@ -88,6 +90,30 @@ class XAxis(_BaseLayoutHierarchyType):
     @autorange.setter
     def autorange(self, val):
         self["autorange"] = val
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # backgroundcolor
     # ---------------
@@ -568,6 +594,27 @@ class XAxis(_BaseLayoutHierarchyType):
     @linewidth.setter
     def linewidth(self, val):
         self["linewidth"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # mirror
     # ------
@@ -1707,6 +1754,12 @@ class XAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         backgroundcolor
             Sets the background color of this axis' wall.
         calendar
@@ -1792,6 +1845,10 @@ class XAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -1967,6 +2024,7 @@ class XAxis(_BaseLayoutHierarchyType):
         self,
         arg=None,
         autorange=None,
+        autotypenumbers=None,
         backgroundcolor=None,
         calendar=None,
         categoryarray=None,
@@ -1980,6 +2038,7 @@ class XAxis(_BaseLayoutHierarchyType):
         hoverformat=None,
         linecolor=None,
         linewidth=None,
+        minexponent=None,
         mirror=None,
         nticks=None,
         range=None,
@@ -2037,6 +2096,12 @@ class XAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         backgroundcolor
             Sets the background color of this axis' wall.
         calendar
@@ -2122,6 +2187,10 @@ class XAxis(_BaseLayoutHierarchyType):
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -2327,6 +2396,10 @@ an instance of :class:`plotly.graph_objs.layout.scene.XAxis`"""
         _v = autorange if autorange is not None else _v
         if _v is not None:
             self["autorange"] = _v
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("backgroundcolor", None)
         _v = backgroundcolor if backgroundcolor is not None else _v
         if _v is not None:
@@ -2379,6 +2452,10 @@ an instance of :class:`plotly.graph_objs.layout.scene.XAxis`"""
         _v = linewidth if linewidth is not None else _v
         if _v is not None:
             self["linewidth"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("mirror", None)
         _v = mirror if mirror is not None else _v
         if _v is not None:

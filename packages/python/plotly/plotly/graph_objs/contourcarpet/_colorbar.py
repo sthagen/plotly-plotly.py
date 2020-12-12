@@ -16,6 +16,7 @@ class ColorBar(_BaseTraceHierarchyType):
         "exponentformat",
         "len",
         "lenmode",
+        "minexponent",
         "nticks",
         "outlinecolor",
         "outlinewidth",
@@ -33,6 +34,7 @@ class ColorBar(_BaseTraceHierarchyType):
         "tickformat",
         "tickformatstopdefaults",
         "tickformatstops",
+        "ticklabelposition",
         "ticklen",
         "tickmode",
         "tickprefix",
@@ -299,6 +301,27 @@ class ColorBar(_BaseTraceHierarchyType):
     @lenmode.setter
     def lenmode(self, val):
         self["lenmode"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # nticks
     # ------
@@ -825,6 +848,28 @@ class ColorBar(_BaseTraceHierarchyType):
     def tickformatstopdefaults(self, val):
         self["tickformatstopdefaults"] = val
 
+    # ticklabelposition
+    # -----------------
+    @property
+    def ticklabelposition(self):
+        """
+        Determines where tick labels are drawn.
+    
+        The 'ticklabelposition' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['outside', 'inside', 'outside top', 'inside top',
+                'outside bottom', 'inside bottom']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticklabelposition"]
+
+    @ticklabelposition.setter
+    def ticklabelposition(self, val):
+        self["ticklabelposition"] = val
+
     # ticklen
     # -------
     @property
@@ -1329,6 +1374,10 @@ class ColorBar(_BaseTraceHierarchyType):
             measure in the color variation direction) is set in
             units of plot "fraction" or in *pixels. Use `len` to
             set the value.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -1402,6 +1451,8 @@ class ColorBar(_BaseTraceHierarchyType):
             rcarpet.colorbar.tickformatstopdefaults), sets the
             default property values to use for elements of
             contourcarpet.colorbar.tickformatstops
+        ticklabelposition
+            Determines where tick labels are drawn.
         ticklen
             Sets the tick length (in px).
         tickmode
@@ -1488,6 +1539,7 @@ class ColorBar(_BaseTraceHierarchyType):
         exponentformat=None,
         len=None,
         lenmode=None,
+        minexponent=None,
         nticks=None,
         outlinecolor=None,
         outlinewidth=None,
@@ -1505,6 +1557,7 @@ class ColorBar(_BaseTraceHierarchyType):
         tickformat=None,
         tickformatstops=None,
         tickformatstopdefaults=None,
+        ticklabelposition=None,
         ticklen=None,
         tickmode=None,
         tickprefix=None,
@@ -1581,6 +1634,10 @@ class ColorBar(_BaseTraceHierarchyType):
             measure in the color variation direction) is set in
             units of plot "fraction" or in *pixels. Use `len` to
             set the value.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         nticks
             Specifies the maximum number of ticks for the
             particular axis. The actual number of ticks will be
@@ -1654,6 +1711,8 @@ class ColorBar(_BaseTraceHierarchyType):
             rcarpet.colorbar.tickformatstopdefaults), sets the
             default property values to use for elements of
             contourcarpet.colorbar.tickformatstops
+        ticklabelposition
+            Determines where tick labels are drawn.
         ticklen
             Sets the tick length (in px).
         tickmode
@@ -1785,6 +1844,10 @@ an instance of :class:`plotly.graph_objs.contourcarpet.ColorBar`"""
         _v = lenmode if lenmode is not None else _v
         if _v is not None:
             self["lenmode"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("nticks", None)
         _v = nticks if nticks is not None else _v
         if _v is not None:
@@ -1853,6 +1916,10 @@ an instance of :class:`plotly.graph_objs.contourcarpet.ColorBar`"""
         _v = tickformatstopdefaults if tickformatstopdefaults is not None else _v
         if _v is not None:
             self["tickformatstopdefaults"] = _v
+        _v = arg.pop("ticklabelposition", None)
+        _v = ticklabelposition if ticklabelposition is not None else _v
+        if _v is not None:
+            self["ticklabelposition"] = _v
         _v = arg.pop("ticklen", None)
         _v = ticklen if ticklen is not None else _v
         if _v is not None:

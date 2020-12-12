@@ -41,6 +41,7 @@ if sys.version_info < (3, 7):
     from ._range import RangeValidator
     from ._nticks import NticksValidator
     from ._mirror import MirrorValidator
+    from ._minexponent import MinexponentValidator
     from ._linewidth import LinewidthValidator
     from ._linecolor import LinecolorValidator
     from ._hoverformat import HoverformatValidator
@@ -54,6 +55,7 @@ if sys.version_info < (3, 7):
     from ._categoryarray import CategoryarrayValidator
     from ._calendar import CalendarValidator
     from ._backgroundcolor import BackgroundcolorValidator
+    from ._autotypenumbers import AutotypenumbersValidator
     from ._autorange import AutorangeValidator
 else:
     from _plotly_utils.importers import relative_import
@@ -102,6 +104,7 @@ else:
             "._range.RangeValidator",
             "._nticks.NticksValidator",
             "._mirror.MirrorValidator",
+            "._minexponent.MinexponentValidator",
             "._linewidth.LinewidthValidator",
             "._linecolor.LinecolorValidator",
             "._hoverformat.HoverformatValidator",
@@ -115,6 +118,7 @@ else:
             "._categoryarray.CategoryarrayValidator",
             "._calendar.CalendarValidator",
             "._backgroundcolor.BackgroundcolorValidator",
+            "._autotypenumbers.AutotypenumbersValidator",
             "._autorange.AutorangeValidator",
         ],
     )

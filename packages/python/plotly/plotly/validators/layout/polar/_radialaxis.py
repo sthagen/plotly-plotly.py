@@ -22,6 +22,13 @@ class RadialaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 axis is computed in relation to the input data.
                 See `rangemode` for more info. If `range` is
                 provided, then `autorange` is set to False.
+            autotypenumbers
+                Using "strict" a numeric string in trace data
+                is not converted to a number. Using *convert
+                types* a numeric string in trace data may be
+                treated as a number during automatic axis
+                `type` detection. Defaults to
+                layout.autotypenumbers.
             calendar
                 Sets the calendar system to use for `range` and
                 `tick0` if this is a date axis. This does not
@@ -126,6 +133,10 @@ class RadialaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 Sets the axis line color.
             linewidth
                 Sets the width (in px) of the axis line.
+            minexponent
+                Hide SI prefix for 10^n if |n| is below this
+                number. This only has an effect when
+                `tickformat` is "SI" or "B".
             nticks
                 Specifies the maximum number of ticks for the
                 particular axis. The actual number of ticks
