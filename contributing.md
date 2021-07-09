@@ -28,7 +28,7 @@ the structure of the code and of the repository.
   `update_layout`, `add_trace`, etc.
 
 - [the `plotly.express` module](https://plotly.com/python/plotly-express/) (usually imported as `px`) is a high-level
-  functional API that uses `graph_objects` under the hood. Its code is in `packages/python/plotly/express`.
+  functional API that uses `graph_objects` under the hood. Its code is in `packages/python/plotly/plotly/express`.
   Plotly Express functions
   are designed to be highly consistent with each other, and to do *as little computation
   in Python as possible*, generally concerning themselves with formatting data and creating
@@ -166,19 +166,6 @@ and
 [`pip`](https://pip.pypa.io/en/stable/reference/pip_install/#install-editable)
 documentation on _development mode_.
 
-### ipywidgets development install
-
-Run the following commands in your virtual environment to use the
-development version of `FigureWidget`,
-```bash
-(plotly_dev) $ jupyter nbextension enable --py widgetsnbextension
-(plotly_dev) $ jupyter nbextension install --py --symlink --sys-prefix plotlywidget
-(plotly_dev) $ jupyter nbextension enable --py --sys-prefix plotlywidget
-```
-To make plotly plots show up in JupyterLab, you also need to [install the plotly jupyterlab extensions][plotly-jl].
-
-[plotly-jl]: https://plot.ly/python/getting-started/#jupyterlab-support-python-35
-
 ### Configure black code formatting
 
 This repo uses the [Black](https://black.readthedocs.io/en/stable/) code formatter,
@@ -224,7 +211,7 @@ make that pull request!
 
 
 ## Update to a new version of Plotly.js
-First update the version of the `plotly.js` dependency in `packages/javascript/plotlywidget/package.json`.
+First update the version of the `plotly.js` dependency in `packages/javascript/jupyterlab-plotly/package.json`.
 
 Then run the `updateplotlyjs` command with:
 
@@ -238,12 +225,7 @@ the `plotly/plotly.js` GitHub repository (and place them in
 `plotly/package_data`). It will then regenerate all of the `graph_objs`
 classes based on the new schema.
 
-For dev branches, it is also possible to use `updateplotlyjsdev --devrepo reponame --devbranch branchname` to update to development versions of `plotly.js`. This will fetch the `plotly.js` in the CircleCI artifact of the branch `branchname` of the repo `reponame`. If `--devrepo` or `--devbranch` are omitted, `updateplotlyjsdev` defaults using `plotly/plotly.js` and `master` respectively. For example, to update to a version from a pull request to the `plotly/plotly.js` repo that is numbered 555, run:
-
-```bash
-$ cd packages/python/plotly
-$ python setup.py updateplotlyjsdev --devbranch pull/555
-```
+For dev branches, it is also possible to use `updateplotlyjsdev --devrepo reponame --devbranch branchname` to update to development versions of `plotly.js`. This will fetch the `plotly.js` in the CircleCI artifact of the branch `branchname` of the repo `reponame`. If `--devrepo` or `--devbranch` are omitted, `updateplotlyjsdev` defaults using `plotly/plotly.js` and `master` respectively.
 
 ## Testing
 

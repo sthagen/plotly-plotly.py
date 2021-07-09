@@ -101,10 +101,16 @@ class SurfaceValidator(_plotly_utils.basevalidators.CompoundValidator):
                 information that appear on hover box. Note that
                 this will override `hoverinfo`. Variables are
                 inserted using %{variable}, for example "y:
-                %{y}". Numbers are formatted using d3-format's
-                syntax %{variable:d3-format}, for example
-                "Price: %{y:$.2f}".
-                https://github.com/d3/d3-3.x-api-
+                %{y}" as well as %{xother}, {%_xother},
+                {%_xother_}, {%xother_}. When showing info for
+                several points, "xother" will be added to those
+                with different x positions from the first
+                point. An underscore before or after
+                "(x|y)other" will add a space on that side,
+                only when this field is shown. Numbers are
+                formatted using d3-format's syntax
+                %{variable:d3-format}, for example "Price:
+                %{y:$.2f}". https://github.com/d3/d3-3.x-api-
                 reference/blob/master/Formatting.md#d3_format
                 for details on the formatting syntax. Dates are
                 formatted using d3-time-format's syntax
@@ -144,6 +150,20 @@ class SurfaceValidator(_plotly_utils.basevalidators.CompoundValidator):
                 Sets the legend group for this trace. Traces
                 part of the same legend group hide/show at the
                 same time when toggling legend items.
+            legendgrouptitle
+                :class:`plotly.graph_objects.surface.Legendgrou
+                ptitle` instance or dict with compatible
+                properties
+            legendrank
+                Sets the legend rank for this trace. Items and
+                groups with smaller ranks are presented on
+                top/left side while with `*reversed*
+                `legend.traceorder` they are on bottom/right
+                side. The default legendrank is 1000, so that
+                you can use ranks less than 1000 to place
+                certain items before all unranked items, and
+                ranks greater than 1000 to go after all
+                unranked items.
             lighting
                 :class:`plotly.graph_objects.surface.Lighting`
                 instance or dict with compatible properties
@@ -264,6 +284,22 @@ class SurfaceValidator(_plotly_utils.basevalidators.CompoundValidator):
             xcalendar
                 Sets the calendar system to use with `x` date
                 data.
+            xhoverformat
+                Sets the hover text formatting rulefor `x`
+                using d3 formatting mini-languages which are
+                very similar to those in Python. For numbers,
+                see: https://github.com/d3/d3-3.x-api-
+                reference/blob/master/Formatting.md#d3_format.
+                And for dates see:
+                https://github.com/d3/d3-time-
+                format#locale_format. We add two items to d3's
+                date formatter: "%h" for half of the year as a
+                decimal number as well as "%{n}f" for
+                fractional seconds with n digits. For example,
+                *2016-10-13 09:15:23.456* with tickformat
+                "%H~%M~%S.%2f" would display *09~15~23.46*By
+                default the values are formatted using
+                `xaxis.hoverformat`.
             xsrc
                 Sets the source reference on Chart Studio Cloud
                 for  x .
@@ -272,6 +308,22 @@ class SurfaceValidator(_plotly_utils.basevalidators.CompoundValidator):
             ycalendar
                 Sets the calendar system to use with `y` date
                 data.
+            yhoverformat
+                Sets the hover text formatting rulefor `y`
+                using d3 formatting mini-languages which are
+                very similar to those in Python. For numbers,
+                see: https://github.com/d3/d3-3.x-api-
+                reference/blob/master/Formatting.md#d3_format.
+                And for dates see:
+                https://github.com/d3/d3-time-
+                format#locale_format. We add two items to d3's
+                date formatter: "%h" for half of the year as a
+                decimal number as well as "%{n}f" for
+                fractional seconds with n digits. For example,
+                *2016-10-13 09:15:23.456* with tickformat
+                "%H~%M~%S.%2f" would display *09~15~23.46*By
+                default the values are formatted using
+                `yaxis.hoverformat`.
             ysrc
                 Sets the source reference on Chart Studio Cloud
                 for  y .
@@ -280,6 +332,22 @@ class SurfaceValidator(_plotly_utils.basevalidators.CompoundValidator):
             zcalendar
                 Sets the calendar system to use with `z` date
                 data.
+            zhoverformat
+                Sets the hover text formatting rulefor `z`
+                using d3 formatting mini-languages which are
+                very similar to those in Python. For numbers,
+                see: https://github.com/d3/d3-3.x-api-
+                reference/blob/master/Formatting.md#d3_format.
+                And for dates see:
+                https://github.com/d3/d3-time-
+                format#locale_format. We add two items to d3's
+                date formatter: "%h" for half of the year as a
+                decimal number as well as "%{n}f" for
+                fractional seconds with n digits. For example,
+                *2016-10-13 09:15:23.456* with tickformat
+                "%H~%M~%S.%2f" would display *09~15~23.46*By
+                default the values are formatted using
+                `zaxis.hoverformat`.
             zsrc
                 Sets the source reference on Chart Studio Cloud
                 for  z .

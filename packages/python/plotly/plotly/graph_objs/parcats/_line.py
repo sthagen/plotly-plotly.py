@@ -370,14 +370,15 @@ class Line(_BaseTraceHierarchyType):
                     formatting mini-languages which are very
                     similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
+                    reference/blob/master/Formatting.md#d3_format.
                     And for dates see:
                     https://github.com/d3/d3-time-
-                    format#locale_format We add one item to d3's
-                    date formatter: "%{n}f" for fractional seconds
-                    with n digits. For example, *2016-10-13
-                    09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                    would display "09~15~23.46"
+                    format#locale_format. We add two items to d3's
+                    date formatter: "%h" for half of the year as a
+                    decimal number as well as "%{n}f" for
+                    fractional seconds with n digits. For example,
+                    *2016-10-13 09:15:23.456* with tickformat
+                    "%H~%M~%S.%2f" would display "09~15~23.46"
                 tickformatstops
                     A tuple of :class:`plotly.graph_objects.parcats
                     .line.colorbar.Tickformatstop` instances or
@@ -388,6 +389,12 @@ class Line(_BaseTraceHierarchyType):
                     , sets the default property values to use for
                     elements of
                     parcats.line.colorbar.tickformatstops
+                ticklabeloverflow
+                    Determines how we handle tick labels that would
+                    overflow either the graph div or the domain of
+                    the axis. The default value for inside tick
+                    labels is *hide past domain*. In other cases
+                    the default is *hide past div*.
                 ticklabelposition
                     Determines where tick labels are drawn.
                 ticklen
@@ -559,10 +566,14 @@ class Line(_BaseTraceHierarchyType):
         """
         Template string used for rendering the information that appear
         on hover box. Note that this will override `hoverinfo`.
-        Variables are inserted using %{variable}, for example "y:
-        %{y}". Numbers are formatted using d3-format's syntax
-        %{variable:d3-format}, for example "Price: %{y:$.2f}".
-        https://github.com/d3/d3-3.x-api-
+        Variables are inserted using %{variable}, for example "y: %{y}"
+        as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When
+        showing info for several points, "xother" will be added to
+        those with different x positions from the first point. An
+        underscore before or after "(x|y)other" will add a space on
+        that side, only when this field is shown. Numbers are formatted
+        using d3-format's syntax %{variable:d3-format}, for example
+        "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
         the formatting syntax. Dates are formatted using d3-time-
         format's syntax %{variable|d3-time-format}, for example "Day:
@@ -735,9 +746,15 @@ class Line(_BaseTraceHierarchyType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -867,9 +884,15 @@ class Line(_BaseTraceHierarchyType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-

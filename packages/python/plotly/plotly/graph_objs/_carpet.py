@@ -27,6 +27,8 @@ class Carpet(_BaseTraceType):
         "font",
         "ids",
         "idssrc",
+        "legendgrouptitle",
+        "legendrank",
         "meta",
         "metasrc",
         "name",
@@ -264,12 +266,15 @@ class Carpet(_BaseTraceType):
                     formatting mini-languages which are very
                     similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:  We add one item to d3's
-                    date formatter: "%{n}f" for fractional seconds
-                    with n digits. For example, *2016-10-13
-                    09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                    would display "09~15~23.46"
+                    reference/blob/master/Formatting.md#d3_format.
+                    And for dates see:
+                    https://github.com/d3/d3-time-
+                    format#locale_format. We add two items to d3's
+                    date formatter: "%h" for half of the year as a
+                    decimal number as well as "%{n}f" for
+                    fractional seconds with n digits. For example,
+                    *2016-10-13 09:15:23.456* with tickformat
+                    "%H~%M~%S.%2f" would display "09~15~23.46"
                 tickformatstops
                     A tuple of :class:`plotly.graph_objects.carpet.
                     aaxis.Tickformatstop` instances or dicts with
@@ -571,12 +576,15 @@ class Carpet(_BaseTraceType):
                     formatting mini-languages which are very
                     similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
-                    And for dates see:  We add one item to d3's
-                    date formatter: "%{n}f" for fractional seconds
-                    with n digits. For example, *2016-10-13
-                    09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                    would display "09~15~23.46"
+                    reference/blob/master/Formatting.md#d3_format.
+                    And for dates see:
+                    https://github.com/d3/d3-time-
+                    format#locale_format. We add two items to d3's
+                    date formatter: "%h" for half of the year as a
+                    decimal number as well as "%{n}f" for
+                    fractional seconds with n digits. For example,
+                    *2016-10-13 09:15:23.456* with tickformat
+                    "%H~%M~%S.%2f" would display "09~15~23.46"
                 tickformatstops
                     A tuple of :class:`plotly.graph_objects.carpet.
                     baxis.Tickformatstop` instances or dicts with
@@ -935,6 +943,59 @@ class Carpet(_BaseTraceType):
     @idssrc.setter
     def idssrc(self, val):
         self["idssrc"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.carpet.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.carpet.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # meta
     # ----
@@ -1340,6 +1401,17 @@ class Carpet(_BaseTraceType):
         idssrc
             Sets the source reference on Chart Studio Cloud for
             ids .
+        legendgrouptitle
+            :class:`plotly.graph_objects.carpet.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         meta
             Assigns extra meta information associated with this
             trace that can be used in various text attributes.
@@ -1437,6 +1509,8 @@ class Carpet(_BaseTraceType):
         font=None,
         ids=None,
         idssrc=None,
+        legendgrouptitle=None,
+        legendrank=None,
         meta=None,
         metasrc=None,
         name=None,
@@ -1528,6 +1602,17 @@ class Carpet(_BaseTraceType):
         idssrc
             Sets the source reference on Chart Studio Cloud for
             ids .
+        legendgrouptitle
+            :class:`plotly.graph_objects.carpet.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         meta
             Assigns extra meta information associated with this
             trace that can be used in various text attributes.
@@ -1708,6 +1793,14 @@ an instance of :class:`plotly.graph_objs.Carpet`"""
         _v = idssrc if idssrc is not None else _v
         if _v is not None:
             self["idssrc"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("meta", None)
         _v = meta if meta is not None else _v
         if _v is not None:

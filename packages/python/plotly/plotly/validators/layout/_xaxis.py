@@ -142,14 +142,15 @@ class XaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 formatting mini-languages which are very
                 similar to those in Python. For numbers, see:
                 https://github.com/d3/d3-3.x-api-
-                reference/blob/master/Formatting.md#d3_format
+                reference/blob/master/Formatting.md#d3_format.
                 And for dates see:
                 https://github.com/d3/d3-time-
-                format#locale_format We add one item to d3's
-                date formatter: "%{n}f" for fractional seconds
-                with n digits. For example, *2016-10-13
-                09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                would display "09~15~23.46"
+                format#locale_format. We add two items to d3's
+                date formatter: "%h" for half of the year as a
+                decimal number as well as "%{n}f" for
+                fractional seconds with n digits. For example,
+                *2016-10-13 09:15:23.456* with tickformat
+                "%H~%M~%S.%2f" would display "09~15~23.46"
             layer
                 Sets the layer on which this axis is displayed.
                 If *above traces*, this axis is displayed above
@@ -356,14 +357,15 @@ class XaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 formatting mini-languages which are very
                 similar to those in Python. For numbers, see:
                 https://github.com/d3/d3-3.x-api-
-                reference/blob/master/Formatting.md#d3_format
+                reference/blob/master/Formatting.md#d3_format.
                 And for dates see:
                 https://github.com/d3/d3-time-
-                format#locale_format We add one item to d3's
-                date formatter: "%{n}f" for fractional seconds
-                with n digits. For example, *2016-10-13
-                09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                would display "09~15~23.46"
+                format#locale_format. We add two items to d3's
+                date formatter: "%h" for half of the year as a
+                decimal number as well as "%{n}f" for
+                fractional seconds with n digits. For example,
+                *2016-10-13 09:15:23.456* with tickformat
+                "%H~%M~%S.%2f" would display "09~15~23.46"
             tickformatstops
                 A tuple of :class:`plotly.graph_objects.layout.
                 xaxis.Tickformatstop` instances or dicts with
@@ -380,6 +382,14 @@ class XaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 "date" When set to "period", tick labels are
                 drawn in the middle of the period between
                 ticks.
+            ticklabeloverflow
+                Determines how we handle tick labels that would
+                overflow either the graph div or the domain of
+                the axis. The default value for inside tick
+                labels is *hide past domain*. Otherwise on
+                "category" and "multicategory" axes the default
+                is "allow". In other cases the default is *hide
+                past div*.
             ticklabelposition
                 Determines where tick labels are drawn with
                 respect to the axis Please note that top or

@@ -19,6 +19,8 @@ class Pointcloud(_BaseTraceType):
         "indices",
         "indicessrc",
         "legendgroup",
+        "legendgrouptitle",
+        "legendrank",
         "marker",
         "meta",
         "metasrc",
@@ -306,6 +308,59 @@ class Pointcloud(_BaseTraceType):
     @legendgroup.setter
     def legendgroup(self, val):
         self["legendgroup"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.pointcloud.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.pointcloud.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # marker
     # ------
@@ -941,6 +996,17 @@ class Pointcloud(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.pointcloud.Legendgrouptitl
+            e` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.pointcloud.Marker`
             instance or dict with compatible properties
@@ -1068,6 +1134,8 @@ class Pointcloud(_BaseTraceType):
         indices=None,
         indicessrc=None,
         legendgroup=None,
+        legendgrouptitle=None,
+        legendrank=None,
         marker=None,
         meta=None,
         metasrc=None,
@@ -1097,8 +1165,9 @@ class Pointcloud(_BaseTraceType):
         """
         Construct a new Pointcloud object
         
-        The data visualized as a point cloud set in `x` and `y` using
-        the WebGl plotting engine.
+        "pointcloud" trace is deprecated! Please consider switching to
+        the "scattergl" trace type. The data visualized as a point
+        cloud set in `x` and `y` using the WebGl plotting engine.
 
         Parameters
         ----------
@@ -1147,6 +1216,17 @@ class Pointcloud(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.pointcloud.Legendgrouptitl
+            e` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.pointcloud.Marker`
             instance or dict with compatible properties
@@ -1333,6 +1413,14 @@ an instance of :class:`plotly.graph_objs.Pointcloud`"""
         _v = legendgroup if legendgroup is not None else _v
         if _v is not None:
             self["legendgroup"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("marker", None)
         _v = marker if marker is not None else _v
         if _v is not None:

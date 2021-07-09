@@ -2,11 +2,13 @@ import sys
 
 if sys.version_info < (3, 7):
     from ._ysrc import YsrcValidator
+    from ._yhoverformat import YhoverformatValidator
     from ._ycalendar import YcalendarValidator
     from ._ybins import YbinsValidator
     from ._yaxis import YaxisValidator
     from ._y import YValidator
     from ._xsrc import XsrcValidator
+    from ._xhoverformat import XhoverformatValidator
     from ._xcalendar import XcalendarValidator
     from ._xbins import XbinsValidator
     from ._xaxis import XaxisValidator
@@ -30,6 +32,8 @@ if sys.version_info < (3, 7):
     from ._metasrc import MetasrcValidator
     from ._meta import MetaValidator
     from ._marker import MarkerValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._legendgroup import LegendgroupValidator
     from ._idssrc import IdssrcValidator
     from ._ids import IdsValidator
@@ -59,11 +63,13 @@ else:
         [],
         [
             "._ysrc.YsrcValidator",
+            "._yhoverformat.YhoverformatValidator",
             "._ycalendar.YcalendarValidator",
             "._ybins.YbinsValidator",
             "._yaxis.YaxisValidator",
             "._y.YValidator",
             "._xsrc.XsrcValidator",
+            "._xhoverformat.XhoverformatValidator",
             "._xcalendar.XcalendarValidator",
             "._xbins.XbinsValidator",
             "._xaxis.XaxisValidator",
@@ -87,6 +93,8 @@ else:
             "._metasrc.MetasrcValidator",
             "._meta.MetaValidator",
             "._marker.MarkerValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._legendgroup.LegendgroupValidator",
             "._idssrc.IdssrcValidator",
             "._ids.IdsValidator",

@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.2'
-      jupytext_version: 1.6.0
+      jupytext_version: 1.4.2
   kernelspec:
     display_name: Python 3
     language: python
@@ -59,7 +59,7 @@ Plotly Express currently includes the following functions:
 The Plotly Express API in general offers the following features:
 
 * **A single entry point into `plotly`**: just `import plotly.express as px` and get access to [all the plotting functions](https://plotly.com/python-api-reference/plotly.express.html), plus [built-in demo datasets under `px.data`](https://plotly.com/python-api-reference/generated/plotly.data.html#module-plotly.data) and [built-in color scales and sequences under `px.color`](https://plotly.com/python-api-reference/generated/plotly.colors.html#module-plotly.colors). Every PX function returns a `plotly.graph_objects.Figure` object, so you can edit it using all the same methods like [`update_layout` and `add_trace`](https://plotly.com/python/creating-and-updating-figures/#updating-figures).
-* **Sensible, Overrideable Defaults**: PX functions will infer sensible defaults wherever possible, and will always let you override them.
+* **Sensible, Overridable Defaults**: PX functions will infer sensible defaults wherever possible, and will always let you override them.
 * **Flexible Input Formats**: PX functions [accept input in a variety of formats](/python/px-arguments/), from `list`s and `dict`s to [long-form or wide-form Pandas `DataFrame`s](/python/wide-form/) to [`numpy` arrays and `xarrays`](/python/imshow/) to [GeoPandas `GeoDataFrames`](/python/maps/).
 * **Automatic Trace and Layout configuration**: PX functions will create one [trace](/python/figure-structure) per animation frame for each unique combination of data values mapped to discrete color, symbol, line-dash, facet-row and/or facet-column. Traces' `legendgroup` and `showlegend` attributed are set such that only one legend item appears per unique combination of discrete color, symbol and/or line-dash. Traces are automatically linked to a correctly-configured [subplot of the appropriate type](/python/figure-structure).
 * **Automatic Figure Labelling**: PX functions label axes, legends and colorbars based in the input `DataFrame` or `xarray`, and provide [extra control with the `labels` argument](/python/styling-plotly-express/).
@@ -127,6 +127,15 @@ fig.show()
 import plotly.express as px
 df = px.data.tips()
 fig = px.bar(df, x="sex", y="total_bill", color="smoker", barmode="group")
+fig.show()
+```
+
+```python
+import plotly.express as px
+df = px.data.medals_long()
+
+fig = px.bar(df, x="medal", y="count", color="nation", 
+             pattern_shape="nation", pattern_shape_sequence=[".", "x", "+"])
 fig.show()
 ```
 
@@ -239,6 +248,17 @@ import plotly.express as px
 import numpy as np
 df = px.data.gapminder().query("year == 2007")
 fig = px.treemap(df, path=[px.Constant('world'), 'continent', 'country'], values='pop',
+                  color='lifeExp', hover_data=['iso_alpha'])
+fig.show()
+```
+
+**Read more about [treemaps](/python/icicle-charts/).**
+
+```python
+import plotly.express as px
+import numpy as np
+df = px.data.gapminder().query("year == 2007")
+fig = px.icicle(df, path=[px.Constant('world'), 'continent', 'country'], values='pop',
                   color='lifeExp', hover_data=['iso_alpha'])
 fig.show()
 ```

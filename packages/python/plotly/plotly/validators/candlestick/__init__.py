@@ -1,11 +1,13 @@
 import sys
 
 if sys.version_info < (3, 7):
+    from ._yhoverformat import YhoverformatValidator
     from ._yaxis import YaxisValidator
     from ._xsrc import XsrcValidator
     from ._xperiodalignment import XperiodalignmentValidator
     from ._xperiod0 import Xperiod0Validator
     from ._xperiod import XperiodValidator
+    from ._xhoverformat import XhoverformatValidator
     from ._xcalendar import XcalendarValidator
     from ._xaxis import XaxisValidator
     from ._x import XValidator
@@ -27,6 +29,8 @@ if sys.version_info < (3, 7):
     from ._lowsrc import LowsrcValidator
     from ._low import LowValidator
     from ._line import LineValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._legendgroup import LegendgroupValidator
     from ._increasing import IncreasingValidator
     from ._idssrc import IdssrcValidator
@@ -50,11 +54,13 @@ else:
         __name__,
         [],
         [
+            "._yhoverformat.YhoverformatValidator",
             "._yaxis.YaxisValidator",
             "._xsrc.XsrcValidator",
             "._xperiodalignment.XperiodalignmentValidator",
             "._xperiod0.Xperiod0Validator",
             "._xperiod.XperiodValidator",
+            "._xhoverformat.XhoverformatValidator",
             "._xcalendar.XcalendarValidator",
             "._xaxis.XaxisValidator",
             "._x.XValidator",
@@ -76,6 +82,8 @@ else:
             "._lowsrc.LowsrcValidator",
             "._low.LowValidator",
             "._line.LineValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._legendgroup.LegendgroupValidator",
             "._increasing.IncreasingValidator",
             "._idssrc.IdssrcValidator",

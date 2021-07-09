@@ -46,10 +46,16 @@ class ImageValidator(_plotly_utils.basevalidators.CompoundValidator):
                 information that appear on hover box. Note that
                 this will override `hoverinfo`. Variables are
                 inserted using %{variable}, for example "y:
-                %{y}". Numbers are formatted using d3-format's
-                syntax %{variable:d3-format}, for example
-                "Price: %{y:$.2f}".
-                https://github.com/d3/d3-3.x-api-
+                %{y}" as well as %{xother}, {%_xother},
+                {%_xother_}, {%xother_}. When showing info for
+                several points, "xother" will be added to those
+                with different x positions from the first
+                point. An underscore before or after
+                "(x|y)other" will add a space on that side,
+                only when this field is shown. Numbers are
+                formatted using d3-format's syntax
+                %{variable:d3-format}, for example "Price:
+                %{y:$.2f}". https://github.com/d3/d3-3.x-api-
                 reference/blob/master/Formatting.md#d3_format
                 for details on the formatting syntax. Dates are
                 formatted using d3-time-format's syntax
@@ -86,6 +92,20 @@ class ImageValidator(_plotly_utils.basevalidators.CompoundValidator):
             idssrc
                 Sets the source reference on Chart Studio Cloud
                 for  ids .
+            legendgrouptitle
+                :class:`plotly.graph_objects.image.Legendgroupt
+                itle` instance or dict with compatible
+                properties
+            legendrank
+                Sets the legend rank for this trace. Items and
+                groups with smaller ranks are presented on
+                top/left side while with `*reversed*
+                `legend.traceorder` they are on bottom/right
+                side. The default legendrank is 1000, so that
+                you can use ranks less than 1000 to place
+                certain items before all unranked items, and
+                ranks greater than 1000 to go after all
+                unranked items.
             meta
                 Assigns extra meta information associated with
                 this trace that can be used in various text
@@ -191,6 +211,10 @@ class ImageValidator(_plotly_utils.basevalidators.CompoundValidator):
                 `rgba256` colormodel, it is [0, 0, 0, 0]. For
                 the `hsl` colormodel, it is [0, 0, 0]. For the
                 `hsla` colormodel, it is [0, 0, 0, 0].
+            zsmooth
+                Picks a smoothing algorithm used to smooth `z`
+                data. This only applies for image traces that
+                use the `source` attribute.
             zsrc
                 Sets the source reference on Chart Studio Cloud
                 for  z .

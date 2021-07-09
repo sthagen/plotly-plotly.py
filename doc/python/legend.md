@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.2'
-      jupytext_version: 1.6.0
+      jupytext_version: 1.4.2
   kernelspec:
     display_name: Python 3
     language: python
@@ -20,7 +20,7 @@ jupyter:
     name: python
     nbconvert_exporter: python
     pygments_lexer: ipython3
-    version: 3.7.6
+    version: 3.7.7
   plotly:
     description: How to configure and style the legend in Plotly with Python.
     display_as: file_settings
@@ -97,6 +97,23 @@ fig.add_trace(go.Bar(name="fourth", x=["a", "b"], y=[2,1]))
 fig.show()
 ```
 
+*New in v5.0*
+
+The `legendrank` attribute of a trace can be used to control its placement within the legend, without regard for its placement in the `data` list. 
+
+The default `legendrank` for traces is 1000 and ties are broken as described above, meaning that any trace can be pulled up to the top if it is the only one with a legend rank less than 1000 and pushed to the bottom if it is the only one with a rank greater than 1000.
+
+```python
+import plotly.graph_objects as go
+
+fig = go.Figure()
+fig.add_trace(go.Bar(name="fourth", x=["a", "b"], y=[2,1], legendrank=4))
+fig.add_trace(go.Bar(name="second", x=["a", "b"], y=[2,1], legendrank=2))
+fig.add_trace(go.Bar(name="first", x=["a", "b"], y=[1,2], legendrank=1))
+fig.add_trace(go.Bar(name="third", x=["a", "b"], y=[1,2], legendrank=3))
+fig.show()
+```
+
 #### Showing and Hiding the Legend
 
 By default the legend is displayed on Plotly charts with multiple traces, and this can be explicitly set with the `layout.showlegend` attribute:
@@ -114,7 +131,7 @@ fig.show()
 
 ### Legend Positioning
 
-Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates](/python/figure-structure/). Note that the plot margins will grow so as to accomodate the legend. The legend may also be placed within the plotting area.
+Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates](/python/figure-structure/). Note that the plot margins will grow so as to accommodate the legend. The legend may also be placed within the plotting area.
 
 ```python
 import plotly.express as px
@@ -329,7 +346,7 @@ fig.show()
 
 #### Grouped Legend Items
 
-Grouping legend items together by setting the `legendgroup` attribute of traces causes their legend entries to be next to each other, and clicking on any legend entry in the group will show or hide the whole group.
+Grouping legend items together by setting the `legendgroup` attribute of traces causes their legend entries to be next to each other, and clicking on any legend entry in the group will show or hide the whole group. The `legendgrouptitle` attribute can be used to give titles to groups.
 
 ```python
 import plotly.graph_objects as go
@@ -340,6 +357,7 @@ fig.add_trace(go.Scatter(
     x=[1, 2, 3],
     y=[2, 1, 3],
     legendgroup="group",  # this can be any string, not just "group"
+    legendgrouptitle_text="First Group Title",
     name="first legend group",
     mode="markers",
     marker=dict(color="Crimson", size=10)
@@ -358,6 +376,7 @@ fig.add_trace(go.Scatter(
     x=[1, 2, 3],
     y=[4, 9, 2],
     legendgroup="group2",
+    legendgrouptitle_text="Second Group Title",
     name="second legend group",
     mode="markers",
     marker=dict(color="MediumPurple", size=10)

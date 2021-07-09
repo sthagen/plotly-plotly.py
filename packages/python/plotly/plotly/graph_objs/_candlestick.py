@@ -25,6 +25,8 @@ class Candlestick(_BaseTraceType):
         "idssrc",
         "increasing",
         "legendgroup",
+        "legendgrouptitle",
+        "legendrank",
         "line",
         "low",
         "lowsrc",
@@ -47,11 +49,13 @@ class Candlestick(_BaseTraceType):
         "x",
         "xaxis",
         "xcalendar",
+        "xhoverformat",
         "xperiod",
         "xperiod0",
         "xperiodalignment",
         "xsrc",
         "yaxis",
+        "yhoverformat",
     }
 
     # close
@@ -460,6 +464,59 @@ class Candlestick(_BaseTraceType):
     @legendgroup.setter
     def legendgroup(self, val):
         self["legendgroup"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.candlestick.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.candlestick.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # line
     # ----
@@ -953,6 +1010,36 @@ class Candlestick(_BaseTraceType):
     def xcalendar(self, val):
         self["xcalendar"] = val
 
+    # xhoverformat
+    # ------------
+    @property
+    def xhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `x`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `xaxis.hoverformat`.
+    
+        The 'xhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["xhoverformat"]
+
+    @xhoverformat.setter
+    def xhoverformat(self, val):
+        self["xhoverformat"] = val
+
     # xperiod
     # -------
     @property
@@ -1065,6 +1152,36 @@ class Candlestick(_BaseTraceType):
     def yaxis(self, val):
         self["yaxis"] = val
 
+    # yhoverformat
+    # ------------
+    @property
+    def yhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `y`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `yaxis.hoverformat`.
+    
+        The 'yhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["yhoverformat"]
+
+    @yhoverformat.setter
+    def yhoverformat(self, val):
+        self["yhoverformat"] = val
+
     # type
     # ----
     @property
@@ -1127,6 +1244,17 @@ class Candlestick(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.candlestick.Legendgrouptit
+            le` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         line
             :class:`plotly.graph_objects.candlestick.Line` instance
             or dict with compatible properties
@@ -1223,6 +1351,20 @@ class Candlestick(_BaseTraceType):
             coordinates refer to `layout.xaxis2`, and so on.
         xcalendar
             Sets the calendar system to use with `x` date data.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the x
@@ -1247,6 +1389,20 @@ class Candlestick(_BaseTraceType):
             a 2D cartesian y axis. If "y" (the default value), the
             y coordinates refer to `layout.yaxis`. If "y2", the y
             coordinates refer to `layout.yaxis2`, and so on.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
         """
 
     def __init__(
@@ -1268,6 +1424,8 @@ class Candlestick(_BaseTraceType):
         idssrc=None,
         increasing=None,
         legendgroup=None,
+        legendgrouptitle=None,
+        legendrank=None,
         line=None,
         low=None,
         lowsrc=None,
@@ -1289,11 +1447,13 @@ class Candlestick(_BaseTraceType):
         x=None,
         xaxis=None,
         xcalendar=None,
+        xhoverformat=None,
         xperiod=None,
         xperiod0=None,
         xperiodalignment=None,
         xsrc=None,
         yaxis=None,
+        yhoverformat=None,
         **kwargs
     ):
         """
@@ -1364,6 +1524,17 @@ class Candlestick(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.candlestick.Legendgrouptit
+            le` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         line
             :class:`plotly.graph_objects.candlestick.Line` instance
             or dict with compatible properties
@@ -1460,6 +1631,20 @@ class Candlestick(_BaseTraceType):
             coordinates refer to `layout.xaxis2`, and so on.
         xcalendar
             Sets the calendar system to use with `x` date data.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the x
@@ -1484,6 +1669,20 @@ class Candlestick(_BaseTraceType):
             a 2D cartesian y axis. If "y" (the default value), the
             y coordinates refer to `layout.yaxis`. If "y2", the y
             coordinates refer to `layout.yaxis2`, and so on.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
 
         Returns
         -------
@@ -1582,6 +1781,14 @@ an instance of :class:`plotly.graph_objs.Candlestick`"""
         _v = legendgroup if legendgroup is not None else _v
         if _v is not None:
             self["legendgroup"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("line", None)
         _v = line if line is not None else _v
         if _v is not None:
@@ -1666,6 +1873,10 @@ an instance of :class:`plotly.graph_objs.Candlestick`"""
         _v = xcalendar if xcalendar is not None else _v
         if _v is not None:
             self["xcalendar"] = _v
+        _v = arg.pop("xhoverformat", None)
+        _v = xhoverformat if xhoverformat is not None else _v
+        if _v is not None:
+            self["xhoverformat"] = _v
         _v = arg.pop("xperiod", None)
         _v = xperiod if xperiod is not None else _v
         if _v is not None:
@@ -1686,6 +1897,10 @@ an instance of :class:`plotly.graph_objs.Candlestick`"""
         _v = yaxis if yaxis is not None else _v
         if _v is not None:
             self["yaxis"] = _v
+        _v = arg.pop("yhoverformat", None)
+        _v = yhoverformat if yhoverformat is not None else _v
+        if _v is not None:
+            self["yhoverformat"] = _v
 
         # Read-only literals
         # ------------------

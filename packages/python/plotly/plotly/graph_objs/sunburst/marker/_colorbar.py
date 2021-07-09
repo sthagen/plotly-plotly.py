@@ -34,6 +34,7 @@ class ColorBar(_BaseTraceHierarchyType):
         "tickformat",
         "tickformatstopdefaults",
         "tickformatstops",
+        "ticklabeloverflow",
         "ticklabelposition",
         "ticklen",
         "tickmode",
@@ -743,10 +744,11 @@ class ColorBar(_BaseTraceHierarchyType):
         Sets the tick label formatting rule using d3 formatting mini-
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-time-format#locale_format We add
-        one item to d3's date formatter: "%{n}f" for fractional seconds
-        with n digits. For example, *2016-10-13 09:15:23.456* with
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
         tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'tickformat' property is a string and must be specified as:
@@ -847,6 +849,30 @@ class ColorBar(_BaseTraceHierarchyType):
     @tickformatstopdefaults.setter
     def tickformatstopdefaults(self, val):
         self["tickformatstopdefaults"] = val
+
+    # ticklabeloverflow
+    # -----------------
+    @property
+    def ticklabeloverflow(self):
+        """
+        Determines how we handle tick labels that would overflow either
+        the graph div or the domain of the axis. The default value for
+        inside tick labels is *hide past domain*. In other cases the
+        default is *hide past div*.
+    
+        The 'ticklabeloverflow' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['allow', 'hide past div', 'hide past domain']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticklabeloverflow"]
+
+    @ticklabeloverflow.setter
+    def ticklabeloverflow(self, val):
+        self["ticklabeloverflow"] = val
 
     # ticklabelposition
     # -----------------
@@ -1436,10 +1462,11 @@ class ColorBar(_BaseTraceHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
@@ -1451,6 +1478,12 @@ class ColorBar(_BaseTraceHierarchyType):
             st.marker.colorbar.tickformatstopdefaults), sets the
             default property values to use for elements of
             sunburst.marker.colorbar.tickformatstops
+        ticklabeloverflow
+            Determines how we handle tick labels that would
+            overflow either the graph div or the domain of the
+            axis. The default value for inside tick labels is *hide
+            past domain*. In other cases the default is *hide past
+            div*.
         ticklabelposition
             Determines where tick labels are drawn.
         ticklen
@@ -1557,6 +1590,7 @@ class ColorBar(_BaseTraceHierarchyType):
         tickformat=None,
         tickformatstops=None,
         tickformatstopdefaults=None,
+        ticklabeloverflow=None,
         ticklabelposition=None,
         ticklen=None,
         tickmode=None,
@@ -1696,10 +1730,11 @@ class ColorBar(_BaseTraceHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
@@ -1711,6 +1746,12 @@ class ColorBar(_BaseTraceHierarchyType):
             st.marker.colorbar.tickformatstopdefaults), sets the
             default property values to use for elements of
             sunburst.marker.colorbar.tickformatstops
+        ticklabeloverflow
+            Determines how we handle tick labels that would
+            overflow either the graph div or the domain of the
+            axis. The default value for inside tick labels is *hide
+            past domain*. In other cases the default is *hide past
+            div*.
         ticklabelposition
             Determines where tick labels are drawn.
         ticklen
@@ -1916,6 +1957,10 @@ an instance of :class:`plotly.graph_objs.sunburst.marker.ColorBar`"""
         _v = tickformatstopdefaults if tickformatstopdefaults is not None else _v
         if _v is not None:
             self["tickformatstopdefaults"] = _v
+        _v = arg.pop("ticklabeloverflow", None)
+        _v = ticklabeloverflow if ticklabeloverflow is not None else _v
+        if _v is not None:
+            self["ticklabeloverflow"] = _v
         _v = arg.pop("ticklabelposition", None)
         _v = ticklabelposition if ticklabelposition is not None else _v
         if _v is not None:

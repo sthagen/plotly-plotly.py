@@ -28,6 +28,8 @@ if sys.version_info < (3, 7):
     from ._maxdepth import MaxdepthValidator
     from ._marker import MarkerValidator
     from ._level import LevelValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._labelssrc import LabelssrcValidator
     from ._labels import LabelsValidator
     from ._insidetextfont import InsidetextfontValidator
@@ -79,6 +81,8 @@ else:
             "._maxdepth.MaxdepthValidator",
             "._marker.MarkerValidator",
             "._level.LevelValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._labelssrc.LabelssrcValidator",
             "._labels.LabelsValidator",
             "._insidetextfont.InsidetextfontValidator",

@@ -9,12 +9,14 @@ if sys.version_info < (3, 7):
     from ._zauto import ZautoValidator
     from ._z import ZValidator
     from ._ysrc import YsrcValidator
+    from ._yhoverformat import YhoverformatValidator
     from ._ycalendar import YcalendarValidator
     from ._ybins import YbinsValidator
     from ._ybingroup import YbingroupValidator
     from ._yaxis import YaxisValidator
     from ._y import YValidator
     from ._xsrc import XsrcValidator
+    from ._xhoverformat import XhoverformatValidator
     from ._xcalendar import XcalendarValidator
     from ._xbins import XbinsValidator
     from ._xbingroup import XbingroupValidator
@@ -36,6 +38,8 @@ if sys.version_info < (3, 7):
     from ._meta import MetaValidator
     from ._marker import MarkerValidator
     from ._line import LineValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._legendgroup import LegendgroupValidator
     from ._idssrc import IdssrcValidator
     from ._ids import IdsValidator
@@ -72,12 +76,14 @@ else:
             "._zauto.ZautoValidator",
             "._z.ZValidator",
             "._ysrc.YsrcValidator",
+            "._yhoverformat.YhoverformatValidator",
             "._ycalendar.YcalendarValidator",
             "._ybins.YbinsValidator",
             "._ybingroup.YbingroupValidator",
             "._yaxis.YaxisValidator",
             "._y.YValidator",
             "._xsrc.XsrcValidator",
+            "._xhoverformat.XhoverformatValidator",
             "._xcalendar.XcalendarValidator",
             "._xbins.XbinsValidator",
             "._xbingroup.XbingroupValidator",
@@ -99,6 +105,8 @@ else:
             "._meta.MetaValidator",
             "._marker.MarkerValidator",
             "._line.LineValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._legendgroup.LegendgroupValidator",
             "._idssrc.IdssrcValidator",
             "._ids.IdsValidator",

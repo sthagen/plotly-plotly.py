@@ -29,6 +29,8 @@ class Funnel(_BaseTraceType):
         "insidetextanchor",
         "insidetextfont",
         "legendgroup",
+        "legendgrouptitle",
+        "legendrank",
         "marker",
         "meta",
         "metasrc",
@@ -58,6 +60,7 @@ class Funnel(_BaseTraceType):
         "x",
         "x0",
         "xaxis",
+        "xhoverformat",
         "xperiod",
         "xperiod0",
         "xperiodalignment",
@@ -65,6 +68,7 @@ class Funnel(_BaseTraceType):
         "y",
         "y0",
         "yaxis",
+        "yhoverformat",
         "yperiod",
         "yperiod0",
         "yperiodalignment",
@@ -369,10 +373,14 @@ class Funnel(_BaseTraceType):
         """
         Template string used for rendering the information that appear
         on hover box. Note that this will override `hoverinfo`.
-        Variables are inserted using %{variable}, for example "y:
-        %{y}". Numbers are formatted using d3-format's syntax
-        %{variable:d3-format}, for example "Price: %{y:$.2f}".
-        https://github.com/d3/d3-3.x-api-
+        Variables are inserted using %{variable}, for example "y: %{y}"
+        as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When
+        showing info for several points, "xother" will be added to
+        those with different x positions from the first point. An
+        underscore before or after "(x|y)other" will add a space on
+        that side, only when this field is shown. Numbers are formatted
+        using d3-format's syntax %{variable:d3-format}, for example
+        "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
         the formatting syntax. Dates are formatted using d3-time-
         format's syntax %{variable|d3-time-format}, for example "Day:
@@ -614,6 +622,59 @@ class Funnel(_BaseTraceType):
     @legendgroup.setter
     def legendgroup(self, val):
         self["legendgroup"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.funnel.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.funnel.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # marker
     # ------
@@ -1173,7 +1234,8 @@ class Funnel(_BaseTraceType):
         if needed), unless there is another bar stacked on this one,
         then the text gets pushed inside. "auto" tries to position
         `text` inside the bar, but if the bar is too small and no bar
-        is stacked on this one the text is moved outside.
+        is stacked on this one the text is moved outside. If "none", no
+        text appears.
     
         The 'textposition' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -1451,6 +1513,36 @@ class Funnel(_BaseTraceType):
     def xaxis(self, val):
         self["xaxis"] = val
 
+    # xhoverformat
+    # ------------
+    @property
+    def xhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `x`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `xaxis.hoverformat`.
+    
+        The 'xhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["xhoverformat"]
+
+    @xhoverformat.setter
+    def xhoverformat(self, val):
+        self["xhoverformat"] = val
+
     # xperiod
     # -------
     @property
@@ -1604,6 +1696,36 @@ class Funnel(_BaseTraceType):
     def yaxis(self, val):
         self["yaxis"] = val
 
+    # yhoverformat
+    # ------------
+    @property
+    def yhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `y`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `yaxis.hoverformat`.
+    
+        The 'yhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["yhoverformat"]
+
+    @yhoverformat.setter
+    def yhoverformat(self, val):
+        self["yhoverformat"] = val
+
     # yperiod
     # -------
     @property
@@ -1745,9 +1867,15 @@ class Funnel(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1794,6 +1922,17 @@ class Funnel(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.funnel.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.funnel.Marker` instance or
             dict with compatible properties
@@ -1878,7 +2017,8 @@ class Funnel(_BaseTraceType):
             there is another bar stacked on this one, then the text
             gets pushed inside. "auto" tries to position `text`
             inside the bar, but if the bar is too small and no bar
-            is stacked on this one the text is moved outside.
+            is stacked on this one the text is moved outside. If
+            "none", no text appears.
         textpositionsrc
             Sets the source reference on Chart Studio Cloud for
             textposition .
@@ -1945,6 +2085,20 @@ class Funnel(_BaseTraceType):
             a 2D cartesian x axis. If "x" (the default value), the
             x coordinates refer to `layout.xaxis`. If "x2", the x
             coordinates refer to `layout.xaxis2`, and so on.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the x
@@ -1975,6 +2129,20 @@ class Funnel(_BaseTraceType):
             a 2D cartesian y axis. If "y" (the default value), the
             y coordinates refer to `layout.yaxis`. If "y2", the y
             coordinates refer to `layout.yaxis2`, and so on.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
         yperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the y
@@ -2019,6 +2187,8 @@ class Funnel(_BaseTraceType):
         insidetextanchor=None,
         insidetextfont=None,
         legendgroup=None,
+        legendgrouptitle=None,
+        legendrank=None,
         marker=None,
         meta=None,
         metasrc=None,
@@ -2047,6 +2217,7 @@ class Funnel(_BaseTraceType):
         x=None,
         x0=None,
         xaxis=None,
+        xhoverformat=None,
         xperiod=None,
         xperiod0=None,
         xperiodalignment=None,
@@ -2054,6 +2225,7 @@ class Funnel(_BaseTraceType):
         y=None,
         y0=None,
         yaxis=None,
+        yhoverformat=None,
         yperiod=None,
         yperiod0=None,
         yperiodalignment=None,
@@ -2118,9 +2290,15 @@ class Funnel(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -2167,6 +2345,17 @@ class Funnel(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.funnel.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.funnel.Marker` instance or
             dict with compatible properties
@@ -2251,7 +2440,8 @@ class Funnel(_BaseTraceType):
             there is another bar stacked on this one, then the text
             gets pushed inside. "auto" tries to position `text`
             inside the bar, but if the bar is too small and no bar
-            is stacked on this one the text is moved outside.
+            is stacked on this one the text is moved outside. If
+            "none", no text appears.
         textpositionsrc
             Sets the source reference on Chart Studio Cloud for
             textposition .
@@ -2318,6 +2508,20 @@ class Funnel(_BaseTraceType):
             a 2D cartesian x axis. If "x" (the default value), the
             x coordinates refer to `layout.xaxis`. If "x2", the x
             coordinates refer to `layout.xaxis2`, and so on.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the x
@@ -2348,6 +2552,20 @@ class Funnel(_BaseTraceType):
             a 2D cartesian y axis. If "y" (the default value), the
             y coordinates refer to `layout.yaxis`. If "y2", the y
             coordinates refer to `layout.yaxis2`, and so on.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
         yperiod
             Only relevant when the axis `type` is "date". Sets the
             period positioning in milliseconds or "M<n>" on the y
@@ -2481,6 +2699,14 @@ an instance of :class:`plotly.graph_objs.Funnel`"""
         _v = legendgroup if legendgroup is not None else _v
         if _v is not None:
             self["legendgroup"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("marker", None)
         _v = marker if marker is not None else _v
         if _v is not None:
@@ -2593,6 +2819,10 @@ an instance of :class:`plotly.graph_objs.Funnel`"""
         _v = xaxis if xaxis is not None else _v
         if _v is not None:
             self["xaxis"] = _v
+        _v = arg.pop("xhoverformat", None)
+        _v = xhoverformat if xhoverformat is not None else _v
+        if _v is not None:
+            self["xhoverformat"] = _v
         _v = arg.pop("xperiod", None)
         _v = xperiod if xperiod is not None else _v
         if _v is not None:
@@ -2621,6 +2851,10 @@ an instance of :class:`plotly.graph_objs.Funnel`"""
         _v = yaxis if yaxis is not None else _v
         if _v is not None:
             self["yaxis"] = _v
+        _v = arg.pop("yhoverformat", None)
+        _v = yhoverformat if yhoverformat is not None else _v
+        if _v is not None:
+            self["yhoverformat"] = _v
         _v = arg.pop("yperiod", None)
         _v = yperiod if yperiod is not None else _v
         if _v is not None:

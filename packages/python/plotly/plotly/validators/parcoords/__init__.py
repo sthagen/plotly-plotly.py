@@ -11,6 +11,8 @@ if sys.version_info < (3, 7):
     from ._metasrc import MetasrcValidator
     from ._meta import MetaValidator
     from ._line import LineValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._labelside import LabelsideValidator
     from ._labelfont import LabelfontValidator
     from ._labelangle import LabelangleValidator
@@ -38,6 +40,8 @@ else:
             "._metasrc.MetasrcValidator",
             "._meta.MetaValidator",
             "._line.LineValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._labelside.LabelsideValidator",
             "._labelfont.LabelfontValidator",
             "._labelangle.LabelangleValidator",

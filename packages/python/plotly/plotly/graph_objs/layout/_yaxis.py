@@ -67,6 +67,7 @@ class YAxis(_BaseLayoutHierarchyType):
         "tickformatstopdefaults",
         "tickformatstops",
         "ticklabelmode",
+        "ticklabeloverflow",
         "ticklabelposition",
         "ticklen",
         "tickmode",
@@ -683,10 +684,11 @@ class YAxis(_BaseLayoutHierarchyType):
         Sets the hover text formatting rule using d3 formatting mini-
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-time-format#locale_format We add
-        one item to d3's date formatter: "%{n}f" for fractional seconds
-        with n digits. For example, *2016-10-13 09:15:23.456* with
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
         tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'hoverformat' property is a string and must be specified as:
@@ -1710,10 +1712,11 @@ class YAxis(_BaseLayoutHierarchyType):
         Sets the tick label formatting rule using d3 formatting mini-
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-time-format#locale_format We add
-        one item to d3's date formatter: "%{n}f" for fractional seconds
-        with n digits. For example, *2016-10-13 09:15:23.456* with
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
         tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'tickformat' property is a string and must be specified as:
@@ -1838,6 +1841,31 @@ class YAxis(_BaseLayoutHierarchyType):
     @ticklabelmode.setter
     def ticklabelmode(self, val):
         self["ticklabelmode"] = val
+
+    # ticklabeloverflow
+    # -----------------
+    @property
+    def ticklabeloverflow(self):
+        """
+        Determines how we handle tick labels that would overflow either
+        the graph div or the domain of the axis. The default value for
+        inside tick labels is *hide past domain*. Otherwise on
+        "category" and "multicategory" axes the default is "allow". In
+        other cases the default is *hide past div*.
+    
+        The 'ticklabeloverflow' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['allow', 'hide past div', 'hide past domain']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticklabeloverflow"]
+
+    @ticklabeloverflow.setter
+    def ticklabeloverflow(self, val):
+        self["ticklabeloverflow"] = val
 
     # ticklabelposition
     # -----------------
@@ -2493,10 +2521,11 @@ class YAxis(_BaseLayoutHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         layer
@@ -2682,10 +2711,11 @@ class YAxis(_BaseLayoutHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
@@ -2703,6 +2733,13 @@ class YAxis(_BaseLayoutHierarchyType):
             effect for axes of `type` "date" When set to "period",
             tick labels are drawn in the middle of the period
             between ticks.
+        ticklabeloverflow
+            Determines how we handle tick labels that would
+            overflow either the graph div or the domain of the
+            axis. The default value for inside tick labels is *hide
+            past domain*. Otherwise on "category" and
+            "multicategory" axes the default is "allow". In other
+            cases the default is *hide past div*.
         ticklabelposition
             Determines where tick labels are drawn with respect to
             the axis Please note that top or bottom has no effect
@@ -2848,6 +2885,7 @@ class YAxis(_BaseLayoutHierarchyType):
         tickformatstops=None,
         tickformatstopdefaults=None,
         ticklabelmode=None,
+        ticklabeloverflow=None,
         ticklabelposition=None,
         ticklen=None,
         tickmode=None,
@@ -2995,10 +3033,11 @@ class YAxis(_BaseLayoutHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         layer
@@ -3184,10 +3223,11 @@ class YAxis(_BaseLayoutHierarchyType):
             mini-languages which are very similar to those in
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Formatting.md#d3_format And for
+            reference/blob/master/Formatting.md#d3_format. And for
             dates see: https://github.com/d3/d3-time-
-            format#locale_format We add one item to d3's date
-            formatter: "%{n}f" for fractional seconds with n
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
             digits. For example, *2016-10-13 09:15:23.456* with
             tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
@@ -3205,6 +3245,13 @@ class YAxis(_BaseLayoutHierarchyType):
             effect for axes of `type` "date" When set to "period",
             tick labels are drawn in the middle of the period
             between ticks.
+        ticklabeloverflow
+            Determines how we handle tick labels that would
+            overflow either the graph div or the domain of the
+            axis. The default value for inside tick labels is *hide
+            past domain*. Otherwise on "category" and
+            "multicategory" axes the default is "allow". In other
+            cases the default is *hide past div*.
         ticklabelposition
             Determines where tick labels are drawn with respect to
             the axis Please note that top or bottom has no effect
@@ -3551,6 +3598,10 @@ an instance of :class:`plotly.graph_objs.layout.YAxis`"""
         _v = ticklabelmode if ticklabelmode is not None else _v
         if _v is not None:
             self["ticklabelmode"] = _v
+        _v = arg.pop("ticklabeloverflow", None)
+        _v = ticklabeloverflow if ticklabeloverflow is not None else _v
+        if _v is not None:
+            self["ticklabeloverflow"] = _v
         _v = arg.pop("ticklabelposition", None)
         _v = ticklabelposition if ticklabelposition is not None else _v
         if _v is not None:

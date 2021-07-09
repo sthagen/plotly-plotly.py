@@ -34,6 +34,8 @@ class Volume(_BaseTraceType):
         "isomax",
         "isomin",
         "legendgroup",
+        "legendgrouptitle",
+        "legendrank",
         "lighting",
         "lightposition",
         "meta",
@@ -55,13 +57,17 @@ class Volume(_BaseTraceType):
         "uid",
         "uirevision",
         "value",
+        "valuehoverformat",
         "valuesrc",
         "visible",
         "x",
+        "xhoverformat",
         "xsrc",
         "y",
+        "yhoverformat",
         "ysrc",
         "z",
+        "zhoverformat",
         "zsrc",
     }
 
@@ -370,14 +376,15 @@ class Volume(_BaseTraceType):
                     formatting mini-languages which are very
                     similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
+                    reference/blob/master/Formatting.md#d3_format.
                     And for dates see:
                     https://github.com/d3/d3-time-
-                    format#locale_format We add one item to d3's
-                    date formatter: "%{n}f" for fractional seconds
-                    with n digits. For example, *2016-10-13
-                    09:15:23.456* with tickformat "%H~%M~%S.%2f"
-                    would display "09~15~23.46"
+                    format#locale_format. We add two items to d3's
+                    date formatter: "%h" for half of the year as a
+                    decimal number as well as "%{n}f" for
+                    fractional seconds with n digits. For example,
+                    *2016-10-13 09:15:23.456* with tickformat
+                    "%H~%M~%S.%2f" would display "09~15~23.46"
                 tickformatstops
                     A tuple of :class:`plotly.graph_objects.volume.
                     colorbar.Tickformatstop` instances or dicts
@@ -387,6 +394,12 @@ class Volume(_BaseTraceType):
                     a.volume.colorbar.tickformatstopdefaults), sets
                     the default property values to use for elements
                     of volume.colorbar.tickformatstops
+                ticklabeloverflow
+                    Determines how we handle tick labels that would
+                    overflow either the graph div or the domain of
+                    the axis. The default value for inside tick
+                    labels is *hide past domain*. In other cases
+                    the default is *hide past div*.
                 ticklabelposition
                     Determines where tick labels are drawn.
                 ticklen
@@ -740,10 +753,14 @@ class Volume(_BaseTraceType):
         """
         Template string used for rendering the information that appear
         on hover box. Note that this will override `hoverinfo`.
-        Variables are inserted using %{variable}, for example "y:
-        %{y}". Numbers are formatted using d3-format's syntax
-        %{variable:d3-format}, for example "Price: %{y:$.2f}".
-        https://github.com/d3/d3-3.x-api-
+        Variables are inserted using %{variable}, for example "y: %{y}"
+        as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When
+        showing info for several points, "xother" will be added to
+        those with different x positions from the first point. An
+        underscore before or after "(x|y)other" will add a space on
+        that side, only when this field is shown. Numbers are formatted
+        using d3-format's syntax %{variable:d3-format}, for example
+        "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
         the formatting syntax. Dates are formatted using d3-time-
         format's syntax %{variable|d3-time-format}, for example "Day:
@@ -941,6 +958,59 @@ class Volume(_BaseTraceType):
     @legendgroup.setter
     def legendgroup(self, val):
         self["legendgroup"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.volume.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.volume.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # lighting
     # --------
@@ -1504,6 +1574,31 @@ class Volume(_BaseTraceType):
     def value(self, val):
         self["value"] = val
 
+    # valuehoverformat
+    # ----------------
+    @property
+    def valuehoverformat(self):
+        """
+        Sets the hover text formatting rulefor `value`  using d3
+        formatting mini-languages which are very similar to those in
+        Python. For numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format.By default the
+        values are formatted using generic number format.
+    
+        The 'valuehoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["valuehoverformat"]
+
+    @valuehoverformat.setter
+    def valuehoverformat(self, val):
+        self["valuehoverformat"] = val
+
     # valuesrc
     # --------
     @property
@@ -1567,6 +1662,36 @@ class Volume(_BaseTraceType):
     def x(self, val):
         self["x"] = val
 
+    # xhoverformat
+    # ------------
+    @property
+    def xhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `x`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `xaxis.hoverformat`.
+    
+        The 'xhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["xhoverformat"]
+
+    @xhoverformat.setter
+    def xhoverformat(self, val):
+        self["xhoverformat"] = val
+
     # xsrc
     # ----
     @property
@@ -1607,6 +1732,36 @@ class Volume(_BaseTraceType):
     def y(self, val):
         self["y"] = val
 
+    # yhoverformat
+    # ------------
+    @property
+    def yhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `y`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `yaxis.hoverformat`.
+    
+        The 'yhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["yhoverformat"]
+
+    @yhoverformat.setter
+    def yhoverformat(self, val):
+        self["yhoverformat"] = val
+
     # ysrc
     # ----
     @property
@@ -1646,6 +1801,36 @@ class Volume(_BaseTraceType):
     @z.setter
     def z(self, val):
         self["z"] = val
+
+    # zhoverformat
+    # ------------
+    @property
+    def zhoverformat(self):
+        """
+        Sets the hover text formatting rulefor `z`  using d3 formatting
+        mini-languages which are very similar to those in Python. For
+        numbers, see: https://github.com/d3/d3-3.x-api-
+        reference/blob/master/Formatting.md#d3_format. And for dates
+        see: https://github.com/d3/d3-time-format#locale_format. We add
+        two items to d3's date formatter: "%h" for half of the year as
+        a decimal number as well as "%{n}f" for fractional seconds with
+        n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By default
+        the values are formatted using `zaxis.hoverformat`.
+    
+        The 'zhoverformat' property is a string and must be specified as:
+          - A string
+          - A number that will be converted to a string
+
+        Returns
+        -------
+        str
+        """
+        return self["zhoverformat"]
+
+    @zhoverformat.setter
+    def zhoverformat(self, val):
+        self["zhoverformat"] = val
 
     # zsrc
     # ----
@@ -1758,9 +1943,15 @@ class Volume(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1799,6 +1990,17 @@ class Volume(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.volume.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         lighting
             :class:`plotly.graph_objects.volume.Lighting` instance
             or dict with compatible properties
@@ -1903,6 +2105,14 @@ class Volume(_BaseTraceType):
             `uid` that stays with it as it moves.
         value
             Sets the 4th dimension (value) of the vertices.
+        valuehoverformat
+            Sets the hover text formatting rulefor `value`  using
+            d3 formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format.By
+            default the values are formatted using generic number
+            format.
         valuesrc
             Sets the source reference on Chart Studio Cloud for
             value .
@@ -1913,16 +2123,58 @@ class Volume(_BaseTraceType):
             visible).
         x
             Sets the X coordinates of the vertices on X axis.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xsrc
             Sets the source reference on Chart Studio Cloud for  x
             .
         y
             Sets the Y coordinates of the vertices on Y axis.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
         ysrc
             Sets the source reference on Chart Studio Cloud for  y
             .
         z
             Sets the Z coordinates of the vertices on Z axis.
+        zhoverformat
+            Sets the hover text formatting rulefor `z`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `zaxis.hoverformat`.
         zsrc
             Sets the source reference on Chart Studio Cloud for  z
             .
@@ -1956,6 +2208,8 @@ class Volume(_BaseTraceType):
         isomax=None,
         isomin=None,
         legendgroup=None,
+        legendgrouptitle=None,
+        legendrank=None,
         lighting=None,
         lightposition=None,
         meta=None,
@@ -1976,13 +2230,17 @@ class Volume(_BaseTraceType):
         uid=None,
         uirevision=None,
         value=None,
+        valuehoverformat=None,
         valuesrc=None,
         visible=None,
         x=None,
+        xhoverformat=None,
         xsrc=None,
         y=None,
+        yhoverformat=None,
         ysrc=None,
         z=None,
+        zhoverformat=None,
         zsrc=None,
         **kwargs
     ):
@@ -2081,9 +2339,15 @@ class Volume(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -2122,6 +2386,17 @@ class Volume(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.volume.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         lighting
             :class:`plotly.graph_objects.volume.Lighting` instance
             or dict with compatible properties
@@ -2226,6 +2501,14 @@ class Volume(_BaseTraceType):
             `uid` that stays with it as it moves.
         value
             Sets the 4th dimension (value) of the vertices.
+        valuehoverformat
+            Sets the hover text formatting rulefor `value`  using
+            d3 formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format.By
+            default the values are formatted using generic number
+            format.
         valuesrc
             Sets the source reference on Chart Studio Cloud for
             value .
@@ -2236,16 +2519,58 @@ class Volume(_BaseTraceType):
             visible).
         x
             Sets the X coordinates of the vertices on X axis.
+        xhoverformat
+            Sets the hover text formatting rulefor `x`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `xaxis.hoverformat`.
         xsrc
             Sets the source reference on Chart Studio Cloud for  x
             .
         y
             Sets the Y coordinates of the vertices on Y axis.
+        yhoverformat
+            Sets the hover text formatting rulefor `y`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `yaxis.hoverformat`.
         ysrc
             Sets the source reference on Chart Studio Cloud for  y
             .
         z
             Sets the Z coordinates of the vertices on Z axis.
+        zhoverformat
+            Sets the hover text formatting rulefor `z`  using d3
+            formatting mini-languages which are very similar to
+            those in Python. For numbers, see:
+            https://github.com/d3/d3-3.x-api-
+            reference/blob/master/Formatting.md#d3_format. And for
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format. We add two items to d3's date
+            formatter: "%h" for half of the year as a decimal
+            number as well as "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display *09~15~23.46*By
+            default the values are formatted using
+            `zaxis.hoverformat`.
         zsrc
             Sets the source reference on Chart Studio Cloud for  z
             .
@@ -2383,6 +2708,14 @@ an instance of :class:`plotly.graph_objs.Volume`"""
         _v = legendgroup if legendgroup is not None else _v
         if _v is not None:
             self["legendgroup"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("lighting", None)
         _v = lighting if lighting is not None else _v
         if _v is not None:
@@ -2463,6 +2796,10 @@ an instance of :class:`plotly.graph_objs.Volume`"""
         _v = value if value is not None else _v
         if _v is not None:
             self["value"] = _v
+        _v = arg.pop("valuehoverformat", None)
+        _v = valuehoverformat if valuehoverformat is not None else _v
+        if _v is not None:
+            self["valuehoverformat"] = _v
         _v = arg.pop("valuesrc", None)
         _v = valuesrc if valuesrc is not None else _v
         if _v is not None:
@@ -2475,6 +2812,10 @@ an instance of :class:`plotly.graph_objs.Volume`"""
         _v = x if x is not None else _v
         if _v is not None:
             self["x"] = _v
+        _v = arg.pop("xhoverformat", None)
+        _v = xhoverformat if xhoverformat is not None else _v
+        if _v is not None:
+            self["xhoverformat"] = _v
         _v = arg.pop("xsrc", None)
         _v = xsrc if xsrc is not None else _v
         if _v is not None:
@@ -2483,6 +2824,10 @@ an instance of :class:`plotly.graph_objs.Volume`"""
         _v = y if y is not None else _v
         if _v is not None:
             self["y"] = _v
+        _v = arg.pop("yhoverformat", None)
+        _v = yhoverformat if yhoverformat is not None else _v
+        if _v is not None:
+            self["yhoverformat"] = _v
         _v = arg.pop("ysrc", None)
         _v = ysrc if ysrc is not None else _v
         if _v is not None:
@@ -2491,6 +2836,10 @@ an instance of :class:`plotly.graph_objs.Volume`"""
         _v = z if z is not None else _v
         if _v is not None:
             self["z"] = _v
+        _v = arg.pop("zhoverformat", None)
+        _v = zhoverformat if zhoverformat is not None else _v
+        if _v is not None:
+            self["zhoverformat"] = _v
         _v = arg.pop("zsrc", None)
         _v = zsrc if zsrc is not None else _v
         if _v is not None:

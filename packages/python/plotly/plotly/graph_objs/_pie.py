@@ -31,6 +31,8 @@ class Pie(_BaseTraceType):
         "labels",
         "labelssrc",
         "legendgroup",
+        "legendgrouptitle",
+        "legendrank",
         "marker",
         "meta",
         "metasrc",
@@ -339,10 +341,14 @@ class Pie(_BaseTraceType):
         """
         Template string used for rendering the information that appear
         on hover box. Note that this will override `hoverinfo`.
-        Variables are inserted using %{variable}, for example "y:
-        %{y}". Numbers are formatted using d3-format's syntax
-        %{variable:d3-format}, for example "Price: %{y:$.2f}".
-        https://github.com/d3/d3-3.x-api-
+        Variables are inserted using %{variable}, for example "y: %{y}"
+        as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When
+        showing info for several points, "xother" will be added to
+        those with different x positions from the first point. An
+        underscore before or after "(x|y)other" will add a space on
+        that side, only when this field is shown. Numbers are formatted
+        using d3-format's syntax %{variable:d3-format}, for example
+        "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
         the formatting syntax. Dates are formatted using d3-time-
         format's syntax %{variable|d3-time-format}, for example "Day:
@@ -655,6 +661,59 @@ class Pie(_BaseTraceType):
     @legendgroup.setter
     def legendgroup(self, val):
         self["legendgroup"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.pie.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.pie.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # marker
     # ------
@@ -1508,9 +1567,15 @@ class Pie(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1577,6 +1642,17 @@ class Pie(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.pie.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.pie.Marker` instance or
             dict with compatible properties
@@ -1743,6 +1819,8 @@ class Pie(_BaseTraceType):
         labels=None,
         labelssrc=None,
         legendgroup=None,
+        legendgrouptitle=None,
+        legendrank=None,
         marker=None,
         meta=None,
         metasrc=None,
@@ -1823,9 +1901,15 @@ class Pie(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1892,6 +1976,17 @@ class Pie(_BaseTraceType):
             Sets the legend group for this trace. Traces part of
             the same legend group hide/show at the same time when
             toggling legend items.
+        legendgrouptitle
+            :class:`plotly.graph_objects.pie.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         marker
             :class:`plotly.graph_objects.pie.Marker` instance or
             dict with compatible properties
@@ -2148,6 +2243,14 @@ an instance of :class:`plotly.graph_objs.Pie`"""
         _v = legendgroup if legendgroup is not None else _v
         if _v is not None:
             self["legendgroup"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("marker", None)
         _v = marker if marker is not None else _v
         if _v is not None:

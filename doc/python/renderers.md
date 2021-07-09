@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.2'
-      jupytext_version: 1.6.0
+      jupytext_version: 1.4.2
   kernelspec:
     display_name: Python 3
     language: python
@@ -20,7 +20,7 @@ jupyter:
     name: python
     nbconvert_exporter: python
     pygments_lexer: ipython3
-    version: 3.7.6
+    version: 3.7.7
   plotly:
     description: Displaying Figures using Plotly's Python graphing library
     display_as: file_settings
@@ -38,15 +38,17 @@ jupyter:
 
 Plotly's Python graphing library, `plotly.py`, gives you a wide range of options for how and where to display your figures.
 
-In general, there are three different approaches you can take in order to display figures:
+In general, there are five different approaches you can take in order to display `plotly` figures:
 
- 1. Using the renderers framework in the context of a script or notebook
+ 1. Using the `renderers` framework in the context of a script or notebook (the main topic of this page)
  2. Using [Dash](https://dash.plot.ly) in a web app context
- 3. Using a `FigureWidget` in an `ipywidgets` context
+ 3. Using a [`FigureWidget` rather than a `Figure`](https://plotly.com/python/figurewidget/) in an [`ipywidgets` context](https://ipywidgets.readthedocs.io/en/stable/)
+ 4. By [exporting to an HTML file](https://plotly.com/python/interactive-html-export/) and loading that file in a browser immediately or later
+ 5. By [rendering the figure to a static image file using Kaleido](https://plotly.com/python/static-image-export/) such as PNG, JPEG, SVG, PDF or EPS and loading the resulting file in any viewer
 
-Each of these approaches is discussed below.
+Each of the first three approaches is discussed below.
 
-### Displaying Figures Using The renderers Framework
+### Displaying Figures Using The `renderers` Framework
 
 The renderers framework is a flexible approach for displaying `plotly.py` figures in a variety of contexts.  To display a figure using the renderers framework, you call the `.show()` method on a graph object figure, or pass the figure to the `plotly.io.show` function. With either approach, `plotly.py` will display the figure using the current default renderer(s).
 
@@ -72,7 +74,7 @@ fig
 
 > To be precise, figures will display themselves using the current default renderer when the two following conditions are true. First, the last expression in a cell must evaluate to a figure. Second, `plotly.py` must be running from within an `IPython` kernel.
 
-**In many contexts, an appropriate renderer will be chosen automatically and you will not need to perform any additional configuration.** These contexts include the classic [Jupyter Notebook](https://jupyter.org/), [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) (provided the `jupyterlab-plotly` JupyterLab extension is installed), [Visual Studio Code notebooks](https://code.visualstudio.com/docs/python/jupyter-support), [Google Colaboratory](https://colab.research.google.com/notebooks/intro.ipynb), [Kaggle](https://www.kaggle.com/kernels) notebooks, [Azure](https://notebooks.azure.com/) notebooks, and the [Python interactive shell](https://www.python.org/shell/).
+**In many contexts, an appropriate renderer will be chosen automatically and you will not need to perform any additional configuration.** These contexts include the classic [Jupyter Notebook](https://jupyter.org/), [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/), [Visual Studio Code notebooks](https://code.visualstudio.com/docs/python/jupyter-support), [Google Colaboratory](https://colab.research.google.com/notebooks/intro.ipynb), [Kaggle](https://www.kaggle.com/kernels) notebooks, [Azure](https://notebooks.azure.com/) notebooks, and the [Python interactive shell](https://www.python.org/shell/).
 
 Additional contexts are supported by choosing a compatible renderer including the [IPython console](https://docs.spyder-ide.org/ipythonconsole.html), [QtConsole](https://qtconsole.readthedocs.io/en/stable/), [Spyder](https://www.spyder-ide.org/), and more.
 
@@ -80,19 +82,6 @@ Next, we will show how to configure the default renderer.  After that, we will d
 
 > Note: The `renderers` framework is a generalization of the `plotly.offline.iplot` and `plotly.offline.plot` functions that were the recommended way to display figures prior to `plotly.py` version 4.  These functions have been reimplemented using the `renderers` framework and are still supported for backward compatibility, but they will not be discussed here.
 
-
-### Displaying figures in Dash
-
-[Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
-
-Get started  with [the official Dash docs](https://dash.plotly.com/installation) and **learn how to effortlessly [style](https://plotly.com/dash/design-kit/) & [deploy](https://plotly.com/dash/app-manager/) apps like this with <a class="plotly-red" href="https://plotly.com/dash/">Dash Enterprise</a>.**
-
-
-```python hide_code=true
-from IPython.display import IFrame
-snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
-IFrame(snippet_url + 'renderers', width='100%', height=630)
-```
 
 #### Setting The Default Renderer
 The current and available renderers are configured using the `plotly.io.renderers` configuration object.  Display this object to see the current default renderer and the list of all available renderers.
@@ -169,7 +158,7 @@ This renderer may be useful when working with notebooks than contain lots of lar
 
 ###### `plotly_mimetype`
 
-The `plotly_mimetype` renderer creates a specification of the figure (called a MIME-type bundle), and requests that the current user interface displays it. User interfaces that support this renderer include [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) (requires the [`jupyterlab-plotly`](https://www.npmjs.com/package/jupyterlab-plotly) extension), [nteract](https://nteract.io/), and the Visual Studio Code [notebook interface](https://code.visualstudio.com/docs/python/jupyter-support).
+The `plotly_mimetype` renderer creates a specification of the figure (called a MIME-type bundle), and requests that the current user interface displays it. User interfaces that support this renderer include [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/), [nteract](https://nteract.io/), and the Visual Studio Code [notebook interface](https://code.visualstudio.com/docs/python/jupyter-support).
 
 ###### `jupyterlab`, `nteract`, and `vscode`
 These are aliases for `plotly_mimetype` since this renderer is a good choice when working in JupyterLab, nteract, and the Visual Studio Code notebook interface. Note that in VSCode Notebooks, the version of Plotly.js that is used to render is provided by the [vscode-python extension](https://code.visualstudio.com/docs/languages/python) and often trails the latest version by several weeks, so the latest features of `plotly` may not be available in VSCode right away. The situation is similar for Nteract.
@@ -241,9 +230,33 @@ fig = go.Figure(
 fig.show(renderer="png", width=800, height=300)
 ```
 
+### Displaying figures in Dash
+
+[Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
+
+Get started  with [the official Dash docs](https://dash.plotly.com/installation) and **learn how to effortlessly [style](https://plotly.com/dash/design-kit/) & [deploy](https://plotly.com/dash/app-manager/) apps like this with <a class="plotly-red" href="https://plotly.com/dash/">Dash Enterprise</a>.**
+
+
+```python hide_code=true
+from IPython.display import IFrame
+snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
+IFrame(snippet_url + 'renderers', width='100%', height=630)
+```
+
 ## Displaying Figures Using `ipywidgets`
 Plotly figures can be displayed in [ipywidgets](https://ipywidgets.readthedocs.io/en/stable/) contexts using `plotly.graph_objects.FigureWidget` objects.  `FigureWidget` is a figure graph object (just like `plotly.graph_objects.Figure`), so you can add traces to it and update it just like a regular `Figure`.  But `FigureWidget` is also an `ipywidgets` object, which means that you can display it alongside other `ipywidgets` to build user interfaces right in the notebook.
 
 See the [Plotly FigureWidget Overview](https://plot.ly/python/figurewidget/) for more information on integrating `plotly.py` figures with `ipywidgets`.
 
 It is important to note that `FigureWidget` does not use the renderers framework discussed above, so you should not use the `show()` figure method or the `plotly.io.show` function on `FigureWidget` objects.
+
+
+## Performance
+
+No matter the approach chosen to display a figure, [the figure data structure](https://plotly.com/python/figure-structure/) is first (automatically, internally) serialized into a JSON string before being transferred from the Python context to the browser (or [to an HTML file first](https://plotly.com/python/interactive-html-export/) or [to Kaleido for static image export](https://plotly.com/python/static-image-export/)).
+
+*New in v5.0*
+
+The default JSON serialization mechanism can be slow for figures with many data points or with large `numpy` arrays or data frames. **If [the `orjson` package](https://github.com/ijl/orjson) is installed**, `plotly` will use that instead of the built-in `json` package, which can lead to **5-10x** speedups for large figures.
+
+Once a figure is serialized to JSON, it must be rendered by a browser, either immediately in the user's browser, at some later point if the figure is exported to HTML, or immediately in Kaleido's internal headless browser for static image export. Rendering time is generally proportional to the total number of data points in the figure, the number of traces and the number of subplots. In situations where rendering performance is slow, we recommend considering [the use of `plotly` WebGL traces](/python/webgl-vs-svg/) to exploit GPU-accelerated rendering in the browser, or [using the Datashader library to do Python-side rendering](/python/datashader/) before using `px.imshow()` to render the figure.

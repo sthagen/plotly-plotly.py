@@ -1,7 +1,9 @@
 import sys
 
 if sys.version_info < (3, 7):
+    from ._yhoverformat import YhoverformatValidator
     from ._yaxes import YaxesValidator
+    from ._xhoverformat import XhoverformatValidator
     from ._xaxes import XaxesValidator
     from ._visible import VisibleValidator
     from ._unselected import UnselectedValidator
@@ -20,6 +22,8 @@ if sys.version_info < (3, 7):
     from ._metasrc import MetasrcValidator
     from ._meta import MetaValidator
     from ._marker import MarkerValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._legendgroup import LegendgroupValidator
     from ._idssrc import IdssrcValidator
     from ._ids import IdsValidator
@@ -42,7 +46,9 @@ else:
         __name__,
         [],
         [
+            "._yhoverformat.YhoverformatValidator",
             "._yaxes.YaxesValidator",
+            "._xhoverformat.XhoverformatValidator",
             "._xaxes.XaxesValidator",
             "._visible.VisibleValidator",
             "._unselected.UnselectedValidator",
@@ -61,6 +67,8 @@ else:
             "._metasrc.MetasrcValidator",
             "._meta.MetaValidator",
             "._marker.MarkerValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._legendgroup.LegendgroupValidator",
             "._idssrc.IdssrcValidator",
             "._ids.IdsValidator",

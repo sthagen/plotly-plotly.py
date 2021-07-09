@@ -30,6 +30,7 @@ renameable_group_attrables = [
     "color",  # renamed to marker.color or line.color in infer_config
     "symbol",  # renamed to marker.symbol in infer_config
     "line_dash",  # renamed to line.dash in infer_config
+    "pattern_shape",  # renamed to marker.pattern.shape in infer_config
 ]
 all_attrables = (
     direct_attrables + array_attrables + group_attrables + renameable_group_attrables
@@ -51,6 +52,8 @@ class PxDefaults(object):
         "symbol_map",
         "line_dash_sequence",
         "line_dash_map",
+        "pattern_shape_sequence",
+        "pattern_shape_map",
         "size_max",
         "category_orders",
         "labels",
@@ -70,6 +73,8 @@ class PxDefaults(object):
         self.symbol_map = {}
         self.line_dash_sequence = None
         self.line_dash_map = {}
+        self.pattern_shape_sequence = None
+        self.pattern_shape_map = {}
         self.size_max = 20
         self.category_orders = {}
         self.labels = {}
@@ -206,7 +211,7 @@ def make_mapping(args, variable):
             updater=(lambda trace, v: v),
             facet="row" if variable == "facet_row" else "col",
         )
-    (parent, variable) = variable.split(".")
+    (parent, variable, *other_variables) = variable.split(".")
     vprefix = variable
     arg_name = variable
     if variable == "color":
@@ -214,6 +219,9 @@ def make_mapping(args, variable):
     if variable == "dash":
         arg_name = "line_dash"
         vprefix = "line_dash"
+    if variable == "pattern":
+        arg_name = "pattern_shape"
+        vprefix = "pattern_shape"
     if args[vprefix + "_map"] == "identity":
         val_map = IdentityMap()
     else:
@@ -224,7 +232,9 @@ def make_mapping(args, variable):
         grouper=args[arg_name],
         val_map=val_map,
         sequence=args[vprefix + "_sequence"],
-        updater=lambda trace, v: trace.update({parent: {variable: v}}),
+        updater=lambda trace, v: trace.update(
+            {parent: {".".join([variable] + other_variables): v}}
+        ),
         facet=None,
     )
 
@@ -400,10 +410,10 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                         if hover_is_dict and not attr_value[col]:
                             continue
                         if col in [
-                            args.get("x", None),
-                            args.get("y", None),
-                            args.get("z", None),
-                            args.get("base", None),
+                            args.get("x"),
+                            args.get("y"),
+                            args.get("z"),
+                            args.get("base"),
                         ]:
                             continue
                         try:
@@ -428,6 +438,7 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                 elif trace_spec.constructor in [
                     go.Sunburst,
                     go.Treemap,
+                    go.Icicle,
                     go.Pie,
                     go.Funnelarea,
                 ]:
@@ -480,6 +491,7 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                 if trace_spec.constructor in [
                     go.Sunburst,
                     go.Treemap,
+                    go.Icicle,
                     go.Pie,
                     go.Funnelarea,
                 ]:
@@ -552,7 +564,7 @@ def set_cartesian_axis_opts(args, axis, letter, orders):
         axis["categoryarray"] = (
             orders[args[letter]]
             if isinstance(axis, go.layout.XAxis)
-            else list(reversed(orders[args[letter]]))
+            else list(reversed(orders[args[letter]]))  # top down for Y axis
         )
 
 
@@ -950,6 +962,16 @@ def apply_default_cascade(args):
                 "longdashdot",
             ]
 
+    if "pattern_shape_sequence" in args:
+        if args["pattern_shape_sequence"] is None and args["template"].data.bar:
+            args["pattern_shape_sequence"] = [
+                bar.marker.pattern.shape for bar in args["template"].data.bar
+            ]
+        if not args["pattern_shape_sequence"] or not any(
+            args["pattern_shape_sequence"]
+        ):
+            args["pattern_shape_sequence"] = ["", "/", "\\", "x", "+", "."]
+
 
 def _check_name_not_reserved(field_name, reserved_names):
     if field_name not in reserved_names:
@@ -1284,8 +1306,8 @@ def build_dataframe(args, constructor):
 
     # now we handle special cases like wide-mode or x-xor-y specification
     # by rearranging args to tee things up for process_args_into_dataframe to work
-    no_x = args.get("x", None) is None
-    no_y = args.get("y", None) is None
+    no_x = args.get("x") is None
+    no_y = args.get("y") is None
     wide_x = False if no_x else _is_col_list(df_input, args["x"])
     wide_y = False if no_y else _is_col_list(df_input, args["y"])
 
@@ -1312,9 +1334,9 @@ def build_dataframe(args, constructor):
             if var_name in [None, "value", "index"] or var_name in df_input:
                 var_name = "variable"
             if constructor == go.Funnel:
-                wide_orientation = args.get("orientation", None) or "h"
+                wide_orientation = args.get("orientation") or "h"
             else:
-                wide_orientation = args.get("orientation", None) or "v"
+                wide_orientation = args.get("orientation") or "v"
             args["orientation"] = wide_orientation
             args["wide_cross"] = None
         elif wide_x != wide_y:
@@ -1345,7 +1367,7 @@ def build_dataframe(args, constructor):
     if constructor in [go.Scatter, go.Bar, go.Funnel] + hist2d_types:
         if not wide_mode and (no_x != no_y):
             for ax in ["x", "y"]:
-                if args.get(ax, None) is None:
+                if args.get(ax) is None:
                     args[ax] = df_input.index if df_provided else Range()
                     if constructor == go.Bar:
                         missing_bar_dim = ax
@@ -1369,7 +1391,7 @@ def build_dataframe(args, constructor):
                 )
 
     no_color = False
-    if type(args.get("color", None)) == str and args["color"] == NO_COLOR:
+    if type(args.get("color")) == str and args["color"] == NO_COLOR:
         no_color = True
         args["color"] = None
     # now that things have been prepped, we do the systematic rewriting of `args`
@@ -1495,7 +1517,7 @@ def _check_dataframe_all_leaves(df):
 
 def process_dataframe_hierarchy(args):
     """
-    Build dataframe for sunburst or treemap when the path argument is provided.
+    Build dataframe for sunburst, treemap, or icicle when the path argument is provided.
     """
     df = args["data_frame"]
     path = args["path"][::-1]
@@ -1661,7 +1683,7 @@ def infer_config(args, constructor, trace_patch, layout_patch):
                 if args["color"] and _is_continuous(args["data_frame"], args["color"]):
                     attrs.append("color")
                     args["color_is_continuous"] = True
-                elif constructor in [go.Sunburst, go.Treemap]:
+                elif constructor in [go.Sunburst, go.Treemap, go.Icicle]:
                     attrs.append("color")
                     args["color_is_continuous"] = False
                 else:
@@ -1682,20 +1704,21 @@ def infer_config(args, constructor, trace_patch, layout_patch):
             and args["color"]
             and constructor not in [go.Pie, go.Funnelarea]
             and (
-                constructor not in [go.Treemap, go.Sunburst]
+                constructor not in [go.Treemap, go.Sunburst, go.Icicle]
                 or args.get("color_is_continuous")
             )
         )
     else:
         show_colorbar = False
 
-    # Compute line_dash grouping attribute
     if "line_dash" in args:
         grouped_attrs.append("line.dash")
 
-    # Compute symbol grouping attribute
     if "symbol" in args:
         grouped_attrs.append("marker.symbol")
+
+    if "pattern_shape" in args:
+        grouped_attrs.append("marker.pattern.shape")
 
     if "orientation" in args:
         has_x = args["x"] is not None
@@ -1777,7 +1800,7 @@ def infer_config(args, constructor, trace_patch, layout_patch):
             else args["geojson"].__geo_interface__
         )
 
-    # Compute marginal attribute
+    # Compute marginal attribute: copy to appropriate marginal_*
     if "marginal" in args:
         position = "marginal_x" if args["orientation"] == "v" else "marginal_y"
         other_position = "marginal_x" if args["orientation"] == "h" else "marginal_y"
@@ -1785,17 +1808,17 @@ def infer_config(args, constructor, trace_patch, layout_patch):
         args[other_position] = None
 
     # If both marginals and faceting are specified, faceting wins
-    if args.get("facet_col", None) is not None and args.get("marginal_y", None):
+    if args.get("facet_col") is not None and args.get("marginal_y") is not None:
         args["marginal_y"] = None
 
-    if args.get("facet_row", None) is not None and args.get("marginal_x", None):
+    if args.get("facet_row") is not None and args.get("marginal_x") is not None:
         args["marginal_x"] = None
 
     # facet_col_wrap only works if no marginals or row faceting is used
     if (
-        args.get("marginal_x", None) is not None
-        or args.get("marginal_y", None) is not None
-        or args.get("facet_row", None) is not None
+        args.get("marginal_x") is not None
+        or args.get("marginal_y") is not None
+        or args.get("facet_row") is not None
     ):
         args["facet_col_wrap"] = 0
 
@@ -1814,43 +1837,38 @@ def infer_config(args, constructor, trace_patch, layout_patch):
 
 def get_orderings(args, grouper, grouped):
     """
-    `orders` is the user-supplied ordering (with the remaining data-frame-supplied
-    ordering appended if the column is used for grouping). It includes anything the user
-    gave, for any variable, including values not present in the dataset. It is used
-    downstream to set e.g. `categoryarray` for cartesian axes
+    `orders` is the user-supplied ordering with the remaining data-frame-supplied
+    ordering appended if the column is used for grouping. It includes anything the user
+    gave, for any variable, including values not present in the dataset. It's a dict
+    where the keys are e.g. "x" or "color"
 
-    `group_names` is the set of groups, ordered by the order above
-
-    `group_values` is a subset of `orders` in both keys and values. It contains a key
-     for every grouped mapping and its values are the sorted *data* values for these
-     mappings.
+    `sorted_group_names` is the set of groups, ordered by the order above. It's a list
+    of tuples like [("value1", ""), ("value2", "")] where each tuple contains the name
+    of a single dimension-group
     """
+
     orders = {} if "category_orders" not in args else args["category_orders"].copy()
-    group_names = []
-    group_values = {}
+    for col in grouper:
+        if col != one_group:
+            uniques = list(args["data_frame"][col].unique())
+            if col not in orders:
+                orders[col] = uniques
+            else:
+                orders[col] = list(OrderedDict.fromkeys(list(orders[col]) + uniques))
+
+    sorted_group_names = []
     for group_name in grouped.groups:
         if len(grouper) == 1:
             group_name = (group_name,)
-        group_names.append(group_name)
-        for col in grouper:
-            if col != one_group:
-                uniques = args["data_frame"][col].unique()
-                if col not in orders:
-                    orders[col] = list(uniques)
-                else:
-                    for val in uniques:
-                        if val not in orders[col]:
-                            orders[col].append(val)
-                group_values[col] = sorted(uniques, key=orders[col].index)
+        sorted_group_names.append(group_name)
 
     for i, col in reversed(list(enumerate(grouper))):
         if col != one_group:
-            group_names = sorted(
-                group_names,
+            sorted_group_names = sorted(
+                sorted_group_names,
                 key=lambda g: orders[col].index(g[i]) if g[i] in orders[col] else -1,
             )
-
-    return orders, group_names, group_values
+    return orders, sorted_group_names
 
 
 def make_figure(args, constructor, trace_patch=None, layout_patch=None):
@@ -1859,7 +1877,7 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     apply_default_cascade(args)
 
     args = build_dataframe(args, constructor)
-    if constructor in [go.Treemap, go.Sunburst] and args["path"] is not None:
+    if constructor in [go.Treemap, go.Sunburst, go.Icicle] and args["path"] is not None:
         args = process_dataframe_hierarchy(args)
     if constructor == "timeline":
         constructor = go.Bar
@@ -1871,23 +1889,26 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     grouper = [x.grouper or one_group for x in grouped_mappings] or [one_group]
     grouped = args["data_frame"].groupby(grouper, sort=False)
 
-    orders, sorted_group_names, sorted_group_values = get_orderings(
-        args, grouper, grouped
-    )
+    orders, sorted_group_names = get_orderings(args, grouper, grouped)
 
     col_labels = []
     row_labels = []
-
+    nrows = ncols = 1
     for m in grouped_mappings:
-        if m.grouper:
+        if m.grouper not in orders:
+            m.val_map[""] = m.sequence[0]
+        else:
+            sorted_values = orders[m.grouper]
             if m.facet == "col":
                 prefix = get_label(args, args["facet_col"]) + "="
-                col_labels = [prefix + str(s) for s in sorted_group_values[m.grouper]]
+                col_labels = [prefix + str(s) for s in sorted_values]
+                ncols = len(col_labels)
             if m.facet == "row":
                 prefix = get_label(args, args["facet_row"]) + "="
-                row_labels = [prefix + str(s) for s in sorted_group_values[m.grouper]]
-            for val in sorted_group_values[m.grouper]:
-                if val not in m.val_map:
+                row_labels = [prefix + str(s) for s in sorted_values]
+                nrows = len(row_labels)
+            for val in sorted_values:
+                if val not in m.val_map:  # always False if it's an IdentityMap
                     m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
 
     subplot_type = _subplot_type_for_trace_type(constructor().type)
@@ -1895,8 +1916,8 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     trace_names_by_frame = {}
     frames = OrderedDict()
     trendline_rows = []
-    nrows = ncols = 1
     trace_name_labels = None
+    facet_col_wrap = args.get("facet_col_wrap", 0)
     for group_name in sorted_group_names:
         group = grouped.get_group(group_name if len(group_name) > 1 else group_name[0])
         mapping_labels = OrderedDict()
@@ -1928,6 +1949,7 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                 go.Histogram2d,
                 go.Sunburst,
                 go.Treemap,
+                go.Icicle,
             ]:
                 trace.update(
                     legendgroup=trace_name,
@@ -1943,16 +1965,20 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
 
             for i, m in enumerate(grouped_mappings):
                 val = group_name[i]
-                if val not in m.val_map:
-                    m.val_map[val] = m.sequence[len(m.val_map) % len(m.sequence)]
                 try:
                     m.updater(trace, m.val_map[val])  # covers most cases
                 except ValueError:
                     # this catches some odd cases like marginals
                     if (
                         trace_spec != trace_specs[0]
-                        and trace_spec.constructor in [go.Violin, go.Box, go.Histogram]
-                        and m.variable == "symbol"
+                        and (
+                            trace_spec.constructor in [go.Violin, go.Box]
+                            and m.variable in ["symbol", "pattern"]
+                        )
+                        or (
+                            trace_spec.constructor in [go.Histogram]
+                            and m.variable in ["symbol"]
+                        )
                     ):
                         pass
                     elif (
@@ -1979,14 +2005,13 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                     row = m.val_map[val]
                 else:
                     if (
-                        bool(args.get("marginal_x", False))
-                        and trace_spec.marginal != "x"
+                        args.get("marginal_x") is not None  # there is a marginal
+                        and trace_spec.marginal != "x"  # and we're not it
                     ):
                         row = 2
                     else:
                         row = 1
 
-                facet_col_wrap = args.get("facet_col_wrap", 0)
                 # Find col for trace, handling facet_col and marginal_y
                 if m.facet == "col":
                     col = m.val_map[val]
@@ -1999,11 +2024,9 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                     else:
                         col = 1
 
-                nrows = max(nrows, row)
                 if row > 1:
                     trace._subplot_row = row
 
-                ncols = max(ncols, col)
                 if col > 1:
                     trace._subplot_col = col
             if (
@@ -2062,6 +2085,16 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     ):
         layout_patch["legend"]["itemsizing"] = "constant"
 
+    if facet_col_wrap:
+        nrows = math.ceil(ncols / facet_col_wrap)
+        ncols = min(ncols, facet_col_wrap)
+
+    if args.get("marginal_x") is not None:
+        nrows += 1
+
+    if args.get("marginal_y") is not None:
+        ncols += 1
+
     fig = init_figure(
         args, subplot_type, frame_list, nrows, ncols, col_labels, row_labels
     )
@@ -2106,7 +2139,7 @@ def init_figure(args, subplot_type, frame_list, nrows, ncols, col_labels, row_la
 
     # Build column_widths/row_heights
     if subplot_type == "xy":
-        if bool(args.get("marginal_x", False)):
+        if args.get("marginal_x") is not None:
             if args["marginal_x"] == "histogram" or ("color" in args and args["color"]):
                 main_size = 0.74
             else:
@@ -2115,11 +2148,11 @@ def init_figure(args, subplot_type, frame_list, nrows, ncols, col_labels, row_la
             row_heights = [main_size] * (nrows - 1) + [1 - main_size]
             vertical_spacing = 0.01
         elif facet_col_wrap:
-            vertical_spacing = args.get("facet_row_spacing", None) or 0.07
+            vertical_spacing = args.get("facet_row_spacing") or 0.07
         else:
-            vertical_spacing = args.get("facet_row_spacing", None) or 0.03
+            vertical_spacing = args.get("facet_row_spacing") or 0.03
 
-        if bool(args.get("marginal_y", False)):
+        if args.get("marginal_y") is not None:
             if args["marginal_y"] == "histogram" or ("color" in args and args["color"]):
                 main_size = 0.74
             else:
@@ -2128,7 +2161,7 @@ def init_figure(args, subplot_type, frame_list, nrows, ncols, col_labels, row_la
             column_widths = [main_size] * (ncols - 1) + [1 - main_size]
             horizontal_spacing = 0.005
         else:
-            horizontal_spacing = args.get("facet_col_spacing", None) or 0.02
+            horizontal_spacing = args.get("facet_col_spacing") or 0.02
     else:
         # Other subplot types:
         #   'scene', 'geo', 'polar', 'ternary', 'mapbox', 'domain', None
@@ -2136,10 +2169,10 @@ def init_figure(args, subplot_type, frame_list, nrows, ncols, col_labels, row_la
         # We can customize subplot spacing per type once we enable faceting
         # for all plot types
         if facet_col_wrap:
-            vertical_spacing = args.get("facet_row_spacing", None) or 0.07
+            vertical_spacing = args.get("facet_row_spacing") or 0.07
         else:
-            vertical_spacing = args.get("facet_row_spacing", None) or 0.03
-        horizontal_spacing = args.get("facet_col_spacing", None) or 0.02
+            vertical_spacing = args.get("facet_row_spacing") or 0.03
+        horizontal_spacing = args.get("facet_col_spacing") or 0.02
 
     if facet_col_wrap:
         subplot_labels = [None] * nrows * ncols

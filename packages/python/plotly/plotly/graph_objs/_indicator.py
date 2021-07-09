@@ -17,6 +17,8 @@ class Indicator(_BaseTraceType):
         "gauge",
         "ids",
         "idssrc",
+        "legendgrouptitle",
+        "legendrank",
         "meta",
         "metasrc",
         "mode",
@@ -131,10 +133,10 @@ class Indicator(_BaseTraceType):
                     Show relative change
                 valueformat
                     Sets the value formatting rule using d3
-                    formatting mini-language which is similar to
-                    those of Python. See
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
+                    reference/blob/master/Formatting.md#d3_format.
 
         Returns
         -------
@@ -279,6 +281,59 @@ class Indicator(_BaseTraceType):
     def idssrc(self, val):
         self["idssrc"] = val
 
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.indicator.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.indicator.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
+
     # meta
     # ----
     @property
@@ -395,10 +450,10 @@ class Indicator(_BaseTraceType):
                     Sets a suffix appearing next to the number.
                 valueformat
                     Sets the value formatting rule using d3
-                    formatting mini-language which is similar to
-                    those of Python. See
+                    formatting mini-languages which are very
+                    similar to those in Python. For numbers, see:
                     https://github.com/d3/d3-3.x-api-
-                    reference/blob/master/Formatting.md#d3_format
+                    reference/blob/master/Formatting.md#d3_format.
 
         Returns
         -------
@@ -612,6 +667,17 @@ class Indicator(_BaseTraceType):
         idssrc
             Sets the source reference on Chart Studio Cloud for
             ids .
+        legendgrouptitle
+            :class:`plotly.graph_objects.indicator.Legendgrouptitle
+            ` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         meta
             Assigns extra meta information associated with this
             trace that can be used in various text attributes.
@@ -688,6 +754,8 @@ class Indicator(_BaseTraceType):
         gauge=None,
         ids=None,
         idssrc=None,
+        legendgrouptitle=None,
+        legendrank=None,
         meta=None,
         metasrc=None,
         mode=None,
@@ -744,6 +812,17 @@ class Indicator(_BaseTraceType):
         idssrc
             Sets the source reference on Chart Studio Cloud for
             ids .
+        legendgrouptitle
+            :class:`plotly.graph_objects.indicator.Legendgrouptitle
+            ` instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         meta
             Assigns extra meta information associated with this
             trace that can be used in various text attributes.
@@ -873,6 +952,14 @@ an instance of :class:`plotly.graph_objs.Indicator`"""
         _v = idssrc if idssrc is not None else _v
         if _v is not None:
             self["idssrc"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("meta", None)
         _v = meta if meta is not None else _v
         if _v is not None:

@@ -28,6 +28,8 @@ class Sunburst(_BaseTraceType):
         "labels",
         "labelssrc",
         "leaf",
+        "legendgrouptitle",
+        "legendrank",
         "level",
         "marker",
         "maxdepth",
@@ -300,10 +302,14 @@ class Sunburst(_BaseTraceType):
         """
         Template string used for rendering the information that appear
         on hover box. Note that this will override `hoverinfo`.
-        Variables are inserted using %{variable}, for example "y:
-        %{y}". Numbers are formatted using d3-format's syntax
-        %{variable:d3-format}, for example "Price: %{y:$.2f}".
-        https://github.com/d3/d3-3.x-api-
+        Variables are inserted using %{variable}, for example "y: %{y}"
+        as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When
+        showing info for several points, "xother" will be added to
+        those with different x positions from the first point. An
+        underscore before or after "(x|y)other" will add a space on
+        that side, only when this field is shown. Numbers are formatted
+        using d3-format's syntax %{variable:d3-format}, for example
+        "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format for details on
         the formatting syntax. Dates are formatted using d3-time-
         format's syntax %{variable|d3-time-format}, for example "Day:
@@ -596,6 +602,59 @@ class Sunburst(_BaseTraceType):
     @leaf.setter
     def leaf(self, val):
         self["leaf"] = val
+
+    # legendgrouptitle
+    # ----------------
+    @property
+    def legendgrouptitle(self):
+        """
+        The 'legendgrouptitle' property is an instance of Legendgrouptitle
+        that may be specified as:
+          - An instance of :class:`plotly.graph_objs.sunburst.Legendgrouptitle`
+          - A dict of string/value properties that will be passed
+            to the Legendgrouptitle constructor
+    
+            Supported dict properties:
+                
+                font
+                    Sets this legend group's title font.
+                text
+                    Sets the title of the legend group.
+
+        Returns
+        -------
+        plotly.graph_objs.sunburst.Legendgrouptitle
+        """
+        return self["legendgrouptitle"]
+
+    @legendgrouptitle.setter
+    def legendgrouptitle(self, val):
+        self["legendgrouptitle"] = val
+
+    # legendrank
+    # ----------
+    @property
+    def legendrank(self):
+        """
+        Sets the legend rank for this trace. Items and groups with
+        smaller ranks are presented on top/left side while with
+        `*reversed* `legend.traceorder` they are on bottom/right side.
+        The default legendrank is 1000, so that you can use ranks less
+        than 1000 to place certain items before all unranked items, and
+        ranks greater than 1000 to go after all unranked items.
+    
+        The 'legendrank' property is a number and may be specified as:
+          - An int or float
+
+        Returns
+        -------
+        int|float
+        """
+        return self["legendrank"]
+
+    @legendrank.setter
+    def legendrank(self, val):
+        self["legendrank"] = val
 
     # level
     # -----
@@ -960,9 +1019,10 @@ class Sunburst(_BaseTraceType):
             Supported dict properties:
                 
                 color
-                    sets the color of the root node for a sunburst
-                    or a treemap trace. this has no effect when a
-                    colorscale is used to set the markers.
+                    sets the color of the root node for a
+                    sunburst/treemap/icicle trace. this has no
+                    effect when a colorscale is used to set the
+                    markers.
 
         Returns
         -------
@@ -1398,9 +1458,15 @@ class Sunburst(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1458,6 +1524,17 @@ class Sunburst(_BaseTraceType):
         leaf
             :class:`plotly.graph_objects.sunburst.Leaf` instance or
             dict with compatible properties
+        legendgrouptitle
+            :class:`plotly.graph_objects.sunburst.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         level
             Sets the level from which this trace hierarchy is
             rendered. Set `level` to `''` to start from the root
@@ -1612,6 +1689,8 @@ class Sunburst(_BaseTraceType):
         labels=None,
         labelssrc=None,
         leaf=None,
+        legendgrouptitle=None,
+        legendrank=None,
         level=None,
         marker=None,
         maxdepth=None,
@@ -1688,9 +1767,15 @@ class Sunburst(_BaseTraceType):
             Template string used for rendering the information that
             appear on hover box. Note that this will override
             `hoverinfo`. Variables are inserted using %{variable},
-            for example "y: %{y}". Numbers are formatted using
-            d3-format's syntax %{variable:d3-format}, for example
-            "Price: %{y:$.2f}". https://github.com/d3/d3-3.x-api-
+            for example "y: %{y}" as well as %{xother}, {%_xother},
+            {%_xother_}, {%xother_}. When showing info for several
+            points, "xother" will be added to those with different
+            x positions from the first point. An underscore before
+            or after "(x|y)other" will add a space on that side,
+            only when this field is shown. Numbers are formatted
+            using d3-format's syntax %{variable:d3-format}, for
+            example "Price: %{y:$.2f}".
+            https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format for
             details on the formatting syntax. Dates are formatted
             using d3-time-format's syntax %{variable|d3-time-
@@ -1748,6 +1833,17 @@ class Sunburst(_BaseTraceType):
         leaf
             :class:`plotly.graph_objects.sunburst.Leaf` instance or
             dict with compatible properties
+        legendgrouptitle
+            :class:`plotly.graph_objects.sunburst.Legendgrouptitle`
+            instance or dict with compatible properties
+        legendrank
+            Sets the legend rank for this trace. Items and groups
+            with smaller ranks are presented on top/left side while
+            with `*reversed* `legend.traceorder` they are on
+            bottom/right side. The default legendrank is 1000, so
+            that you can use ranks less than 1000 to place certain
+            items before all unranked items, and ranks greater than
+            1000 to go after all unranked items.
         level
             Sets the level from which this trace hierarchy is
             rendered. Set `level` to `''` to start from the root
@@ -1988,6 +2084,14 @@ an instance of :class:`plotly.graph_objs.Sunburst`"""
         _v = leaf if leaf is not None else _v
         if _v is not None:
             self["leaf"] = _v
+        _v = arg.pop("legendgrouptitle", None)
+        _v = legendgrouptitle if legendgrouptitle is not None else _v
+        if _v is not None:
+            self["legendgrouptitle"] = _v
+        _v = arg.pop("legendrank", None)
+        _v = legendrank if legendrank is not None else _v
+        if _v is not None:
+            self["legendrank"] = _v
         _v = arg.pop("level", None)
         _v = level if level is not None else _v
         if _v is not None:

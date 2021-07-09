@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import plotly
 import plotly.graph_objs as go
+from plotly.offline import get_plotlyjs_version
 
 
 def validate_coerce_fig_to_dict(fig, validate):
@@ -15,6 +16,8 @@ def validate_coerce_fig_to_dict(fig, validate):
             fig_dict = plotly.graph_objs.Figure(fig).to_plotly_json()
         else:
             fig_dict = fig
+    elif hasattr(fig, "to_plotly_json"):
+        fig_dict = fig.to_plotly_json()
     else:
         raise ValueError(
             """
@@ -40,3 +43,8 @@ Invalid output type: {output_type}
     Must be one of: 'Figure', 'FigureWidget'"""
         )
     return cls
+
+
+def plotly_cdn_url(cdn_ver=get_plotlyjs_version()):
+    """Return a valid plotly CDN url."""
+    return "https://cdn.plot.ly/plotly-{cdn_ver}.min.js".format(cdn_ver=cdn_ver,)

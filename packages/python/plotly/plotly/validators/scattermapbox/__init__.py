@@ -25,6 +25,8 @@ if sys.version_info < (3, 7):
     from ._lonsrc import LonsrcValidator
     from ._lon import LonValidator
     from ._line import LineValidator
+    from ._legendrank import LegendrankValidator
+    from ._legendgrouptitle import LegendgrouptitleValidator
     from ._legendgroup import LegendgroupValidator
     from ._latsrc import LatsrcValidator
     from ._lat import LatValidator
@@ -74,6 +76,8 @@ else:
             "._lonsrc.LonsrcValidator",
             "._lon.LonValidator",
             "._line.LineValidator",
+            "._legendrank.LegendrankValidator",
+            "._legendgrouptitle.LegendgrouptitleValidator",
             "._legendgroup.LegendgroupValidator",
             "._latsrc.LatsrcValidator",
             "._lat.LatValidator",
