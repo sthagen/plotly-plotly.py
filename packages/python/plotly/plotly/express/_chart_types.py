@@ -46,7 +46,9 @@ def scatter(
     marginal_x=None,
     marginal_y=None,
     trendline=None,
+    trendline_options=None,
     trendline_color_override=None,
+    trendline_scope="trace",
     log_x=False,
     log_y=False,
     range_x=None,
@@ -90,7 +92,9 @@ def density_contour(
     marginal_x=None,
     marginal_y=None,
     trendline=None,
+    trendline_options=None,
     trendline_color_override=None,
+    trendline_scope="trace",
     log_x=False,
     log_y=False,
     range_x=None,
@@ -212,6 +216,7 @@ def line(
     line_group=None,
     color=None,
     line_dash=None,
+    symbol=None,
     hover_name=None,
     hover_data=None,
     custom_data=None,
@@ -234,6 +239,9 @@ def line(
     color_discrete_map=None,
     line_dash_sequence=None,
     line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     log_x=False,
     log_y=False,
     range_x=None,
@@ -261,6 +269,7 @@ def area(
     y=None,
     line_group=None,
     color=None,
+    symbol=None,
     hover_name=None,
     hover_data=None,
     custom_data=None,
@@ -276,6 +285,9 @@ def area(
     labels=None,
     color_discrete_sequence=None,
     color_discrete_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     orientation=None,
     groupnorm=None,
     log_x=False,
@@ -473,6 +485,72 @@ histogram.__doc__ = make_docstring(
         histfunc=[
             "The arguments to this function are the values of `y`(`x`) if `orientation` is `'v'`(`'h'`).",
         ],
+    ),
+)
+
+
+def ecdf(
+    data_frame=None,
+    x=None,
+    y=None,
+    color=None,
+    text=None,
+    line_dash=None,
+    symbol=None,
+    facet_row=None,
+    facet_col=None,
+    facet_col_wrap=0,
+    facet_row_spacing=None,
+    facet_col_spacing=None,
+    hover_name=None,
+    hover_data=None,
+    animation_frame=None,
+    animation_group=None,
+    markers=False,
+    lines=True,
+    category_orders=None,
+    labels=None,
+    color_discrete_sequence=None,
+    color_discrete_map=None,
+    line_dash_sequence=None,
+    line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    marginal=None,
+    opacity=None,
+    orientation=None,
+    ecdfnorm="probability",
+    ecdfmode="standard",
+    render_mode="auto",
+    log_x=False,
+    log_y=False,
+    range_x=None,
+    range_y=None,
+    title=None,
+    template=None,
+    width=None,
+    height=None,
+):
+    """
+    In a Empirical Cumulative Distribution Function (ECDF) plot, rows of `data_frame`
+    are sorted by the value `x` (or `y` if `orientation` is `'h'`) and their cumulative
+    count (or the cumulative sum of `y` if supplied and `orientation` is `h`) is drawn
+    as a line.
+    """
+    return make_figure(args=locals(), constructor=go.Scatter)
+
+
+ecdf.__doc__ = make_docstring(
+    ecdf,
+    append_dict=dict(
+        x=[
+            "If `orientation` is `'h'`, the cumulative sum of this argument is plotted rather than the cumulative count."
+        ]
+        + _wide_mode_xy_append,
+        y=[
+            "If `orientation` is `'v'`, the cumulative sum of this argument is plotted rather than the cumulative count."
+        ]
+        + _wide_mode_xy_append,
     ),
 )
 
@@ -692,6 +770,7 @@ def line_3d(
     line_dash=None,
     text=None,
     line_group=None,
+    symbol=None,
     hover_name=None,
     hover_data=None,
     custom_data=None,
@@ -709,6 +788,9 @@ def line_3d(
     color_discrete_map=None,
     line_dash_sequence=None,
     line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     log_x=False,
     log_y=False,
     log_z=False,
@@ -778,6 +860,7 @@ def line_ternary(
     color=None,
     line_dash=None,
     line_group=None,
+    symbol=None,
     hover_name=None,
     hover_data=None,
     custom_data=None,
@@ -790,6 +873,9 @@ def line_ternary(
     color_discrete_map=None,
     line_dash_sequence=None,
     line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     line_shape=None,
     title=None,
     template=None,
@@ -862,6 +948,7 @@ def line_polar(
     custom_data=None,
     line_group=None,
     text=None,
+    symbol=None,
     animation_frame=None,
     animation_group=None,
     category_orders=None,
@@ -870,6 +957,9 @@ def line_polar(
     color_discrete_map=None,
     line_dash_sequence=None,
     line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     direction="clockwise",
     start_angle=90,
     line_close=False,
@@ -1067,6 +1157,7 @@ def line_geo(
     hover_data=None,
     custom_data=None,
     line_group=None,
+    symbol=None,
     animation_frame=None,
     animation_group=None,
     category_orders=None,
@@ -1075,6 +1166,9 @@ def line_geo(
     color_discrete_map=None,
     line_dash_sequence=None,
     line_dash_map=None,
+    symbol_sequence=None,
+    symbol_map=None,
+    markers=False,
     projection=None,
     scope=None,
     center=None,

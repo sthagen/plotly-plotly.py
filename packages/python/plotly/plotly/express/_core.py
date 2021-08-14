@@ -2,6 +2,7 @@ import plotly.graph_objs as go
 import plotly.io as pio
 from collections import namedtuple, OrderedDict
 from ._special_inputs import IdentityMap, Constant, Range
+from .trendline_functions import ols, lowess, rolling, expanding, ewm
 
 from _plotly_utils.basevalidators import ColorscaleValidator
 from plotly.colors import qualitative, sequential
@@ -16,6 +17,9 @@ from plotly.subplots import (
 )
 
 NO_COLOR = "px_no_color_constant"
+trendline_functions = dict(
+    lowess=lowess, rolling=rolling, ewm=ewm, expanding=expanding, ols=ols
+)
 
 # Declare all supported attributes, across all plot types
 direct_attrables = (
@@ -313,12 +317,10 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                     mapping_labels["count"] = "%{x}"
             elif attr_name == "trendline":
                 if (
-                    attr_value in ["ols", "lowess"]
-                    and args["x"]
+                    args["x"]
                     and args["y"]
                     and len(trace_data[[args["x"], args["y"]]].dropna()) > 1
                 ):
-                    import statsmodels.api as sm
 
                     # sorting is bad but trace_specs with "trendline" have no other attrs
                     sorted_trace_data = trace_data.sort_values(by=args["x"])
@@ -345,37 +347,27 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                             )
 
                     # preserve original values of "x" in case they're dates
-                    trace_patch["x"] = sorted_trace_data[args["x"]][
-                        np.logical_not(np.logical_or(np.isnan(y), np.isnan(x)))
-                    ]
-
-                    if attr_value == "lowess":
-                        # missing ='drop' is the default value for lowess but not for OLS (None)
-                        # we force it here in case statsmodels change their defaults
-                        trendline = sm.nonparametric.lowess(y, x, missing="drop")
-                        trace_patch["y"] = trendline[:, 1]
-                        hover_header = "<b>LOWESS trendline</b><br><br>"
-                    elif attr_value == "ols":
-                        fit_results = sm.OLS(
-                            y, sm.add_constant(x), missing="drop"
-                        ).fit()
-                        trace_patch["y"] = fit_results.predict()
-                        hover_header = "<b>OLS trendline</b><br>"
-                        if len(fit_results.params) == 2:
-                            hover_header += "%s = %g * %s + %g<br>" % (
-                                args["y"],
-                                fit_results.params[1],
-                                args["x"],
-                                fit_results.params[0],
-                            )
-                        else:
-                            hover_header += "%s = %g<br>" % (
-                                args["y"],
-                                fit_results.params[0],
-                            )
-                        hover_header += (
-                            "R<sup>2</sup>=%f<br><br>" % fit_results.rsquared
-                        )
+                    # otherwise numpy/pandas can mess with the timezones
+                    # NB this means trendline functions must output one-to-one with the input series
+                    # i.e. we can't do resampling, because then the X values might not line up!
+                    non_missing = np.logical_not(
+                        np.logical_or(np.isnan(y), np.isnan(x))
+                    )
+                    trace_patch["x"] = sorted_trace_data[args["x"]][non_missing]
+                    trendline_function = trendline_functions[attr_value]
+                    y_out, hover_header, fit_results = trendline_function(
+                        args["trendline_options"],
+                        sorted_trace_data[args["x"]],
+                        x,
+                        y,
+                        args["x"],
+                        args["y"],
+                        non_missing,
+                    )
+                    assert len(y_out) == len(
+                        trace_patch["x"]
+                    ), "missing-data-handling failure in trendline code"
+                    trace_patch["y"] = y_out
                     mapping_labels[get_label(args, args["x"])] = "%{x}"
                     mapping_labels[get_label(args, args["y"])] = "%{y} <b>(trend)</b>"
             elif attr_name.startswith("error"):
@@ -668,6 +660,12 @@ def configure_cartesian_axes(args, fig, orders):
     if "is_timeline" in args:
         fig.update_xaxes(type="date")
 
+    if "ecdfmode" in args:
+        if args["orientation"] == "v":
+            fig.update_yaxes(rangemode="tozero")
+        else:
+            fig.update_xaxes(rangemode="tozero")
+
 
 def configure_ternary_axes(args, fig, orders):
     fig.update_ternaries(
@@ -878,19 +876,23 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
             result.append(trace_spec)
 
     # Add trendline trace specifications
-    if "trendline" in args and args["trendline"]:
-        trace_spec = TraceSpec(
-            constructor=go.Scattergl if constructor == go.Scattergl else go.Scatter,
-            attrs=["trendline"],
-            trace_patch=dict(mode="lines"),
-            marginal=None,
-        )
-        if args["trendline_color_override"]:
-            trace_spec.trace_patch["line"] = dict(
-                color=args["trendline_color_override"]
-            )
-        result.append(trace_spec)
+    if args.get("trendline") and args.get("trendline_scope", "trace") == "trace":
+        result.append(make_trendline_spec(args, constructor))
     return result
+
+
+def make_trendline_spec(args, constructor):
+    trace_spec = TraceSpec(
+        constructor=go.Scattergl
+        if constructor == go.Scattergl  # could be contour
+        else go.Scatter,
+        attrs=["trendline"],
+        trace_patch=dict(mode="lines"),
+        marginal=None,
+    )
+    if args["trendline_color_override"]:
+        trace_spec.trace_patch["line"] = dict(color=args["trendline_color_override"])
+    return trace_spec
 
 
 def one_group(x):
@@ -1316,6 +1318,7 @@ def build_dataframe(args, constructor):
     wide_cross_name = None  # will likely be "index" in wide_mode
     value_name = None  # will likely be "value" in wide_mode
     hist2d_types = [go.Histogram2d, go.Histogram2dContour]
+    hist1d_orientation = constructor == go.Histogram or "ecdfmode" in args
     if constructor in cartesians:
         if wide_x and wide_y:
             raise ValueError(
@@ -1350,7 +1353,7 @@ def build_dataframe(args, constructor):
                 df_provided and var_name in df_input
             ):
                 var_name = "variable"
-            if constructor == go.Histogram:
+            if hist1d_orientation:
                 wide_orientation = "v" if wide_x else "h"
             else:
                 wide_orientation = "v" if wide_y else "h"
@@ -1364,7 +1367,10 @@ def build_dataframe(args, constructor):
         var_name = _escape_col_name(df_input, var_name, [])
 
     missing_bar_dim = None
-    if constructor in [go.Scatter, go.Bar, go.Funnel] + hist2d_types:
+    if (
+        constructor in [go.Scatter, go.Bar, go.Funnel] + hist2d_types
+        and not hist1d_orientation
+    ):
         if not wide_mode and (no_x != no_y):
             for ax in ["x", "y"]:
                 if args.get(ax) is None:
@@ -1461,14 +1467,18 @@ def build_dataframe(args, constructor):
         df_output[var_name] = df_output[var_name].astype(str)
         orient_v = wide_orientation == "v"
 
-        if constructor in [go.Scatter, go.Funnel] + hist2d_types:
+        if hist1d_orientation:
+            args["x" if orient_v else "y"] = value_name
+            args["y" if orient_v else "x"] = wide_cross_name
+            args["color"] = args["color"] or var_name
+        elif constructor in [go.Scatter, go.Funnel] + hist2d_types:
             args["x" if orient_v else "y"] = wide_cross_name
             args["y" if orient_v else "x"] = value_name
             if constructor != go.Histogram2d:
                 args["color"] = args["color"] or var_name
             if "line_group" in args:
                 args["line_group"] = args["line_group"] or var_name
-        if constructor == go.Bar:
+        elif constructor == go.Bar:
             if _is_continuous(df_output, value_name):
                 args["x" if orient_v else "y"] = wide_cross_name
                 args["y" if orient_v else "x"] = value_name
@@ -1478,13 +1488,24 @@ def build_dataframe(args, constructor):
                 args["y" if orient_v else "x"] = count_name
                 df_output[count_name] = 1
                 args["color"] = args["color"] or var_name
-        if constructor in [go.Violin, go.Box]:
+        elif constructor in [go.Violin, go.Box]:
             args["x" if orient_v else "y"] = wide_cross_name or var_name
             args["y" if orient_v else "x"] = value_name
-        if constructor == go.Histogram:
-            args["x" if orient_v else "y"] = value_name
-            args["y" if orient_v else "x"] = wide_cross_name
-            args["color"] = args["color"] or var_name
+
+    if hist1d_orientation and constructor == go.Scatter:
+        if args["x"] is not None and args["y"] is not None:
+            args["histfunc"] = "sum"
+        elif args["x"] is None:
+            args["histfunc"] = None
+            args["orientation"] = "h"
+            args["x"] = count_name
+            df_output[count_name] = 1
+        else:
+            args["histfunc"] = None
+            args["orientation"] = "v"
+            args["y"] = count_name
+            df_output[count_name] = 1
+
     if no_color:
         args["color"] = None
     args["data_frame"] = df_output
@@ -1782,8 +1803,19 @@ def infer_config(args, constructor, trace_patch, layout_patch):
             trace_patch["opacity"] = args["opacity"]
         else:
             trace_patch["marker"] = dict(opacity=args["opacity"])
-    if "line_group" in args:
-        trace_patch["mode"] = "lines" + ("+markers+text" if args["text"] else "")
+    if (
+        "line_group" in args or "line_dash" in args
+    ):  # px.line, px.line_*, px.area, px.ecdf
+        modes = set()
+        if args.get("lines", True):
+            modes.add("lines")
+        if args.get("text") or args.get("symbol") or args.get("markers"):
+            modes.add("markers")
+        if args.get("text"):
+            modes.add("text")
+        if len(modes) == 0:
+            modes.add("lines")
+        trace_patch["mode"] = "+".join(modes)
     elif constructor != go.Splom and (
         "symbol" in args or constructor == go.Scattermapbox
     ):
@@ -1791,6 +1823,10 @@ def infer_config(args, constructor, trace_patch, layout_patch):
 
     if "line_shape" in args:
         trace_patch["line"] = dict(shape=args["line_shape"])
+    elif "ecdfmode" in args:
+        trace_patch["line"] = dict(
+            shape="vh" if args["ecdfmode"] == "reversed" else "hv"
+        )
 
     if "geojson" in args:
         trace_patch["featureidkey"] = args["featureidkey"]
@@ -1821,6 +1857,24 @@ def infer_config(args, constructor, trace_patch, layout_patch):
         or args.get("facet_row") is not None
     ):
         args["facet_col_wrap"] = 0
+
+    if "trendline" in args and args["trendline"] is not None:
+        if args["trendline"] not in trendline_functions:
+            raise ValueError(
+                "Value '%s' for `trendline` must be one of %s"
+                % (args["trendline"], trendline_functions.keys())
+            )
+
+    if "trendline_options" in args and args["trendline_options"] is None:
+        args["trendline_options"] = dict()
+
+    if "ecdfnorm" in args:
+        if args.get("ecdfnorm", None) not in [None, "percent", "probability"]:
+            raise ValueError(
+                "`ecdfnorm` must be one of None, 'percent' or 'probability'. "
+                + "'%s' was provided." % args["ecdfnorm"]
+            )
+        args["histnorm"] = args["ecdfnorm"]
 
     # Compute applicable grouping attributes
     for k in group_attrables:
@@ -1973,11 +2027,11 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                         trace_spec != trace_specs[0]
                         and (
                             trace_spec.constructor in [go.Violin, go.Box]
-                            and m.variable in ["symbol", "pattern"]
+                            and m.variable in ["symbol", "pattern", "dash"]
                         )
                         or (
                             trace_spec.constructor in [go.Histogram]
-                            and m.variable in ["symbol"]
+                            and m.variable in ["symbol", "dash"]
                         )
                     ):
                         pass
@@ -2035,6 +2089,24 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                 and trace.line.color
             ):
                 trace.update(marker=dict(color=trace.line.color))
+
+            if "ecdfmode" in args:
+                base = args["x"] if args["orientation"] == "v" else args["y"]
+                var = args["x"] if args["orientation"] == "h" else args["y"]
+                ascending = args.get("ecdfmode", "standard") != "reversed"
+                group = group.sort_values(by=base, ascending=ascending)
+                group_sum = group[var].sum()  # compute here before next line mutates
+                group[var] = group[var].cumsum()
+                if not ascending:
+                    group = group.sort_values(by=base, ascending=True)
+
+                if args.get("ecdfmode", "standard") == "complementary":
+                    group[var] = group_sum - group[var]
+
+                if args["ecdfnorm"] == "probability":
+                    group[var] = group[var] / group_sum
+                elif args["ecdfnorm"] == "percent":
+                    group[var] = 100.0 * group[var] / group_sum
 
             patch, fit_results = make_trace_kwargs(
                 args, trace_spec, group, mapping_labels.copy(), sizeref
@@ -2120,6 +2192,27 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     if "template" in args and args["template"] is not None:
         fig.update_layout(template=args["template"], overwrite=True)
     fig.frames = frame_list if len(frames) > 1 else []
+
+    if args.get("trendline") and args.get("trendline_scope", "trace") == "overall":
+        trendline_spec = make_trendline_spec(args, constructor)
+        trendline_trace = trendline_spec.constructor(
+            name="Overall Trendline", legendgroup="Overall Trendline", showlegend=False
+        )
+        if "line" not in trendline_spec.trace_patch:  # no color override
+            for m in grouped_mappings:
+                if m.variable == "color":
+                    next_color = m.sequence[len(m.val_map) % len(m.sequence)]
+                    trendline_spec.trace_patch["line"] = dict(color=next_color)
+        patch, fit_results = make_trace_kwargs(
+            args, trendline_spec, args["data_frame"], {}, sizeref
+        )
+        trendline_trace.update(patch)
+        fig.add_trace(
+            trendline_trace, row="all", col="all", exclude_empty_subplots=True
+        )
+        fig.update_traces(selector=-1, showlegend=True)
+        if fit_results is not None:
+            trendline_rows.append(dict(px_fit_results=fit_results))
 
     fig._px_trendlines = pd.DataFrame(trendline_rows)
 
