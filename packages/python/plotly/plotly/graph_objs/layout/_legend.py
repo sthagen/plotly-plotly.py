@@ -13,6 +13,7 @@ class Legend(_BaseLayoutHierarchyType):
         "bordercolor",
         "borderwidth",
         "font",
+        "groupclick",
         "itemclick",
         "itemdoubleclick",
         "itemsizing",
@@ -214,6 +215,31 @@ class Legend(_BaseLayoutHierarchyType):
     def font(self, val):
         self["font"] = val
 
+    # groupclick
+    # ----------
+    @property
+    def groupclick(self):
+        """
+        Determines the behavior on legend group item click.
+        "toggleitem" toggles the visibility of the individual item
+        clicked on the graph. "togglegroup" toggles the visibility of
+        all items in the same legendgroup as the item clicked on the
+        graph.
+    
+        The 'groupclick' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['toggleitem', 'togglegroup']
+
+        Returns
+        -------
+        Any
+        """
+        return self["groupclick"]
+
+    @groupclick.setter
+    def groupclick(self, val):
+        self["groupclick"] = val
+
     # itemclick
     # ---------
     @property
@@ -222,7 +248,7 @@ class Legend(_BaseLayoutHierarchyType):
         Determines the behavior on legend item click. "toggle" toggles
         the visibility of the item clicked on the graph. "toggleothers"
         makes the clicked item the sole visible item on the graph.
-        False disable legend item click interactions.
+        False disables legend item click interactions.
     
         The 'itemclick' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -246,7 +272,8 @@ class Legend(_BaseLayoutHierarchyType):
         Determines the behavior on legend item double-click. "toggle"
         toggles the visibility of the item clicked on the graph.
         "toggleothers" makes the clicked item the sole visible item on
-        the graph. False disable legend item double-click interactions.
+        the graph. False disables legend item double-click
+        interactions.
     
         The 'itemdoubleclick' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -569,17 +596,23 @@ class Legend(_BaseLayoutHierarchyType):
             legend.
         font
             Sets the font used to text the legend items.
+        groupclick
+            Determines the behavior on legend group item click.
+            "toggleitem" toggles the visibility of the individual
+            item clicked on the graph. "togglegroup" toggles the
+            visibility of all items in the same legendgroup as the
+            item clicked on the graph.
         itemclick
             Determines the behavior on legend item click. "toggle"
             toggles the visibility of the item clicked on the
             graph. "toggleothers" makes the clicked item the sole
-            visible item on the graph. False disable legend item
+            visible item on the graph. False disables legend item
             click interactions.
         itemdoubleclick
             Determines the behavior on legend item double-click.
             "toggle" toggles the visibility of the item clicked on
             the graph. "toggleothers" makes the clicked item the
-            sole visible item on the graph. False disable legend
+            sole visible item on the graph. False disables legend
             item double-click interactions.
         itemsizing
             Determines if the legend items symbols scale with their
@@ -647,6 +680,7 @@ class Legend(_BaseLayoutHierarchyType):
         bordercolor=None,
         borderwidth=None,
         font=None,
+        groupclick=None,
         itemclick=None,
         itemdoubleclick=None,
         itemsizing=None,
@@ -681,17 +715,23 @@ class Legend(_BaseLayoutHierarchyType):
             legend.
         font
             Sets the font used to text the legend items.
+        groupclick
+            Determines the behavior on legend group item click.
+            "toggleitem" toggles the visibility of the individual
+            item clicked on the graph. "togglegroup" toggles the
+            visibility of all items in the same legendgroup as the
+            item clicked on the graph.
         itemclick
             Determines the behavior on legend item click. "toggle"
             toggles the visibility of the item clicked on the
             graph. "toggleothers" makes the clicked item the sole
-            visible item on the graph. False disable legend item
+            visible item on the graph. False disables legend item
             click interactions.
         itemdoubleclick
             Determines the behavior on legend item double-click.
             "toggle" toggles the visibility of the item clicked on
             the graph. "toggleothers" makes the clicked item the
-            sole visible item on the graph. False disable legend
+            sole visible item on the graph. False disables legend
             item double-click interactions.
         itemsizing
             Determines if the legend items symbols scale with their
@@ -800,6 +840,10 @@ an instance of :class:`plotly.graph_objs.layout.Legend`"""
         _v = font if font is not None else _v
         if _v is not None:
             self["font"] = _v
+        _v = arg.pop("groupclick", None)
+        _v = groupclick if groupclick is not None else _v
+        if _v is not None:
+            self["groupclick"] = _v
         _v = arg.pop("itemclick", None)
         _v = itemclick if itemclick is not None else _v
         if _v is not None:
