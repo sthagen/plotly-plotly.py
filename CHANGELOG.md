@@ -2,13 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [next] - ???
+## [5.4.0] - 2021-11-15
 
 ### Fixed
   - Fixed error when serializing dict with mix of string and non-string keys [#3380](https://github.com/plotly/plotly.py/issues/3380)
 
 ### Updated
   - The JSON serialization engines no longer sort their keys [#3380](https://github.com/plotly/plotly.py/issues/3380)
+  - Updated Plotly.js to from version 2.4.2 to version 2.6.3. See the [plotly.js CHANGELOG](https://github.com/plotly/plotly.js/blob/master/CHANGELOG.md#263----2021-11-12) for more information. Notable changes include:
+    - New subplot type `smith` that supports `scattersmith` trace types for visualizing data in the complex domain
+    - Changes to Plotly.js packaging
+
 
 ## [5.3.1] - 2021-08-31
 

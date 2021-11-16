@@ -31,13 +31,9 @@
     </tr>
 </table>
 
-## Data Science Workspaces
-
-Our recommended IDE for Plotly’s Python graphing library is Dash Enterprise’s [Data Science Workspaces](https://plotly.com/dash/workspaces/), which has both Jupyter notebook and Python code file support.
-
 ## Quickstart
 
-`pip install plotly==5.3.1`
+`pip install plotly==5.4.0`
 
 Inside [Jupyter](https://jupyter.org/install) (installable with `pip install "jupyterlab>=3" "ipywidgets>=7.6"`):
 
@@ -86,13 +82,13 @@ Built on top of [plotly.js](https://github.com/plotly/plotly.js), `plotly.py` is
 plotly.py may be installed using pip...
 
 ```
-pip install plotly==5.3.1
+pip install plotly==5.4.0
 ```
 
 or conda.
 
 ```
-conda install -c plotly plotly=5.3.1
+conda install -c plotly plotly=5.4.0
 ```
 
 ### JupyterLab Support
@@ -101,20 +97,20 @@ For use in [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/), install t
 packages using `pip`:
 
 ```
-$ pip install "jupyterlab>=3" "ipywidgets>=7.6"
+pip install "jupyterlab>=3" "ipywidgets>=7.6"
 ```
 
 or `conda`:
 
 ```
-$ conda install "jupyterlab>=3" "ipywidgets>=7.6"
+conda install "jupyterlab>=3" "ipywidgets>=7.6"
 ```
 
 The instructions above apply to JupyterLab 3.x. **For JupyterLab 2 or earlier**, run the following commands to install the required JupyterLab extensions (note that this will require [`node`](https://nodejs.org/) to be installed):
 
 ```
 # JupyterLab 2.x renderer support
-jupyter labextension install jupyterlab-plotly@5.3.1 @jupyter-widgets/jupyterlab-manager
+jupyter labextension install jupyterlab-plotly@5.4.0 @jupyter-widgets/jupyterlab-manager
 ```
 
 Please check out our [Troubleshooting guide](https://plotly.com/python/troubleshooting/) if you run into any problems with JupyterLab.
@@ -147,13 +143,13 @@ The [`kaleido`](https://github.com/plotly/Kaleido) package has no dependencies a
 using pip...
 
 ```
-$ pip install -U kaleido
+pip install -U kaleido
 ```
 
 or conda.
 
 ```
-$ conda install -c conda-forge python-kaleido
+conda install -c conda-forge python-kaleido
 ```
 
 #### Orca

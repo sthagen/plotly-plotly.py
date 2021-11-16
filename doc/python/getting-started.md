@@ -58,15 +58,14 @@ We also encourage you to join the [Plotly Community Forum](http://community.plot
 `plotly` may be installed using `pip`:
 
 ```
-$ pip install plotly==5.3.1
+$ pip install plotly==5.4.0
 ```
 
 or `conda`:
 
 ```
-$ conda install -c plotly plotly=5.3.1
+$ conda install -c plotly plotly=5.4.0
 ```
-
 This package contains everything you need to write figures to standalone HTML files.
 
 > Note: **No internet connection, account, or payment is required to use plotly.py.** Prior to version 4, this library could operate in either an "online" or "offline" mode. The documentation tended to emphasize the online mode, where graphs get published to the Chart Studio web service. In version 4, all "online" functionality was removed from the `plotly` package and is now available as the separate, optional, `chart-studio` package (See below). **plotly.py version 4 is "offline" only, and does not include any functionality for uploading figures or data to cloud services.**
@@ -78,7 +77,7 @@ fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
 fig.write_html('first_figure.html', auto_open=True)
 ```
 
-### Plotly chart in Dash
+### Plotly charts in Dash
 
 [Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
 
@@ -104,6 +103,20 @@ or `conda`:
 
 ```
 $ conda install "jupyterlab>=3" "ipywidgets>=7.6"
+```
+
+You'll need `jupyter-dash` to add widgets such as sliders, dropdowns, and buttons to Plotly charts in JupyterLab.
+
+Install [`jupyter-dash`](https://github.com/plotly/jupyter-dash) using `pip`:
+
+```
+$ pip install jupyter-dash
+```
+
+or `conda`:
+
+```
+$ conda install -c conda-forge -c plotly jupyter-dash
 ```
 
 These packages contain everything you need to run JupyterLab...
@@ -132,7 +145,7 @@ The instructions above apply to JupyterLab 3.x. **For JupyterLab 2 or earlier**,
 
 ```
 # JupyterLab 2.x renderer support
-jupyter labextension install jupyterlab-plotly@5.3.1 @jupyter-widgets/jupyterlab-manager
+jupyter labextension install jupyterlab-plotly@5.4.0 @jupyter-widgets/jupyterlab-manager
 ```
 
 Please check out our [Troubleshooting guide](/python/troubleshooting/) if you run into any problems with JupyterLab, particularly if you are using multiple python environments inside Jupyter.
