@@ -33,16 +33,13 @@
 
 ## Quickstart
 
-`pip install plotly==5.4.0`
+`pip install plotly==5.5.0`
 
 Inside [Jupyter](https://jupyter.org/install) (installable with `pip install "jupyterlab>=3" "ipywidgets>=7.6"`):
 
 ```python
-import plotly.graph_objects as go
-fig = go.Figure()
-fig.add_trace(go.Scatter(y=[2, 1, 4, 3]))
-fig.add_trace(go.Bar(y=[1, 4, 3, 2]))
-fig.update_layout(title = 'Hello Figure')
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
 fig.show()
 ```
 
@@ -82,13 +79,13 @@ Built on top of [plotly.js](https://github.com/plotly/plotly.js), `plotly.py` is
 plotly.py may be installed using pip...
 
 ```
-pip install plotly==5.4.0
+pip install plotly==5.5.0
 ```
 
 or conda.
 
 ```
-conda install -c plotly plotly=5.4.0
+conda install -c plotly plotly=5.5.0
 ```
 
 ### JupyterLab Support
@@ -110,7 +107,7 @@ The instructions above apply to JupyterLab 3.x. **For JupyterLab 2 or earlier**,
 
 ```
 # JupyterLab 2.x renderer support
-jupyter labextension install jupyterlab-plotly@5.4.0 @jupyter-widgets/jupyterlab-manager
+jupyter labextension install jupyterlab-plotly@5.5.0 @jupyter-widgets/jupyterlab-manager
 ```
 
 Please check out our [Troubleshooting guide](https://plotly.com/python/troubleshooting/) if you run into any problems with JupyterLab.

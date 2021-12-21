@@ -38,6 +38,7 @@ def to_html(
     default_width="100%",
     default_height="100%",
     validate=True,
+    div_id=None,
 ):
     """
     Convert a figure to an HTML string representation.
@@ -124,6 +125,10 @@ def to_html(
     validate: bool (default True)
         True if the figure should be validated before being converted to
         JSON, False otherwise.
+    div_id: str (default None)
+        If provided, this is the value of the id attribute of the div tag. If None, the
+        id attribute is a UUID.
+
     Returns
     -------
     str
@@ -135,7 +140,7 @@ def to_html(
     fig_dict = validate_coerce_fig_to_dict(fig, validate)
 
     # ## Generate div id ##
-    plotdivid = str(uuid.uuid4())
+    plotdivid = div_id or str(uuid.uuid4())
 
     # ## Serialize figure ##
     jdata = to_json_plotly(fig_dict.get("data", []))
@@ -391,6 +396,7 @@ def write_html(
     default_width="100%",
     default_height="100%",
     auto_open=False,
+    div_id=None,
 ):
     """
     Write a figure to an HTML file representation
@@ -490,9 +496,13 @@ def write_html(
     validate: bool (default True)
         True if the figure should be validated before being converted to
         JSON, False otherwise.
-    auto_open: bool (default True
+    auto_open: bool (default True)
         If True, open the saved file in a web browser after saving.
         This argument only applies if `full_html` is True.
+    div_id: str (default None)
+        If provided, this is the value of the id attribute of the div tag. If None, the
+        id attribute is a UUID.
+
     Returns
     -------
     str
@@ -512,6 +522,7 @@ def write_html(
         default_width=default_width,
         default_height=default_height,
         validate=validate,
+        div_id=div_id,
     )
 
     # Check if file is a string

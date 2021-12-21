@@ -58,13 +58,13 @@ We also encourage you to join the [Plotly Community Forum](http://community.plot
 `plotly` may be installed using `pip`:
 
 ```
-$ pip install plotly==5.4.0
+$ pip install plotly==5.5.0
 ```
 
 or `conda`:
 
 ```
-$ conda install -c plotly plotly=5.4.0
+$ conda install -c plotly plotly=5.5.0
 ```
 This package contains everything you need to write figures to standalone HTML files.
 
@@ -72,8 +72,8 @@ This package contains everything you need to write figures to standalone HTML fi
 
 
 ```python
-import plotly.graph_objects as go
-fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
 fig.write_html('first_figure.html', auto_open=True)
 ```
 
@@ -128,24 +128,27 @@ $ jupyter lab
 and display plotly figures inline using the `plotly_mimetype` renderer...
 
 ```python
-import plotly.graph_objects as go
-fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
 fig.show()
 ```
 
 or using `FigureWidget` objects.
 
 ```python
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
+
 import plotly.graph_objects as go
-fig = go.FigureWidget(data=go.Bar(y=[2, 3, 1]))
-fig
+fig_widget = go.FigureWidget(fig)
+fig_widget
 ```
 
 The instructions above apply to JupyterLab 3.x. **For JupyterLab 2 or earlier**, run the following commands to install the required JupyterLab extensions (note that this will require [`node`](https://nodejs.org/) to be installed):
 
 ```
 # JupyterLab 2.x renderer support
-jupyter labextension install jupyterlab-plotly@5.4.0 @jupyter-widgets/jupyterlab-manager
+jupyter labextension install jupyterlab-plotly@5.5.0 @jupyter-widgets/jupyterlab-manager
 ```
 
 Please check out our [Troubleshooting guide](/python/troubleshooting/) if you run into any problems with JupyterLab, particularly if you are using multiple python environments inside Jupyter.
@@ -180,17 +183,20 @@ and display plotly figures inline using the notebook renderer...
 
 
 ```python
-import plotly.graph_objects as go
-fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
 fig.show()
 ```
 
 or using `FigureWidget` objects.
 
 ```python
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
+
 import plotly.graph_objects as go
-fig = go.FigureWidget(data=go.Bar(y=[2, 3, 1]))
-fig
+fig_widget = go.FigureWidget(fig)
+fig_widget
 ```
 
 See [_Displaying Figures in Python_](/python/renderers/) for more information on the renderers framework, and see [_Plotly FigureWidget Overview_](/python/figurewidget/) for more information on using `FigureWidget`.
