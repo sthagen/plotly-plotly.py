@@ -45,7 +45,6 @@ fig.show()
 
 See the [Python documentation](https://plotly.com/python/) for more examples.
 
-Read about what's new in [plotly.py v4](https://medium.com/plotly/plotly-py-4-0-is-here-offline-only-express-first-displayable-anywhere-fc444e5659ee)
 
 ## Overview
 
@@ -53,7 +52,7 @@ Read about what's new in [plotly.py v4](https://medium.com/plotly/plotly-py-4-0-
 
 Built on top of [plotly.js](https://github.com/plotly/plotly.js), `plotly.py` is a high-level, declarative charting library. plotly.js ships with over 30 chart types, including scientific charts, 3D graphs, statistical charts, SVG maps, financial charts, and more.
 
-`plotly.py` is [MIT Licensed](https://github.com/plotly/plotly.py/blob/master/LICENSE.txt). Plotly graphs can be viewed in Jupyter notebooks, standalone HTML files, or hosted online using [Chart Studio Cloud](https://chart-studio.plotly.com/feed/).
+`plotly.py` is [MIT Licensed](https://github.com/plotly/plotly.py/blob/master/LICENSE.txt). Plotly graphs can be viewed in Jupyter notebooks, standalone HTML files, or integrated into [Dash applications](https://dash.plotly.com/).
 
 [Contact us](https://plotly.com/consulting-and-oem/) for consulting, dashboard development, application integration, and feature additions.
 
@@ -186,21 +185,6 @@ or conda
 
 ```
 conda install -c plotly plotly-geo=1.0.0
-```
-
-### Chart Studio support
-
-The `chart-studio` package can be used to upload plotly figures to Plotly's Chart
-Studio Cloud or On-Prem service. This package can be installed using pip...
-
-```
-pip install chart-studio==1.1.0
-```
-
-or conda
-
-```
-conda install -c plotly chart-studio=1.1.0
 ```
 
 ## Migration
