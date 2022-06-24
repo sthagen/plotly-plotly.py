@@ -3,11 +3,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## UNRELEASED
+## [5.9.0] - 2022-06-23
 
 ### Added
 
-  - `pattern_shape` options now available in `px.timeline()`
+  - `pattern_shape` options now available in `px.timeline()` [#3774](https://github.com/plotly/plotly.py/pull/3774)
+  - `facet_*` and `category_orders` now available in `px.pie()` [#3775](https://github.com/plotly/plotly.py/pull/3775)
+
+### Performance
+
+  - `px` methods no longer call `groupby` on the input dataframe when the result would be a single group, and no longer groups by a lambda, for significant speedups [#3765](https://github.com/plotly/plotly.py/pull/3765) with thanks to [@jvdd](https://github.com/jvdd)
 
 ### Updated
 
