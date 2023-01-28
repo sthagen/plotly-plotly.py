@@ -42,7 +42,7 @@ Manually update the versions to `X.Y.Z` in the files specified below.
  - `packages/javascript/jupyterlab-plotly/package.json`
    + Update `"version"` to `X.Y.Z`
  - `packages/javascript/jupyterlab-plotly/package-lock.json`
-   + Update `"version"` to `X.Y.Z`
+   + Update `"version"` to `X.Y.Z` in two places (to avoid dirty repo after rebuild)
  - Commit your changes on the branch:
    + `git commit -a -m "version changes for vX.Y.Z"`
 
@@ -63,7 +63,7 @@ The `full_build` job in the `release_build` workflow in CircleCI produces a tarb
 
 **Note: if any of the version numbers are not simply `X.Y.Z` but include some kind of git hash, then this is a dirty build and you'll need to clean up whatever is dirtying the tree and follow the instructions above to trigger the build again.** (That said, you can do QA on dirty builds, you just can't publish them.)
 
-To locally install the PyPI dist, make sure you have an environment with JupyterLab 3 installed:
+To locally install the PyPI dist, make sure you have an environment with JupyterLab 3 installed (maybe one created with `conda create -n condatest python=3.10 jupyterlab ipywidgets pandas`):
 
 - `tar xzf all.tgz`
 - `pip uninstall plotly`
