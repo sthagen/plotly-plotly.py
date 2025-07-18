@@ -199,3 +199,37 @@ def test_filled_path_collection_date_xaxis():
     filled = [t for t in plotly_fig.data if t.fill == "toself"]
     assert len(filled) >= 1
     assert all(isinstance(x, str) for x in filled[0].x)
+
+
+def test_background_colors_from_matplotlib_defaults():
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [0, 1])
+
+    plotly_fig = tls.mpl_to_plotly(fig)
+
+    assert plotly_fig.layout.plot_bgcolor == "#FFFFFF"
+    assert plotly_fig.layout.paper_bgcolor == "#FFFFFF"
+
+
+def test_custom_background_colors_are_preserved():
+    fig, ax = plt.subplots()
+    fig.patch.set_facecolor("lightyellow")
+    ax.set_facecolor("lightgray")
+    ax.plot([0, 1], [0, 1])
+
+    plotly_fig = tls.mpl_to_plotly(fig)
+
+    assert plotly_fig.layout.plot_bgcolor == "#D3D3D3"
+    assert plotly_fig.layout.paper_bgcolor == "#FFFFE0"
+
+
+def test_semitransparent_axes_background_preserved():
+    """Axes backgrounds with alpha export as mpl-style rgba strings, which
+    must be passed through as-is, not re-parsed by export_color."""
+    fig, ax = plt.subplots()
+    ax.set_facecolor((0.1, 0.2, 0.3, 0.4))
+    ax.plot([0, 1], [0, 1])
+
+    plotly_fig = tls.mpl_to_plotly(fig)
+
+    assert plotly_fig.layout.plot_bgcolor == "rgba(26, 51, 76, 0.4)"
