@@ -3063,6 +3063,17 @@
           "y unified"
         ]
       },
+      "hoversort": {
+        "description": "Determines the order of items shown in unified hover labels. If *trace*, items are sorted by trace index. If *value descending*, items are sorted by value from largest to smallest. If *value ascending*, items are sorted by value from smallest to largest. Only applies when `hovermode` is *x unified* or *y unified*.",
+        "dflt": "trace",
+        "editType": "none",
+        "valType": "enumerated",
+        "values": [
+          "trace",
+          "value descending",
+          "value ascending"
+        ]
+      },
       "hoversubplots": {
         "description": "Determines expansion of hover effects to other subplots If *single* just the axis pair of the primary point is included without overlaying subplots. If *overlaying* all subplots using the main axis and occupying the same space are included. If *axis*, also include stacked subplots using the same axis when `hovermode` is set to *x*, *x unified*, *y* or *y unified*.",
         "dflt": "overlaying",
@@ -56775,10 +56786,16 @@
           }
         },
         "legendrank": {
-          "description": "Sets the legend rank for this trace. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.",
+          "arrayOk": true,
+          "description": "Sets the legend rank for this pie. If passed as an array, this will set the legend rank of the individual pie slices. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.",
           "dflt": 1000,
           "editType": "style",
           "valType": "number"
+        },
+        "legendranksrc": {
+          "description": "Sets the source reference on Chart Studio Cloud for `legendrank`.",
+          "editType": "none",
+          "valType": "string"
         },
         "legendsrc": {
           "description": "Sets the source reference on Chart Studio Cloud for `legend`.",
