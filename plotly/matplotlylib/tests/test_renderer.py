@@ -1,3 +1,4 @@
+import numpy as np
 import matplotlib.pyplot as plt
 import plotly.tools as tls
 
@@ -84,3 +85,73 @@ def test_multiple_traces_native_legend():
     assert plotly_fig.data[0].mode == "lines"
     assert plotly_fig.data[1].mode == "markers"
     assert plotly_fig.data[2].mode == "lines+markers"
+
+
+def test_violinplot_bodies_are_filled_polygons():
+    fig, ax = plt.subplots()
+    ax.violinplot(np.random.randn(100, 3))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    bodies = [t for t in plotly_fig.data if t.fill == "toself" and len(t.x) > 100]
+    assert len(bodies) >= 3
+
+
+def test_pcolor_rectangles_render():
+    x = np.linspace(-3, 3, 10)
+    X, Y = np.meshgrid(x, x)
+    fig, ax = plt.subplots()
+    ax.pcolor(X, Y, np.sin(X) * np.cos(Y))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) == 100
+    assert all(len(t.x) >= 4 for t in plotly_fig.data)
+
+
+def test_eventplot_segments_render():
+    fig, ax = plt.subplots()
+    ax.eventplot([np.random.randn(20) for _ in range(5)])
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) == 100
+
+
+def test_stackplot_areas_render():
+    x = np.arange(10)
+    fig, ax = plt.subplots()
+    ax.stackplot(x, np.random.rand(10), np.random.rand(10), np.random.rand(10))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) >= 3
+
+
+def test_fill_between_renders():
+    x = np.linspace(0, 2 * np.pi, 50)
+    fig, ax = plt.subplots()
+    ax.fill_between(x, np.sin(x), np.cos(x))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) >= 1
+
+
+def test_stem_plot_renders():
+    x = np.linspace(0, 2 * np.pi, 20)
+    fig, ax = plt.subplots()
+    ax.stem(x, np.sin(x))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) >= 20
+
+
+def test_contour_lines_convert():
+    """Contour lines used to crash with an ndarray line width."""
+    x = np.linspace(-3, 3, 30)
+    X, Y = np.meshgrid(x, x)
+    fig, ax = plt.subplots()
+    ax.contour(X, Y, np.sin(X) * np.cos(Y), 10)
+    plotly_fig = tls.mpl_to_plotly(fig)
+    assert len(plotly_fig.data) > 0
+
+
+def test_contourf_bands_render():
+    """Contourf bands (multi-subpath collections) must render as fills."""
+    x = np.linspace(-3, 3, 30)
+    X, Y = np.meshgrid(x, x)
+    fig, ax = plt.subplots()
+    ax.contourf(X, Y, np.sin(X) * np.cos(Y), 10)
+    plotly_fig = tls.mpl_to_plotly(fig)
+    filled = [t for t in plotly_fig.data if t.fill == "toself"]
+    assert len(filled) > 0
