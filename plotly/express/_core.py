@@ -971,12 +971,48 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                     ),
                     marginal=letter,
                 )
+            elif args["marginal_" + letter] == "heatmap":
+                if constructor not in [go.Histogram2d, go.Histogram2dContour]:
+                    raise ValueError(
+                        "`marginal_x`/`marginal_y` value `'heatmap'` is only supported "
+                        "for `density_heatmap` and `density_contour`."
+                    )
+                other_letter = "y" if letter == "x" else "x"
+                heatmap_trace_patch = dict(
+                    coloraxis="coloraxis1", histfunc=args.get("histfunc"), **axis_map
+                )
+                # `nbinsx`/`nbinsy` are only a target bin count -- plotly.js's "nice
+                # number" bin-sizing can still round to more than one bin. Force
+                # exactly one bin by setting explicit bin edges covering the data.
+                other_col = args["data_frame"].get_column(args[other_letter])
+                other_min = nw.to_py_scalar(other_col.min())
+                other_max = nw.to_py_scalar(other_col.max())
+                span = (other_max - other_min) or 1
+                pad = span * 0.001
+                other_bins = dict(
+                    start=other_min - pad, end=other_max + pad, size=span + 2 * pad
+                )
+                if letter == "x":
+                    heatmap_trace_patch["xbingroup"] = "x"
+                    heatmap_trace_patch["ybins"] = other_bins
+                else:
+                    heatmap_trace_patch["ybingroup"] = "y"
+                    heatmap_trace_patch["xbins"] = other_bins
+                trace_spec = TraceSpec(
+                    constructor=go.Histogram2d,
+                    attrs=[letter, other_letter, "z"],
+                    trace_patch=heatmap_trace_patch,
+                    marginal=letter,
+                )
             else:
                 raise ValueError(
                     f"Invalid value '{args['marginal_' + letter]}' for `marginal_{letter}`. "
-                    "Supported marginal plot types are: 'rug', 'box', 'violin', 'histogram'."
+                    "Supported marginal plot types are: "
+                    "'rug', 'box', 'violin', 'histogram', 'heatmap'."
                 )
-            if "color" in attrs or "color" not in args:
+            if trace_spec.constructor != go.Histogram2d and (
+                "color" in attrs or "color" not in args
+            ):
                 if "marker" not in trace_spec.trace_patch:
                     trace_spec.trace_patch["marker"] = dict()
                 first_default_color = args["color_continuous_scale"][0]
@@ -2337,6 +2373,10 @@ def infer_config(args, constructor, trace_patch, layout_patch):
     if constructor in [go.Histogram2d, go.Densitymap, go.Densitymapbox]:
         show_colorbar = True
         trace_patch["coloraxis"] = "coloraxis1"
+    elif constructor == go.Histogram2dContour and (
+        args.get("marginal_x") == "heatmap" or args.get("marginal_y") == "heatmap"
+    ):
+        show_colorbar = True
 
     if "opacity" in args:
         if args["opacity"] is None:
@@ -2630,6 +2670,10 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                             trace_spec.constructor in [go.Histogram]
                             and m.variable in ["symbol", "dash"]
                         )
+                        or (
+                            trace_spec.constructor == go.Histogram2d
+                            and m.variable in ["symbol", "pattern", "dash", "color"]
+                        )
                     ):
                         pass
                     elif (
@@ -2727,17 +2771,18 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     if show_colorbar:
         colorvar = (
             "z"
-            if constructor in [go.Histogram2d, go.Densitymap, go.Densitymapbox]
+            if constructor
+            in [go.Histogram2d, go.Histogram2dContour, go.Densitymap, go.Densitymapbox]
             else "color"
         )
-        range_color = args["range_color"] or [None, None]
+        range_color = args.get("range_color") or [None, None]
 
         colorscale_validator = ColorscaleValidator("colorscale", "make_figure")
         coloraxis_dict = dict(
             colorscale=colorscale_validator.validate_coerce(
-                args["color_continuous_scale"]
+                args.get("color_continuous_scale")
             ),
-            cmid=args["color_continuous_midpoint"],
+            cmid=args.get("color_continuous_midpoint"),
             cmin=range_color[0],
             cmax=range_color[1],
             colorbar=dict(
