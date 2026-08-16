@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fix `hex_to_rgb` parsing of 3-digit shorthand hexadecimal colors such as `#FFF` [[#5662](https://github.com/plotly/plotly.py/pull/5662)], with thanks to @genrichez for the contribution!
 - Add `<!doctype html>` to the `to_html()` template to comply with modern web standards [[#5693](https://github.com/plotly/plotly.py/pull/5693)], with thanks to @mishrakushal for the contribution!
+- Apply `histfunc`/`z` aggregation to `marginal_x`/`marginal_y="histogram"` subplots in `density_heatmap`/`density_contour`, instead of always showing raw bin counts [[#3521](https://github.com/plotly/plotly.py/issues/3521)]
 
 
 ## [6.9.0] - 2026-07-09
