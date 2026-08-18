@@ -84,6 +84,35 @@ def test_marginal_heatmap_without_z(backend, px_fn):
     assert fig.layout.coloraxis.colorbar.title.text == "count"
 
 
+@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
+@pytest.mark.parametrize("text_auto", [True, ".1f"])
+def test_marginal_heatmap_text_auto(backend, px_fn, text_auto):
+    df = px.data.tips(return_type=backend)
+
+    fig = px_fn(
+        df,
+        x="total_bill",
+        y="tip",
+        marginal_x="heatmap",
+        marginal_y="heatmap",
+        text_auto=text_auto,
+    )
+    expected = "%{z}" if text_auto is True else "%{z:" + text_auto + "}"
+    for trace in fig.data:
+        assert trace.texttemplate == expected
+
+
+@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
+def test_marginal_heatmap_no_text_auto(backend, px_fn):
+    df = px.data.tips(return_type=backend)
+
+    fig = px_fn(
+        df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
+    )
+    for trace in fig.data:
+        assert trace.texttemplate is None
+
+
 def test_marginal_heatmap_unsupported_chart_type_raises():
     with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
         px.scatter(x=[1, 2, 3], y=[2, 3, 4], marginal_x="heatmap")

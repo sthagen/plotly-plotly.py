@@ -998,6 +998,13 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                 else:
                     heatmap_trace_patch["ybingroup"] = "y"
                     heatmap_trace_patch["xbins"] = other_bins
+                if args.get("text_auto", False) is not False:
+                    if args["text_auto"] is True:
+                        heatmap_trace_patch["texttemplate"] = "%{z}"
+                    else:
+                        heatmap_trace_patch["texttemplate"] = (
+                            "%{z:" + args["text_auto"] + "}"
+                        )
                 trace_spec = TraceSpec(
                     constructor=go.Histogram2d,
                     attrs=[letter, other_letter, "z"],

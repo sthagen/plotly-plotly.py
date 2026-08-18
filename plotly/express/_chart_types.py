@@ -150,6 +150,9 @@ density_contour.__doc__ = make_docstring(
             "Also supports `'heatmap'`, showing a single-column heatmap colored by the aggregate value. "
             "Uses a default colorscale since `density_contour` has no `color_continuous_scale` argument.",
         ],
+        text_auto=[
+            "Also applies to `marginal_x`/`marginal_y='heatmap'`, in which case the z values are always displayed.",
+        ],
     ),
 )
 
@@ -227,6 +230,9 @@ density_heatmap.__doc__ = make_docstring(
         ],
         marginal_y=[
             "Also supports `'heatmap'`, showing a single-column heatmap colored by the aggregate value.",
+        ],
+        text_auto=[
+            "Also applies to `marginal_x`/`marginal_y='heatmap'`, in which case the z values are always displayed.",
         ],
     ),
 )
