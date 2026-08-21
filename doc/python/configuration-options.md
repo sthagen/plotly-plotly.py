@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: Configuration
-    order: 10
+    order: 11
     page_type: u-guide
     permalink: python/configuration-options/
     thumbnail: thumbnail/modebar-icons.png
@@ -209,10 +209,14 @@ To delete buttons from the modebar, pass an array of strings containing the name
   - **High-level**: `zoom`, `pan`, `select`, `zoomIn`, `zoomOut`, `autoScale`, `resetScale`
   - **2D**: `zoom2d`, `pan2d`, `select2d`, `lasso2d`, `zoomIn2d`, `zoomOut2d`, `autoScale2d`, `resetScale2d`, `v1hovermode`
   - **2D Shape Drawing**: `drawline`, `drawopenpath`, `drawclosedpath`, `drawcircle`, `drawrect`, `eraseshape`
-  - **3D**: `zoom3d`, `pan3d`, `orbitRotation`, `tableRotation`, `handleDrag3d`, `resetCameraDefault3d`, `resetCameraLastSave3d`, `hoverClosest3d`
+  - **3D**: `zoom3d`, `pan3d`, `orbitRotation`, `tableRotation`, `resetCameraDefault3d`, `resetCameraLastSave3d`, `hoverClosest3d`
   - **Cartesian**: `hoverClosestCartesian`, `hoverCompareCartesian`
   - **Geo**: `zoomInGeo`, `zoomOutGeo`, `resetGeo`, `hoverClosestGeo`
-  - **Other**: `hoverClosestGl2d`, `hoverClosestPie`, `toggleHover`, `resetViews`, `toImage`, `sendDataToCloud`, `toggleSpikelines`, `resetViewMap`
+  - **Tile maps**: `zoomInMap`, `zoomOutMap`, `resetViewMap`
+  - **Sankey**: `resetSankeyGroup`
+  - **Other**: `hoverClosestPie`, `toggleHover`, `resetViews`, `toImage`, `sendChartToCloud`, `toggleSpikelines`
+
+*Changed in version 7*: `handleDrag3d` and `hoverClosestGl2d` no longer exist, and `sendDataToCloud` is now named `sendChartToCloud`.
 
 ```python
 import plotly.graph_objects as go

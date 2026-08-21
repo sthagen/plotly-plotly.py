@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: Troubleshooting
-    order: 27
+    order: 28
     page_type: u-guide
     permalink: python/troubleshooting/
     thumbnail: thumbnail/modebar-icons.png
