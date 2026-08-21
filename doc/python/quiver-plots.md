@@ -22,8 +22,8 @@ jupyter:
     pygments_lexer: ipython3
     version: 3.7.3
   plotly:
-    description: How to make a quiver plot in Python. A quiver plot displays velocity
-      vectors a arrows.
+    description: How to make a quiver plot in Python. A quiver plot displays a 2D vector
+      field as an array of arrows.
     display_as: scientific
     language: python
     layout: base
@@ -33,51 +33,145 @@ jupyter:
     thumbnail: thumbnail/quiver-plot.jpg
 ---
 
-Quiver plots can be made using a [figure factory](/python/figure-factories/) as detailed in this page.
+A quiver plot displays a 2D vector field as an array of arrows. Since version 7, Plotly has a `Quiver` trace type, which is the recommended way to make quiver plots. Earlier versions relied on the `create_quiver` [figure factory](/python/figure-factories/), which is still available and is described at the end of this page.
+
+A `Quiver` trace takes four arrays of the same length: `x` and `y` give the position of each arrow, and `u` and `v` give the vector components at that position. Arrow direction and length come from `(u, v)`.
 
 #### Basic Quiver Plot
 
 ```python
-import plotly.figure_factory as ff
-
+import plotly.graph_objects as go
 import numpy as np
 
-x,y = np.meshgrid(np.arange(0, 2, .2), np.arange(0, 2, .2))
-u = np.cos(x)*y
-v = np.sin(x)*y
+x, y = np.meshgrid(np.arange(0, 2, .2), np.arange(0, 2, .2))
+u = np.cos(x) * y
+v = np.sin(x) * y
 
-fig = ff.create_quiver(x, y, u, v)
+fig = go.Figure(go.Quiver(x=x.flatten(), y=y.flatten(),
+                          u=u.flatten(), v=v.flatten()))
+
+fig.show()
+```
+
+#### Arrow Anchor and Length
+
+`anchor` sets which part of the arrow sits at its `(x, y)` position: `"tail"` (the default), `"tip"`, or `"center"`.
+
+Arrow length is controlled by `sizemode` and `sizeref`. With `sizemode="scaled"` (the default), lengths are normalized against the longest vector in the field and the density of points, so a dense grid stays readable whatever the underlying values are. `sizemode="raw"` draws each arrow at its own magnitude instead. `sizeref` is a multiplier applied on top: values below 1 shorten every arrow, above 1 lengthen them.
+
+```python
+import plotly.graph_objects as go
+import numpy as np
+
+x, y = np.meshgrid(np.arange(-2, 3), np.arange(-2, 3))
+u, v = -y, x  # rotational field
+
+fig = go.Figure(go.Quiver(x=x.flatten(), y=y.flatten(),
+                          u=u.flatten(), v=v.flatten(),
+                          anchor="center", sizeref=0.8))
+
+fig.update_layout(title_text="Rotational field, arrows centered on each point",
+                  yaxis_scaleanchor="x")
+fig.show()
+```
+
+#### Coloring Arrows by a Scalar Field
+
+Pass `marker.color` an array with one value per arrow, together with the usual colorscale attributes, to color each arrow by that value. If you enable a colorscale without supplying a `marker.color` array, arrows are colored by their vector magnitude. A single (non-array) `marker.color` paints the whole field one color.
+
+```python
+import plotly.graph_objects as go
+import numpy as np
+
+x, y = np.meshgrid(np.arange(-2, 2, .2), np.arange(-2, 2, .25))
+z = x * np.exp(-x**2 - y**2)
+v, u = np.gradient(z, .2, .2)
+speed = np.sqrt(u**2 + v**2)
+
+fig = go.Figure(go.Quiver(x=x.flatten(), y=y.flatten(),
+                          u=u.flatten(), v=v.flatten(),
+                          marker=dict(color=speed.flatten(),
+                                      colorscale="Viridis",
+                                      showscale=True,
+                                      colorbar_title_text="speed")))
+
+fig.show()
+```
+
+#### Styling Arrows
+
+`marker.line.width` and `marker.line.dash` style the arrow shafts, and `marker.arrowsize` scales the arrowhead relative to the shaft width — the default of `1` draws a head about three times as wide as the shaft.
+
+```python
+import plotly.graph_objects as go
+import numpy as np
+
+x, y = np.meshgrid(np.arange(0, 6), np.arange(0, 6))
+u_model = np.ones_like(x, dtype=float)
+v_model = 0.15 * (y - 2.5)
+u_measured = 0.9 * u_model
+v_measured = v_model + 0.25 * np.cos(x)
+
+fig = go.Figure([
+    go.Quiver(x=x.flatten(), y=y.flatten(),
+              u=u_model.flatten(), v=v_model.flatten(),
+              name="model",
+              marker=dict(color="#7f7f7f", arrowsize=0.8,
+                          line=dict(width=2, dash="dot"))),
+    go.Quiver(x=x.flatten(), y=y.flatten(),
+              u=u_measured.flatten(), v=v_measured.flatten(),
+              name="measured",
+              marker=dict(color="#d62728", arrowsize=1.2,
+                          line=dict(width=3))),
+])
+
+fig.update_layout(title_text="Modelled and measured fields", showlegend=True)
 fig.show()
 ```
 
 #### Quiver Plot with Points
 
-```python
-import plotly.figure_factory as ff
-import plotly.graph_objects as go
+A `Quiver` trace is a cartesian trace, so it can be combined with other cartesian traces in the same figure.
 
+```python
+import plotly.graph_objects as go
 import numpy as np
 
-x,y = np.meshgrid(np.arange(-2, 2, .2),
-                  np.arange(-2, 2, .25))
-z = x*np.exp(-x**2 - y**2)
+x, y = np.meshgrid(np.arange(-2, 2, .2), np.arange(-2, 2, .25))
+z = x * np.exp(-x**2 - y**2)
 v, u = np.gradient(z, .2, .2)
 
-# Create quiver figure
-fig = ff.create_quiver(x, y, u, v,
-                       scale=.25,
-                       arrow_scale=.4,
-                       name='quiver',
-                       line_width=1)
+fig = go.Figure(go.Quiver(x=x.flatten(), y=y.flatten(),
+                          u=u.flatten(), v=v.flatten(),
+                          name="quiver",
+                          marker=dict(line_width=1)))
 
-# Add points to figure
-fig.add_trace(go.Scatter(x=[-.7, .75], y=[0,0],
-                    mode='markers',
-                    marker_size=12,
-                    name='points'))
+fig.add_trace(go.Scatter(x=[-.7, .75], y=[0, 0],
+                         mode="markers",
+                         marker_size=12,
+                         name="points"))
 
 fig.show()
 ```
+
+#### Quiver Plots with the Figure Factory
+
+`create_quiver` builds a quiver plot out of `Scatter` traces rather than using the `Quiver` trace type. It remains available, and offers two options the trace type does not: `angle` sets the arrowhead angle in radians, and `scaleratio` fixes the ratio between the y-axis and x-axis scales.
+
+```python
+import plotly.figure_factory as ff
+import numpy as np
+
+x, y = np.meshgrid(np.arange(0, 2, .2), np.arange(0, 2, .2))
+u = np.cos(x) * y
+v = np.sin(x) * y
+
+fig = ff.create_quiver(x, y, u, v)
+
+fig.show()
+```
+
+Because the result is made of `Scatter` traces, the arrows cannot be colored individually by a scalar field, and the trace-level attributes described above (`anchor`, `sizemode`, `marker.arrowsize`) do not apply.
 
 #### See also
 
@@ -85,4 +179,4 @@ fig.show()
 
 #### Reference
 
-For more info on `ff.create_quiver()`, see the [full function reference](https://plotly.com/python-api-reference/generated/plotly.figure_factory.create_quiver.html)
+See the [Quiver trace reference](https://plotly.com/python/reference/quiver/) for the full list of attributes, or the [`create_quiver` function reference](https://plotly.com/python-api-reference/generated/plotly.figure_factory.create_quiver.html) for the figure factory.
