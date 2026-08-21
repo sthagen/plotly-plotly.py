@@ -1,3 +1,5 @@
+import datetime
+
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.tools as tls
@@ -183,3 +185,17 @@ def test_contourf_bands_render():
     plotly_fig = tls.mpl_to_plotly(fig)
     filled = [t for t in plotly_fig.data if t.fill == "toself"]
     assert len(filled) > 0
+
+
+def test_filled_path_collection_date_xaxis():
+    """Filled path collections with date x-values must export date strings,
+    not raw matplotlib date numbers."""
+    dates = [
+        datetime.datetime(2023, 1, 1) + datetime.timedelta(days=i) for i in range(10)
+    ]
+    fig, ax = plt.subplots()
+    ax.fill_between(dates, np.sin(np.arange(10)), np.cos(np.arange(10)))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    filled = [t for t in plotly_fig.data if t.fill == "toself"]
+    assert len(filled) >= 1
+    assert all(isinstance(x, str) for x in filled[0].x)

@@ -68,6 +68,15 @@ class PlotlyRenderer(Renderer):
         self._processing_legend = False
         self._legend_visible = False
 
+    def _convert_x_dates(self, x):
+        """Convert x values to date strings when the x-axis is a date axis."""
+        if self.x_is_mpl_date:
+            formatter = (
+                self.current_mpl_ax.get_xaxis().get_major_formatter().__class__.__name__
+            )
+            x = mpltools.mpl_dates_to_datestrings(x, formatter)
+        return x
+
     def open_figure(self, fig, props):
         """Creates a new figure by beginning to fill out layout dict.
 
@@ -299,13 +308,7 @@ class PlotlyRenderer(Renderer):
                 [bar["x0"] for bar in trace], [bar["x1"] for bar in trace]
             )
             if self.x_is_mpl_date:
-                x = [bar["x0"] for bar in trace]
-                formatter = (
-                    self.current_mpl_ax.get_xaxis()
-                    .get_major_formatter()
-                    .__class__.__name__
-                )
-                x = mpltools.mpl_dates_to_datestrings(x, formatter)
+                x = self._convert_x_dates([bar["x0"] for bar in trace])
         else:
             self.msg += "    Attempting to draw a horizontal bar chart\n"
             old_rights = [bar_props["x1"] for bar_props in trace]
@@ -449,14 +452,7 @@ class PlotlyRenderer(Renderer):
                 marker=marker,
             )
             if self.x_is_mpl_date:
-                formatter = (
-                    self.current_mpl_ax.get_xaxis()
-                    .get_major_formatter()
-                    .__class__.__name__
-                )
-                marked_line["x"] = mpltools.mpl_dates_to_datestrings(
-                    marked_line["x"], formatter
-                )
+                marked_line["x"] = self._convert_x_dates(marked_line["x"])
             self.plotly_fig.add_trace(marked_line)
             self.msg += "    Heck yeah, I drew that line\n"
         elif props["coordinates"] == "axes":
@@ -561,7 +557,7 @@ class PlotlyRenderer(Renderer):
             linewidth = per_path(linewidths, i, 0)
             self.plotly_fig.add_trace(
                 go.Scatter(
-                    x=[v[0] for v in verts],
+                    x=self._convert_x_dates([v[0] for v in verts]),
                     y=[v[1] for v in verts],
                     mode="lines",
                     line=go.scatter.Line(
