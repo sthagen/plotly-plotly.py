@@ -122,9 +122,7 @@ fig.write_image("images/fig1.svg")
 fig.write_image("images/fig1.pdf")
 ~~~
 
-**Note:** Figures containing WebGL traces (i.e. of type `scattergl`, `scatter3d`, `surface`, `mesh3d`, `scatterpolargl`, `cone`, `streamtube`, `splom`, or `parcoords`) that are exported in a vector format will include encapsulated rasters, instead of vectors, for some parts of the image. This is a fundamental limitation of WebGL, which renders to a grid of pixels rather than to individual shapes.
-
-Note that Plotly Express automatically uses WebGL for scatter-type figures with more than 1,000 data points: the default `render_mode="auto"` switches from `scatter` to `scattergl` above this threshold. If your exported SVG or PDF unexpectedly contains rasterized markers, this is likely why. To force fully-vector output, pass `render_mode="svg"` to the Plotly Express function, or use `go.Scatter` instead of `go.Scattergl` with graph objects. Note that fully-vector rendering can be slow for figures with many points, which is the reason WebGL is used by default above 1,000 points. See [WebGL Rendering](/python/webgl-vs-svg/) for more on this tradeoff.
+**Note:** Figures containing WebGL traces (i.e. of type `scattergl`, `contourgl`, `scatter3d`, `surface`, `mesh3d`, `scatterpolargl`, `cone`, `streamtube`, `splom`, or `parcoords`) that are exported in a vector format will include encapsulated rasters, instead of vectors, for some parts of the image.
 
 
 ### Specify a Format

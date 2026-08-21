@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: Shapes
-    order: 26
+    order: 25
     permalink: python/shapes/
     thumbnail: thumbnail/shape.jpg
 ---

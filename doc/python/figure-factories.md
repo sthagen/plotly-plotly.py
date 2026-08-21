@@ -28,7 +28,7 @@ jupyter:
     language: python
     layout: base
     name: Figure Factories
-    order: 34
+    order: 33
     permalink: python/figure-factories/
     thumbnail: thumbnail/streamline.jpg
 ---
@@ -41,7 +41,7 @@ The following plot types can be created with Figure Factory:
 
   * [Dendrograms](/python/dendrogram/)
   * [Hexagonal Binning Tile Map](/python/hexbin-map/)
-  * [Quiver Plots](/python/quiver-plots/) — since version 7.0, quiver plots are better made with the `go.Quiver` trace type. `create_quiver` remains available for its `angle` and `scaleratio` options.
+  * [Quiver Plots](/python/quiver-plots/)
   * [Streamline Plots](/python/streamline-plots/)
   * [Tables](/python/figure-factory-table/)
   * [Ternary Contour Plots](/python/ternary-contour/)
@@ -65,3 +65,4 @@ The following legacy Figure Factory functions have been replaced by Plotly Expre
 #### Reference
 
 For more information about the contents of `plotly.figure_factory`, please refer to our [API Reference documentation](https://plotly.com/python-api-reference/plotly.figure_factory.html).
+

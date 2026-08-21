@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: Horizontal and Vertical Lines and Rectangles
-    order: 38
+    order: 37
     permalink: python/horizontal-vertical-shapes/
     thumbnail: thumbnail/shape.jpg
 ---
