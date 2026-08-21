@@ -24,9 +24,7 @@ def _export_color(color):
     """
     if isinstance(color, str):
         return "rgba(0,0,0,0)" if color == "none" else color
-    if isinstance(color, (list, tuple)) and all(
-        isinstance(c, str) for c in color
-    ):
+    if isinstance(color, (list, tuple)) and all(isinstance(c, str) for c in color):
         return [_export_color(c) for c in color]
     bgcolor = export_color(color)
     return "rgba(0,0,0,0)" if bgcolor == "none" else bgcolor
