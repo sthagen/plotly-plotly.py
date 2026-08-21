@@ -556,7 +556,7 @@ class PlotlyRenderer(Renderer):
                 n = len(colors)
             except TypeError:
                 return colors
-            return colors[min(i, n - 1)] if n else default
+            return colors[i % n] if n else default
 
         for i, (verts, codes) in enumerate(props["paths"]):
             facecolor = per_path(facecolors, i, "rgba(0,0,0,0)")
