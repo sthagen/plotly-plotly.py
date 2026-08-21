@@ -546,7 +546,6 @@ class PlotlyRenderer(Renderer):
         facecolors = mpltools.convert_rgba_array(props["styles"]["facecolor"])
         edgecolors = mpltools.convert_rgba_array(props["styles"]["edgecolor"])
         linewidths = mpltools.convert_linewidth_array(props["styles"]["linewidth"])
-        alpha = props["styles"]["alpha"]
 
         def per_path(colors, i, default):
             if isinstance(colors, str):
@@ -573,7 +572,6 @@ class PlotlyRenderer(Renderer):
                     ),
                     fill="toself",
                     fillcolor=_export_color(facecolor),
-                    opacity=alpha,
                     xaxis="x{0}".format(self.axis_ct),
                     yaxis="y{0}".format(self.axis_ct),
                 )

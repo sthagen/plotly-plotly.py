@@ -128,6 +128,34 @@ def test_fill_between_renders():
     assert len(plotly_fig.data) >= 1
 
 
+def test_collection_alpha():
+    """Collection alpha is baked into the facecolor rgba by matplotlib. if
+    fillcolor has an alpha channel, the opacity field should not be set."""
+    x = np.linspace(0, 2 * np.pi, 50)
+    fig, ax = plt.subplots()
+    ax.fill_between(x, np.sin(x), np.cos(x), color="red", alpha=0.4)
+    plotly_fig = tls.mpl_to_plotly(fig)
+    trace = plotly_fig.data[0]
+    assert trace.fillcolor == "rgba(255,0,0,0.4)"
+    assert trace.opacity is None
+
+
+def test_violin_body_default_alpha():
+    """Violin bodies default to alpha=0.3 in matplotlib, which is
+    embedded in their facecolor rgba. If the alpha channel in fillcolor
+    is set, the opacity field should not be set."""
+    fig, ax = plt.subplots()
+    ax.violinplot(np.random.randn(100, 3))
+    plotly_fig = tls.mpl_to_plotly(fig)
+    bodies = [
+        t
+        for t in plotly_fig.data
+        if t.fill == "toself" and t.fillcolor == "rgba(31,119,180,0.3)"
+    ]
+    assert len(bodies) >= 3
+    assert all(t.opacity is None for t in bodies)
+
+
 def test_stem_plot_renders():
     x = np.linspace(0, 2 * np.pi, 20)
     fig, ax = plt.subplots()
