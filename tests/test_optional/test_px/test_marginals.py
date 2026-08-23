@@ -59,7 +59,9 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend, px_fn):
     # a single bin covering the full x range, so the strip is exactly one column
     assert marginal_y_trace.xbins.start <= pdf["total_bill"].min()
     assert marginal_y_trace.xbins.end >= pdf["total_bill"].max()
-    assert marginal_y_trace.xbins.size >= pdf["total_bill"].max() - pdf["total_bill"].min()
+    assert (
+        marginal_y_trace.xbins.size >= pdf["total_bill"].max() - pdf["total_bill"].min()
+    )
 
     assert fig.layout.coloraxis.colorbar.title.text == "sum of size"
 
@@ -68,9 +70,7 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend, px_fn):
 def test_marginal_heatmap_without_z(backend, px_fn):
     df = px.data.tips(return_type=backend)
 
-    fig = px_fn(
-        df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
-    )
+    fig = px_fn(df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap")
     marginal_x_trace, marginal_y_trace = fig.data[1], fig.data[2]
 
     assert marginal_x_trace.type == "histogram2d"
@@ -106,9 +106,7 @@ def test_marginal_heatmap_text_auto(backend, px_fn, text_auto):
 def test_marginal_heatmap_no_text_auto(backend, px_fn):
     df = px.data.tips(return_type=backend)
 
-    fig = px_fn(
-        df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
-    )
+    fig = px_fn(df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap")
     for trace in fig.data:
         assert trace.texttemplate is None
 
