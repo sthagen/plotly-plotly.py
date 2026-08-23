@@ -972,10 +972,10 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                     marginal=letter,
                 )
             elif args["marginal_" + letter] == "heatmap":
-                if constructor not in [go.Histogram2d, go.Histogram2dContour]:
+                if constructor != go.Histogram2d:
                     raise ValueError(
                         "`marginal_x`/`marginal_y` value `'heatmap'` is only supported "
-                        "for `density_heatmap` and `density_contour`."
+                        "for `density_heatmap`."
                     )
                 other_letter = "y" if letter == "x" else "x"
                 heatmap_trace_patch = dict(
@@ -2380,10 +2380,6 @@ def infer_config(args, constructor, trace_patch, layout_patch):
     if constructor in [go.Histogram2d, go.Densitymap, go.Densitymapbox]:
         show_colorbar = True
         trace_patch["coloraxis"] = "coloraxis1"
-    elif constructor == go.Histogram2dContour and (
-        args.get("marginal_x") == "heatmap" or args.get("marginal_y") == "heatmap"
-    ):
-        show_colorbar = True
 
     if "opacity" in args:
         if args["opacity"] is None:
@@ -2677,10 +2673,6 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
                             trace_spec.constructor in [go.Histogram]
                             and m.variable in ["symbol", "dash"]
                         )
-                        or (
-                            trace_spec.constructor == go.Histogram2d
-                            and m.variable in ["symbol", "pattern", "dash", "color"]
-                        )
                     ):
                         pass
                     elif (
@@ -2778,18 +2770,17 @@ def make_figure(args, constructor, trace_patch=None, layout_patch=None):
     if show_colorbar:
         colorvar = (
             "z"
-            if constructor
-            in [go.Histogram2d, go.Histogram2dContour, go.Densitymap, go.Densitymapbox]
+            if constructor in [go.Histogram2d, go.Densitymap, go.Densitymapbox]
             else "color"
         )
-        range_color = args.get("range_color") or [None, None]
+        range_color = args["range_color"] or [None, None]
 
         colorscale_validator = ColorscaleValidator("colorscale", "make_figure")
         coloraxis_dict = dict(
             colorscale=colorscale_validator.validate_coerce(
-                args.get("color_continuous_scale")
+                args["color_continuous_scale"]
             ),
-            cmid=args.get("color_continuous_midpoint"),
+            cmid=args["color_continuous_midpoint"],
             cmin=range_color[0],
             cmax=range_color[1],
             colorbar=dict(

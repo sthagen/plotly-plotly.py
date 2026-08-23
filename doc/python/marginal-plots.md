@@ -39,7 +39,7 @@ Marginal distribution plots are small subplots above or to the right of a main p
 
 ### Scatter Plot Marginals
 
-The `marginal_x` and `marginal_y` arguments accept one of `"histogram"`, `"rug"`, `"box"`, or `"violin"` (see also how to create [histograms](/python/histograms/), [box plots](/python/box-plots/) and [violin plots](/python/violin-plots/) as the main figure), plus `"heatmap"` for `density_heatmap` and `density_contour` (see below).
+The `marginal_x` and `marginal_y` arguments accept one of `"histogram"`, `"rug"`, `"box"`, or `"violin"` (see also how to create [histograms](/python/histograms/), [box plots](/python/box-plots/) and [violin plots](/python/violin-plots/) as the main figure), plus `"heatmap"` for `density_heatmap` (see below).
 
 Marginal plots are linked to the main plot: try zooming or panning on the main plot.
 
@@ -59,9 +59,9 @@ fig = px.density_heatmap(df, x="sepal_length", y="sepal_width", marginal_x="box"
 fig.show()
 ```
 
-### Marginal Heatmaps on Density Heatmaps and Contours
+### Marginal Heatmaps on Density Heatmaps
 
-`marginal_x` and `marginal_y` also accept `"heatmap"` for [`density_heatmap`](/python/2D-Histogram/) and [`density_contour`](/python/2d-histogram-contour/). This draws a single-row or single-column heatmap strip, colored by the same aggregate (`histfunc` of `z`, or count by default) as the main plot, and sharing its color scale.
+`marginal_x` and `marginal_y` also accept `"heatmap"` for [`density_heatmap`](/python/2D-Histogram/). This draws a single-row or single-column heatmap strip, colored by the same aggregate (`histfunc` of `z`, or count by default) as the main plot, and sharing its color scale. This is not supported for `density_contour`, since a contour plot's colorbar is discrete and not compatible with the continuous colorbar used by the marginal heatmap.
 
 ```python
 import plotly.express as px

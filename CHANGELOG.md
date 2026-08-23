@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 ### Added
-- Support `marginal_x`/`marginal_y="heatmap"` in `density_heatmap`/`density_contour`, drawing a single-row/column heatmap strip in the margin colored by the same `z`/`histfunc` aggregate as the main plot; `text_auto` now also applies to the marginal heatmap strip [[#5706](https://github.com/plotly/plotly.py/issues/5706)]
+- Support `marginal_x`/`marginal_y="heatmap"` in `density_heatmap`, drawing a single-row/column heatmap strip in the margin colored by the same `z`/`histfunc` aggregate as the main plot and sharing its color scale; `text_auto` now also applies to the marginal heatmap strip [[#5706](https://github.com/plotly/plotly.py/issues/5706)]
 
 ### Fixed
 - Fix `hex_to_rgb` parsing of 3-digit shorthand hexadecimal colors such as `#FFF` [[#5662](https://github.com/plotly/plotly.py/pull/5662)], with thanks to @genrichez for the contribution!

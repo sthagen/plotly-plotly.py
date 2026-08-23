@@ -26,14 +26,13 @@ def test_single_marginals(backend, px_fn, marginal, orientation):
     assert len(fig.data) == 1 + (marginal is not None)
 
 
-@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
-def test_marginal_heatmap_uses_z_and_histfunc(backend, px_fn):
+def test_marginal_heatmap_uses_z_and_histfunc(backend):
     df = px.data.tips(return_type=backend)
     # backend-independent reference for min/max, since e.g. pyarrow columns don't
     # support .min()/.max() directly
     pdf = px.data.tips()
 
-    fig = px_fn(
+    fig = px.density_heatmap(
         df,
         x="total_bill",
         y="tip",
@@ -66,11 +65,12 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend, px_fn):
     assert fig.layout.coloraxis.colorbar.title.text == "sum of size"
 
 
-@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
-def test_marginal_heatmap_without_z(backend, px_fn):
+def test_marginal_heatmap_without_z(backend):
     df = px.data.tips(return_type=backend)
 
-    fig = px_fn(df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap")
+    fig = px.density_heatmap(
+        df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
+    )
     marginal_x_trace, marginal_y_trace = fig.data[1], fig.data[2]
 
     assert marginal_x_trace.type == "histogram2d"
@@ -84,12 +84,11 @@ def test_marginal_heatmap_without_z(backend, px_fn):
     assert fig.layout.coloraxis.colorbar.title.text == "count"
 
 
-@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
 @pytest.mark.parametrize("text_auto", [True, ".1f"])
-def test_marginal_heatmap_text_auto(backend, px_fn, text_auto):
+def test_marginal_heatmap_text_auto(backend, text_auto):
     df = px.data.tips(return_type=backend)
 
-    fig = px_fn(
+    fig = px.density_heatmap(
         df,
         x="total_bill",
         y="tip",
@@ -102,11 +101,12 @@ def test_marginal_heatmap_text_auto(backend, px_fn, text_auto):
         assert trace.texttemplate == expected
 
 
-@pytest.mark.parametrize("px_fn", [px.density_heatmap, px.density_contour])
-def test_marginal_heatmap_no_text_auto(backend, px_fn):
+def test_marginal_heatmap_no_text_auto(backend):
     df = px.data.tips(return_type=backend)
 
-    fig = px_fn(df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap")
+    fig = px.density_heatmap(
+        df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
+    )
     for trace in fig.data:
         assert trace.texttemplate is None
 
@@ -118,20 +118,12 @@ def test_marginal_heatmap_unsupported_chart_type_raises():
         px.scatter(x=[1, 2, 3], y=[2, 3, 4], marginal_y="heatmap")
     with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
         px.histogram(x=[1, 2, 3], marginal="heatmap")
-
-
-def test_marginal_heatmap_with_discrete_color(backend):  # density_contour + line.color
-    df = px.data.tips(return_type=backend)
-    fig = px.density_contour(
-        df, x="total_bill", y="tip", color="sex", marginal_x="heatmap"
-    )
-    assert len(fig.data) == 4
-    assert [t.type for t in fig.data] == [
-        "histogram2dcontour",
-        "histogram2d",
-        "histogram2dcontour",
-        "histogram2d",
-    ]
+    # density_contour's discrete-looking colorbar isn't compatible with the
+    # continuous marginal heatmap colorbar, so it's intentionally unsupported
+    with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
+        px.density_contour(x=[1, 2, 3], y=[2, 3, 4], marginal_x="heatmap")
+    with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
+        px.density_contour(x=[1, 2, 3], y=[2, 3, 4], marginal_y="heatmap")
 
 
 def test_unsupported_marginal_raises_clear_error():  # issue 4654
