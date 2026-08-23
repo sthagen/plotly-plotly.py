@@ -947,9 +947,7 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                 if args.get("z") is not None:
                     marginal_attrs.append("z")
                     marginal_trace_patch["histfunc"] = args.get("histfunc")
-                    marginal_trace_patch["orientation"] = (
-                        "v" if letter == "x" else "h"
-                    )
+                    marginal_trace_patch["orientation"] = "v" if letter == "x" else "h"
                 trace_spec = TraceSpec(
                     constructor=go.Histogram,
                     attrs=marginal_attrs,
