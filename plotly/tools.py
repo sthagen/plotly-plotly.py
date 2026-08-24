@@ -72,13 +72,13 @@ def mpl_to_plotly(fig, resize=False, strip_style=False, verbose=False):
     of plotly.plot to have the graph appear directly in the IPython notebook.
 
     Note, this function gives the user access to a simple, one-line way to
-    render an mpl figure in plotly. If you need to trouble shoot, you can do
-    this step manually by NOT running this fuction and entereing the following:
+    render an mpl figure in plotly. If you need to troubleshoot, you can do
+    this step manually by NOT running this function and entering the following:
 
     ===========================================================================
     from plotly.matplotlylib import mplexporter, PlotlyRenderer
 
-    # create an mpl figure and store it under a varialble 'fig'
+    # create an mpl figure and store it under a variable 'fig'
 
     renderer = PlotlyRenderer()
     exporter = mplexporter.Exporter(renderer)
