@@ -1118,16 +1118,18 @@ class StringValidator(BaseValidator):
 class ColorValidator(BaseValidator):
     """
     "color": {
-        "description": "A string describing color. Supported formats:
+        "description": "A string describing color. All CSS 4 color formats are supported, including:
                         - hex or short hex (e.g. '#d3d3d3', '#d3d')
                         - hex or short hex with alpha (e.g. '#d3d3d380', '#d3d8')
                         - rgb (e.g. 'rgb(255, 0, 0)', 'rgb(255 0 0)')
                         - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
                         - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
                         - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-                        - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-                        - named colors(full list:
-                          http://www.w3.org/TR/css3-color/#svg-color)",
+                        - hwb (e.g. 'hwb(0 0% 100%)')
+                        - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+                        - color (e.g. 'color(display-p3 1 0 0)')
+                        - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+                        - See full CSS 4 color spec: https://www.w3.org/TR/css-color-4/",
         "requiredOpts": [],
         "otherOpts": [
             "dflt",
@@ -1142,7 +1144,7 @@ class ColorValidator(BaseValidator):
         r"#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})"
     )
     re_rgb_etc = re.compile(
-        r"((rgb|hsl)a?|hwb)\([\d.]+(%|deg)?([ ,] ?[\d.]+%?){2}([ /,] ?[\d.]+%?)?\)"
+        r"((rgb|hsl)a?|hwb|(ok)?(lab|lch))\([\d.]+(%|deg)?([ ,] ?[\d.]+%?){2}([ /,] ?[\d.]+%?)?\)|color\([\w-]+([ ,] ?[\d.]+){3,4}\)"
     )
     re_ddk = re.compile(r"var\(\-\-.*\)")
 
@@ -1323,8 +1325,11 @@ class ColorValidator(BaseValidator):
       - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
       - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
       - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-      - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-      - a named CSS color: see https://plotly.com/python/css-colors/ for a list""".format(
+      - hwb (e.g. 'hwb(0 0% 100%)')
+      - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+      - color (e.g. 'color(display-p3 1 0 0)')
+      - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+      - Any other supported CSS 4 color format: https://www.w3.org/TR/css-color-4/""".format(
             plotly_name=self.plotly_name
         )
 
