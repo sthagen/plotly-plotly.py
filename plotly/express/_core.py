@@ -353,10 +353,10 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                 trace_patch["marker"]["sizeref"] = sizeref
                 mapping_labels[attr_label] = "%{marker.size}"
             elif attr_name == "marginal_x":
-                if trace_spec.constructor == go.Histogram:
+                if trace_spec.constructor == go.Histogram and args.get("z") is None:
                     mapping_labels["count"] = "%{y}"
             elif attr_name == "marginal_y":
-                if trace_spec.constructor == go.Histogram:
+                if trace_spec.constructor == go.Histogram and args.get("z") is None:
                     mapping_labels["count"] = "%{x}"
             elif attr_name == "trendline":
                 if (
@@ -565,6 +565,12 @@ def make_trace_kwargs(args, trace_spec, trace_data, mapping_labels, sizeref):
                     mapping_labels[_label] = "%{label}"
                 else:
                     trace_patch[attr_name] = trace_data.get_column(attr_value)
+            elif attr_name == "z" and trace_spec.constructor == go.Histogram:
+                # marginal histogram aggregating z via histfunc: feed it onto
+                # the axis opposite the shared coordinate (trace_spec.marginal)
+                other_letter = "y" if trace_spec.marginal == "x" else "x"
+                trace_patch[other_letter] = trace_data.get_column(attr_value)
+                mapping_labels[attr_label] = "%%{%s}" % other_letter
             else:
                 trace_patch[attr_name] = trace_data.get_column(attr_value)
                 mapping_labels[attr_label] = "%%{%s}" % attr_name
@@ -897,10 +903,16 @@ def make_trace_spec(args, constructor, attrs, trace_patch):
                 yaxis="y1" if letter == "y" else "y2",
             )
             if args["marginal_" + letter] == "histogram":
+                marginal_attrs = [letter, "marginal_" + letter]
+                marginal_trace_patch = dict(opacity=0.5, bingroup=letter, **axis_map)
+                if args.get("z") is not None:
+                    marginal_attrs.append("z")
+                    marginal_trace_patch["histfunc"] = args.get("histfunc")
+                    marginal_trace_patch["orientation"] = "v" if letter == "x" else "h"
                 trace_spec = TraceSpec(
                     constructor=go.Histogram,
-                    attrs=[letter, "marginal_" + letter],
-                    trace_patch=dict(opacity=0.5, bingroup=letter, **axis_map),
+                    attrs=marginal_attrs,
+                    trace_patch=marginal_trace_patch,
                     marginal=letter,
                 )
             elif args["marginal_" + letter] == "violin":
