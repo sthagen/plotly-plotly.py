@@ -74,8 +74,11 @@ class ErrorY(_BaseTraceHierarchyType):
           - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
           - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
           - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-          - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-          - a named CSS color: see https://plotly.com/python/css-colors/ for a list
+          - hwb (e.g. 'hwb(0 0% 100%)')
+          - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+          - color (e.g. 'color(display-p3 1 0 0)')
+          - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+          - Any other supported CSS 4 color format: https://www.w3.org/TR/css-color-4/
 
         Returns
         -------

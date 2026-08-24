@@ -472,7 +472,9 @@ class Layout(_BaseLayoutType):
         within the plot area, not just over traces. When clicking where
         there is no trace data, the event will have an empty `points`
         array but will include `xvals` and `yvals` with click
-        coordinates in data space.
+        coordinates in data space, and `xPixel` and `yPixel` with click
+        coordinates in pixels, relative to the top-left corner of the
+        graph div.
 
         The 'clickanywhere' property is a boolean and must be specified as:
           - A boolean value: True or False
@@ -974,7 +976,10 @@ class Layout(_BaseLayoutType):
         position within the plot area, not just over traces. When the
         cursor is not over a trace, the event will have an empty
         `points` array but will include `xvals` and `yvals` with cursor
-        coordinates in data space.
+        coordinates in data space, and `xPixel` and `yPixel` with
+        cursor coordinates in pixels, relative to the top-left corner
+        of the graph div. A `plotly_unhover` event fires when the
+        cursor leaves the plot area.
 
         The 'hoveranywhere' property is a boolean and must be specified as:
           - A boolean value: True or False
@@ -1364,8 +1369,11 @@ class Layout(_BaseLayoutType):
           - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
           - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
           - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-          - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-          - a named CSS color: see https://plotly.com/python/css-colors/ for a list
+          - hwb (e.g. 'hwb(0 0% 100%)')
+          - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+          - color (e.g. 'color(display-p3 1 0 0)')
+          - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+          - Any other supported CSS 4 color format: https://www.w3.org/TR/css-color-4/
 
         Returns
         -------
@@ -1412,8 +1420,11 @@ class Layout(_BaseLayoutType):
           - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
           - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
           - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-          - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-          - a named CSS color: see https://plotly.com/python/css-colors/ for a list
+          - hwb (e.g. 'hwb(0 0% 100%)')
+          - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+          - color (e.g. 'color(display-p3 1 0 0)')
+          - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+          - Any other supported CSS 4 color format: https://www.w3.org/TR/css-color-4/
 
         Returns
         -------
@@ -2267,7 +2278,9 @@ class Layout(_BaseLayoutType):
             When clicking where there is no trace data, the event
             will have an empty `points` array but will include
             `xvals` and `yvals` with click coordinates in data
-            space.
+            space, and `xPixel` and `yPixel` with click coordinates
+            in pixels, relative to the top-left corner of the graph
+            div.
         clickmode
             Determines the mode of single click interactions.
             "event" is the default value and emits the
@@ -2400,7 +2413,11 @@ class Layout(_BaseLayoutType):
             position within the plot area, not just over traces.
             When the cursor is not over a trace, the event will
             have an empty `points` array but will include `xvals`
-            and `yvals` with cursor coordinates in data space.
+            and `yvals` with cursor coordinates in data space, and
+            `xPixel` and `yPixel` with cursor coordinates in
+            pixels, relative to the top-left corner of the graph
+            div. A `plotly_unhover` event fires when the cursor
+            leaves the plot area.
         hoverdistance
             Sets the default distance (in pixels) to look for data
             to add hover labels (-1 means no cutoff, 0 means no
@@ -2870,7 +2887,9 @@ class Layout(_BaseLayoutType):
             When clicking where there is no trace data, the event
             will have an empty `points` array but will include
             `xvals` and `yvals` with click coordinates in data
-            space.
+            space, and `xPixel` and `yPixel` with click coordinates
+            in pixels, relative to the top-left corner of the graph
+            div.
         clickmode
             Determines the mode of single click interactions.
             "event" is the default value and emits the
@@ -3003,7 +3022,11 @@ class Layout(_BaseLayoutType):
             position within the plot area, not just over traces.
             When the cursor is not over a trace, the event will
             have an empty `points` array but will include `xvals`
-            and `yvals` with cursor coordinates in data space.
+            and `yvals` with cursor coordinates in data space, and
+            `xPixel` and `yPixel` with cursor coordinates in
+            pixels, relative to the top-left corner of the graph
+            div. A `plotly_unhover` event fires when the cursor
+            leaves the plot area.
         hoverdistance
             Sets the default distance (in pixels) to look for data
             to add hover labels (-1 means no cutoff, 0 means no
