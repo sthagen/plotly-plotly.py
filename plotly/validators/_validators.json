@@ -65018,6 +65018,18 @@
         },
         "superclass": "IntegerValidator"
     },
+    "sankey.direction": {
+        "params": {
+            "plotly_name": "direction",
+            "parent_name": "sankey",
+            "edit_type": "calc",
+            "values": [
+                "forward",
+                "reversed"
+            ]
+        },
+        "superclass": "EnumeratedValidator"
+    },
     "sankey.customdata": {
         "params": {
             "plotly_name": "customdata",
@@ -65397,27 +65409,6 @@
             "edit_type": "calc"
         },
         "superclass": "StringValidator"
-    },
-    "quiver.sizeref": {
-        "params": {
-            "plotly_name": "sizeref",
-            "parent_name": "quiver",
-            "edit_type": "calc",
-            "min": 0
-        },
-        "superclass": "NumberValidator"
-    },
-    "quiver.sizemode": {
-        "params": {
-            "plotly_name": "sizemode",
-            "parent_name": "quiver",
-            "edit_type": "calc",
-            "values": [
-                "scaled",
-                "raw"
-            ]
-        },
-        "superclass": "EnumeratedValidator"
     },
     "quiver.showlegend": {
         "params": {
@@ -66456,6 +66447,27 @@
         },
         "superclass": "NumberValidator"
     },
+    "quiver.lengthmode": {
+        "params": {
+            "plotly_name": "lengthmode",
+            "parent_name": "quiver",
+            "edit_type": "calc",
+            "values": [
+                "scaled",
+                "raw"
+            ]
+        },
+        "superclass": "EnumeratedValidator"
+    },
+    "quiver.lengthfactor": {
+        "params": {
+            "plotly_name": "lengthfactor",
+            "parent_name": "quiver",
+            "edit_type": "calc",
+            "min": 0
+        },
+        "superclass": "NumberValidator"
+    },
     "quiver.legendwidth": {
         "params": {
             "plotly_name": "legendwidth",
@@ -66873,9 +66885,9 @@
         },
         "superclass": "DataArrayValidator"
     },
-    "quiver.anglemode": {
+    "quiver.arrowref": {
         "params": {
-            "plotly_name": "anglemode",
+            "plotly_name": "arrowref",
             "parent_name": "quiver",
             "edit_type": "calc",
             "values": [

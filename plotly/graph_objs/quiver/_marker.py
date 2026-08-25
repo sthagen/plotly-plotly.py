@@ -27,7 +27,7 @@ class Marker(_BaseTraceHierarchyType):
     @property
     def arrowsize(self):
         """
-        Sets the size of the arrow head relative to
+        Sets the size of the vector arrowhead relative to
         `marker.line.width`. A value of 1 (default) gives a head about
         3x as wide as the line.
 
@@ -170,8 +170,11 @@ class Marker(_BaseTraceHierarchyType):
           - rgba (e.g. 'rgba(255, 0, 0, 0.5)', 'rgba(255 0 0 / 0.5)')
           - hsl (e.g. 'hsl(0, 100%, 50%)', 'hsl(0deg 100% 50%)')
           - hsla (e.g. 'hsla(0, 100%, 50%, 0.5)', 'hsla(0deg 100% 50% / 0.5)')
-          - hwb (e.g. 'hwb(0, 0%, 100%)', 'hwb(0 0% 100%)')
-          - a named CSS color: see https://plotly.com/python/css-colors/ for a list
+          - hwb (e.g. 'hwb(0 0% 100%)')
+          - lab/lch/oklab/oklch (e.g. 'oklch(0.7 0.15 180)')
+          - color (e.g. 'color(display-p3 1 0 0)')
+          - named colors (full list: https://www.w3.org/TR/css-color-4/#named-color)
+          - Any other supported CSS 4 color format: https://www.w3.org/TR/css-color-4/
           - A number that will be interpreted as a color
             according to quiver.marker.colorscale
           - A list or array of any of the above
@@ -346,7 +349,7 @@ class Marker(_BaseTraceHierarchyType):
     def _prop_descriptions(self):
         return """\
         arrowsize
-            Sets the size of the arrow head relative to
+            Sets the size of the vector arrowhead relative to
             `marker.line.width`. A value of 1 (default) gives a
             head about 3x as wide as the line.
         autocolorscale
@@ -454,7 +457,7 @@ class Marker(_BaseTraceHierarchyType):
             dict of properties compatible with this constructor or
             an instance of :class:`plotly.graph_objs.quiver.Marker`
         arrowsize
-            Sets the size of the arrow head relative to
+            Sets the size of the vector arrowhead relative to
             `marker.line.width`. A value of 1 (default) gives a
             head about 3x as wide as the line.
         autocolorscale

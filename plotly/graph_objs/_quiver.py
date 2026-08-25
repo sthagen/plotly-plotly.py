@@ -10,7 +10,7 @@ class Quiver(_BaseTraceType):
     _path_str = "quiver"
     _valid_props = {
         "anchor",
-        "anglemode",
+        "arrowref",
         "customdata",
         "dx",
         "dy",
@@ -23,6 +23,8 @@ class Quiver(_BaseTraceType):
         "legendgrouptitle",
         "legendrank",
         "legendwidth",
+        "lengthfactor",
+        "lengthmode",
         "marker",
         "meta",
         "name",
@@ -30,8 +32,6 @@ class Quiver(_BaseTraceType):
         "selected",
         "selectedpoints",
         "showlegend",
-        "sizemode",
-        "sizeref",
         "text",
         "textfont",
         "textposition",
@@ -57,9 +57,10 @@ class Quiver(_BaseTraceType):
     @property
     def anchor(self):
         """
-        Sets the arrows' anchor with respect to their (x,y) positions.
-        Use "tail" to place (x,y) at the base, "tip" to place (x,y) at
-        the head, or "center" to center the arrow on (x,y).
+        Sets the vector arrows' anchor with respect to their (x,y)
+        positions. Use "tail" to place (x,y) at the base, "tip" to
+        place (x,y) at the head, or "center" to center the vector arrow
+        on (x,y).
 
         The 'anchor' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -76,16 +77,16 @@ class Quiver(_BaseTraceType):
         self["anchor"] = val
 
     @property
-    def anglemode(self):
+    def arrowref(self):
         """
-        Sets the mode used to determine the angle of the arrow vectors.
-        If "paper", u/v are interpreted in pixel coordinates and the
-        rendered vector angle does not change regardless of the axes
+        Determines how the u/v vector components are interpreted. If
+        "paper", u/v are interpreted in pixel coordinates and the
+        rendered vector angle does not change regardless of the axis
         scales. If "data", u/v are interpreted in data coordinates and
         the rendered vector angle may change, e.g. if zooming in along
         a single axis
 
-        The 'anglemode' property is an enumeration that may be specified as:
+        The 'arrowref' property is an enumeration that may be specified as:
           - One of the following enumeration values:
                 ['paper', 'data']
 
@@ -93,11 +94,11 @@ class Quiver(_BaseTraceType):
         -------
         Any
         """
-        return self["anglemode"]
+        return self["arrowref"]
 
-    @anglemode.setter
-    def anglemode(self, val):
-        self["anglemode"] = val
+    @arrowref.setter
+    def arrowref(self, val):
+        self["arrowref"] = val
 
     @property
     def customdata(self):
@@ -375,6 +376,49 @@ class Quiver(_BaseTraceType):
         self["legendwidth"] = val
 
     @property
+    def lengthfactor(self):
+        """
+        Adjusts the drawn length of the vector arrows. The arrow length
+        is determined by the values of u and v, then optionally
+        rescaled when `lengthmode` is "scaled", then multiplied by
+        `lengthfactor`.
+
+        The 'lengthfactor' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["lengthfactor"]
+
+    @lengthfactor.setter
+    def lengthfactor(self, val):
+        self["lengthfactor"] = val
+
+    @property
+    def lengthmode(self):
+        """
+        Determines whether vector arrows are drawn according to their
+        raw lengths, or scaled based on the maximum vector length and
+        point density. Note: When `arrowref` is "paper" vectors are
+        always scaled and `lengthmode` "raw" is ignored.
+
+        The 'lengthmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['scaled', 'raw']
+
+        Returns
+        -------
+        Any
+        """
+        return self["lengthmode"]
+
+    @lengthmode.setter
+    def lengthmode(self, val):
+        self["lengthmode"] = val
+
+    @property
     def marker(self):
         """
         The 'marker' property is an instance of Marker
@@ -518,49 +562,6 @@ class Quiver(_BaseTraceType):
         self["showlegend"] = val
 
     @property
-    def sizemode(self):
-        """
-        Determines whether arrows are drawn according to their raw
-        lengths, or scaled based on the maximum vector length and point
-        density. Note: When `anglemode` is "data" arrows are alwyas
-        scaled and `sizemode` "raw" is ignored.
-
-        The 'sizemode' property is an enumeration that may be specified as:
-          - One of the following enumeration values:
-                ['scaled', 'raw']
-
-        Returns
-        -------
-        Any
-        """
-        return self["sizemode"]
-
-    @sizemode.setter
-    def sizemode(self, val):
-        self["sizemode"] = val
-
-    @property
-    def sizeref(self):
-        """
-        Adjusts the arrow size scaling. The arrow length is determined
-        by the vector norm multiplied by `sizeref`, optionally
-        normalized when `sizemode` is "scaled" (`sizeref` is applied
-        after scaling).
-
-        The 'sizeref' property is a number and may be specified as:
-          - An int or float in the interval [0, inf]
-
-        Returns
-        -------
-        int|float
-        """
-        return self["sizeref"]
-
-    @sizeref.setter
-    def sizeref(self, val):
-        self["sizeref"] = val
-
-    @property
     def text(self):
         """
         Sets text elements associated with each (x,y) pair. If a single
@@ -632,7 +633,7 @@ class Quiver(_BaseTraceType):
     @property
     def u(self):
         """
-        Sets the x components of the arrow vectors.
+        Sets the x components of the vector arrows.
 
         The 'u' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -743,7 +744,7 @@ class Quiver(_BaseTraceType):
     @property
     def v(self):
         """
-        Sets the y components of the arrow vectors.
+        Sets the y components of the vector arrows.
 
         The 'v' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -805,7 +806,7 @@ class Quiver(_BaseTraceType):
     @property
     def x(self):
         """
-        Sets the x coordinates of the arrow locations.
+        Sets the x coordinates of the vector arrow locations.
 
         The 'x' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -894,7 +895,7 @@ class Quiver(_BaseTraceType):
     @property
     def y(self):
         """
-        Sets the y coordinates of the arrow locations.
+        Sets the y coordinates of the vector arrow locations.
 
         The 'y' property is an array that may be specified as a tuple,
         list, numpy array, or pandas Series
@@ -988,15 +989,15 @@ class Quiver(_BaseTraceType):
     def _prop_descriptions(self):
         return """\
         anchor
-            Sets the arrows' anchor with respect to their (x,y)
-            positions. Use "tail" to place (x,y) at the base, "tip"
-            to place (x,y) at the head, or "center" to center the
-            arrow on (x,y).
-        anglemode
-            Sets the mode used to determine the angle of the arrow
-            vectors. If "paper", u/v are interpreted in pixel
+            Sets the vector arrows' anchor with respect to their
+            (x,y) positions. Use "tail" to place (x,y) at the base,
+            "tip" to place (x,y) at the head, or "center" to center
+            the vector arrow on (x,y).
+        arrowref
+            Determines how the u/v vector components are
+            interpreted. If "paper", u/v are interpreted in pixel
             coordinates and the rendered vector angle does not
-            change regardless of the axes scales. If "data", u/v
+            change regardless of the axis scales. If "data", u/v
             are interpreted in data coordinates and the rendered
             vector angle may change, e.g. if zooming in along a
             single axis
@@ -1084,6 +1085,17 @@ class Quiver(_BaseTraceType):
         legendwidth
             Sets the width (in px or fraction) of the legend for
             this trace.
+        lengthfactor
+            Adjusts the drawn length of the vector arrows. The
+            arrow length is determined by the values of u and v,
+            then optionally rescaled when `lengthmode` is "scaled",
+            then multiplied by `lengthfactor`.
+        lengthmode
+            Determines whether vector arrows are drawn according to
+            their raw lengths, or scaled based on the maximum
+            vector length and point density. Note: When `arrowref`
+            is "paper" vectors are always scaled and `lengthmode`
+            "raw" is ignored.
         marker
             :class:`plotly.graph_objects.quiver.Marker` instance or
             dict with compatible properties
@@ -1118,17 +1130,6 @@ class Quiver(_BaseTraceType):
         showlegend
             Determines whether or not an item corresponding to this
             trace is shown in the legend.
-        sizemode
-            Determines whether arrows are drawn according to their
-            raw lengths, or scaled based on the maximum vector
-            length and point density. Note: When `anglemode` is
-            "data" arrows are alwyas scaled and `sizemode` "raw" is
-            ignored.
-        sizeref
-            Adjusts the arrow size scaling. The arrow length is
-            determined by the vector norm multiplied by `sizeref`,
-            optionally normalized when `sizemode` is "scaled"
-            (`sizeref` is applied after scaling).
         text
             Sets text elements associated with each (x,y) pair. If
             a single string, the same string appears over all the
@@ -1143,7 +1144,7 @@ class Quiver(_BaseTraceType):
             Sets the positions of the `text` elements with respects
             to the (x,y) coordinates.
         u
-            Sets the x components of the arrow vectors.
+            Sets the x components of the vector arrows.
         uhoverformat
             Sets the hover text formatting rule for `u` using d3
             formatting mini-languages which are very similar to
@@ -1176,7 +1177,7 @@ class Quiver(_BaseTraceType):
             :class:`plotly.graph_objects.quiver.Unselected`
             instance or dict with compatible properties
         v
-            Sets the y components of the arrow vectors.
+            Sets the y components of the vector arrows.
         vhoverformat
             Sets the hover text formatting rule for `v` using d3
             formatting mini-languages which are very similar to
@@ -1189,7 +1190,7 @@ class Quiver(_BaseTraceType):
             a legend item (provided that the legend itself is
             visible).
         x
-            Sets the x coordinates of the arrow locations.
+            Sets the x coordinates of the vector arrow locations.
         x0
             Alternate to `x`. Builds a linear space of x
             coordinates. Use with `dx` where `x0` is the starting
@@ -1213,7 +1214,7 @@ class Quiver(_BaseTraceType):
             display *09~15~23.46*By default the values are
             formatted using `xaxis.hoverformat`.
         y
-            Sets the y coordinates of the arrow locations.
+            Sets the y coordinates of the vector arrow locations.
         y0
             Alternate to `y`. Builds a linear space of y
             coordinates. Use with `dy` where `y0` is the starting
@@ -1242,7 +1243,7 @@ class Quiver(_BaseTraceType):
         self,
         arg=None,
         anchor=None,
-        anglemode=None,
+        arrowref=None,
         customdata=None,
         dx=None,
         dy=None,
@@ -1255,6 +1256,8 @@ class Quiver(_BaseTraceType):
         legendgrouptitle=None,
         legendrank=None,
         legendwidth=None,
+        lengthfactor=None,
+        lengthmode=None,
         marker=None,
         meta=None,
         name=None,
@@ -1262,8 +1265,6 @@ class Quiver(_BaseTraceType):
         selected=None,
         selectedpoints=None,
         showlegend=None,
-        sizemode=None,
-        sizeref=None,
         text=None,
         textfont=None,
         textposition=None,
@@ -1300,15 +1301,15 @@ class Quiver(_BaseTraceType):
             dict of properties compatible with this constructor or
             an instance of :class:`plotly.graph_objs.Quiver`
         anchor
-            Sets the arrows' anchor with respect to their (x,y)
-            positions. Use "tail" to place (x,y) at the base, "tip"
-            to place (x,y) at the head, or "center" to center the
-            arrow on (x,y).
-        anglemode
-            Sets the mode used to determine the angle of the arrow
-            vectors. If "paper", u/v are interpreted in pixel
+            Sets the vector arrows' anchor with respect to their
+            (x,y) positions. Use "tail" to place (x,y) at the base,
+            "tip" to place (x,y) at the head, or "center" to center
+            the vector arrow on (x,y).
+        arrowref
+            Determines how the u/v vector components are
+            interpreted. If "paper", u/v are interpreted in pixel
             coordinates and the rendered vector angle does not
-            change regardless of the axes scales. If "data", u/v
+            change regardless of the axis scales. If "data", u/v
             are interpreted in data coordinates and the rendered
             vector angle may change, e.g. if zooming in along a
             single axis
@@ -1396,6 +1397,17 @@ class Quiver(_BaseTraceType):
         legendwidth
             Sets the width (in px or fraction) of the legend for
             this trace.
+        lengthfactor
+            Adjusts the drawn length of the vector arrows. The
+            arrow length is determined by the values of u and v,
+            then optionally rescaled when `lengthmode` is "scaled",
+            then multiplied by `lengthfactor`.
+        lengthmode
+            Determines whether vector arrows are drawn according to
+            their raw lengths, or scaled based on the maximum
+            vector length and point density. Note: When `arrowref`
+            is "paper" vectors are always scaled and `lengthmode`
+            "raw" is ignored.
         marker
             :class:`plotly.graph_objects.quiver.Marker` instance or
             dict with compatible properties
@@ -1430,17 +1442,6 @@ class Quiver(_BaseTraceType):
         showlegend
             Determines whether or not an item corresponding to this
             trace is shown in the legend.
-        sizemode
-            Determines whether arrows are drawn according to their
-            raw lengths, or scaled based on the maximum vector
-            length and point density. Note: When `anglemode` is
-            "data" arrows are alwyas scaled and `sizemode` "raw" is
-            ignored.
-        sizeref
-            Adjusts the arrow size scaling. The arrow length is
-            determined by the vector norm multiplied by `sizeref`,
-            optionally normalized when `sizemode` is "scaled"
-            (`sizeref` is applied after scaling).
         text
             Sets text elements associated with each (x,y) pair. If
             a single string, the same string appears over all the
@@ -1455,7 +1456,7 @@ class Quiver(_BaseTraceType):
             Sets the positions of the `text` elements with respects
             to the (x,y) coordinates.
         u
-            Sets the x components of the arrow vectors.
+            Sets the x components of the vector arrows.
         uhoverformat
             Sets the hover text formatting rule for `u` using d3
             formatting mini-languages which are very similar to
@@ -1488,7 +1489,7 @@ class Quiver(_BaseTraceType):
             :class:`plotly.graph_objects.quiver.Unselected`
             instance or dict with compatible properties
         v
-            Sets the y components of the arrow vectors.
+            Sets the y components of the vector arrows.
         vhoverformat
             Sets the hover text formatting rule for `v` using d3
             formatting mini-languages which are very similar to
@@ -1501,7 +1502,7 @@ class Quiver(_BaseTraceType):
             a legend item (provided that the legend itself is
             visible).
         x
-            Sets the x coordinates of the arrow locations.
+            Sets the x coordinates of the vector arrow locations.
         x0
             Alternate to `x`. Builds a linear space of x
             coordinates. Use with `dx` where `x0` is the starting
@@ -1525,7 +1526,7 @@ class Quiver(_BaseTraceType):
             display *09~15~23.46*By default the values are
             formatted using `xaxis.hoverformat`.
         y
-            Sets the y coordinates of the arrow locations.
+            Sets the y coordinates of the vector arrow locations.
         y0
             Alternate to `y`. Builds a linear space of y
             coordinates. Use with `dy` where `y0` is the starting
@@ -1574,7 +1575,7 @@ an instance of :class:`plotly.graph_objs.Quiver`""")
         self._validate = kwargs.pop("_validate", True)
 
         self._set_property("anchor", arg, anchor)
-        self._set_property("anglemode", arg, anglemode)
+        self._set_property("arrowref", arg, arrowref)
         self._set_property("customdata", arg, customdata)
         self._set_property("dx", arg, dx)
         self._set_property("dy", arg, dy)
@@ -1587,6 +1588,8 @@ an instance of :class:`plotly.graph_objs.Quiver`""")
         self._set_property("legendgrouptitle", arg, legendgrouptitle)
         self._set_property("legendrank", arg, legendrank)
         self._set_property("legendwidth", arg, legendwidth)
+        self._set_property("lengthfactor", arg, lengthfactor)
+        self._set_property("lengthmode", arg, lengthmode)
         self._set_property("marker", arg, marker)
         self._set_property("meta", arg, meta)
         self._set_property("name", arg, name)
@@ -1594,8 +1597,6 @@ an instance of :class:`plotly.graph_objs.Quiver`""")
         self._set_property("selected", arg, selected)
         self._set_property("selectedpoints", arg, selectedpoints)
         self._set_property("showlegend", arg, showlegend)
-        self._set_property("sizemode", arg, sizemode)
-        self._set_property("sizeref", arg, sizeref)
         self._set_property("text", arg, text)
         self._set_property("textfont", arg, textfont)
         self._set_property("textposition", arg, textposition)
