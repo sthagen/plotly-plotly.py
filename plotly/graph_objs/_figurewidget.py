@@ -10874,7 +10874,7 @@ class FigureWidget(BaseFigureWidget):
     def add_quiver(
         self,
         anchor=None,
-        anglemode=None,
+        arrowref=None,
         customdata=None,
         dx=None,
         dy=None,
@@ -10887,6 +10887,8 @@ class FigureWidget(BaseFigureWidget):
         legendgrouptitle=None,
         legendrank=None,
         legendwidth=None,
+        lengthfactor=None,
+        lengthmode=None,
         marker=None,
         meta=None,
         name=None,
@@ -10894,8 +10896,6 @@ class FigureWidget(BaseFigureWidget):
         selected=None,
         selectedpoints=None,
         showlegend=None,
-        sizemode=None,
-        sizeref=None,
         text=None,
         textfont=None,
         textposition=None,
@@ -10932,15 +10932,15 @@ class FigureWidget(BaseFigureWidget):
         Parameters
         ----------
         anchor
-            Sets the arrows' anchor with respect to their (x,y)
-            positions. Use "tail" to place (x,y) at the base, "tip"
-            to place (x,y) at the head, or "center" to center the
-            arrow on (x,y).
-        anglemode
-            Sets the mode used to determine the angle of the arrow
-            vectors. If "paper", u/v are interpreted in pixel
+            Sets the vector arrows' anchor with respect to their
+            (x,y) positions. Use "tail" to place (x,y) at the base,
+            "tip" to place (x,y) at the head, or "center" to center
+            the vector arrow on (x,y).
+        arrowref
+            Determines how the u/v vector components are
+            interpreted. If "paper", u/v are interpreted in pixel
             coordinates and the rendered vector angle does not
-            change regardless of the axes scales. If "data", u/v
+            change regardless of the axis scales. If "data", u/v
             are interpreted in data coordinates and the rendered
             vector angle may change, e.g. if zooming in along a
             single axis
@@ -11028,6 +11028,17 @@ class FigureWidget(BaseFigureWidget):
         legendwidth
             Sets the width (in px or fraction) of the legend for
             this trace.
+        lengthfactor
+            Adjusts the drawn length of the vector arrows. The
+            arrow length is determined by the values of u and v,
+            then optionally rescaled when `lengthmode` is "scaled",
+            then multiplied by `lengthfactor`.
+        lengthmode
+            Determines whether vector arrows are drawn according to
+            their raw lengths, or scaled based on the maximum
+            vector length and point density. Note: When `arrowref`
+            is "paper" vectors are always scaled and `lengthmode`
+            "raw" is ignored.
         marker
             :class:`plotly.graph_objects.quiver.Marker` instance or
             dict with compatible properties
@@ -11062,17 +11073,6 @@ class FigureWidget(BaseFigureWidget):
         showlegend
             Determines whether or not an item corresponding to this
             trace is shown in the legend.
-        sizemode
-            Determines whether arrows are drawn according to their
-            raw lengths, or scaled based on the maximum vector
-            length and point density. Note: When `anglemode` is
-            "data" arrows are alwyas scaled and `sizemode` "raw" is
-            ignored.
-        sizeref
-            Adjusts the arrow size scaling. The arrow length is
-            determined by the vector norm multiplied by `sizeref`,
-            optionally normalized when `sizemode` is "scaled"
-            (`sizeref` is applied after scaling).
         text
             Sets text elements associated with each (x,y) pair. If
             a single string, the same string appears over all the
@@ -11087,7 +11087,7 @@ class FigureWidget(BaseFigureWidget):
             Sets the positions of the `text` elements with respects
             to the (x,y) coordinates.
         u
-            Sets the x components of the arrow vectors.
+            Sets the x components of the vector arrows.
         uhoverformat
             Sets the hover text formatting rule for `u` using d3
             formatting mini-languages which are very similar to
@@ -11120,7 +11120,7 @@ class FigureWidget(BaseFigureWidget):
             :class:`plotly.graph_objects.quiver.Unselected`
             instance or dict with compatible properties
         v
-            Sets the y components of the arrow vectors.
+            Sets the y components of the vector arrows.
         vhoverformat
             Sets the hover text formatting rule for `v` using d3
             formatting mini-languages which are very similar to
@@ -11133,7 +11133,7 @@ class FigureWidget(BaseFigureWidget):
             a legend item (provided that the legend itself is
             visible).
         x
-            Sets the x coordinates of the arrow locations.
+            Sets the x coordinates of the vector arrow locations.
         x0
             Alternate to `x`. Builds a linear space of x
             coordinates. Use with `dx` where `x0` is the starting
@@ -11157,7 +11157,7 @@ class FigureWidget(BaseFigureWidget):
             display *09~15~23.46*By default the values are
             formatted using `xaxis.hoverformat`.
         y
-            Sets the y coordinates of the arrow locations.
+            Sets the y coordinates of the vector arrow locations.
         y0
             Alternate to `y`. Builds a linear space of y
             coordinates. Use with `dy` where `y0` is the starting
@@ -11209,7 +11209,7 @@ class FigureWidget(BaseFigureWidget):
 
         new_trace = Quiver(
             anchor=anchor,
-            anglemode=anglemode,
+            arrowref=arrowref,
             customdata=customdata,
             dx=dx,
             dy=dy,
@@ -11222,6 +11222,8 @@ class FigureWidget(BaseFigureWidget):
             legendgrouptitle=legendgrouptitle,
             legendrank=legendrank,
             legendwidth=legendwidth,
+            lengthfactor=lengthfactor,
+            lengthmode=lengthmode,
             marker=marker,
             meta=meta,
             name=name,
@@ -11229,8 +11231,6 @@ class FigureWidget(BaseFigureWidget):
             selected=selected,
             selectedpoints=selectedpoints,
             showlegend=showlegend,
-            sizemode=sizemode,
-            sizeref=sizeref,
             text=text,
             textfont=textfont,
             textposition=textposition,
@@ -11258,6 +11258,7 @@ class FigureWidget(BaseFigureWidget):
         self,
         arrangement=None,
         customdata=None,
+        direction=None,
         domain=None,
         hoverinfo=None,
         hoverlabel=None,
@@ -11305,6 +11306,12 @@ class FigureWidget(BaseFigureWidget):
             listening to hover, click and selection events. Note
             that, "scatter" traces also appends customdata items in
             the markers DOM elements
+        direction
+            Sets the direction of the flow along the `orientation`
+            axis. With `forward` (the default), sources are on the
+            left (horizontal) or top (vertical). With `reversed`,
+            sources are on the right (horizontal) or bottom
+            (vertical).
         domain
             :class:`plotly.graph_objects.sankey.Domain` instance or
             dict with compatible properties
@@ -11366,7 +11373,10 @@ class FigureWidget(BaseFigureWidget):
         node
             The nodes of the Sankey plot.
         orientation
-            Sets the orientation of the Sankey diagram.
+            Sets the orientation of the Sankey diagram. With `h`
+            (the default), the flow runs horizontally. With `v`,
+            the flow runs vertically. Use `direction` to control
+            which side the sources are placed on.
         selectedpoints
             Array containing integer indices of selected points.
             Has an effect only for traces that support selections.
@@ -11432,6 +11442,7 @@ class FigureWidget(BaseFigureWidget):
         new_trace = Sankey(
             arrangement=arrangement,
             customdata=customdata,
+            direction=direction,
             domain=domain,
             hoverinfo=hoverinfo,
             hoverlabel=hoverlabel,

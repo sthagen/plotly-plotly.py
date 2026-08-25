@@ -37,7 +37,7 @@ class Line(_BaseTraceHierarchyType):
     @property
     def width(self):
         """
-        Sets the width (in px) of the arrow lines.
+        Sets the width (in px) of the vector arrow lines.
 
         The 'width' property is a number and may be specified as:
           - An int or float in the interval [0, inf]
@@ -61,7 +61,7 @@ class Line(_BaseTraceHierarchyType):
             "longdashdot") or a dash length list in px (eg
             "5px,10px,2px,2px").
         width
-            Sets the width (in px) of the arrow lines.
+            Sets the width (in px) of the vector arrow lines.
         """
 
     def __init__(self, arg=None, dash=None, width=None, **kwargs):
@@ -80,7 +80,7 @@ class Line(_BaseTraceHierarchyType):
             "longdashdot") or a dash length list in px (eg
             "5px,10px,2px,2px").
         width
-            Sets the width (in px) of the arrow lines.
+            Sets the width (in px) of the vector arrow lines.
 
         Returns
         -------

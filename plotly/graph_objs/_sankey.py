@@ -11,6 +11,7 @@ class Sankey(_BaseTraceType):
     _valid_props = {
         "arrangement",
         "customdata",
+        "direction",
         "domain",
         "hoverinfo",
         "hoverlabel",
@@ -79,6 +80,28 @@ class Sankey(_BaseTraceType):
     @customdata.setter
     def customdata(self, val):
         self["customdata"] = val
+
+    @property
+    def direction(self):
+        """
+        Sets the direction of the flow along the `orientation` axis.
+        With `forward` (the default), sources are on the left
+        (horizontal) or top (vertical). With `reversed`, sources are on
+        the right (horizontal) or bottom (vertical).
+
+        The 'direction' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['forward', 'reversed']
+
+        Returns
+        -------
+        Any
+        """
+        return self["direction"]
+
+    @direction.setter
+    def direction(self, val):
+        self["direction"] = val
 
     @property
     def domain(self):
@@ -340,7 +363,10 @@ class Sankey(_BaseTraceType):
     @property
     def orientation(self):
         """
-        Sets the orientation of the Sankey diagram.
+        Sets the orientation of the Sankey diagram. With `h` (the
+        default), the flow runs horizontally. With `v`, the flow runs
+        vertically. Use `direction` to control which side the sources
+        are placed on.
 
         The 'orientation' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -533,6 +559,12 @@ class Sankey(_BaseTraceType):
             listening to hover, click and selection events. Note
             that, "scatter" traces also appends customdata items in
             the markers DOM elements
+        direction
+            Sets the direction of the flow along the `orientation`
+            axis. With `forward` (the default), sources are on the
+            left (horizontal) or top (vertical). With `reversed`,
+            sources are on the right (horizontal) or bottom
+            (vertical).
         domain
             :class:`plotly.graph_objects.sankey.Domain` instance or
             dict with compatible properties
@@ -594,7 +626,10 @@ class Sankey(_BaseTraceType):
         node
             The nodes of the Sankey plot.
         orientation
-            Sets the orientation of the Sankey diagram.
+            Sets the orientation of the Sankey diagram. With `h`
+            (the default), the flow runs horizontally. With `v`,
+            the flow runs vertically. Use `direction` to control
+            which side the sources are placed on.
         selectedpoints
             Array containing integer indices of selected points.
             Has an effect only for traces that support selections.
@@ -647,6 +682,7 @@ class Sankey(_BaseTraceType):
         arg=None,
         arrangement=None,
         customdata=None,
+        direction=None,
         domain=None,
         hoverinfo=None,
         hoverlabel=None,
@@ -695,6 +731,12 @@ class Sankey(_BaseTraceType):
             listening to hover, click and selection events. Note
             that, "scatter" traces also appends customdata items in
             the markers DOM elements
+        direction
+            Sets the direction of the flow along the `orientation`
+            axis. With `forward` (the default), sources are on the
+            left (horizontal) or top (vertical). With `reversed`,
+            sources are on the right (horizontal) or bottom
+            (vertical).
         domain
             :class:`plotly.graph_objects.sankey.Domain` instance or
             dict with compatible properties
@@ -756,7 +798,10 @@ class Sankey(_BaseTraceType):
         node
             The nodes of the Sankey plot.
         orientation
-            Sets the orientation of the Sankey diagram.
+            Sets the orientation of the Sankey diagram. With `h`
+            (the default), the flow runs horizontally. With `v`,
+            the flow runs vertically. Use `direction` to control
+            which side the sources are placed on.
         selectedpoints
             Array containing integer indices of selected points.
             Has an effect only for traces that support selections.
@@ -829,6 +874,7 @@ an instance of :class:`plotly.graph_objs.Sankey`""")
 
         self._set_property("arrangement", arg, arrangement)
         self._set_property("customdata", arg, customdata)
+        self._set_property("direction", arg, direction)
         self._set_property("domain", arg, domain)
         self._set_property("hoverinfo", arg, hoverinfo)
         self._set_property("hoverlabel", arg, hoverlabel)
