@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improve `px.*_map()` auto-fitting behavior when `zoom` and `center` are not specified [[#5686](https://github.com/plotly/plotly.py/pull/5686)]
 
 ### Updated
-- Update plotly.js from version 3.6.0 to version 4.0.0 [[#5673](https://github.com/plotly/plotly.py/pull/5673)]. This is a major-version release candidate with many changes. See the [plotly.js release notes](https://github.com/plotly/plotly.js/releases/tag/v4.0.0) for the full list. The most significant changes include:
+- Update plotly.js from version 3.6.0 to version 4.0.0 [[#5673](https://github.com/plotly/plotly.py/pull/5673)]. This is a major-version release with many changes. See the [plotly.js release notes](https://github.com/plotly/plotly.js/releases/tag/v4.0.0) for the full list. The most significant changes include:
   - Add `quiver` trace type to visualize vector fields using arrows [[#7710](https://github.com/plotly/plotly.js/pull/7710), [#7945](https://github.com/plotly/plotly.js/issues/7945)], with thanks to @degzhaus for the contribution!
   - Add "Share Chart" modebar button for generating a chart-sharing link via Plotly Cloud [[#7909](https://github.com/plotly/plotly.js/pull/7909)]
   - Remove `scattermapbox`, `choroplethmapbox`, `densitymapbox` trace types, the `mapbox` subplot, and the `mapboxAccessToken` config option [[#7860](https://github.com/plotly/plotly.js/pull/7860)]. Use the equivalent `*map` traces instead.
