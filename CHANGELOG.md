@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Update plotly.js from version 3.6.0 to version 4.0.0 [[#5673](https://github.com/plotly/plotly.py/pull/5673)]. This is a major-version release with many changes. See the [plotly.js release notes](https://github.com/plotly/plotly.js/releases/tag/v4.0.0) for the full list. The most significant changes include:
-  - Add `quiver` trace type to visualize vector fields using arrows [[#7710](https://github.com/plotly/plotly.js/pull/7710), [#7945](https://github.com/plotly/plotly.js/issues/7945)], with thanks to @degzhaus for the contribution!
+  - Add `quiver` trace type to visualize vector fields using arrows [[#7710](https://github.com/plotly/plotly.js/pull/7710), [#7945](https://github.com/plotly/plotly.js/issues/7945)]
   - Add "Share Chart" modebar button for generating a chart-sharing link via Plotly Cloud [[#7909](https://github.com/plotly/plotly.js/pull/7909)]
   - Remove `scattermapbox`, `choroplethmapbox`, `densitymapbox` trace types, the `mapbox` subplot, and the `mapboxAccessToken` config option [[#7860](https://github.com/plotly/plotly.js/pull/7860)]. Use the equivalent `*map` traces instead.
     - The corresponding `graph_objects` and Plotly Express functions have also been removed in plotly.py; use the `map` versions instead
@@ -21,7 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - New supported formats: `'#ff0000aa'`, `'#f00a'`, `'rgb(255 0 0)'`, `'rgba(255 0 0 / 0.5)'`, `'hsl(0 100% 50% / 0.5)'`, `'hsla(0, 100%, 50%, 0.5)'`, `'hwb(0, 0%, 0%)'`, `lab()`, `lch()`, `oklab()`, `oklch()`, `color()`, `hsl(0.5turn 60% 40%)`, `hsl(none 60% 40%)`
   - Replace `country-regex` with `country-iso-search` to search for country names in choropleth, scattergeo traces [[#7856](https://github.com/plotly/plotly.js/pull/7856)]. Most country names are handled exactly the same; a small number of legacy entries have been removed.
   - Change `layout.geo.fitbounds` default from `false` to `'locations'` [[#7895](https://github.com/plotly/plotly.js/pull/7895)]. `geo` subplots will now auto-fit the initial view to the trace data by default.
-  - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)], with thanks to @palmerusaf and @DhruvGarg111 for the contributions!
+  - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)]
   - Fix GeoJSON bounding-box computation for `choropleth` and `scattergeo` traces whose geometry crosses the antimeridian [[#7891](https://github.com/plotly/plotly.js/pull/7891)]
 
 
@@ -42,7 +42,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Update plotly.js from version 3.6.0 to version 4.0.0-rc.0 [[#5673](https://github.com/plotly/plotly.py/pull/5673)]. This is a major-version release candidate with many changes. See the [plotly.js release notes](https://github.com/plotly/plotly.js/releases/tag/v4.0.0-rc.0) for the full list. The most significant changes include:
-  - Add `quiver` trace type to visualize vector fields using arrows [[#7710](https://github.com/plotly/plotly.js/pull/7710)], with thanks to @degzhaus for the contribution!
+  - Add `quiver` trace type to visualize vector fields using arrows [[#7710](https://github.com/plotly/plotly.js/pull/7710)]
   - Add "Share Chart" modebar button for generating a chart-sharing link via Plotly Cloud [[#7909](https://github.com/plotly/plotly.js/pull/7909)]
   - Remove `scattermapbox`, `choroplethmapbox`, `densitymapbox` trace types, the `mapbox` subplot, and the `mapboxAccessToken` config option [[#7860](https://github.com/plotly/plotly.js/pull/7860)]. Use the equivalent `*map` traces instead.
     - The corresponding `graph_objects` and Plotly Express functions have also been removed in plotly.py; use the `map` versions instead
@@ -53,7 +53,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - New supported formats: `'#ff0000aa'`, `'#f00a'`, `'rgb(255 0 0)'`, `'rgba(255 0 0 / 0.5)'`, `'hsl(0 100% 50% / 0.5)'`, `'hsla(0, 100%, 50%, 0.5)'`, `'hwb(0, 0%, 0%)'` 
   - Replace `country-regex` with `country-iso-search` to search for country names in choropleth, scattergeo traces [[#7856](https://github.com/plotly/plotly.js/pull/7856)]. Most country names are handled exactly the same; a small number of legacy entries have been removed.
   - Change `layout.geo.fitbounds` default from `false` to `'locations'` [[#7895](https://github.com/plotly/plotly.js/pull/7895)]. `geo` subplots will now auto-fit the initial view to the trace data by default.
-  - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)], with thanks to @palmerusaf and @DhruvGarg111 for the contributions!
+  - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)]
   - Fix GeoJSON bounding-box computation for `choropleth` and `scattergeo` traces whose geometry crosses the antimeridian [[#7891](https://github.com/plotly/plotly.js/pull/7891)]
 
 ## [6.9.0] - 2026-07-09
@@ -65,9 +65,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Update plotly.js from version 3.6.0 to version 3.7.0. See the plotly.js [release notes](https://github.com/plotly/plotly.js/releases/tag/v3.7.0) for more information [[#5639](https://github.com/plotly/plotly.py/pull/5639)]. Notable changes include:
-  - Rename `sendDataToCloud` modebar button to `sendChartToCloud`, and update to upload chart to Plotly Cloud [[#7802](https://github.com/plotly/plotly.js/pull/7802), [#7852](https://github.com/plotly/plotly.js/pull/7852), [#7854](https://github.com/plotly/plotly.js/pull/7854)]. NOTE: The Plotly Cloud endpoint for receiving charts is not yet functional, so this button won't complete the upload.
-  - Fix stale `scattergl` error bars after toggling traces with mixed error bar visibility [[#7773](https://github.com/plotly/plotly.js/issues/7773)], with thanks to @JulienIcon for the contribution!
-  - Fix geo `fitbounds` to choose a compact longitude range when point data straddles the antimeridian [[#7837](https://github.com/plotly/plotly.js/pull/7837)], with thanks to @SharadhNaidu for the contribution!
+  - Rename `sendDataToCloud` modebar button to `sendChartToCloud`, and update to upload chart to Plotly Cloud [[#7802](https://github.com/plotly/plotly.js/pull/7802), [#7852](https://github.com/plotly/plotly.js/pull/7852), [#7854](https://github.com/plotly/plotly.js/pull/7854)]
+  - Fix stale `scattergl` error bars after toggling traces with mixed error bar visibility [[#7773](https://github.com/plotly/plotly.js/issues/7773)]
+  - Fix geo `fitbounds` to choose a compact longitude range when point data straddles the antimeridian [[#7837](https://github.com/plotly/plotly.js/pull/7837)]
 
 ## [6.8.0] - 2026-06-03
 
