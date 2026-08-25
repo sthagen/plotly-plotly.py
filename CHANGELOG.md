@@ -4,8 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+
+## [7.0.0] - 2026-08-25
+
 ### Fixed
+- Fix `hex_to_rgb` parsing of 3-digit shorthand hexadecimal colors such as `#FFF` [[#5662](https://github.com/plotly/plotly.py/pull/5662)], with thanks to @genrichez for the contribution!
 - Improve `px.*_map()` auto-fitting behavior when `zoom` and `center` are not specified [[#5686](https://github.com/plotly/plotly.py/pull/5686)]
+- Add `<!doctype html>` to the `to_html()` template to comply with modern web standards [[#5693](https://github.com/plotly/plotly.py/pull/5693)], with thanks to @mishrakushal for the contribution!
+- Apply `histfunc`/`z` aggregation to `marginal_x`/`marginal_y="histogram"` subplots in `density_heatmap`/`density_contour`, instead of always showing raw bin counts [[#3521](https://github.com/plotly/plotly.py/issues/3521)], with thanks to @lucasjamar for the contribution!
+- Fix `mpl_to_plotly` silently dropping matplotlib path collections in data coordinates (such as violin plots, pcolor, event plots, stack plots, fill_between, and stem plots) by rendering them as filled polygons or lines [[#5702](https://github.com/plotly/plotly.py/pull/5702)], with thanks to @robertoffmoura for the contribution!
 
 ### Updated
 - Update plotly.js from version 3.6.0 to version 4.0.0 [[#5673](https://github.com/plotly/plotly.py/pull/5673)]. This is a major-version release with many changes. See the [plotly.js release notes](https://github.com/plotly/plotly.js/releases/tag/v4.0.0) for the full list. The most significant changes include:
@@ -24,15 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)]
   - Fix GeoJSON bounding-box computation for `choropleth` and `scattergeo` traces whose geometry crosses the antimeridian [[#7891](https://github.com/plotly/plotly.js/pull/7891)]
 
-
-
 ## [7.0.0rc0] - 2026-07-29
-
-### Fixed
-- Fix `hex_to_rgb` parsing of 3-digit shorthand hexadecimal colors such as `#FFF` [[#5662](https://github.com/plotly/plotly.py/pull/5662)], with thanks to @genrichez for the contribution!
-- Add `<!doctype html>` to the `to_html()` template to comply with modern web standards [[#5693](https://github.com/plotly/plotly.py/pull/5693)], with thanks to @mishrakushal for the contribution!
-- Apply `histfunc`/`z` aggregation to `marginal_x`/`marginal_y="histogram"` subplots in `density_heatmap`/`density_contour`, instead of always showing raw bin counts [[#3521](https://github.com/plotly/plotly.py/issues/3521)], with thanks to @lucasjamar for the contribution!
-- Fix `mpl_to_plotly` silently dropping matplotlib path collections in data coordinates (such as violin plots, pcolor, event plots, stack plots, fill_between, and stem plots) by rendering them as filled polygons or lines [[#5702](https://github.com/plotly/plotly.py/pull/5702)], with thanks to @robertoffmoura for the contribution!
 
 ### Removed
 - Remove the deprecated Figure Factory functions `create_2d_density`, `create_annotated_heatmap`, `create_bullet`, `create_candlestick`, `create_choropleth`, `create_distplot`, `create_facet_grid`, `create_gantt`, `create_hexbin_mapbox`, `create_ohlc`, `create_scatterplotmatrix`, and `create_violin` [[#5627](https://github.com/plotly/plotly.py/pull/5627)]
