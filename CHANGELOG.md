@@ -25,7 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - `rgb()`/`rgba()` strings with decimal 0–1 fractions are no longer supported
     - `hsv()` color strings are no longer supported
     - Strings with invalid syntax such as `hsl(120, 50% 50%)` are no longer supported
-    - New supported formats: `'#ff0000aa'`, `'#f00a'`, `'rgb(255 0 0)'`, `'rgba(255 0 0 / 0.5)'`, `'hsl(0 100% 50% / 0.5)'`, `'hsla(0, 100%, 50%, 0.5)'`, `'hwb(0, 0%, 0%)'`, `lab()`, `lch()`, `oklab()`, `oklch()`, `color()`, `hsl(0.5turn 60% 40%)`, `hsl(none 60% 40%)`
+    - New supported formats: `'#ff0000aa'`, `'#f00a'`, `'rgb(255 0 0)'`, `'rgba(255 0 0 / 0.5)'`, `'hsl(0 100% 50% / 0.5)'`, `'hsla(0, 100%, 50%, 0.5)'`, `'hwb(0 0% 0%)'`, `lab()`, `lch()`, `oklab()`, `oklch()`, `color()`, `hsl(0.5turn 60% 40%)`, `hsl(none 60% 40%)`
   - Replace `country-regex` with `country-iso-search` to search for country names in choropleth, scattergeo traces [[#7856](https://github.com/plotly/plotly.js/pull/7856)]. Most country names are handled exactly the same; a small number of legacy entries have been removed.
   - Change `layout.geo.fitbounds` default from `false` to `'locations'` [[#7895](https://github.com/plotly/plotly.js/pull/7895)]. `geo` subplots will now auto-fit the initial view to the trace data by default.
   - Dynamically compute `center` and `zoom` values for `scattermap` and `densitymap` traces. The initial map view will now auto-fit to the trace data by default. Add `layout.map.fitbounds` attribute (default `'locations'`) to enable or disable auto-fitting behavior [[#7884](https://github.com/plotly/plotly.js/pull/7884), [#7913](https://github.com/plotly/plotly.js/pull/7913)]
