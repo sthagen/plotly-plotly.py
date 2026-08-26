@@ -143,17 +143,17 @@ fig.show()
 
 ## Other Color Formats
 
-*Changed in version 7*
+*Changed in 7.0*
 
 As well as named colors, color properties accept color strings in the formats defined by the [CSS Color 4 specification](https://www.w3.org/TR/css-color-4/), including `rgb()`, `rgba()`, `hsl()`, `hsla()`, `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, `color()`, and hexadecimal notation with a leading `#`.
 
-Version 7 parses these strings according to that specification. Four formats that earlier versions accepted are no longer valid, and a color string that cannot be parsed falls back to the property's default:
+Version 7 parses these strings according to that specification. Four formats that earlier versions accepted no longer give the same result. A string that cannot be parsed at all falls back to the property's default:
 
-| No longer valid | Use instead |
-|---|---|
-| `"hsv(200, 80%, 80%)"` | `"hsl(200, 67%, 47%)"`, `"hwb()"`, hexadecimal, or `"rgb()"` |
-| `"hsl(0, 100, 40)"` — saturation and lightness without percent units | `"hsl(0, 100%, 40%)"` |
-| `"rgb(0.5, 0.5, 0.5)"` — channels as fractions of 1 | `"rgb(128, 128, 128)"` |
-| `"fff"` — hexadecimal without a leading `#` | `"#fff"` |
+| No longer works | Example | Use instead |
+|---|---|---|
+| The `hsv()` color function | `"hsv(200, 80%, 80%)"` | `"hsl(200, 67%, 47%)"`, `"hwb()"`, hexadecimal, or `"rgb()"` |
+| Comma separated saturation and lightness values without percent units | `"hsl(0, 100, 40)"` | `"hsl(0, 100%, 40%)"`, or the space separated `"hsl(0 100 40)"` |
+| Channel values given as fractions of 1 | `"rgb(0.5, 0.5, 0.5)"` (now renders as near black) | `"rgb(128, 128, 128)"` |
+| Hexadecimal values without a leading `#` | `"fff"` | `"#fff"` |
 
 These rules apply to color strings only. Numeric arrays used with a [colorscale](/python/colorscales/) are unaffected.

@@ -173,7 +173,7 @@ fig.show()
 
 The `layout.geo.fitbounds` attribute set to `locations` automatically sets the center and the latitude and longitude range according to the data being plotted. See the [choropleth maps](/python/choropleth-maps/) documentation for more information.
 
-*Since version 7*, `fitbounds` defaults to `"locations"`, so a `geo` subplot fits its data without any configuration. Set `fitbounds=False` for the world view that earlier versions showed by default. Setting your own `center` or `projection.scale` also turns auto-fitting off.
+*Changed in 7.0*: `fitbounds` defaults to `"locations"`, so a `geo` subplot fits its data without any configuration. Set `fitbounds=False` for the world view that earlier versions showed by default. Setting your own `center` or `projection.scale` also turns auto-fitting off.
 
 ```python
 import plotly.express as px
@@ -186,7 +186,7 @@ fig.show()
 
 ### Limiting the Zoom Range
 
-*New in version 7*
+*New in 7.0*
 
 `projection.minscale` and `projection.maxscale` clamp how far a user can zoom the map in or out. The two attributes are multipliers of `projection.scale`, so `minscale=0.5` allows zooming out to half the initial view and `maxscale=4` allows zooming in to four times it.
 

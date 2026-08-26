@@ -385,7 +385,7 @@ fig.show()
 
 Set `tickmode="sync"` on an overlaying cartesian axis to draw its ticks and gridlines at the positions of the axis it overlays, labeled from its own range. The two axes then share one grid. In this example, the `"Total bill amount"` axis syncs its ticks with the `"Total number of diners"` axis that it overlays.
 
-*Changed in version 7*: `tickmode` defaults to `"sync"` on an overlaying axis. Earlier versions gave each axis its own independent grid. Set `tickmode="auto"` on the overlaying axis for that behavior.
+*Changed in 7.0*: `tickmode` defaults to `"sync"` on an overlaying axis. Earlier versions gave each axis its own independent grid. Set `tickmode="auto"` on the overlaying axis for that behavior.
 
 ```python
 import plotly.graph_objects as go

@@ -216,7 +216,7 @@ To delete buttons from the modebar, pass an array of strings containing the name
   - **Sankey**: `resetSankeyGroup`
   - **Other**: `hoverClosestPie`, `toggleHover`, `resetViews`, `toImage`, `sendChartToCloud`, `toggleSpikelines`
 
-*Changed in version 7*: `handleDrag3d` and `hoverClosestGl2d` no longer exist, and `sendDataToCloud` is now named `sendChartToCloud`.
+*Changed in 7.0*: `handleDrag3d` and `hoverClosestGl2d` no longer exist, and `sendDataToCloud` is now named `sendChartToCloud`.
 
 ```python
 import plotly.graph_objects as go

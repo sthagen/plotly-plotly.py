@@ -97,7 +97,7 @@ Support for Kaleido versions earlier than 1.0.0 has been removed, along with sup
 
 ### Maps fit to your data
 
-`geo` subplots (used by `go.Scattergeo` and `go.Choropleth`) now fit their initial view to the locations they plot: `layout.geo.fitbounds` defaults to `"locations"` instead of `False`. Tile-based `map` subplots do the same.
+`geo` subplots (used by `go.Scattergeo` and `go.Choropleth`) now fit their initial view to the locations they plot: `layout.geo.fitbounds` defaults to `"locations"` instead of `False`. Tile-based `map` subplots do the same, through a new `layout.map.fitbounds` attribute that also defaults to `"locations"`.
 
 Figures that already set a view render unchanged. To get the previous world view, set `fitbounds=False`:
 
@@ -125,12 +125,12 @@ An axis that overlays another (`yaxis2.overlaying="y"`) now defaults `tickmode` 
 
 Plotly.js now parses colors according to the CSS Color 4 specification. Four color string formats that previously worked no longer produce the same color, and an unparseable color falls back to the attribute's default:
 
-| No longer works | Use instead |
-|---|---|
-| `"hsv(200, 80%, 80%)"` | `"hsl(200, 67%, 47%)"`, `"hwb()"`, hex, or `"rgb()"` |
-| `"hsl(0, 100, 40)"` — no percent units | `"hsl(0, 100%, 40%)"` |
-| `"rgb(0.5, 0.5, 0.5)"` — 0–1 fractions | `"rgb(128, 128, 128)"` |
-| `"fff"` — hex without `#` | `"#fff"` |
+| No longer works | Example | Use instead |
+|---|---|---|
+| The `hsv()` color function | `"hsv(200, 80%, 80%)"` | `"hsl(200, 67%, 47%)"`, `"hwb()"`, hexadecimal, or `"rgb()"` |
+| Comma separated saturation and lightness values without percent units | `"hsl(0, 100, 40)"` | `"hsl(0, 100%, 40%)"`, or the space separated `"hsl(0 100 40)"` |
+| Channel values given as fractions of 1 | `"rgb(0.5, 0.5, 0.5)"` (now renders as near black) | `"rgb(128, 128, 128)"` |
+| Hexadecimal values without a leading `#` | `"fff"` | `"#fff"` |
 
 These rules apply to color *strings* only. Numeric arrays used with a colorscale are unaffected. Automatically computed contrast colors, such as text on heatmap cells, can also shift slightly around mid-luminance backgrounds.
 
@@ -148,13 +148,13 @@ Three rendering details changed for `go.Scattermap`:
 - The Maki icon set was updated from version 2.1 to 8.2. A few icon names were removed between those versions.
 - Legend swatches always draw a circle, regardless of `marker.symbol`.
 
-Built-in map styles now come from different tile providers, so their appearance differs, and the `stamen-terrain`, `stamen-toner`, and `stamen-watercolor` style names are no longer built in — those tiles are served by Stadia Maps and need an API key, which you supply by passing a style URL.
-
 ## Sankey Layout
 
 The Sankey layout algorithm was updated (`@plotly/d3-sankey` 0.7.2 to 0.12.3). Node positions and link paths shift slightly for the same data, with links tending to cross less.
 
-Two new attributes let you override the automatic ordering:
+Two new Sankey attributes let you override the automatic ordering: `node.sort` and `link.sort`.
+
+For both attributes, the default value `"auto"` reorders nodes within a column, and links within a node, to reduce crossings. `"input"` keeps the order given in `node.label` and in `link.source` / `link.target`, which is useful when the order carries meaning or you need a layout that is stable across renders.
 
 ```python
 import plotly.graph_objects as go
@@ -168,16 +168,13 @@ fig = go.Figure(go.Sankey(
 
 fig.show()
 ```
-
-With the default `"auto"`, the layout reorders nodes within a column, and links within a node, to reduce crossings. `"input"` keeps the order given in `node.label` and in `link.source` / `link.target`, which is useful when the order carries meaning or you need a layout that is stable across renders.
-
-A third attribute, `sankey.direction`, flips the flow along the `orientation` axis. Set it to `"reversed"` to put sources on the right of a horizontal diagram, or at the bottom of a vertical one. See [Sankey Diagram](/python/sankey-diagram/).
+A third attribute, `direction`, controls the flow along the `orientation` axis. The default value of `"forward"` results in a chart which flows from left to right horizontally, or top to bottom vertically. Set it to `"reversed"` to create a chart which flows from right to left or bottom to top. See [Sankey Diagram](/python/sankey-diagram/).
 
 ## New Traces and Attributes
 
 ### `go.Quiver`
 
-Version 7 adds a `Quiver` trace type for 2D vector fields, which replaces the `create_quiver` figure factory as the recommended approach. See [Quiver Plots](/python/quiver-plots/).
+Version 7 adds a `Quiver` trace type for 2D vector fields, which supercedes the `create_quiver` figure factory as the recommended approach for creating quiver plots. See [Quiver Plots](/python/quiver-plots/) for more detail.
 
 ```python
 import plotly.graph_objects as go
@@ -190,7 +187,7 @@ fig.show()
 
 ### Geo zoom limits
 
-`layout.geo.projection.minscale` and `maxscale` clamp how far users can zoom a `geo` subplot. Both are multipliers of `projection.scale`:
+New attributes `layout.geo.projection.minscale` and `maxscale` clamp how far users can zoom a `geo` subplot. Both are multipliers of `projection.scale`:
 
 ```python
 import plotly.graph_objects as go
