@@ -118,8 +118,6 @@ def test_marginal_heatmap_unsupported_chart_type_raises():
         px.scatter(x=[1, 2, 3], y=[2, 3, 4], marginal_y="heatmap")
     with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
         px.histogram(x=[1, 2, 3], marginal="heatmap")
-    # density_contour's discrete-looking colorbar isn't compatible with the
-    # continuous marginal heatmap colorbar, so it's intentionally unsupported
     with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
         px.density_contour(x=[1, 2, 3], y=[2, 3, 4], marginal_x="heatmap")
     with pytest.raises(ValueError, match="only supported for `density_heatmap`"):
