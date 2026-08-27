@@ -42,7 +42,7 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend):
         marginal_y="heatmap",
     )
     assert len(fig.data) == 3
-    marginal_x_trace, marginal_y_trace = fig.data[1], fig.data[2]
+    main_trace, marginal_x_trace, marginal_y_trace = fig.data[0], fig.data[1], fig.data[2]
 
     assert marginal_x_trace.type == "histogram2d"
     assert marginal_x_trace.coloraxis == "coloraxis"
@@ -64,6 +64,13 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend):
 
     assert fig.layout.coloraxis.colorbar.title.text == "sum of size"
 
+    # Ensure the x, y, and z data for the marginal heatmaps are consistent with the main heatmap
+    assert (marginal_x_trace.x == main_trace.x).all()
+    assert (marginal_x_trace.y == main_trace.y).all()
+    assert (marginal_x_trace.z == main_trace.z).all()
+    assert (marginal_y_trace.x == main_trace.x).all()
+    assert (marginal_y_trace.y == main_trace.y).all()
+    assert (marginal_y_trace.z == main_trace.z).all()
 
 def test_marginal_heatmap_without_z(backend):
     df = px.data.tips(return_type=backend)
@@ -71,7 +78,7 @@ def test_marginal_heatmap_without_z(backend):
     fig = px.density_heatmap(
         df, x="total_bill", y="tip", marginal_x="heatmap", marginal_y="heatmap"
     )
-    marginal_x_trace, marginal_y_trace = fig.data[1], fig.data[2]
+    main_trace, marginal_x_trace, marginal_y_trace = fig.data[0], fig.data[1], fig.data[2]
 
     assert marginal_x_trace.type == "histogram2d"
     assert marginal_x_trace.coloraxis == "coloraxis"
@@ -83,6 +90,11 @@ def test_marginal_heatmap_without_z(backend):
 
     assert fig.layout.coloraxis.colorbar.title.text == "count"
 
+    # Ensure the x and y data for the marginal heatmaps are consistent with the main heatmap
+    assert (marginal_x_trace.x == main_trace.x).all()
+    assert (marginal_x_trace.y == main_trace.y).all()
+    assert (marginal_y_trace.x == main_trace.x).all()
+    assert (marginal_y_trace.y == main_trace.y).all()
 
 @pytest.mark.parametrize("text_auto", [True, ".1f"])
 def test_marginal_heatmap_text_auto(backend, text_auto):
