@@ -45,7 +45,7 @@ def test_marginal_heatmap_uses_z_and_histfunc(backend):
     main_trace, marginal_x_trace, marginal_y_trace = (
         fig.data[0],
         fig.data[1],
-        fig.data[2]
+        fig.data[2],
     )
 
     assert marginal_x_trace.type == "histogram2d"
@@ -86,7 +86,7 @@ def test_marginal_heatmap_without_z(backend):
     main_trace, marginal_x_trace, marginal_y_trace = (
         fig.data[0],
         fig.data[1],
-        fig.data[2]
+        fig.data[2],
     )
 
     assert marginal_x_trace.type == "histogram2d"
