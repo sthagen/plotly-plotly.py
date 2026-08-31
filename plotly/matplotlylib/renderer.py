@@ -11,7 +11,6 @@ import warnings
 
 import plotly.graph_objs as go
 from plotly.matplotlylib.mplexporter import Renderer
-from plotly.matplotlylib.mplexporter.utils import export_color
 from plotly.matplotlylib import mpltools
 
 
@@ -21,15 +20,11 @@ def _export_color(color):
     matplotlib uses "none" for fully transparent colors, which plotly does not
     accept, so transparent colors are exported as transparent black.
     Colors already exported by the mplexporter (hex or rgba strings) are
-    passed through unchanged; raw matplotlib colors are converted with the
-    mplexporter's export_color.
+    passed through unchanged.
     """
     if isinstance(color, str):
         return "rgba(0,0,0,0)" if color == "none" else color
-    if isinstance(color, (list, tuple)) and all(isinstance(c, str) for c in color):
-        return [_export_color(c) for c in color]
-    bgcolor = export_color(color)
-    return "rgba(0,0,0,0)" if bgcolor == "none" else bgcolor
+    return [_export_color(c) for c in color]
 
 
 class PlotlyRenderer(Renderer):
@@ -106,9 +101,7 @@ class PlotlyRenderer(Renderer):
             autosize=False,
             hovermode="closest",
         )
-        self.plotly_fig["layout"].paper_bgcolor = _export_color(
-            fig.patch.get_facecolor()
-        )
+        self.plotly_fig["layout"].paper_bgcolor = _export_color(props["figbg"])
         self.mpl_x_bounds, self.mpl_y_bounds = mpltools.get_axes_bounds(fig)
         margin = go.layout.Margin(
             l=int(self.mpl_x_bounds[0] * self.plotly_fig["layout"]["width"]),
